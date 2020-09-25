@@ -30,9 +30,19 @@
  * URL for the user avatar.
  */
 @property (nonatomic, copy, nullable) NSURL *avatar;
+/**
+ * UserId to log in as userId@domain.com
+ */
+@property (nonatomic, copy, nullable) NSString *userId;
+/**
+ * Password to log in
+ */
+@property (nonatomic, copy, nullable) NSString *password;
 
 - (instancetype _Nullable)initWithDisplayName:(NSString *_Nullable)displayName
                                      andEmail:(NSString *_Nullable)email
-                                    andAvatar:(NSURL *_Nullable) avatar;
+                                    andAvatar:(NSURL *_Nullable) avatar
+                                    andUserId:(NSString *_Nullable)userId
+                                  andPassword:(NSString *_Nullable)password;
 
 @end
