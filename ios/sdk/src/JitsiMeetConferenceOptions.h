@@ -37,6 +37,10 @@
  * JWT token used for authentication.
  */
 @property (nonatomic, copy, nullable) NSString *token;
+/**
+ * Jitsi conference config used instead of remote config.js, json object as string
+ */
+@property (nonatomic, copy, nullable) NSString *configJsonString;
 
 /**
  * Color scheme override, see:
@@ -80,6 +84,7 @@
 @property (nonatomic, copy, nullable, readonly) NSString *room;
 @property (nonatomic, copy, nullable, readonly) NSString *subject;
 @property (nonatomic, copy, nullable, readonly) NSString *token;
+@property (nonatomic, copy, nullable, readonly) NSString *configJsonString;
 
 @property (nonatomic, copy, nullable) NSDictionary *colorScheme;
 @property (nonatomic, readonly, nonnull) NSDictionary *featureFlags;

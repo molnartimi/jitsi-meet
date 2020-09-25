@@ -20,12 +20,16 @@
 
 - (instancetype)initWithDisplayName:(NSString *)displayName
                            andEmail:(NSString *)email
-                          andAvatar:(NSURL *_Nullable) avatar {
+                          andAvatar:(NSURL *_Nullable) avatar
+                          andUserId:(NSString * _Nullable)userId
+                        andPassword:(NSString * _Nullable)password{
     self = [super init];
     if (self) {
         self.displayName = displayName;
         self.email = email;
         self.avatar = avatar;
+        self.userId = userId;
+        self.password = password;
     }
 
     return self;
@@ -47,6 +51,14 @@
         if (avatarURL != nil) {
             dict[@"avatarURL"] = avatarURL;
         }
+    }
+
+    if (self.userId != nil) {
+        dict[@"userId"] = self.userId;
+    }
+
+    if (self.password != nil) {
+        dict[@"password"] = self.password;
     }
 
     return dict;
