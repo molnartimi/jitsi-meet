@@ -22,7 +22,7 @@ import { showToolbox } from '../toolbox/actions';
 import { isButtonEnabled } from '../toolbox/functions';
 
 import { SEND_MESSAGE, SET_PRIVATE_MESSAGE_RECIPIENT } from './actionTypes';
-import { addMessage, clearMessages, toggleChat } from './actions';
+import { addMessage, chatMessageReceived, clearMessages, toggleChat } from './actions';
 import { ChatPrivacyDialog } from './components';
 import {
     CHAT_VIEW_MODAL_ID,
@@ -161,10 +161,13 @@ function _addChatMsgListener(conference, store) {
         return;
     }
 
+    const roomName = conference.options.name;
+
     conference.on(
         JitsiConferenceEvents.MESSAGE_RECEIVED,
         (id, message, timestamp, nick) => {
             _handleReceivedMessage(store, {
+                roomName,
                 id,
                 message,
                 nick,
@@ -217,9 +220,13 @@ function _handleChatError({ dispatch }, error) {
  * @param {Object} message - The message object.
  * @returns {void}
  */
-function _handleReceivedMessage({ dispatch, getState }, { id, message, nick, privateMessage, timestamp }) {
+function _handleReceivedMessage({ dispatch, getState }, { roomName, id, message, nick, privateMessage, timestamp }) {
     // Logic for all platforms:
     const state = getState();
+
+    // send event to native app
+    dispatch(chatMessageReceived(roomName, id, message, timestamp));
+
     const { isOpen: isChatOpen } = state['features/chat'];
 
     if (!isChatOpen) {

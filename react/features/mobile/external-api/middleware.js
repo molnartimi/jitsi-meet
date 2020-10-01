@@ -1,6 +1,7 @@
 // @flow
 
 import {
+    CHAT_MESSAGE_RECEIVED,
     CONFERENCE_FAILED,
     CONFERENCE_JOINED,
     CONFERENCE_LEFT,
@@ -114,6 +115,19 @@ MiddlewareRegistry.register(store => next => action => {
     case SET_ROOM:
         _maybeTriggerEarlyConferenceWillJoin(store, action);
         break;
+
+    case CHAT_MESSAGE_RECEIVED: {
+        const data = Object.assign({}, action);
+
+        delete data.type;
+
+        sendEvent(
+            store,
+            CHAT_MESSAGE_RECEIVED,
+            data
+        );
+        break;
+    }
     }
 
     return result;

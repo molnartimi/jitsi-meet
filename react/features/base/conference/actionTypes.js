@@ -230,3 +230,16 @@ export const SET_SIP_GATEWAY_ENABLED = 'SET_SIP_GATEWAY_ENABLED';
  * }
  */
 export const SET_START_MUTED_POLICY = 'SET_START_MUTED_POLICY';
+
+/**
+ * The type of (redux) action which signals that new message is received in a chat room.
+ *
+ * {
+ *     type: CHAT_MESSAGE_RECEIVED,
+ *     roomName: string,
+ *     senderId: string,
+ *     messageText: string,
+ *     timestamp: any
+ * }
+ */
+export const CHAT_MESSAGE_RECEIVED = 'CHAT_MESSAGE_RECEIVED';

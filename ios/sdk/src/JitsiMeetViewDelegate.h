@@ -45,6 +45,16 @@
 - (void)conferenceWillJoin:(NSDictionary *)data;
 
 /**
+ * Called when new chat message is received
+ *
+ * The `data` dictionary contains:
+ * - roomName
+ * - senderId
+ * - messageText
+ * - timestamp
+*/
+- (void)chatMessageReceived:(NSDictionary *)data;
+/**
  * Called when entering Picture-in-Picture is requested by the user. The app
  * should now activate its Picture-in-Picture implementation (and resize the
  * associated `JitsiMeetView`. The latter will automatically detect its new size
