@@ -41,6 +41,16 @@ public class JitsiMeetUserInfo {
      */
     private URL avatar;
 
+    /**
+     * User's id to use for login.
+     */
+    private String userId;
+
+    /**
+     * User's password to use for login.
+     */
+    private String password;
+
     public JitsiMeetUserInfo() {}
 
     public JitsiMeetUserInfo(Bundle b) {
@@ -60,6 +70,14 @@ public class JitsiMeetUserInfo {
                 avatar = new URL(avatarURL);
             } catch (MalformedURLException e) {
             }
+        }
+
+        if (b.containsKey("userId")) {
+            userId = b.getString("userId");
+        }
+
+        if (b.containsKey("password")) {
+            password = b.getString("password");
         }
     }
 
@@ -87,6 +105,22 @@ public class JitsiMeetUserInfo {
         this.avatar = avatar;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     Bundle asBundle() {
         Bundle b = new Bundle();
 
@@ -100,6 +134,14 @@ public class JitsiMeetUserInfo {
 
         if (avatar != null) {
             b.putString("avatarURL", avatar.toString());
+        }
+
+        if (userId != null) {
+            b.putString("userId", userId);
+        }
+
+        if (password != null) {
+            b.putString("password", password);
         }
 
         return b;

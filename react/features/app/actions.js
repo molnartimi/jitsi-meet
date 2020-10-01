@@ -48,7 +48,7 @@ declare var interfaceConfig: Object;
  * scheme, or a mere room name.
  * @returns {Function}
  */
-export function appNavigate(uri: ?string) {
+export function appNavigate(uri: ?string, shouldTryToLoadConfig: ?boolean) {
     return async (dispatch: Dispatch<any>, getState: Function) => {
         let location = parseURIString(uri);
 
@@ -108,23 +108,28 @@ export function appNavigate(uri: ?string) {
         }
 
         if (!config) {
-            try {
-                config = await loadConfig(url);
-                dispatch(storeConfig(baseURL, config));
-            } catch (error) {
-                config = restoreConfig(baseURL);
+            if (shouldTryToLoadConfig) {
+                try {
+                    config = await loadConfig(url);
+                    dispatch(storeConfig(baseURL, config));
+                } catch (error) {
+                    config = restoreConfig(baseURL);
 
-                if (!config) {
-                    if (room) {
-                        dispatch(loadConfigError(error, locationURL));
+                    if (!config) {
+                        if (room) {
+                            dispatch(loadConfigError(error, locationURL));
 
-                        return;
+                            return;
+                        }
+
+                        // If there is no room (we are on the welcome page), don't fail, just create a fake one.
+                        logger.warn('Failed to load config but there is no room, applying a fake one');
+                        config = createFakeConfig(baseURL);
                     }
-
-                    // If there is no room (we are on the welcome page), don't fail, just create a fake one.
-                    logger.warn('Failed to load config but there is no room, applying a fake one');
-                    config = createFakeConfig(baseURL);
                 }
+            } else {
+                // Restore config set by native app
+                config = restoreConfig(uri);
             }
         }
 

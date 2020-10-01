@@ -8,6 +8,7 @@ import { toURLString } from '../../base/util';
 import { OverlayContainer } from '../../overlay';
 import { appNavigate, appConnect } from '../actions';
 import { getDefaultURL } from '../functions';
+import { storeConfig } from '../../base/config';
 import logger from '../logger';
 
 /**
@@ -135,8 +136,8 @@ export class AbstractApp extends BaseApp<Props, *> {
      * @protected
      * @returns {void}
      */
-    _openURL(url) {
-        this.state.store.dispatch(appNavigate(toURLString(url)));
+    _openURL(url, shouldTryToLoadConfig = true) {
+        this.state.store.dispatch(appNavigate(toURLString(url), shouldTryToLoadConfig));
     }
 
     /**
