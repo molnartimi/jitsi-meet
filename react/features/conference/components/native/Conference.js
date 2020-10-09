@@ -35,7 +35,6 @@ import {
 import type { AbstractProps } from '../AbstractConference';
 
 import Labels from './Labels';
-import LonelyMeetingExperience from './LonelyMeetingExperience';
 import NavigationBar from './NavigationBar';
 import styles, { NAVBAR_GRADIENT_COLORS } from './styles';
 
@@ -202,7 +201,6 @@ class Conference extends AbstractConference<Props, *> {
      */
     _renderConferenceModals() {
         return [
-            <AddPeopleDialog key = 'addPeopleDialog' />,
             <Chat key = 'chat' />,
             <SharedDocument key = 'sharedDocument' />
         ];
@@ -300,8 +298,6 @@ class Conference extends AbstractConference<Props, *> {
                     { _shouldDisplayTileView || <Container style = { styles.displayNameContainer }>
                         <DisplayNameLabel participantId = { _largeVideoParticipantId } />
                     </Container> }
-
-                    <LonelyMeetingExperience />
 
                     {/*
                       * The Toolbox is in a stacking layer below the Filmstrip.
