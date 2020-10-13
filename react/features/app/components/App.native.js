@@ -3,7 +3,6 @@
 import React from 'react';
 
 import { setColorScheme } from '../../base/color-scheme';
-import { storeConfig } from '../../base/config';
 import { DialogContainer } from '../../base/dialog';
 import { updateFlags } from '../../base/flags/actions';
 import { CALL_INTEGRATION_ENABLED, SERVER_URL_CHANGE_ENABLED } from '../../base/flags/constants';
@@ -40,17 +39,7 @@ type Props = AbstractAppProps & {
     /**
      * An object with the feature flags.
      */
-    flags: Object,
-
-    /**
-     * An object with user information (display name, email, avatar URL).
-     */
-    userInfo: ?Object,
-
-    /**
-     * Conference config as json string.
-     */
-    configJsonString: ?string
+    flags: Object
 };
 
 /**
@@ -108,21 +97,6 @@ export class App extends AbstractApp {
                     if (typeof serverURL !== 'undefined') {
                         dispatch(updateSettings({ serverURL }));
                     }
-                }
-            }
-
-            // handle config set by native app
-            if (typeof this.props.configJsonString === 'string') {
-                try {
-                    const config = JSON.parse(this.props.configJsonString);
-                    const url = `${this.props.url.serverURL}/${this.props.url.room}`;
-
-                    logger.info('Config from native app: \n', config);
-
-                    dispatch(storeConfig(url, config));
-                    this._openURL(url);
-                } catch (e) {
-                    logger.error('Something went wrong at parsing config json string', e);
                 }
             }
 

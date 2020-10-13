@@ -26,3 +26,12 @@ export function getAppProp(stateful: Function | Object, propName: string) {
 
     return undefined;
 }
+
+/**
+ * Return if we are in a native app, not on a web site.
+ *
+ * @returns {boolean}
+ */
+export function isNativeApp() {
+    return navigator.product === 'ReactNative';
+}
