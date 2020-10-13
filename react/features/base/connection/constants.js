@@ -17,3 +17,7 @@ export const JITSI_CONNECTION_CONFERENCE_KEY = Symbol('conference');
  * The name of the {@code JitsiConnection} property which identifies the location URL where the connection will be made.
  */
 export const JITSI_CONNECTION_URL_KEY = Symbol('url');
+
+export const NativeEvents = {
+    XMPP_POST_METHOD: 'xmpp-post-method'
+}

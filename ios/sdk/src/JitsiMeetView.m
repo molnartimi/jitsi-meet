@@ -22,6 +22,7 @@
 #import "JitsiMeetView+Private.h"
 #import "ReactUtils.h"
 #import "RNRootView.h"
+#import "JitsiMeetEventEmitter.h"
 
 
 /**
@@ -42,6 +43,8 @@ static NSString *const PiPEnabledFeatureFlag = @"pip.enabled";
      * React Native view where the entire content will be rendered.
      */
     RNRootView *rootView;
+    
+    JitsiMeetEventEmitter *eventEmitter;
 }
 
 /**
@@ -103,6 +106,7 @@ static void initializeViewsMap() {
     // the default background color.
     self.backgroundColor
         = [UIColor colorWithRed:.07f green:.07f blue:.07f alpha:1];
+    eventEmitter = [JitsiMeetEventEmitter sharedEmitter];
 }
 
 #pragma mark API
@@ -113,6 +117,12 @@ static void initializeViewsMap() {
 
 - (void)leave {
     [self setProps:@{}];
+}
+
+- (void)callXmppPostMethod:(NSString *)functionName
+            withParams:(NSArray *)params
+            withPlugin:(NSString *)plugin {
+    [eventEmitter callPostMethod:functionName withParams:params withPlugin:plugin];
 }
 
 #pragma mark Private methods
