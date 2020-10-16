@@ -16,7 +16,10 @@
 
 + (id)sharedEmitter;
 - (void)callPostMethod:(NSString *_Nonnull)functionName
-            withParams:(NSArray *_Nonnull)params
+ withStringifiedParams:(NSString *_Nonnull)params
             withPlugin:(NSString *_Nullable)plugin;
+- (void)callGetMethod:(NSString *_Nonnull)functionName
+withStringifiedParams:(NSString *_Nonnull)params
+           withPlugin:(NSString *_Nullable)plugin;
 
 @end

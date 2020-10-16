@@ -16,12 +16,14 @@ import {
     CONNECTION_FAILED,
     JITSI_CONNECTION_CONFERENCE_KEY,
     JITSI_CONNECTION_URL_KEY,
+    XMPP_RESULT,
     getURLWithoutParams
 } from '../../base/connection';
+import { getLogger } from '../../base/logging';
 import { MiddlewareRegistry } from '../../base/redux';
 import { ENTER_PICTURE_IN_PICTURE } from '../picture-in-picture';
 
-import { sendEvent } from './functions';
+import { decycleJSON, sendEvent } from './functions';
 
 /**
  * Event which will be emitted on the native side to indicate the conference
@@ -37,6 +39,7 @@ const CONFERENCE_TERMINATED = 'CONFERENCE_TERMINATED';
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+    const logger = getLogger('features/mobile/external-api');
     const result = next(action);
     const { type } = action;
 
@@ -114,6 +117,26 @@ MiddlewareRegistry.register(store => next => action => {
     case SET_ROOM:
         _maybeTriggerEarlyConferenceWillJoin(store, action);
         break;
+
+    case XMPP_RESULT: {
+        try {
+            const value = decycleJSON(action.value);
+
+            logger.info('TIMI LOG, xmppResult value', value);
+
+            sendEvent(
+                store,
+                XMPP_RESULT,
+                {
+                    type: action.resultType,
+                    value
+                }
+            );
+        } catch (e) {
+            logger.error('Some error occurred at sending xmpp result event to native app', e);
+        }
+        break;
+    }
     }
 
     return result;

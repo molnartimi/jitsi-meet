@@ -19,5 +19,10 @@ export const JITSI_CONNECTION_CONFERENCE_KEY = Symbol('conference');
 export const JITSI_CONNECTION_URL_KEY = Symbol('url');
 
 export const NativeEvents = {
-    XMPP_POST_METHOD: 'xmpp-post-method'
-}
+    XMPP_POST_METHOD: 'xmpp-post-method',
+    XMPP_GET_METHOD: 'xmpp-get-method'
+};
+
+export const ResponseEventsToNative = {
+    CONNECTION_CONSTANTS: 'connection_constants'
+};

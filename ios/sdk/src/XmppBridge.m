@@ -28,7 +28,7 @@ RCT_EXPORT_MODULE();
 
 - (NSArray<NSString *> *)supportedEvents
 {
-  return @[@"xmpp-post-method"];
+  return @[@"xmpp-post-method", @"xmpp-get-method"];
 }
 
 // Will be called when this module's first listener is added.
@@ -44,11 +44,28 @@ RCT_EXPORT_MODULE();
 }
 
 - (void)callPostMethod:(NSString *)functionName
-            withParams:(NSArray *)params
+ withStringifiedParams:(NSArray *)params
             withPlugin:(NSString *)plugin
 {
   if (_hasListeners) {
-    [self sendEventWithName:@"xmpp-post-method" body:@{ @"functionName" : functionName, @"params": params, @"plugin": plugin }];
+    [self sendEventWithName:@"xmpp-post-method" body:@{
+        @"functionName" : functionName,
+        @"stringifiedParams": params,
+        @"plugin": plugin == nil ? @"" : plugin
+    }];
+  }
+}
+
+- (void)callGetMethod:(NSString *)functionName
+ withStringifiedParams:(NSArray *)params
+            withPlugin:(NSString *)plugin
+{
+  if (_hasListeners) {
+    [self sendEventWithName:@"xmpp-get-method" body:@{
+        @"functionName" : functionName,
+        @"stringifiedParams": params,
+        @"plugin": plugin == nil ? @"" : plugin
+    }];
   }
 }
 

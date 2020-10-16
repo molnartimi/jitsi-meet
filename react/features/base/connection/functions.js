@@ -1,7 +1,53 @@
 /* @flow */
 
+import { Dispatch } from 'redux';
+import { $iq, $msg, Strophe } from 'strophe.js';
+
+import { decycleJSON } from '../../mobile/external-api';
 import { toState } from '../redux';
 import { toURLString } from '../util';
+
+import { XMPP_RESULT } from './actionTypes';
+import logger from './logger';
+
+
+/**
+ * Type of parameter got from native app in an {@code NativeXmppPostMethodEventData}.
+ *
+ * In some cases, functions take callback methods as parameter.
+ * eg. connection.muc.join(roomId, nick, onMessage: () => boolean, onPresence: () => boolean)
+ * In this case we send a specific object from native app,
+ * eg. { nativeResponseType: 'chat_message', defaultReturnValueOfCallback: true }
+ * We have to call post method with a callback method, and return the value to native app with which callback is called,
+ * to let it to handle on its own.
+ */
+type NativeXmppPostMethodEventParam = any | { nativeResponseType: string, defaultReturnValueOfCallback?: any };
+
+/**
+ * These classes are implemented in Tabletparty.
+ * TODO refactor them into an npm package.
+ * They are used to describe Strophe $ig and $msg builders in a serializable form.
+ */
+type BaseXmlNode = {
+    children: BaseXmlNode[],
+    parent: BaseXmlNode,
+    text?: string
+};
+
+type XmlNode = {
+    children: BaseXmlNode[],
+    parent: BaseXmlNode,
+    name: string,
+    text?: string,
+    attr?: any
+};
+
+// eslint-disable-next-line no-unused-vars
+type TextXmlNode = {
+    children: BaseXmlNode[],
+    parent: BaseXmlNode,
+    text: string
+}
 
 /**
  * Figures out what's the current conference URL which is supposed to indicate what conference is currently active.
@@ -140,4 +186,130 @@ export function getURLWithoutParamsNormalized(url: URL): string {
  */
 export function toJid(id: string, { authdomain, domain }: Object): string {
     return id.indexOf('@') >= 0 ? id : `${id}@${authdomain || domain}`;
+}
+
+/**
+ * Unwrap xmpp connection object from Jitsi connection.
+ *
+ * @param {JitsiMeetJS.JitsiConnection} connection - JitsiMeetJS connection object.
+ * @returns {*|null}
+ */
+export function getStropheConnection(connection: JitsiMeetJS.JitsiConnection): Strophe.Connection {
+    return connection && connection.xmpp && connection.xmpp.connection
+        ? connection.xmpp.connection._stropheConn
+        : null;
+}
+
+/**
+ * Convert specific parameters got from native app to javascript parameters.
+ *
+ * @param {NativeXmppPostMethodEventParam} param - A value sent with xmpp post method event.
+ * @param {Dispatch<any>} dispatch - Redux dispatch function.
+ * @returns {any} - The converted value.
+ */
+export function convertXmppPostMethodParam(param: NativeXmppPostMethodEventParam, dispatch: Dispatch<any>): any {
+    if (!param) {
+        return;
+    }
+    if (param === 'null') {
+        // we send function parameters in an array from native app,
+        // but iOS Swift don't allow us to insert NULL into an array
+        return null;
+    } else if (param.nativeResponseType) {
+        // Some functions take callback methods as parameters.
+        // We can't send them through native app, so we send a object with a type string,
+        // and we will send back the objects with which callbacks are called with this type to native app.
+        return callbackParam => {
+            logger.info('Xmpp callback called added in function', param.nativeResponseType);
+            dispatch(sendXmppResult(param.nativeResponseType, callbackParam));
+
+            return param.defaultReturnValueOfCallback;
+        };
+    } else if (param instanceof Object) {
+        const decycledParam = decycleJSON(param);
+
+        if (decycledParam.name && decycledParam.children) {
+            // create Strophe.Builder objects from XmlNode
+            if (decycledParam.name === 'iq') {
+                logger.info('Creating $IQ in convertXmppPostMethodParam');
+
+                return createIQFromXml(decycledParam);
+            } else if (decycledParam.name === 'msg') {
+                logger.info('Creating $MSQ in convertXmppPostMethodParam');
+
+                return createMSGFromXml(decycledParam);
+            }
+        }
+    }
+
+    return param;
+}
+
+/**
+ * Emit event to send data to native app via external api.
+ *
+ * @param {string} resultType - Id of result type (eg. 'chat_message').
+ * @param {any} value - Value of result (eg. Stanza element of received chat message).
+ * @returns {{type: string, resultType: string, value: *}}
+ */
+export function sendXmppResult(resultType: string, value: any) {
+    logger.info('TIMI CHAT, sendXmppResult', resultType, value);
+
+    return {
+        type: XMPP_RESULT,
+        resultType,
+        value
+    };
+}
+
+/**
+ * Create a $iq Strophe.Builder from the description.
+ *
+ * @param {XmlNode} xmlRoot - Root node of description of Strophe builder.
+ * @returns {Strophe.Builder}
+ */
+export function createIQFromXml(xmlRoot: XmlNode): Strophe.Builder {
+    const iq = $iq(xmlRoot.attr);
+
+    return buildStropheBuilder(iq, xmlRoot);
+}
+
+/**
+ * Create a $msg Strophe.Builder from the description.
+ *
+ * @param {XmlNode} xmlRoot - Root node of description of Strophe builder.
+ * @returns {Strophe.Builder}
+ */
+export function createMSGFromXml(xmlRoot: XmlNode): Strophe.Builder {
+    const iq = $msg(xmlRoot.attr);
+
+    return buildStropheBuilder(iq, xmlRoot);
+}
+
+/**
+ * Append new nodes to given Strophe.Builder according to the description.
+ *
+ * @param {Strophe.Builder} builder - Strophe builder to attach new children.
+ * @param {BaseXmlNode} node - Current node in description.
+ * @returns {Strophe.Builder}
+ */
+function buildStropheBuilder(builder: Strophe.Builder, node: BaseXmlNode): Strophe.Builder {
+    let newBuilder = builder;
+
+    node.children.forEach((child, i) => {
+        if (child.name) {
+            newBuilder = newBuilder.c(child.name, child.attr, child.text);
+        } else {
+            newBuilder = newBuilder.t(child.text);
+        }
+        newBuilder = buildStropheBuilder(newBuilder, child);
+
+        const shouldUp = node.children.length > 1 && i !== node.children.length - 1;
+
+        if (shouldUp) {
+            newBuilder = newBuilder.up();
+        }
+    });
+
+    return newBuilder;
 }

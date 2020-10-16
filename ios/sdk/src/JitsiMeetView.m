@@ -120,9 +120,19 @@ static void initializeViewsMap() {
 }
 
 - (void)callXmppPostMethod:(NSString *)functionName
-            withParams:(NSArray *)params
-            withPlugin:(NSString *)plugin {
-    [eventEmitter callPostMethod:functionName withParams:params withPlugin:plugin];
+     withStringifiedParams:(NSString *)params
+                withPlugin:(NSString *)plugin {
+    [eventEmitter callPostMethod:functionName
+           withStringifiedParams:params
+                      withPlugin:plugin];
+}
+
+- (void)callXmppGetMethod:(NSString *)functionName
+     withStringifiedParams:(NSString *)params
+                withPlugin:(NSString *)plugin {
+    [eventEmitter callGetMethod:functionName
+           withStringifiedParams:params
+                      withPlugin:plugin];
 }
 
 #pragma mark Private methods

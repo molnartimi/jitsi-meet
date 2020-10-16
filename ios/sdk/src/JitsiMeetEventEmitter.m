@@ -33,9 +33,19 @@
 }
 
 - (void)callPostMethod:(NSString *)functionName
-            withParams:(NSArray *)params
+ withStringifiedParams:(NSString *)params
             withPlugin:(NSString *)plugin {
-    [_xmppBridge callPostMethod:functionName withParams:params withPlugin:plugin];
+    [_xmppBridge callPostMethod:functionName
+          withStringifiedParams:params
+                     withPlugin:plugin];
+}
+
+- (void)callGetMethod:(NSString *)functionName
+ withStringifiedParams:(NSString *)params
+            withPlugin:(NSString *)plugin {
+    [_xmppBridge callGetMethod:functionName
+          withStringifiedParams:params
+                     withPlugin:plugin];
 }
 
 @end

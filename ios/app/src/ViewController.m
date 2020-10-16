@@ -96,6 +96,10 @@
     [self _onJitsiMeetViewDelegateEvent:@"CONFERENCE_WILL_JOIN" withData:data];
 }
 
+- (void)xmppResult:(NSDictionary *)data {
+    [self _onJitsiMeetViewDelegateEvent:@"XMPP_RESULT" withData:data];
+}
+
 #if 0
 - (void)enterPictureInPicture:(NSDictionary *)data {
     [self _onJitsiMeetViewDelegateEvent:@"ENTER_PICTURE_IN_PICTURE" withData:data];

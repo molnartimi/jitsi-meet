@@ -13,8 +13,12 @@
 
 @interface XmppBridge : RCTEventEmitter <RCTBridgeModule>
 
-- (void)callPostMethod:(NSString *) functionName
-            withParams:(NSArray *) params
-            withPlugin:(NSString *) plugin;
+- (void)callPostMethod:(NSString *_Nonnull) functionName
+ withStringifiedParams:(NSString *_Nonnull) params
+            withPlugin:(NSString *_Nullable) plugin;
+
+- (void)callGetMethod:(NSString *_Nonnull) functionName
+ withStringifiedParams:(NSString *_Nonnull) params
+            withPlugin:(NSString *_Nullable) plugin;
 
 @end

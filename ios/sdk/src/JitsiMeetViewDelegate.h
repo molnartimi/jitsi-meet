@@ -45,6 +45,14 @@
 - (void)conferenceWillJoin:(NSDictionary *)data;
 
 /**
+ * Called when some xmpp function result is received
+ *
+ * The `data` dictionary contains:
+ * - resultType: string id of method for which the event belongs, eg. 'chat_message'
+ * - value: value of result
+*/
+- (void)xmppResult:(NSDictionary *)data;
+/**
  * Called when entering Picture-in-Picture is requested by the user. The app
  * should now activate its Picture-in-Picture implementation (and resize the
  * associated `JitsiMeetView`. The latter will automatically detect its new size

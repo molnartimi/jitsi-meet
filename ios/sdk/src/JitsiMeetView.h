@@ -38,7 +38,11 @@
 - (void)leave;
 
 - (void)callXmppPostMethod:(NSString *_Nonnull)functionName
-            withParams:(NSArray *_Nonnull)params
-            withPlugin:(NSString *_Nullable)plugin;
+     withStringifiedParams:(NSString *_Nonnull)params
+                withPlugin:(NSString *_Nullable)plugin;
+
+- (void)callXmppGetMethod:(NSString *_Nonnull)functionName
+    withStringifiedParams:(NSString *_Nonnull)params
+               withPlugin:(NSString *_Nullable)plugin;
 
 @end
