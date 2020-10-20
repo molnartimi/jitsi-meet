@@ -208,14 +208,14 @@ export function getStropheConnection(connection: JitsiMeetJS.JitsiConnection): S
  * @returns {any} - The converted value.
  */
 export function convertXmppPostMethodParam(param: NativeXmppPostMethodEventParam, dispatch: Dispatch<any>): any {
-    if (!param) {
-        return;
-    }
+    logger.info('TIMI LOG PARAM', param);
     if (param === 'null') {
         // we send function parameters in an array from native app,
         // but iOS Swift don't allow us to insert NULL into an array
         return null;
-    } else if (param.nativeResponseType) {
+    } else if (param === 'undefined') {
+        return undefined;
+    } else if (param && param.nativeResponseType) {
         // Some functions take callback methods as parameters.
         // We can't send them through native app, so we send a object with a type string,
         // and we will send back the objects with which callbacks are called with this type to native app.
@@ -253,8 +253,6 @@ export function convertXmppPostMethodParam(param: NativeXmppPostMethodEventParam
  * @returns {{type: string, resultType: string, value: *}}
  */
 export function sendXmppResult(resultType: string, value: any) {
-    logger.info('TIMI CHAT, sendXmppResult', resultType, value);
-
     return {
         type: XMPP_RESULT,
         resultType,

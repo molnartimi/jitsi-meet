@@ -120,9 +120,7 @@ MiddlewareRegistry.register(store => next => action => {
 
     case XMPP_RESULT: {
         try {
-            const value = decycleJSON(action.value);
-
-            logger.info('TIMI LOG, xmppResult value', value);
+            const value = JSON.stringify(decycleJSON(action.value));
 
             sendEvent(
                 store,

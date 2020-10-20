@@ -128,10 +128,10 @@ export function decycleJSON(object) {
  *      return retrocycleJSON(JSON.parse(s));
  * produces an array containing a single element which is the array itself.
  *
- * @param {Object} object - JSON object to retrocycle.
+ * @param {Object} $ - JSON object to retrocycle.
  * @returns {Object}
  */
-export function retrocycleJSON(object) {
+export function retrocycleJSON($) {
     const px = /^\$(?:\[(?:\d+|"(?:[^\\"\u0000-\u001f]|\\(?:[\\"\/bfnrt]|u[0-9a-zA-Z]{4}))*")\])*$/;
 
     // The rez function walks recursively through the object looking for $ref
@@ -169,7 +169,7 @@ export function retrocycleJSON(object) {
                 });
             }
         }
-    })(object);
+    })($);
 
-    return object;
-};
+    return $;
+}
