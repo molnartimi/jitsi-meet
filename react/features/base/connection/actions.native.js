@@ -394,7 +394,7 @@ function handleGetMethodEvent(data: NativeXmppPostMethodEventData,
     const result = handlePostMethodEvent(data, stropheConn, dispatch);
 
     logger.info('Sending back to xmpp get method result', data.functionName, result);
-    dispatch(sendXmppResult(data.functionName), result);
+    dispatch(sendXmppResult(data.functionName, result));
 }
 
 /**

@@ -120,7 +120,9 @@ MiddlewareRegistry.register(store => next => action => {
 
     case XMPP_RESULT: {
         try {
-            const value = JSON.stringify(decycleJSON(action.value));
+            const value = action.value instanceof Object
+                ? JSON.stringify(decycleJSON(action.value))
+                : action.value;
 
             sendEvent(
                 store,
