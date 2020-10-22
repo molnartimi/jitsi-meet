@@ -377,7 +377,11 @@ function handlePostMethodEvent(data: NativeXmppPostMethodEventData,
     }
     logger.info('Parsed params', params);
 
-    return objToCall[data.functionName](...params);
+    try {
+        return objToCall[data.functionName](...params);
+    } catch (e) {
+        logger.error('Error occurred at evaluating post method!', objToCall, data.functionName, ...params, e);
+    }
 }
 
 /**
