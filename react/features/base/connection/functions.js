@@ -1,14 +1,13 @@
 /* @flow */
 
+import * as flatted from 'flatted/esm';
 import { Dispatch } from 'redux';
 import { $iq, $msg, Strophe } from 'strophe.js';
 
-import { decycleJSON } from '../../mobile/external-api';
 import { toState } from '../redux';
 import { toURLString } from '../util';
 
 import { XMPP_RESULT } from './actionTypes';
-import logger from './logger';
 
 
 /**
@@ -214,29 +213,36 @@ export function convertXmppPostMethodParam(param: NativeXmppPostMethodEventParam
         return null;
     } else if (param === 'undefined') {
         return undefined;
-    } else if (param && param.nativeResponseType) {
+    }
+
+    let parsedParam;
+
+    try {
+        parsedParam = flatted.parse(param);
+    } catch (e) {
+        // Param is seems to be a simple string, not a stringified json object.
+        return param;
+    }
+
+    if (parsedParam && parsedParam.nativeResponseType) {
         // Some functions take callback methods as parameters.
         // We can't send them through native app, so we send a object with a type string,
         // and we will send back the objects with which callbacks are called with this type to native app.
         return callbackParam => {
-            dispatch(sendXmppResult(param.nativeResponseType, callbackParam));
+            dispatch(sendXmppResult(parsedParam.nativeResponseType, callbackParam));
 
-            return param.defaultReturnValueOfCallback;
+            return parsedParam.defaultReturnValueOfCallback;
         };
-    } else if (param instanceof Object) {
-        const decycledParam = decycleJSON(param);
-
-        if (decycledParam.name && decycledParam.children) {
-            // create Strophe.Builder objects from XmlNode
-            if (decycledParam.name === 'iq') {
-                return createIQFromXml(decycledParam);
-            } else if (decycledParam.name === 'msg') {
-                return createMSGFromXml(decycledParam);
-            }
+    } else if (parsedParam.name && parsedParam.children) {
+        // create Strophe.Builder objects from XmlNode
+        if (parsedParam.name === 'iq') {
+            return createIQFromXml(parsedParam);
+        } else if (parsedParam.name === 'msg') {
+            return createMSGFromXml(parsedParam);
         }
     }
 
-    return param;
+    return parsedParam;
 }
 
 /**
