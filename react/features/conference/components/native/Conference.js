@@ -35,7 +35,6 @@ import {
 import type { AbstractProps } from '../AbstractConference';
 
 import Labels from './Labels';
-import NavigationBar from './NavigationBar';
 import styles, { NAVBAR_GRADIENT_COLORS } from './styles';
 
 
@@ -319,7 +318,6 @@ class Conference extends AbstractConference<Props, *> {
                 <SafeAreaView
                     pointerEvents = 'box-none'
                     style = { styles.navBarSafeView }>
-                    <NavigationBar />
                     { this._renderNotificationsContainer() }
                     <KnockingParticipantList />
                 </SafeAreaView>

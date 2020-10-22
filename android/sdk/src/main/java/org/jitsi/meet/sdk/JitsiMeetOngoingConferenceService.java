@@ -40,7 +40,6 @@ public class JitsiMeetOngoingConferenceService extends Service
 
     static final class Actions {
         static final String START = TAG + ":START";
-        static final String HANGUP = TAG + ":HANGUP";
     }
 
     static public void launch(Context context) {
@@ -96,13 +95,6 @@ public class JitsiMeetOngoingConferenceService extends Service
                 startForeground(OngoingNotification.NOTIFICATION_ID, notification);
                 JitsiMeetLogger.i(TAG + " Service started");
             }
-        } else if (Actions.HANGUP.equals(action)) {
-            JitsiMeetLogger.i(TAG + " Hangup requested");
-            // Abort all ongoing calls
-            if (AudioModeModule.useConnectionService()) {
-                ConnectionService.abortConnections();
-            }
-            stopSelf();
         } else {
             JitsiMeetLogger.w(TAG + " Unknown action received: " + action);
             stopSelf();

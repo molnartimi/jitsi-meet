@@ -588,7 +588,7 @@ var config = {
     // Mainly privacy related settings
 
     // Disables all invite functions from the app (share, invite, dial out...etc)
-    // disableInviteFunctions: true,
+    disableInviteFunctions: true,
 
     // Disables storing the room name to the recents list
     // doNotStoreRoom: true,
@@ -604,13 +604,13 @@ var config = {
     // },
 
     // Options related to the remote participant menu.
-    // remoteVideoMenu: {
-    //     // If set to true the 'Kick out' button will be disabled.
-    //     disableKick: true
-    // },
+     remoteVideoMenu: {
+         // If set to true the 'Kick out' button will be disabled.
+        disableKick: true
+    },
 
     // If set to true all muting operations of remote participants will be disabled.
-    // disableRemoteMute: true,
+    disableRemoteMute: true,
 
     /**
      External API url used to receive branding specific information.

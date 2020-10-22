@@ -59,11 +59,6 @@
                         </timer>
                         <group alignment="center" verticalAlignment="bottom" spacing="10" id="Hfk-a0-uWj">
                             <items>
-                                <button width="60" height="60" alignment="left" verticalAlignment="bottom" backgroundImage="hangup" id="8jF-SI-UHz">
-                                    <connections>
-                                        <action selector="hangupClicked" destination="9RD-qP-1Z0" id="cXK-lw-tsd"/>
-                                    </connections>
-                                </button>
                                 <button width="60" height="60" alignment="right" verticalAlignment="bottom" backgroundImage="mute-off" id="LmN-FI-aQq">
                                     <connections>
                                         <action selector="muteClicked" destination="9RD-qP-1Z0" id="dJg-kV-cqH"/>

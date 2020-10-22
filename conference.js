@@ -2227,11 +2227,6 @@ export default {
             }
         );
 
-        // call hangup
-        APP.UI.addListener(UIEvents.HANGUP, () => {
-            this.hangup(true);
-        });
-
         // logout
         APP.UI.addListener(UIEvents.LOGOUT, () => {
             AuthHandler.logout(room).then(url => {

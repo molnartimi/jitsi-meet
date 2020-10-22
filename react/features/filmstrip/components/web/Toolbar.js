@@ -6,7 +6,6 @@ import { connect, equals } from '../../../base/redux';
 import { SettingsButton } from '../../../settings';
 import {
     AudioMuteButton,
-    HangupButton,
     VideoMuteButton
 } from '../../../toolbox/components';
 
@@ -44,9 +43,6 @@ class Toolbar extends Component<Props> {
             <div
                 className = 'filmstrip-toolbox'
                 id = 'new-toolbox'>
-                <HangupButton
-                    tooltipPosition = 'left'
-                    visible = { this._shouldShowButton('hangup') } />
                 <AudioMuteButton
                     tooltipPosition = 'left'
                     visible = { this._shouldShowButton('microphone') } />

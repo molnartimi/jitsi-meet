@@ -18,17 +18,10 @@ import { Container } from '../../../base/react';
 import { connect } from '../../../base/redux';
 import { StyleType } from '../../../base/styles';
 import { getTrackByMediaTypeAndParticipant } from '../../../base/tracks';
-import { ConnectionIndicator } from '../../../connection-indicator';
 import { DisplayNameLabel } from '../../../display-name';
-import { RemoteVideoMenu } from '../../../remote-video-menu';
 import { toggleToolboxVisible } from '../../../toolbox/actions.native';
 
-import AudioMutedIndicator from './AudioMutedIndicator';
 import DominantSpeakerIndicator from './DominantSpeakerIndicator';
-import ModeratorIndicator from './ModeratorIndicator';
-import RaisedHandIndicator from './RaisedHandIndicator';
-import ScreenShareIndicator from './ScreenShareIndicator';
-import VideoMutedIndicator from './VideoMutedIndicator';
 import styles, { AVATAR_SIZE } from './styles';
 
 /**
@@ -50,11 +43,6 @@ type Props = {
      * Handles click/tap event on the thumbnail.
      */
     _onClick: ?Function,
-
-    /**
-     * Handles long press on the thumbnail.
-     */
-    _onShowRemoteVideoMenu: ?Function,
 
     /**
      * Whether to show the dominant speaker indicator or not.
@@ -120,7 +108,6 @@ function Thumbnail(props: Props) {
         _audioMuted: audioMuted,
         _largeVideo: largeVideo,
         _onClick,
-        _onShowRemoteVideoMenu,
         _renderDominantSpeakerIndicator: renderDominantSpeakerIndicator,
         _renderModeratorIndicator: renderModeratorIndicator,
         _styles,
@@ -134,13 +121,10 @@ function Thumbnail(props: Props) {
     const participantId = participant.id;
     const participantInLargeVideo
         = participantId === largeVideo.participantId;
-    const videoMuted = !videoTrack || videoTrack.muted;
-    const isScreenShare = videoTrack && videoTrack.videoType === VIDEO_TYPE.DESKTOP;
 
     return (
         <Container
             onClick = { _onClick }
-            onLongPress = { participant.local ? undefined : _onShowRemoteVideoMenu }
             style = { [
                 styles.thumbnail,
                 participant.pinned && !tileView
@@ -151,7 +135,6 @@ function Thumbnail(props: Props) {
 
             <ParticipantView
                 avatarSize = { tileView ? AVATAR_SIZE * 1.5 : AVATAR_SIZE }
-                disableVideo = { isScreenShare || participant.isFakeParticipant }
                 participantId = { participantId }
                 style = { _styles.participantViewStyle }
                 tintEnabled = { participantInLargeVideo && !disableTint }
@@ -162,36 +145,12 @@ function Thumbnail(props: Props) {
                 <DisplayNameLabel participantId = { participantId } />
             </Container> }
 
-            { renderModeratorIndicator
-                && <View style = { styles.moderatorIndicatorContainer }>
-                    <ModeratorIndicator />
-                </View>}
-
-            { !participant.isFakeParticipant && <View
-                style = { [
-                    styles.thumbnailTopIndicatorContainer,
-                    styles.thumbnailTopLeftIndicatorContainer
-                ] }>
-                <RaisedHandIndicator participantId = { participant.id } />
-                { renderDominantSpeakerIndicator && <DominantSpeakerIndicator /> }
-            </View> }
-
             { !participant.isFakeParticipant && <View
                 style = { [
                     styles.thumbnailTopIndicatorContainer,
                     styles.thumbnailTopRightIndicatorContainer
                 ] }>
-                <ConnectionIndicator participantId = { participant.id } />
             </View> }
-
-            { !participant.isFakeParticipant && <Container style = { styles.thumbnailIndicatorContainer }>
-                { audioMuted
-                    && <AudioMutedIndicator /> }
-                { videoMuted
-                    && <VideoMutedIndicator /> }
-                { isScreenShare
-                    && <ScreenShareIndicator /> }
-            </Container> }
 
         </Container>
     );
@@ -204,7 +163,6 @@ function Thumbnail(props: Props) {
  * @param {Props} ownProps - The own props of the component.
  * @returns {{
  *     _onClick: Function,
- *     _onShowRemoteVideoMenu: Function
  * }}
  */
 function _mapDispatchToProps(dispatch: Function, ownProps): Object {
@@ -225,18 +183,6 @@ function _mapDispatchToProps(dispatch: Function, ownProps): Object {
             }
         },
 
-        /**
-         * Handles long press on the thumbnail.
-         *
-         * @returns {void}
-         */
-        _onShowRemoteVideoMenu() {
-            const { participant } = ownProps;
-
-            dispatch(openDialog(RemoteVideoMenu, {
-                participant
-            }));
-        }
     };
 }
 

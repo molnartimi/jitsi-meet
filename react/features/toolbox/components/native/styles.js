@@ -120,15 +120,6 @@ ColorSchemeRegistry.register('Toolbox', {
         }
     },
 
-    hangupButtonStyles: {
-        iconStyle: whiteToolbarButtonIcon,
-        style: {
-            ...toolbarButton,
-            backgroundColor: schemeColor('hangup')
-        },
-        underlayColor: ColorPalette.buttonUnderlay
-    },
-
     /**
      * Styles for toggled buttons in the toolbar.
      */

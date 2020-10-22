@@ -118,22 +118,6 @@
                     }
                 }
 
-                &:nth-child(2) {
-                    .toolbox-icon {
-                        background-color: $hangupColor;
-                        border: 1px solid $hangupColor;
-                        width: 40px;
-                        height: 40px;
-                
-                        &:hover {
-                            background-color: $hangupColor;
-                        }
-
-                        svg {
-                            fill: #fff;
-                        }
-                    }
-                }
             }
         }
 

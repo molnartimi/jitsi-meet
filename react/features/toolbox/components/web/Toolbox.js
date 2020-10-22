@@ -74,12 +74,10 @@ import {
 } from '../../actions';
 import { isToolboxVisible } from '../../functions';
 import DownloadButton from '../DownloadButton';
-import HangupButton from '../HangupButton';
 import HelpButton from '../HelpButton';
 
 import AudioSettingsButton from './AudioSettingsButton';
 import MuteEveryoneButton from './MuteEveryoneButton';
-import OverflowMenuButton from './OverflowMenuButton';
 import OverflowMenuProfileItem from './OverflowMenuProfileItem';
 import ToolbarButton from './ToolbarButton';
 import VideoSettingsButton from './VideoSettingsButton';
@@ -1317,8 +1315,6 @@ class Toolbox extends Component<Props, State> {
                 </div>
                 <div className = 'button-group-center'>
                     { this._renderAudioButton() }
-                    <HangupButton
-                        visible = { this._shouldShowButton('hangup') } />
                     { this._renderVideoButton() }
                 </div>
                 <div className = 'button-group-right'>
@@ -1332,16 +1328,7 @@ class Toolbox extends Component<Props, State> {
                         && <TileViewButton /> }
                     { buttonsRight.indexOf('security') !== -1
                         && <SecurityDialogButton customClass = 'security-toolbar-button' /> }
-                    { buttonsRight.indexOf('overflowmenu') !== -1
-                        && <OverflowMenuButton
-                            isOpen = { _overflowMenuVisible }
-                            onVisibilityChange = { this._onSetOverflowVisible }>
-                            <ul
-                                aria-label = { t(toolbarAccLabel) }
-                                className = 'overflow-menu'>
-                                { overflowMenuContent }
-                            </ul>
-                        </OverflowMenuButton> }
+
                 </div>
             </div>);
     }

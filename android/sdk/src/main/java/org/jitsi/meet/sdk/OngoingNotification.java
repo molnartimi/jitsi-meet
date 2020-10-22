@@ -103,17 +103,6 @@ class OngoingNotification {
             .setOnlyAlertOnce(true)
             .setSmallIcon(context.getResources().getIdentifier("ic_notification", "drawable", context.getPackageName()));
 
-        // Add a "hang-up" action only if we are using ConnectionService.
-        if (AudioModeModule.useConnectionService()) {
-            Intent hangupIntent = new Intent(context, JitsiMeetOngoingConferenceService.class);
-            hangupIntent.setAction(JitsiMeetOngoingConferenceService.Actions.HANGUP);
-            PendingIntent hangupPendingIntent
-                = PendingIntent.getService(context, 0, hangupIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            NotificationCompat.Action hangupAction = new NotificationCompat.Action(0, "Hang up", hangupPendingIntent);
-
-            builder.addAction(hangupAction);
-        }
-
         return builder.build();
     }
 }

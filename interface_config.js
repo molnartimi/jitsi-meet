@@ -57,7 +57,7 @@ var interfaceConfig = {
     /**
      * If true, notifications regarding joining/leaving are no longer displayed.
      */
-    DISABLE_JOIN_LEAVE_NOTIFICATIONS: false,
+    DISABLE_JOIN_LEAVE_NOTIFICATIONS: true,
 
     /**
      * If true, presence status: busy, calling, connected etc. is not displayed.
@@ -70,7 +70,7 @@ var interfaceConfig = {
      *
      * @type {boolean}
      */
-    DISABLE_RINGING: false,
+    DISABLE_RINGING: true,
 
     /**
      * Whether the speech to text transcription subtitles panel is disabled.
@@ -78,7 +78,7 @@ var interfaceConfig = {
      *
      * @type {boolean}
      */
-    DISABLE_TRANSCRIPTION_SUBTITLES: false,
+    DISABLE_TRANSCRIPTION_SUBTITLES: true,
 
     /**
      * Whether or not the blurred video background for large video should be
@@ -87,9 +87,9 @@ var interfaceConfig = {
     DISABLE_VIDEO_BACKGROUND: false,
 
     DISPLAY_WELCOME_PAGE_CONTENT: true,
-    DISPLAY_WELCOME_PAGE_TOOLBAR_ADDITIONAL_CONTENT: false,
+    DISPLAY_WELCOME_PAGE_TOOLBAR_ADDITIONAL_CONTENT: true,
 
-    ENABLE_DIAL_OUT: true,
+    ENABLE_DIAL_OUT: false,
 
     ENABLE_FEEDBACK_ANIMATION: false, // Enables feedback star animation.
 
@@ -110,7 +110,7 @@ var interfaceConfig = {
     /**
      * Hide the invite prompt in the header when alone in the meeting.
      */
-    HIDE_INVITE_MORE_HEADER: false,
+    HIDE_INVITE_MORE_HEADER: true,
 
     INITIAL_TOOLBAR_TIMEOUT: 20000,
     JITSI_WATERMARK_LINK: 'https://jitsi.org',
@@ -152,7 +152,7 @@ var interfaceConfig = {
      *
      * @type {boolean}
      */
-    RECENT_LIST_ENABLED: true,
+    RECENT_LIST_ENABLED: false,
     REMOTE_THUMBNAIL_RATIO: 1, // 1:1
 
     SETTINGS_SECTIONS: [ 'devices', 'language', 'moderator', 'profile', 'calendar' ],
