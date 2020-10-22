@@ -1,5 +1,7 @@
 // @flow
 
+import * as flatted from 'flatted/esm';
+
 import {
     CONFERENCE_FAILED,
     CONFERENCE_JOINED,
@@ -23,7 +25,7 @@ import { getLogger } from '../../base/logging';
 import { MiddlewareRegistry } from '../../base/redux';
 import { ENTER_PICTURE_IN_PICTURE } from '../picture-in-picture';
 
-import { decycleJSON, sendEvent } from './functions';
+import { sendEvent } from './functions';
 
 /**
  * Event which will be emitted on the native side to indicate the conference
@@ -121,7 +123,7 @@ MiddlewareRegistry.register(store => next => action => {
     case XMPP_RESULT: {
         try {
             const value = action.value instanceof Object
-                ? JSON.stringify(decycleJSON(action.value))
+                ? flatted.stringify(action.value)
                 : action.value;
 
             sendEvent(

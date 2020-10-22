@@ -375,12 +375,14 @@ function handlePostMethodEvent(data: NativeXmppPostMethodEventData,
     } else {
         params = [];
     }
-    logger.info('Parsed params', params);
 
     try {
         return objToCall[data.functionName](...params);
     } catch (e) {
-        logger.error('Error occurred at evaluating post method!', objToCall, data.functionName, ...params, e);
+        logger.error(`Error occurred at calling post method: 
+        stropheConnection${data.plugin ? `.${data.plugin}` : ''}.${data.functionName} with params`,
+            ...params,
+            e);
     }
 }
 

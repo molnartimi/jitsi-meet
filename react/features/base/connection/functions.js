@@ -208,7 +208,6 @@ export function getStropheConnection(connection: JitsiMeetJS.JitsiConnection): S
  * @returns {any} - The converted value.
  */
 export function convertXmppPostMethodParam(param: NativeXmppPostMethodEventParam, dispatch: Dispatch<any>): any {
-    logger.info('TIMI LOG PARAM', param);
     if (param === 'null') {
         // we send function parameters in an array from native app,
         // but iOS Swift don't allow us to insert NULL into an array
@@ -220,7 +219,6 @@ export function convertXmppPostMethodParam(param: NativeXmppPostMethodEventParam
         // We can't send them through native app, so we send a object with a type string,
         // and we will send back the objects with which callbacks are called with this type to native app.
         return callbackParam => {
-            logger.info('Xmpp callback called added in function', param.nativeResponseType);
             dispatch(sendXmppResult(param.nativeResponseType, callbackParam));
 
             return param.defaultReturnValueOfCallback;
@@ -231,12 +229,8 @@ export function convertXmppPostMethodParam(param: NativeXmppPostMethodEventParam
         if (decycledParam.name && decycledParam.children) {
             // create Strophe.Builder objects from XmlNode
             if (decycledParam.name === 'iq') {
-                logger.info('Creating $IQ in convertXmppPostMethodParam');
-
                 return createIQFromXml(decycledParam);
             } else if (decycledParam.name === 'msg') {
-                logger.info('Creating $MSQ in convertXmppPostMethodParam');
-
                 return createMSGFromXml(decycledParam);
             }
         }
