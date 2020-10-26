@@ -115,6 +115,10 @@ static void initializeViewsMap() {
     [self setProps:options == nil ? @{} : [options asProps]];
 }
 
+- (void)xmppConnect:(JitsiMeetConferenceOptions *)options {
+    [self setProps:options == nil ? @{} : [options asProps]];
+}
+
 - (void)leave {
     [self setProps:@{}];
 }

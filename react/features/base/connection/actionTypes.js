@@ -63,6 +63,5 @@ export const SET_LOCATION_URL = 'SET_LOCATION_URL';
  *     resultType: string,
  *     value: any
  * }
-
  */
 export const XMPP_RESULT = 'XMPP_RESULT';

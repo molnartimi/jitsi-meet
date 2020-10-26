@@ -3,7 +3,7 @@
 //  JitsiMeet
 //
 //  Created by Molnár Tímea on 2020. 10. 09..
-//  Copyright © 2020. Jitsi. All rights reserved.
+//  Copyright © 2020. cabi LLC. All rights reserved.
 //
 #import <Foundation/Foundation.h>
 
@@ -28,7 +28,8 @@ RCT_EXPORT_MODULE();
 
 - (NSArray<NSString *> *)supportedEvents
 {
-  return @[@"xmpp-post-method", @"xmpp-get-method"];
+  return @[@"org.jitsi.meet:features/xmpp-bridge#xmpp-post-method",
+           @"org.jitsi.meet:features/xmpp-bridge#xmpp-get-method"];
 }
 
 // Will be called when this module's first listener is added.
@@ -48,7 +49,7 @@ RCT_EXPORT_MODULE();
             withPlugin:(NSString *)plugin
 {
   if (_hasListeners) {
-    [self sendEventWithName:@"xmpp-post-method" body:@{
+    [self sendEventWithName:@"org.jitsi.meet:features/xmpp-bridge#xmpp-post-method" body:@{
         @"functionName" : functionName,
         @"stringifiedParams": params,
         @"plugin": plugin == nil ? @"" : plugin
@@ -61,7 +62,7 @@ RCT_EXPORT_MODULE();
             withPlugin:(NSString *)plugin
 {
   if (_hasListeners) {
-    [self sendEventWithName:@"xmpp-get-method" body:@{
+    [self sendEventWithName:@"org.jitsi.meet:features/xmpp-bridge#xmpp-get-method" body:@{
         @"functionName" : functionName,
         @"stringifiedParams": params,
         @"plugin": plugin == nil ? @"" : plugin

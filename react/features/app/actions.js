@@ -3,6 +3,7 @@
 import type { Dispatch } from 'redux';
 
 import { API_ID } from '../../../modules/API/constants';
+import { isNativeApp } from '../base/app';
 import { setRoom } from '../base/conference';
 import {
     configWillLoad,
@@ -155,13 +156,13 @@ export function appNavigate(uri: ?string) {
  */
 export function appConnect(config, userId, password) {
     return async (dispatch: Dispatch<any>) => {
-        if (navigator.product === 'ReactNative') {
+        if (isNativeApp()) {
             dispatch(disconnect());
         }
         dispatch(clearNotifications());
         dispatch(setConfig(config));
 
-        if (navigator.product === 'ReactNative') {
+        if (isNativeApp()) {
             dispatch(connect(toJid(userId, config.hosts), password));
         }
     };

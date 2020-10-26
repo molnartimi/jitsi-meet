@@ -3,7 +3,7 @@
 //  sdk
 //
 //  Created by Molnár Tímea on 2020. 10. 12..
-//  Copyright © 2020. Jitsi. All rights reserved.
+//  Copyright © 2020. cabi LLC. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
