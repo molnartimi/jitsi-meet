@@ -47,4 +47,12 @@ public interface JitsiMeetViewListener {
      * @param data Map with a "url" key with the conference URL.
      */
     void onConferenceWillJoin(Map<String, Object> data);
+
+    /**
+     * Called whenever an Xmpp method returns a response that needs to be passed to parent app.
+     *
+     * @param data Map with a "type" key stating the event type
+     * and a "value" key carrying event specific data.
+     */
+    void onXmppResult(Map<String, Object> data);
 }

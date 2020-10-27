@@ -227,4 +227,9 @@ public class JitsiMeetActivity extends FragmentActivity
     public void onConferenceWillJoin(Map<String, Object> data) {
         JitsiMeetLogger.i("Conference will join: " + data);
     }
+
+    @Override
+    public void onXmppResult(Map<String, Object> data) {
+        JitsiMeetLogger.i("Xmpp result: " + data);
+    }
 }

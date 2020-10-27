@@ -24,6 +24,8 @@ import androidx.annotation.Nullable;
 import com.facebook.react.bridge.ReadableMap;
 
 import org.jitsi.meet.sdk.log.JitsiMeetLogger;
+import org.jitsi.meet.sdk.XmppBridge;
+import org.jitsi.meet.sdk.VideoConfBridge;
 
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -147,10 +149,48 @@ public class JitsiMeetView extends BaseReactView<JitsiMeetViewListener>
     }
 
     /**
-     * Leaves the currently active conference.
+     * Joins the specified conference room. Config options should be set by xmppConnect beforehand.
+     * @param roomName - Conference room to join to.
+     */
+    public void joinConference(String roomName) {
+        VideoConfBridge.joinConference(roomName);
+    }
+
+    /**
+     * Leaves the currently active conference, tears down the established Xmpp Connection.
      */
     public void leave() {
         setProps(new Bundle());
+    }
+
+    /**
+     * Leaves the currently active conference without tearing down the established Xmpp Connection.
+     */
+    public void leaveConference() {
+        VideoConfBridge.leaveConference();
+    }
+
+    /**
+     * Establishes an Xmpp Connection specified by the given {@link JitsiMeetConferenceOptions}.
+     * @param options - Description of what conference must be joined and what options will be used
+     *                when doing so.
+     */
+    public void xmppConnect(@Nullable JitsiMeetConferenceOptions options) {
+        setProps(options != null ? options.asProps() : new Bundle());
+    }
+
+    /**
+     * Sends an Xmpp post method to React Native through XmppBridge.
+     */
+    public void callXmppPostMethod(Object data) {
+        XmppBridge.callPostMethod(data);
+    }
+
+    /**
+     * Sends an Xmpp get method to React Native through XmppBridge.
+     */
+    public void callXmppGetMethod(Object data) {
+        XmppBridge.callGetMethod(data);
     }
 
     /**

@@ -17,12 +17,3 @@ export const JITSI_CONNECTION_CONFERENCE_KEY = Symbol('conference');
  * The name of the {@code JitsiConnection} property which identifies the location URL where the connection will be made.
  */
 export const JITSI_CONNECTION_URL_KEY = Symbol('url');
-
-export const NativeEvents = {
-    XMPP_POST_METHOD: 'org.jitsi.meet:features/xmpp-bridge#xmpp-post-method',
-    XMPP_GET_METHOD: 'org.jitsi.meet:features/xmpp-bridge#xmpp-get-method'
-};
-
-export const ResponseEventsToNative = {
-    CONNECTION_CONSTANTS: 'connection_constants'
-};
