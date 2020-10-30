@@ -25,6 +25,11 @@
 		0BCA49611EC4B6C600B793EE /* Proximity.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCA495E1EC4B6C600B793EE /* Proximity.m */; };
 		0BD906EA1EC0C00300C8C18E /* JitsiMeet.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BD906E81EC0C00300C8C18E /* JitsiMeet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0F65EECE1D95DA94561BB47E /* libPods-JitsiMeet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 03F2ADC957FF109849B7FCA1 /* libPods-JitsiMeet.a */; };
+		4DA94A1825304893008A0EA2 /* XmppBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DA94A1725304893008A0EA2 /* XmppBridge.m */; };
+		4DE2B14825348B8700DCBDE9 /* XmppBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DA94A5525304E28008A0EA2 /* XmppBridge.h */; };
+		4DE2B1542534A93300DCBDE9 /* JitsiMeetEventEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DE2B1522534A93300DCBDE9 /* JitsiMeetEventEmitter.h */; };
+		4DE2B1552534A93300DCBDE9 /* JitsiMeetEventEmitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DE2B1532534A93300DCBDE9 /* JitsiMeetEventEmitter.m */; };
+		4DE2B1582534AF7D00DCBDE9 /* JitsiMeetEventEmitter+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DE2B1572534AF7D00DCBDE9 /* JitsiMeetEventEmitter+Private.h */; };
 		6C31EDC820C06D490089C899 /* recordingOn.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6C31EDC720C06D490089C899 /* recordingOn.mp3 */; };
 		6C31EDCA20C06D530089C899 /* recordingOff.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6C31EDC920C06D530089C899 /* recordingOff.mp3 */; };
 		75635B0A20751D6D00F29C9F /* joined.wav in Resources */ = {isa = PBXBuildFile; fileRef = 75635B0820751D6D00F29C9F /* joined.wav */; };
@@ -86,6 +91,11 @@
 		0BD906E51EC0C00300C8C18E /* JitsiMeet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JitsiMeet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BD906E81EC0C00300C8C18E /* JitsiMeet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JitsiMeet.h; sourceTree = "<group>"; };
 		0BD906E91EC0C00300C8C18E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4DA94A1725304893008A0EA2 /* XmppBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XmppBridge.m; sourceTree = "<group>"; };
+		4DA94A5525304E28008A0EA2 /* XmppBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XmppBridge.h; sourceTree = "<group>"; };
+		4DE2B1522534A93300DCBDE9 /* JitsiMeetEventEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JitsiMeetEventEmitter.h; sourceTree = "<group>"; };
+		4DE2B1532534A93300DCBDE9 /* JitsiMeetEventEmitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JitsiMeetEventEmitter.m; sourceTree = "<group>"; };
+		4DE2B1572534AF7D00DCBDE9 /* JitsiMeetEventEmitter+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JitsiMeetEventEmitter+Private.h"; sourceTree = "<group>"; };
 		6C31EDC720C06D490089C899 /* recordingOn.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = recordingOn.mp3; path = ../../sounds/recordingOn.mp3; sourceTree = "<group>"; };
 		6C31EDC920C06D530089C899 /* recordingOff.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = recordingOff.mp3; path = ../../sounds/recordingOff.mp3; sourceTree = "<group>"; };
 		75635B0820751D6D00F29C9F /* joined.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = joined.wav; path = ../../sounds/joined.wav; sourceTree = "<group>"; };
@@ -203,6 +213,9 @@
 				DEAD3224220C497000E93636 /* JitsiMeetConferenceOptions.h */,
 				DEAD3228220C734300E93636 /* JitsiMeetConferenceOptions+Private.h */,
 				DEAD3225220C497000E93636 /* JitsiMeetConferenceOptions.m */,
+				4DE2B1572534AF7D00DCBDE9 /* JitsiMeetEventEmitter+Private.h */,
+				4DE2B1522534A93300DCBDE9 /* JitsiMeetEventEmitter.h */,
+				4DE2B1532534A93300DCBDE9 /* JitsiMeetEventEmitter.m */,
 				DE762DB322AFDE76000DEBD6 /* JitsiMeetUserInfo.h */,
 				DE762DB722AFE166000DEBD6 /* JitsiMeetUserInfo+Private.h */,
 				DE762DB522AFDE8D000DEBD6 /* JitsiMeetUserInfo.m */,
@@ -229,6 +242,8 @@
 				0B93EF7D1EC9DDCD0030D24D /* RCTBridgeWrapper.m */,
 				C8AFD27D2462C613000293D2 /* InfoPlistUtil.h */,
 				C8AFD27E2462C613000293D2 /* InfoPlistUtil.m */,
+				4DA94A1725304893008A0EA2 /* XmppBridge.m */,
+				4DA94A5525304E28008A0EA2 /* XmppBridge.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -307,8 +322,11 @@
 				0B412F221EDEF6EA00B1A0A6 /* JitsiMeetViewDelegate.h in Headers */,
 				0BD906EA1EC0C00300C8C18E /* JitsiMeet.h in Headers */,
 				DE81A2D42316AC4D00AE1940 /* JitsiMeetLogger.h in Headers */,
+				4DE2B14825348B8700DCBDE9 /* XmppBridge.h in Headers */,
+				4DE2B1582534AF7D00DCBDE9 /* JitsiMeetEventEmitter+Private.h in Headers */,
 				DE65AACA2317FFCD00290BEC /* LogUtils.h in Headers */,
 				DEAD3226220C497000E93636 /* JitsiMeetConferenceOptions.h in Headers */,
+				4DE2B1542534A93300DCBDE9 /* JitsiMeetEventEmitter.h in Headers */,
 				C8AFD27F2462C613000293D2 /* InfoPlistUtil.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -480,6 +498,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0BB9AD7B1F5EC8F4001C08DB /* CallKit.m in Sources */,
+				4DA94A1825304893008A0EA2 /* XmppBridge.m in Sources */,
 				DE81A2DF2317ED5400AE1940 /* JitsiMeetBaseLogHandler.m in Sources */,
 				0BB9AD7D1F60356D001C08DB /* AppInfo.m in Sources */,
 				DE81A2D92316AC7600AE1940 /* LogBridge.m in Sources */,
@@ -498,6 +517,7 @@
 				C69EFA0C209A0F660027712B /* JMCallKitEmitter.swift in Sources */,
 				DEFE535621FB2E8300011A3A /* ReactUtils.m in Sources */,
 				C6A34261204EF76800E062DD /* DragGestureController.swift in Sources */,
+				4DE2B1552534A93300DCBDE9 /* JitsiMeetEventEmitter.m in Sources */,
 				A4A934E9212F3ADB001E9388 /* Dropbox.m in Sources */,
 				C69EFA0D209A0F660027712B /* JMCallKitProxy.swift in Sources */,
 				DE81A2D52316AC4D00AE1940 /* JitsiMeetLogger.m in Sources */,

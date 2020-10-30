@@ -53,3 +53,15 @@ export const CONNECTION_WILL_CONNECT = 'CONNECTION_WILL_CONNECT';
  * }
  */
 export const SET_LOCATION_URL = 'SET_LOCATION_URL';
+
+/**
+ * The type of (redux) action which should be send to native application
+ * if it needs some response from xmpp connection functions.
+ *
+ * {
+ *     type: XMPP_RESULT,
+ *     resultType: string,
+ *     value: any
+ * }
+ */
+export const XMPP_RESULT = 'XMPP_RESULT';

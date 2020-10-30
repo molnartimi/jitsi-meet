@@ -3,6 +3,7 @@
 import type { Dispatch } from 'redux';
 
 import { API_ID } from '../../../modules/API/constants';
+import { isNativeApp } from '../base/app';
 import { setRoom } from '../base/conference';
 import {
     configWillLoad,
@@ -12,7 +13,7 @@ import {
     setConfig,
     storeConfig
 } from '../base/config';
-import { connect, disconnect, setLocationURL } from '../base/connection';
+import { connect, disconnect, setLocationURL, toJid } from '../base/connection';
 import { loadConfig } from '../base/lib-jitsi-meet';
 import { MEDIA_TYPE } from '../base/media';
 import { toState } from '../base/redux';
@@ -141,6 +142,28 @@ export function appNavigate(uri: ?string) {
         if (room && navigator.product === 'ReactNative') {
             dispatch(createDesiredLocalTracks());
             dispatch(connect());
+        }
+    };
+}
+
+/**
+ * Connect to xmpp server with given config, userId and password.
+ *
+ * @param {Object} config - Config of xmpp server.
+ * @param {string} userId - User id to login.
+ * @param {string} password - Password to login.
+ * @returns {function(Dispatch<*>, Function): Promise<undefined>}
+ */
+export function appConnect(config, userId, password) {
+    return async (dispatch: Dispatch<any>) => {
+        if (isNativeApp()) {
+            dispatch(disconnect());
+        }
+        dispatch(clearNotifications());
+        dispatch(setConfig(config));
+
+        if (isNativeApp()) {
+            dispatch(connect(toJid(userId, config.hosts), password));
         }
     };
 }

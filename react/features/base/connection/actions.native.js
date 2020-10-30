@@ -1,6 +1,7 @@
 // @flow
 
 import _ from 'lodash';
+import { NativeEventEmitter, NativeModules } from 'react-native';
 import type { Dispatch } from 'redux';
 
 import { conferenceLeft, conferenceWillLeave } from '../conference/actions';
@@ -18,7 +19,8 @@ import {
     CONNECTION_WILL_CONNECT,
     SET_LOCATION_URL
 } from './actionTypes';
-import { JITSI_CONNECTION_URL_KEY } from './constants';
+import { JITSI_CONNECTION_URL_KEY, NativeEvents, ResponseEventsToNative } from './constants';
+import { convertXmppPostMethodParam, getStropheConnection, sendXmppResult } from './functions';
 import logger from './logger';
 
 /**
@@ -69,6 +71,17 @@ export type ConnectionFailedError = {
 };
 
 /**
+ * Type of dto object got from native app when sending xmpp post method event.
+ * Meaning: call a function on xmpp connection object with some parameters.
+ * If plugin is defined, function should be called on object connection[plugin].
+ */
+type NativeXmppPostMethodEventData = {
+    functionName: string,
+    stringifiedParams: string,
+    plugin?: string
+};
+
+/**
  * Opens new connection.
  *
  * @param {string} [id] - The XMPP user's ID (e.g. {@code user@server.com}).
@@ -82,6 +95,7 @@ export function connect(id: ?string, password: ?string) {
         const { locationURL } = state['features/base/connection'];
         const { jwt } = state['features/base/jwt'];
         const connection = new JitsiMeetJS.JitsiConnection(options.appId, jwt, options);
+        let nativeEventListeners = [];
 
         connection[JITSI_CONNECTION_URL_KEY] = locationURL;
 
@@ -111,6 +125,10 @@ export function connect(id: ?string, password: ?string) {
          */
         function _onConnectionDisconnected() {
             unsubscribe();
+            if (nativeEventListeners) {
+                nativeEventListeners.forEach(listener => listener.remove());
+                nativeEventListeners = [];
+            }
             dispatch(connectionDisconnected(connection));
         }
 
@@ -121,9 +139,15 @@ export function connect(id: ?string, password: ?string) {
          * @returns {void}
          */
         function _onConnectionEstablished() {
+            const stropheConn = getStropheConnection(connection);
+
+            dispatch(sendXmppResult(ResponseEventsToNative.CONNECTION_CONSTANTS, { jid: stropheConn.jid }));
+            _subscribeToNativeEvents(stropheConn);
+
             connection.removeEventListener(
                 JitsiConnectionEvents.CONNECTION_ESTABLISHED,
                 _onConnectionEstablished);
+
             dispatch(connectionEstablished(connection, Date.now()));
         }
 
@@ -155,6 +179,23 @@ export function connect(id: ?string, password: ?string) {
                         message: msg
                     }
                 ));
+        }
+
+        /**
+         * Subscribe to events sent by native app.
+         *
+         * @private
+         * @param {Strophe.Connection} stropheConn - Established xmpp connection object.
+         * @returns {void}
+         */
+        function _subscribeToNativeEvents(stropheConn: Strophe.Connection) {
+            const XmppBridge = NativeModules.XmppBridge;
+            const xmppBridgeEmitter = new NativeEventEmitter(XmppBridge);
+
+            nativeEventListeners.push(xmppBridgeEmitter.addListener(NativeEvents.XMPP_POST_METHOD,
+                (data: NativeXmppPostMethodEventData) => handlePostMethodEvent(data, stropheConn, dispatch)));
+            nativeEventListeners.push(xmppBridgeEmitter.addListener(NativeEvents.XMPP_GET_METHOD,
+                (data: NativeXmppPostMethodEventData) => handleGetMethodEvent(data, stropheConn, dispatch)));
         }
 
         /**
@@ -306,6 +347,60 @@ function _constructOptions(state) {
     }
 
     return options;
+}
+
+/**
+ * Handle received xmpp post method events from native app. Parse method description and call the method.
+ *
+ * @param {NativeXmppPostMethodEventData} data - Description from native app about method call.
+ * @param {Strophe.Connection} stropheConn - Strophe xmpp connection object.
+ * @param {Dispatch<*>} dispatch - Redux dispatch method.
+ * @returns {any}
+ */
+function handlePostMethodEvent(data: NativeXmppPostMethodEventData,
+        stropheConn: Strophe.Connection,
+        dispatch: Dispatch<any>): any {
+    logger.info('Received method data', data);
+    const objToCall = data.plugin ? stropheConn[data.plugin] : stropheConn;
+    let params;
+
+    if (data.stringifiedParams) {
+        try {
+            params = JSON.parse(data.stringifiedParams);
+            params = params.map(param => convertXmppPostMethodParam(param, dispatch));
+        } catch (e) {
+            logger.error('Error occurred at parsing xmpp post method parameters', e);
+            params = [];
+        }
+    } else {
+        params = [];
+    }
+
+    try {
+        return objToCall[data.functionName](...params);
+    } catch (e) {
+        logger.error(`Error occurred at calling post method: 
+        stropheConnection${data.plugin ? `.${data.plugin}` : ''}.${data.functionName} with params`,
+            ...params,
+            e);
+    }
+}
+
+/**
+ * Handle received xmpp get method events from native app. Call method and send return value to native app.
+ *
+ * @param {NativeXmppPostMethodEventData} data - Description from native app about method call.
+ * @param {Strophe.Connection} stropheConn - Strophe xmpp connection object.
+ * @param {Dispatch<*>} dispatch - Redux dispatch method.
+ * @returns {any}
+ */
+function handleGetMethodEvent(data: NativeXmppPostMethodEventData,
+        stropheConn: Strophe.Connection,
+        dispatch: Dispatch<any>): void {
+    const result = handlePostMethodEvent(data, stropheConn, dispatch);
+
+    logger.info('Sending back to xmpp get method result', data.functionName, result);
+    dispatch(sendXmppResult(data.functionName, result));
 }
 
 /**

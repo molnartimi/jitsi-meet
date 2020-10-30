@@ -32,9 +32,23 @@
  * joining the new one.
  */
 - (void)join:(JitsiMeetConferenceOptions *_Nullable)options;
+
+
+/**
+ * Create xmpp connection with given config.
+ */
+- (void)xmppConnect:(JitsiMeetConferenceOptions *_Nullable)options;
 /**
  * Leaves the currently active conference.
  */
 - (void)leave;
+
+- (void)callXmppPostMethod:(NSString *_Nonnull)functionName
+     withStringifiedParams:(NSString *_Nonnull)params
+                withPlugin:(NSString *_Nullable)plugin;
+
+- (void)callXmppGetMethod:(NSString *_Nonnull)functionName
+    withStringifiedParams:(NSString *_Nonnull)params
+               withPlugin:(NSString *_Nullable)plugin;
 
 @end

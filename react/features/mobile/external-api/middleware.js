@@ -1,5 +1,7 @@
 // @flow
 
+import * as flatted from 'flatted/esm';
+
 import {
     CONFERENCE_FAILED,
     CONFERENCE_JOINED,
@@ -16,8 +18,10 @@ import {
     CONNECTION_FAILED,
     JITSI_CONNECTION_CONFERENCE_KEY,
     JITSI_CONNECTION_URL_KEY,
+    XMPP_RESULT,
     getURLWithoutParams
 } from '../../base/connection';
+import { getLogger } from '../../base/logging';
 import { MiddlewareRegistry } from '../../base/redux';
 import { ENTER_PICTURE_IN_PICTURE } from '../picture-in-picture';
 
@@ -37,6 +41,7 @@ const CONFERENCE_TERMINATED = 'CONFERENCE_TERMINATED';
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+    const logger = getLogger('features/mobile/external-api');
     const result = next(action);
     const { type } = action;
 
@@ -114,6 +119,26 @@ MiddlewareRegistry.register(store => next => action => {
     case SET_ROOM:
         _maybeTriggerEarlyConferenceWillJoin(store, action);
         break;
+
+    case XMPP_RESULT: {
+        try {
+            const value = action.value instanceof Object
+                ? flatted.stringify(action.value)
+                : action.value;
+
+            sendEvent(
+                store,
+                XMPP_RESULT,
+                {
+                    type: action.resultType,
+                    value
+                }
+            );
+        } catch (e) {
+            logger.error('Some error occurred at sending xmpp result event to native app', e);
+        }
+        break;
+    }
     }
 
     return result;

@@ -9,6 +9,7 @@ import {
 } from '../../analytics';
 import { openDisplayNamePrompt } from '../../display-name';
 import { showErrorNotification } from '../../notifications';
+import { isNativeApp } from '../app';
 import { CONNECTION_ESTABLISHED, CONNECTION_FAILED, connectionDisconnected } from '../connection';
 import { JitsiConferenceErrors } from '../lib-jitsi-meet';
 import { MEDIA_TYPE } from '../media';
@@ -68,10 +69,18 @@ MiddlewareRegistry.register(store => next => action => {
         return _conferenceJoined(store, next, action);
 
     case CONNECTION_ESTABLISHED:
-        return _connectionEstablished(store, next, action);
+        // In React Native, creating xmpp connection is independent from connection to Jitsi Conference
+        if (!isNativeApp()) {
+            return _connectionEstablished(store, next, action);
+        }
+        break;
 
     case CONNECTION_FAILED:
-        return _connectionFailed(store, next, action);
+        // In React Native, creating xmpp connection is independent from connection to Jitsi Conference
+        if (!isNativeApp()) {
+            return _connectionFailed(store, next, action);
+        }
+        break;
 
     case CONFERENCE_SUBJECT_CHANGED:
         return _conferenceSubjectChanged(store, next, action);

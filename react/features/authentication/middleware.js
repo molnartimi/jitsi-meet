@@ -8,7 +8,7 @@ import {
     CONFERENCE_JOINED,
     CONFERENCE_LEFT
 } from '../base/conference';
-import { connect, CONNECTION_ESTABLISHED, CONNECTION_FAILED, toJid } from '../base/connection';
+import { CONNECTION_ESTABLISHED, CONNECTION_FAILED } from '../base/connection';
 import { hideDialog, isDialogOpen } from '../base/dialog';
 import {
     JitsiConferenceErrors,
@@ -114,15 +114,7 @@ MiddlewareRegistry.register(store => next => action => {
                 && error.name === JitsiConnectionErrors.PASSWORD_REQUIRED
                 && typeof error.recoverable === 'undefined') {
             error.recoverable = true;
-
-            // instead of show login form, login user with credentials set by native app
-            const { jid, password } = _getCredentials(store.getState());
-
-            if (jid && password) {
-                store.dispatch(connect(jid, password));
-            } else {
-                store.dispatch(_openLoginDialog());
-            }
+            store.dispatch(_openLoginDialog());
         }
         break;
     }
@@ -182,21 +174,4 @@ function _hideLoginDialog({ dispatch }: { dispatch: Dispatch<any> }) {
  */
 function _isWaitingForOwner({ getState }: { getState: Function }) {
     return Boolean(getState()['features/authentication'].waitForOwnerTimeoutID);
-}
-
-/**
- * Read credentials from Redux state set by native app.
- *
- * @param {Object} state - The redux state.
- * @returns {{password: string, jid: string}}
- */
-function _getCredentials(state: Object) {
-    const { userId, password } = state['features/base/participants'].find(participant => participant.local);
-    const { hosts: configHosts } = state['features/base/config'];
-    const jid = toJid(userId, configHosts);
-
-    return {
-        jid,
-        password
-    };
 }
