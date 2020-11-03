@@ -62,21 +62,11 @@ class Toolbox extends PureComponent<Props> {
      * @returns {React$Node}
      */
     _renderToolbar() {
-        const { _styles } = this.props;
-        const { buttonStyles, buttonStylesBorderless, toggledButtonStyles } = _styles;
-
         return (
             <View
                 accessibilityRole = 'toolbar'
                 pointerEvents = 'box-none'
-                style = { styles.toolbar }>
-                <AudioMuteButton
-                    styles = { buttonStyles }
-                    toggledStyles = { toggledButtonStyles } />
-                <VideoMuteButton
-                    styles = { buttonStyles }
-                    toggledStyles = { toggledButtonStyles } />
-            </View>
+                style = { styles.toolbar } />
         );
     }
 }

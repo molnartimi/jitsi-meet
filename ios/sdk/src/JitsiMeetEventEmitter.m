@@ -10,9 +10,11 @@
 
 #import "JitsiMeetEventEmitter+Private.h"
 #import "XmppBridge.h"
+#import "VideoConfBridge.h"
 
 @implementation JitsiMeetEventEmitter {
     XmppBridge *_xmppBridge;
+    VideoConfBridge *_videoConfBridge;
 }
    
 #pragma mark Singleton Method
@@ -28,8 +30,20 @@
 
 #pragma mark Public methods
 
-- (void)registerBridge:(XmppBridge *)bridge {
+- (void)registerXmppBridge:(XmppBridge *)bridge {
     _xmppBridge = bridge;
+}
+
+- (void)registerVideoConfBridge:(VideoConfBridge *)bridge {
+    _videoConfBridge = bridge;
+}
+
+- (void)joinConference:(NSString *_Nonnull)dataJsonString {
+    [_videoConfBridge join:dataJsonString];
+}
+
+- (void)leaveConference {
+    [_videoConfBridge leave];
 }
 
 - (void)callPostMethod:(NSString *)functionName
@@ -46,6 +60,14 @@
     [_xmppBridge callGetMethod:functionName
           withStringifiedParams:params
                      withPlugin:plugin];
+}
+
+- (void)muteMedia:(NSString *_Nonnull)dataJsonString {
+    [_videoConfBridge muteMedia:dataJsonString];
+}
+
+- (void)switchCamera {
+    [_videoConfBridge switchCamera];
 }
 
 @end

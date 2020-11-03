@@ -15,11 +15,15 @@
 @interface JitsiMeetEventEmitter : NSObject
 
 + (id)sharedEmitter;
+- (void)joinConference:(NSString *_Nonnull)dataJsonString;
+- (void)leaveConference;
 - (void)callPostMethod:(NSString *_Nonnull)functionName
  withStringifiedParams:(NSString *_Nonnull)params
             withPlugin:(NSString *_Nullable)plugin;
 - (void)callGetMethod:(NSString *_Nonnull)functionName
 withStringifiedParams:(NSString *_Nonnull)params
            withPlugin:(NSString *_Nullable)plugin;
+- (void)muteMedia:(NSString *_Nonnull)dataJsonString;
+- (void)switchCamera;
 
 @end

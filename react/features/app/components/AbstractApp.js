@@ -5,8 +5,9 @@ import { NativeEventEmitter, NativeModules } from 'react-native';
 
 import { BaseApp } from '../../base/app';
 import { storeConfig } from '../../base/config';
-import { toURLString } from '../../base/util';
 import { NativeEvents } from '../../base/constants';
+import { muteMedia, toggleCameraFacingMode } from '../../base/media';
+import { toURLString } from '../../base/util';
 import { OverlayContainer } from '../../overlay';
 import { appNavigate, appConnect, appJoinRoom, appLeaveRoom } from '../actions';
 import { getDefaultURL } from '../functions';
@@ -191,14 +192,20 @@ export class AbstractApp extends BaseApp<Props, *> {
     _subscribeToNativeEvents() {
         const VideoConfBridge = NativeModules.VideoConfBridge;
         const videoConfBridgeEmitter = new NativeEventEmitter(VideoConfBridge);
+        const dispatch = this.state.store.dispatch;
 
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.VIDEOCONF_JOIN,
-            (roomName: string) => {
+            (dataJsonString: string) => {
+                const { roomName, audioMuted, videoMuted } = JSON.parse(dataJsonString);
                 this.props.url.room = roomName;
-                this.state.store.dispatch(appJoinRoom(this.props.url.serverURL, this.props.url.room));
+                this.state.store.dispatch(appJoinRoom(this.props.url.serverURL, roomName, audioMuted, videoMuted));
             }));
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.VIDEOCONF_LEAVE,
-            () => this.state.store.dispatch(appLeaveRoom())));
+            () => dispatch(appLeaveRoom())));
+        this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.MUTE_MEDIA,
+            (dataJsonString: string) => dispatch(muteMedia(dataJsonString, this.state.store.dispatch))));
+        this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.SWITCH_CAMERA,
+            () => dispatch(toggleCameraFacingMode())));
     }
 
 }

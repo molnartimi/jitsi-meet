@@ -8,10 +8,12 @@
 
 #import "JitsiMeetEventEmitter.h"
 #import "XmppBridge.h"
+#import "VideoConfBridge.h"
 
 @interface JitsiMeetEventEmitter ()
 
-- (void)registerBridge:(XmppBridge *_Nonnull)bridge;
+- (void)registerXmppBridge:(XmppBridge *_Nonnull)bridge;
+- (void)registerVideoConfBridge:(VideoConfBridge *_Nonnull)bridge;
 
 @end
 

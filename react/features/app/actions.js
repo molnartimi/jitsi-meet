@@ -5,6 +5,8 @@ import type { Dispatch } from 'redux';
 import { API_ID } from '../../../modules/API/constants';
 import { isNativeApp } from '../base/app';
 import { setRoom } from '../base/conference';
+import { createConference, conferenceLeft, conferenceWillLeave } from '../base/conference/actions';
+import { getCurrentConference } from '../base/conference/functions';
 import {
     configWillLoad,
     createFakeConfig,
@@ -17,6 +19,7 @@ import { connect, disconnect, setLocationURL, toJid } from '../base/connection';
 import { loadConfig } from '../base/lib-jitsi-meet';
 import { MEDIA_TYPE } from '../base/media';
 import { toState } from '../base/redux';
+import { updateSettings } from '../base/settings';
 import { createDesiredLocalTracks, isLocalVideoTrackMuted, isLocalTrackMuted } from '../base/tracks';
 import {
     addHashParamsToURL,
@@ -28,8 +31,6 @@ import {
 import { isVpaasMeeting } from '../billing-counter/functions';
 import { clearNotifications, showNotification } from '../notifications';
 import { setFatalError } from '../overlay';
-import { createConference, conferenceLeft, conferenceWillLeave } from '../base/conference/actions';
-import { getCurrentConference } from '../base/conference/functions';
 
 import {
     getDefaultURL,
@@ -151,12 +152,19 @@ export function appNavigate(uri: ?string) {
 /**
  * Joins a conference room.
  *
- * @param {string} serverURL - Base URL to which to navigate
- * @param {string} roomName - Conference room name
+ * @param {string} serverURL - Base URL to which to navigate.
+ * @param {string} roomName - Conference room name.
+ * @param {boolean} audioMuted - If microphone should start muted.
+ * @param {boolean} videoMuted - If camera should start muted.
  * @returns {Function}
  */
-export function appJoinRoom(serverURL: string, roomName: string) {
+export function appJoinRoom(serverURL: string, roomName: string, audioMuted: boolean, videoMuted: boolean) {
     return async (dispatch: Dispatch<any>) => {
+        dispatch(updateSettings({
+            startWithAudioMuted: audioMuted,
+            startWithVideoMuted: videoMuted
+        }));
+
         const locationURL = new URL(`${serverURL}/${roomName}`);
 
         dispatch(setLocationURL(locationURL));

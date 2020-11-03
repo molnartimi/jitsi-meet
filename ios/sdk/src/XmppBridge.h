@@ -8,10 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-#import <React/RCTBridgeModule.h>
-#import <React/RCTEventEmitter.h>
+#import "BridgeBase.h"
 
-@interface XmppBridge : RCTEventEmitter <RCTBridgeModule>
+@interface XmppBridge : BridgeBase
 
 - (void)callPostMethod:(NSString *_Nonnull) functionName
  withStringifiedParams:(NSString *_Nonnull) params

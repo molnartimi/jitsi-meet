@@ -180,6 +180,24 @@ public class JitsiMeetView extends BaseReactView<JitsiMeetViewListener>
     }
 
     /**
+     * Mute/unmute mic/cam described by stringified data json parameter:
+     * {
+     *   kind: 'audioinput' or 'videoinput',
+     *   muted: boolean
+     * }
+     */
+    public void muteMedia(String dataJsonString) {
+        VideoConfBridge.muteMedia(dataJsonString);
+    }
+
+    /**
+     * Switch camera between front-back.
+     */
+    public void switchCamera() {
+        VideoConfBridge.switchCamera();
+    }
+
+    /**
      * Sends an Xmpp post method to React Native through XmppBridge.
      */
     public void callXmppPostMethod(Object data) {

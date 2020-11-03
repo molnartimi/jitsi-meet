@@ -48,21 +48,12 @@ MiddlewareRegistry.register(store => next => action => {
  * @returns {void}
  */
 function _alertPermissionErrorWithSettings(trackType) {
-    // TODO i18n
-    const deviceType = trackType === 'video' ? 'Camera' : 'Microphone';
-
-    /* eslint-disable indent */
-
-    const message
-        = `${deviceType
-            } permission is required to participate in conferences with ${
-            trackType}. Please grant it in Settings.`;
-
-    /* eslint-ensable indent */
+    const deviceType = trackType === 'video' ? 'camera' : 'microphone';
+    const uppercaseDeviceType = trackType === 'video' ? 'Camera' : 'Microphone';
 
     Alert.alert(
-        'Permission required',
-        message,
+        `Unable to access ${deviceType}`,
+        `Allow cabi to access your ${deviceType} from device menu: "Settings" - "Privacy" - "${uppercaseDeviceType}"`,
         [
             { text: 'Cancel' },
             {

@@ -1,20 +1,14 @@
 // @flow
 
-import UIEvents from '../../../../service/UI/UIEvents';
 import {
     ACTION_SHORTCUT_TRIGGERED,
     VIDEO_MUTE,
     createShortcutEvent,
-    createToolbarEvent,
     sendAnalytics
 } from '../../analytics';
-import { setAudioOnly } from '../../base/audio-only';
 import { hasAvailableDevices } from '../../base/devices';
 import { translate } from '../../base/i18n';
-import {
-    VIDEO_MUTISM_AUTHORITY,
-    setVideoMuted
-} from '../../base/media';
+import { muteVideo } from '../../base/media';
 import { connect } from '../../base/redux';
 import { AbstractVideoMuteButton } from '../../base/toolbox/components';
 import type { AbstractButtonProps } from '../../base/toolbox/components';
@@ -152,24 +146,7 @@ class VideoMuteButton extends AbstractVideoMuteButton<Props, *> {
      * @returns {void}
      */
     _setVideoMuted(videoMuted: boolean) {
-        sendAnalytics(createToolbarEvent(VIDEO_MUTE, { enable: videoMuted }));
-        if (this.props._audioOnly) {
-            this.props.dispatch(
-                setAudioOnly(false, /* ensureTrack */ true));
-        }
-        const mediaType = this.props._videoMediaType;
-
-        this.props.dispatch(
-            setVideoMuted(
-                videoMuted,
-                mediaType,
-                VIDEO_MUTISM_AUTHORITY.USER,
-                /* ensureTrack */ true));
-
-        // FIXME: The old conference logic still relies on this event being
-        // emitted.
-        typeof APP === 'undefined'
-            || APP.UI.emitEvent(UIEvents.VIDEO_MUTED, videoMuted, true);
+        muteVideo(videoMuted, this.props.dispatch, this.props._videoMediaType, this.props._audioOnly);
     }
 }
 

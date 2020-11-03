@@ -33,22 +33,53 @@
  */
 - (void)join:(JitsiMeetConferenceOptions *_Nullable)options;
 
-
 /**
  * Create xmpp connection with given config.
  */
 - (void)xmppConnect:(JitsiMeetConferenceOptions *_Nullable)options;
+
 /**
- * Leaves the currently active conference.
+ * Joins the specified conference room. Stringified parameter contains the room name and the initial muted state of the medias.
+ * Other config options are already set by xmppConnect.
+ */
+- (void)joinConference:(NSString *_Nonnull)dataJsonString;
+
+/**
+ * Leaves the currently active conference and also disconnect from Strophe.
  */
 - (void)leave;
 
+/**
+ * Leaves the currently active conference without tearing down the established Xmpp Connection.
+ */
+- (void)leaveConference;
+
+/**
+ * Sends an Xmpp post method to React Native through XmppBridge.
+ */
 - (void)callXmppPostMethod:(NSString *_Nonnull)functionName
      withStringifiedParams:(NSString *_Nonnull)params
                 withPlugin:(NSString *_Nullable)plugin;
 
+/**
+ * Sends an Xmpp get method to React Native through XmppBridge.
+ */
 - (void)callXmppGetMethod:(NSString *_Nonnull)functionName
     withStringifiedParams:(NSString *_Nonnull)params
                withPlugin:(NSString *_Nullable)plugin;
+
+/**
+ * Mute/unmute mic/cam described by stringified data json parameter:
+ * {
+ *   kind: 'audioinput' or 'videoinput',
+ *   muted: boolean
+ * }
+ */
+- (void)muteMedia:(NSString *_Nonnull)dataJsonString;
+
+/**
+ * Switch camera between front-back.
+ */
+- (void)switchCamera;
 
 @end
