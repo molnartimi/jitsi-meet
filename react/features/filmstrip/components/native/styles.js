@@ -18,11 +18,11 @@ export default {
      * The display name container.
      */
     displayNameContainer: {
-        alignSelf: 'center',
         bottom: 0,
-        flex: 1,
-        margin: 4,
-        position: 'absolute'
+        margin: 0,
+        position: 'absolute',
+        width: '100%',
+        textAlign: 'center'
     },
 
     /**
@@ -84,16 +84,12 @@ export default {
         alignItems: 'stretch',
         backgroundColor: ColorPalette.appBackground,
         borderColor: '#424242',
-        borderRadius: 3,
         borderStyle: 'solid',
         borderWidth: 1,
         flex: 1,
-        height: 80,
         justifyContent: 'center',
-        margin: 2,
         overflow: 'hidden',
         position: 'relative',
-        width: 80
     },
 
     /**
@@ -123,16 +119,18 @@ export default {
     },
 
     tileView: {
-        alignSelf: 'center'
+        alignSelf: 'flex-start',
+        alignContent: 'center'
     },
 
     tileViewRows: {
-        justifyContent: 'center'
+        justifyContent: 'flex-start'
     },
 
     tileViewRow: {
         flexDirection: 'row',
-        justifyContent: 'center'
+        justifyContent: 'flex-start',
+
     }
 };
 
@@ -152,7 +150,7 @@ ColorSchemeRegistry.register('Thumbnail', {
      * Coloring if the thumbnail background.
      */
     participantViewStyle: {
-        backgroundColor: schemeColor('background')
+        backgroundColor: schemeColor('background'),
     },
 
     /**

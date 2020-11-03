@@ -1,18 +1,18 @@
 // @flow
-
 import React from 'react';
 import { View } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import type { Dispatch } from 'redux';
 
+
 import { ColorSchemeRegistry } from '../../../base/color-scheme';
-import { openDialog } from '../../../base/dialog';
-import { MEDIA_TYPE, VIDEO_TYPE } from '../../../base/media';
+import { MEDIA_TYPE } from '../../../base/media';
 import {
-    PARTICIPANT_ROLE,
-    ParticipantView,
     getParticipantCount,
     isEveryoneModerator,
-    pinParticipant
+    PARTICIPANT_ROLE,
+    ParticipantView,
+    pinParticipant,
 } from '../../../base/participants';
 import { Container } from '../../../base/react';
 import { connect } from '../../../base/redux';
@@ -20,9 +20,9 @@ import { StyleType } from '../../../base/styles';
 import { getTrackByMediaTypeAndParticipant } from '../../../base/tracks';
 import { DisplayNameLabel } from '../../../display-name';
 import { toggleToolboxVisible } from '../../../toolbox/actions.native';
-
-import DominantSpeakerIndicator from './DominantSpeakerIndicator';
 import styles, { AVATAR_SIZE } from './styles';
+
+
 
 /**
  * Thumbnail component's property types.
@@ -137,12 +137,14 @@ function Thumbnail(props: Props) {
                 avatarSize = { tileView ? AVATAR_SIZE * 1.5 : AVATAR_SIZE }
                 participantId = { participantId }
                 style = { _styles.participantViewStyle }
-                tintEnabled = { participantInLargeVideo && !disableTint }
+                tintEnabled = { !disableTint }
                 tintStyle = { _styles.activeThumbnailTint }
                 zOrder = { 1 } />
 
             { renderDisplayName && <Container style = { styles.displayNameContainer }>
-                <DisplayNameLabel participantId = { participantId } />
+               <LinearGradient colors={['rgba(0,0,0,0.0)', 'rgba(0,0,0,0.40)']}>
+                    <DisplayNameLabel participantId = { participantId } />
+               </LinearGradient>
             </Container> }
 
             { !participant.isFakeParticipant && <View
