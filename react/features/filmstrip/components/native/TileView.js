@@ -131,21 +131,7 @@ class TileView extends Component<Props> {
      * @private
      */
     _getColumnCount() {
-        const participantCount = this.props._participants.length;
-
-        // For narrow view, tiles should stack on top of each other for a lonely
-        // call and a 1:1 call. Otherwise tiles should be grouped into rows of
-        // two.
-        if (this.props._aspectRatio === ASPECT_RATIO_NARROW) {
-            return participantCount >= 3 ? 2 : 1;
-        }
-
-        if (participantCount === 4) {
-            // In wide view, a four person call should display as a 2x2 grid.
-            return 2;
-        }
-
-        return Math.min(3, participantCount);
+        return 2;
     }
 
     /**
@@ -239,9 +225,8 @@ class TileView extends Component<Props> {
     _renderThumbnails() {
         const styleOverrides = {
             aspectRatio: TILE_ASPECT_RATIO,
-            flex: 0,
-            height: this._getTileDimensions().height,
-            width: null
+            minHeight: this._getTileDimensions().height,
+            maxWidth: this._getTileDimensions().width * 1.05
         };
 
         return this._getSortedParticipants()
