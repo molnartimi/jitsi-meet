@@ -58,19 +58,8 @@ export class AbstractApp extends BaseApp<Props, *> {
         super.componentDidMount();
 
         this._init.then(() => {
-            if (typeof this.props.configJsonString === 'string'
-                    && typeof this.props.userInfo.userId === 'string'
-                    && typeof this.props.userInfo.password === 'string') {
-                // handle config set by native app
-                try {
-                    const config = JSON.parse(this.props.configJsonString);
-
-                    this._storeConfig(config);
-                    this._connectToXmppServer(config, this.props.userInfo.userId, this.props.userInfo.password);
-                    this._subscribeToNativeEvents();
-                } catch (e) {
-                    logger.error('Something went wrong at parsing config json string', e);
-                }
+            if (this._hasNativeConfigs()) {
+                this._connectToXmppServer();
             } else {
                 // If a URL was explicitly specified to this React Component, then
                 // open it; otherwise, use a default.
@@ -98,7 +87,11 @@ export class AbstractApp extends BaseApp<Props, *> {
                     // XXX Refer to the implementation of loadURLObject: in
                     // ios/sdk/src/JitsiMeetView.m for further information.
                     || previousTimestamp !== currentTimestamp) {
-                this._openURL(currentUrl || this._getDefaultURL());
+                if (this._hasNativeConfigs()) {
+                    this._connectToXmppServer();
+                } else {
+                    this._openURL(currentUrl || this._getDefaultURL());
+                }
             }
         });
     }
@@ -157,6 +150,18 @@ export class AbstractApp extends BaseApp<Props, *> {
     }
 
     /**
+     * Is config and user credentials given by native app?
+     *
+     * @private
+     * @returns {boolean}
+     */
+    _hasNativeConfigs() {
+        return typeof this.props.configJsonString === 'string'
+            && typeof this.props.userInfo.userId === 'string'
+            && typeof this.props.userInfo.password === 'string';
+    }
+
+    /**
      * Connect to xmpp server with config, userId and password.
      *
      * @param {Object|string} config - Xmpp server config.
@@ -165,8 +170,17 @@ export class AbstractApp extends BaseApp<Props, *> {
      * @private
      * @returns {void}
      */
-    _connectToXmppServer(config, userId, password) {
-        this.state.store.dispatch(appConnect(config, userId, password));
+    _connectToXmppServer() {
+        // handle config set by native app
+        try {
+            const config = JSON.parse(this.props.configJsonString);
+
+            this._storeConfig(config);
+            this.state.store.dispatch(appConnect(config, this.props.userInfo.userId, this.props.userInfo.password));
+            this._subscribeToNativeEvents();
+        } catch (e) {
+            logger.error('Something went wrong at parsing config json string', e);
+        }
     }
 
     /**
