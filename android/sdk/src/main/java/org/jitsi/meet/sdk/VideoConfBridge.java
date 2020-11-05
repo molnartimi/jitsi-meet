@@ -4,6 +4,8 @@
 
 package org.jitsi.meet.sdk;
 
+import org.jitsi.meet.sdk.ReactInstanceManagerHolder;
+
 public class VideoConfBridge {
 
     /**

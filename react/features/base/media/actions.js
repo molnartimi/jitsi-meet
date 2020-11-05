@@ -35,10 +35,10 @@ export function muteMedia(dataJsonString: string) {
         const { kind, muted } = JSON.parse(dataJsonString);
 
         switch (kind) {
-        case 'videoinput':
-            dispatch(muteVideo(muted, 'video')); // TODO audioOnly?
+        case MEDIA_TYPE.VIDEO:
+            dispatch(muteVideo(muted, MEDIA_TYPE.VIDEO));
             break;
-        case 'audioinput':
+        case MEDIA_TYPE.AUDIO:
             dispatch(muteLocal(muted));
             break;
         }

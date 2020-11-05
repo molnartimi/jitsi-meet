@@ -154,16 +154,13 @@ export function appNavigate(uri: ?string) {
  *
  * @param {string} serverURL - Base URL to which to navigate.
  * @param {string} roomName - Conference room name.
- * @param {boolean} audioMuted - If microphone should start muted.
- * @param {boolean} videoMuted - If camera should start muted.
+ * @param {boolean} startWithAudioMuted - If microphone should start muted.
+ * @param {boolean} startWithVideoMuted - If camera should start muted.
  * @returns {Function}
  */
-export function appJoinRoom(serverURL: string, roomName: string, audioMuted: boolean, videoMuted: boolean) {
+export function appJoinRoom(serverURL: string, roomName: string, startWithAudioMuted: boolean, startWithVideoMuted: boolean) {
     return async (dispatch: Dispatch<any>) => {
-        dispatch(updateSettings({
-            startWithAudioMuted: audioMuted,
-            startWithVideoMuted: videoMuted
-        }));
+        dispatch(updateSettings({ startWithAudioMuted, startWithVideoMuted }));
 
         const locationURL = new URL(`${serverURL}/${roomName}`);
 

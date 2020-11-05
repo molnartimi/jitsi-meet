@@ -48,12 +48,11 @@ MiddlewareRegistry.register(store => next => action => {
  * @returns {void}
  */
 function _alertPermissionErrorWithSettings(trackType) {
-    const deviceType = trackType === 'video' ? 'camera' : 'microphone';
-    const uppercaseDeviceType = trackType === 'video' ? 'Camera' : 'Microphone';
+    const deviceType = trackType === 'video' ? 'Camera' : 'Microphone';
 
     Alert.alert(
-        `Unable to access ${deviceType}`,
-        `Allow cabi to access your ${deviceType} from device menu: "Settings" - "Privacy" - "${uppercaseDeviceType}"`,
+        `Unable to access ${deviceType.toLowerCase()}`,
+        `Allow cabi to access your ${deviceType.toLowerCase()} from device menu: "Settings" - "Privacy" - "${deviceType}"`,
         [
             { text: 'Cancel' },
             {
