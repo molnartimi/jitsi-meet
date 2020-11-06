@@ -24,7 +24,7 @@ export default {
     avatarContent: (size: number = DEFAULT_SIZE) => {
         return {
             height: size,
-            width: size,
+            width: size
         };
     },
 

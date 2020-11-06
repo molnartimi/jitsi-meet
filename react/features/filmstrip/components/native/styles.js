@@ -25,6 +25,14 @@ export default {
         textAlign: 'center'
     },
 
+    notDominantSpeaker: {
+        paddingBottom: 4,
+    },
+
+    dominantSpeaker: {
+        paddingBottom: 0 
+    },
+
     /**
      * The style of the narrow {@link Filmstrip} version which displays
      * thumbnails in a row at the bottom of the screen.
@@ -129,8 +137,7 @@ export default {
 
     tileViewRow: {
         flexDirection: 'row',
-        justifyContent: 'flex-start',
-
+        justifyContent: 'flex-start'
     }
 };
 
@@ -138,6 +145,15 @@ export default {
  * Color schemed styles for the @{code Thumbnail} component.
  */
 ColorSchemeRegistry.register('Thumbnail', {
+
+    /**
+     * Dominant speaker style
+     */
+    dominantSpeaker: {
+        borderWidth: 8,
+        borderStyle: 'solid',
+        borderColor: schemeColor('cabiPink')
+    },
 
     /**
      * Tinting style of the on-stage participant thumbnail.

@@ -74,6 +74,4 @@ export function getTileViewGridDimensions(state: Object, maxColumns: number = ge
  */
 export function shouldDisplayTileView(state: Object = {}) {
     return true;
-
-   
 }
