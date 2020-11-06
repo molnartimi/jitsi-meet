@@ -161,8 +161,7 @@ export default class StatelessAvatar extends AbstractStatelessAvatar<Props> {
                 onError = { onAvatarLoadError }
                 resizeMode = 'cover'
                 source = {{ uri: url }}
-                style = { styles.avatarContent(size) } 
-            />
+                style = { styles.avatarContent(size) } />
         );
     }
 }

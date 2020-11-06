@@ -68,6 +68,8 @@ const MARGIN = 10;
  */
 const TILE_ASPECT_RATIO = 1;
 
+const COLUMN_COUNT = 2;
+
 /**
  * Implements a React {@link Component} which displays thumbnails in a two
  * dimensional grid.
@@ -101,7 +103,7 @@ class TileView extends Component<Props> {
      */
     render() {
         const { _height, _width, onClick } = this.props;
-        const rowElements = this._groupIntoRows(this._renderThumbnails(), this._getColumnCount());
+        const rowElements = this._groupIntoRows(this._renderThumbnails(), COLUMN_COUNT);
 
         return (
             <ScrollView
@@ -124,15 +126,6 @@ class TileView extends Component<Props> {
         );
     }
 
-    /**
-     * Returns how many columns should be displayed for tile view.
-     *
-     * @returns {number}
-     * @private
-     */
-    _getColumnCount() {
-        return 2;
-    }
 
     /**
      * Returns all participants with the local participant at the end.
@@ -165,7 +158,7 @@ class TileView extends Component<Props> {
      */
     _getTileDimensions() {
         const { _height, _participants, _width } = this.props;
-        const columns = this._getColumnCount();
+        const columns = COLUMN_COUNT;
         const participantCount = _participants.length;
         const heightToUse = _height - (MARGIN * 2);
         const widthToUse = _width - (MARGIN * 2);
@@ -232,7 +225,6 @@ class TileView extends Component<Props> {
         return this._getSortedParticipants()
             .map(participant => (
                 <Thumbnail
-                    disableTint = { true }
                     key = { participant.id }
                     participant = { participant }
                     renderDisplayName = { true }
