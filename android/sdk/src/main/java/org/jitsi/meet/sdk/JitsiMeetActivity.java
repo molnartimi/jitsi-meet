@@ -232,4 +232,9 @@ public class JitsiMeetActivity extends FragmentActivity
     public void onXmppResult(Map<String, Object> data) {
         JitsiMeetLogger.i("Xmpp result: " + data);
     }
+
+    @Override
+    public void onTrackAdded(Map<String, Object> data) {
+        JitsiMeetLogger.i("Track added: " + data);
+    }
 }

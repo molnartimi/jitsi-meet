@@ -55,4 +55,11 @@ public interface JitsiMeetViewListener {
      * and a "value" key carrying event specific data.
      */
     void onXmppResult(Map<String, Object> data);
+
+    /**
+     * Called whenever a local track is created.
+     * @param data Map with a "kind" key stating the track type
+     * and a "muted" stringified boolean value.
+     */
+    void onTrackAdded(Map<String, Object> data);
 }

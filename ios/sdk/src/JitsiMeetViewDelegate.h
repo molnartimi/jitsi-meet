@@ -52,6 +52,16 @@
  * - value: value of result
 */
 - (void)xmppResult:(NSDictionary *)data;
+
+/**
+ * Called when a local track created.
+ *
+ * The `data` dictionary contains:
+ * - kind: 'video' or 'audio'
+ * - muted: stringified boolean value
+*/
+- (void)trackAdded:(NSDictionary *)data;
+
 /**
  * Called when entering Picture-in-Picture is requested by the user. The app
  * should now activate its Picture-in-Picture implementation (and resize the
