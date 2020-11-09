@@ -48,6 +48,10 @@ public class JitsiMeetConferenceOptions implements Parcelable {
      * JWT token used for authentication.
      */
     private String token;
+    /**
+     * Jitsi conference config used instead of remote config.js, json object as string.
+     */
+    private String configJsonString;
 
     /**
      * Color scheme override, see: https://github.com/jitsi/jitsi-meet/blob/dbedee5e22e5dcf9c92db96ef5bb3c9982fc526d/react/features/base/color-scheme/defaultScheme.js
@@ -88,6 +92,10 @@ public class JitsiMeetConferenceOptions implements Parcelable {
         return token;
     }
 
+    public String getConfigJsonString() {
+        return configJsonString;
+    }
+
     public Bundle getColorScheme() {
         return colorScheme;
     }
@@ -120,6 +128,7 @@ public class JitsiMeetConferenceOptions implements Parcelable {
         private String room;
         private String subject;
         private String token;
+        private String configJsonString;
 
         private Bundle colorScheme;
         private Bundle featureFlags;
@@ -174,6 +183,17 @@ public class JitsiMeetConferenceOptions implements Parcelable {
          */
         public Builder setToken(String token) {
             this.token = token;
+
+            return this;
+        }
+
+        /**
+         * Sets the Jitsi conference config to be used instead of remote config.js.
+         * @param configJsonString - Jitsi conference config, json object as a string.
+         * @return - The {@link Builder} object itself so the method calls can be chained.
+         */
+        public Builder setConfigJsonString(String configJsonString) {
+            this.configJsonString = configJsonString;
 
             return this;
         }
@@ -273,6 +293,7 @@ public class JitsiMeetConferenceOptions implements Parcelable {
             options.room = this.room;
             options.subject = this.subject;
             options.token = this.token;
+            options.configJsonString = this.configJsonString;
             options.colorScheme = this.colorScheme;
             options.featureFlags = this.featureFlags;
             options.audioMuted = this.audioMuted;
@@ -292,6 +313,7 @@ public class JitsiMeetConferenceOptions implements Parcelable {
         room = in.readString();
         subject = in.readString();
         token = in.readString();
+        configJsonString = in.readString();
         colorScheme = in.readBundle();
         featureFlags = in.readBundle();
         userInfo = new JitsiMeetUserInfo(in.readBundle());
@@ -350,6 +372,10 @@ public class JitsiMeetConferenceOptions implements Parcelable {
             urlProps.putString("jwt", token);
         }
 
+        if (configJsonString != null) {
+            props.putString("configJsonString", configJsonString);
+        }
+
         if (userInfo != null) {
             props.putBundle("userInfo", userInfo.asBundle());
         }
@@ -381,6 +407,7 @@ public class JitsiMeetConferenceOptions implements Parcelable {
         dest.writeString(room);
         dest.writeString(subject);
         dest.writeString(token);
+        dest.writeString(configJsonString);
         dest.writeBundle(colorScheme);
         dest.writeBundle(featureFlags);
         dest.writeBundle(userInfo != null ? userInfo.asBundle() : new Bundle());

@@ -28,6 +28,8 @@ import {
 import { isVpaasMeeting } from '../billing-counter/functions';
 import { clearNotifications, showNotification } from '../notifications';
 import { setFatalError } from '../overlay';
+import { createConference, conferenceLeft, conferenceWillLeave } from '../base/conference/actions';
+import { getCurrentConference } from '../base/conference/functions';
 
 import {
     getDefaultURL,
@@ -143,6 +145,54 @@ export function appNavigate(uri: ?string) {
             dispatch(createDesiredLocalTracks());
             dispatch(connect());
         }
+    };
+}
+
+/**
+ * Joins a conference room.
+ *
+ * @param {string} serverURL - Base URL to which to navigate
+ * @param {string} roomName - Conference room name
+ * @returns {Function}
+ */
+export function appJoinRoom(serverURL: string, roomName: string) {
+    return async (dispatch: Dispatch<any>) => {
+        const locationURL = new URL(`${serverURL}/${roomName}`);
+
+        dispatch(setLocationURL(locationURL));
+        dispatch(setRoom(roomName));
+
+        if (isNativeApp()) {
+            dispatch(createDesiredLocalTracks());
+            dispatch(createConference());
+        }
+    };
+}
+
+/**
+ * Leaves the currently active conference room.
+ *
+ * @returns {Function}
+ */
+export function appLeaveRoom() {
+    return async (dispatch: Dispatch<any>, getState: Function) => {
+        const state = getState();
+        const conference_ = getCurrentConference(state);
+        dispatch(conferenceWillLeave(conference_));
+
+        return conference_.leave()
+                .catch(error => {
+                    logger.warn(
+                        'JitsiConference.leave() rejected with:',
+                        error);
+
+                    // The library lib-jitsi-meet failed to make the
+                    // JitsiConference leave. Which may be because
+                    // JitsiConference thinks it has already left.
+                    // Regardless of the failure reason, continue in
+                    // jitsi-meet as if the leave has succeeded.
+                    dispatch(conferenceLeft(conference_));
+                });
     };
 }
 

@@ -1,12 +1,14 @@
 // @flow
 
 import React, { Fragment } from 'react';
+import { NativeEventEmitter, NativeModules } from 'react-native';
 
 import { BaseApp } from '../../base/app';
 import { storeConfig } from '../../base/config';
 import { toURLString } from '../../base/util';
+import { NativeEvents } from '../../base/constants';
 import { OverlayContainer } from '../../overlay';
-import { appNavigate, appConnect } from '../actions';
+import { appNavigate, appConnect, appJoinRoom, appLeaveRoom } from '../actions';
 import { getDefaultURL } from '../functions';
 import logger from '../logger';
 
@@ -44,6 +46,7 @@ export type Props = {
  */
 export class AbstractApp extends BaseApp<Props, *> {
     _init: Promise<*>;
+    nativeEventListeners = [];
 
     /**
      * Initializes the app.
@@ -63,6 +66,7 @@ export class AbstractApp extends BaseApp<Props, *> {
 
                     this._storeConfig(config);
                     this._connectToXmppServer(config, this.props.userInfo.userId, this.props.userInfo.password);
+                    this._subscribeToNativeEvents();
                 } catch (e) {
                     logger.error('Something went wrong at parsing config json string', e);
                 }
@@ -96,6 +100,18 @@ export class AbstractApp extends BaseApp<Props, *> {
                 this._openURL(currentUrl || this._getDefaultURL());
             }
         });
+    }
+
+    /**
+     * Implements React Component's componentWillUnmount.
+     *
+     * @inheritdoc
+     */
+    componentWillUnmount() {
+        if (this.nativeEventListeners) {
+            this.nativeEventListeners.forEach(listener => listener.remove());
+            this.nativeEventListeners = [];
+        }
     }
 
     /**
@@ -160,9 +176,29 @@ export class AbstractApp extends BaseApp<Props, *> {
      * @returns {void}
      */
     _storeConfig(config) {
-        const url = `${this.props.url.serverURL}/${this.props.url.room}`;
+        const url = `${this.props.url.serverURL}`;
 
         logger.info('Config from native app: \n', config);
         this.state.store.dispatch(storeConfig(url, config));
     }
+
+    /**
+     * Subscribe to events sent by native app.
+     *
+     * @private
+     * @returns {void}
+     */
+    _subscribeToNativeEvents() {
+        const VideoConfBridge = NativeModules.VideoConfBridge;
+        const videoConfBridgeEmitter = new NativeEventEmitter(VideoConfBridge);
+
+        this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.VIDEOCONF_JOIN,
+            (roomName: string) => {
+                this.props.url.room = roomName;
+                this.state.store.dispatch(appJoinRoom(this.props.url.serverURL, this.props.url.room));
+            }));
+        this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.VIDEOCONF_LEAVE,
+            () => this.state.store.dispatch(appLeaveRoom())));
+    }
+
 }

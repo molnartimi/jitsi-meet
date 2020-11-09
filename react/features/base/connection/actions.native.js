@@ -19,7 +19,8 @@ import {
     CONNECTION_WILL_CONNECT,
     SET_LOCATION_URL
 } from './actionTypes';
-import { JITSI_CONNECTION_URL_KEY, NativeEvents, ResponseEventsToNative } from './constants';
+import { JITSI_CONNECTION_URL_KEY } from './constants';
+import { NativeEvents, ResponseEventsToNative } from '../constants';
 import { convertXmppPostMethodParam, getStropheConnection, sendXmppResult } from './functions';
 import logger from './logger';
 
@@ -379,7 +380,7 @@ function handlePostMethodEvent(data: NativeXmppPostMethodEventData,
     try {
         return objToCall[data.functionName](...params);
     } catch (e) {
-        logger.error(`Error occurred at calling post method: 
+        logger.error(`Error occurred at calling post method:
         stropheConnection${data.plugin ? `.${data.plugin}` : ''}.${data.functionName} with params`,
             ...params,
             e);
