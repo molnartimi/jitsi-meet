@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 
 import AudioMuteButton from './AudioMuteButton';
-import HangupButton from './HangupButton';
 import VideoMuteButton from './VideoMuteButton';
 
 /**
@@ -52,7 +51,6 @@ export default class Toolbar extends Component<Props> {
                 onMouseOut = { onMouseOut }
                 onMouseOver = { onMouseOver }>
                 <AudioMuteButton />
-                <HangupButton />
                 <VideoMuteButton />
             </div>
         );

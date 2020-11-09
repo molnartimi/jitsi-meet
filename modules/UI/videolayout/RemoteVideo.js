@@ -19,7 +19,6 @@ import {
 import { PresenceLabel } from '../../../react/features/presence-status';
 import {
     REMOTE_CONTROL_MENU_STATES,
-    RemoteVideoMenuTriggerButton
 } from '../../../react/features/remote-video-menu';
 import { LAYOUTS, getCurrentLayout } from '../../../react/features/video-layout';
 /* eslint-enable no-unused-vars */
@@ -201,24 +200,6 @@ export default class RemoteVideo extends SmallVideo {
             remoteMenuPosition = 'top center';
         }
 
-        ReactDOM.render(
-            <Provider store = { APP.store }>
-                <I18nextProvider i18n = { i18next }>
-                    <AtlasKitThemeProvider mode = 'dark'>
-                        <RemoteVideoMenuTriggerButton
-                            initialVolumeValue = { initialVolumeValue }
-                            isAudioMuted = { this.isAudioMuted }
-                            menuPosition = { remoteMenuPosition }
-                            onMenuDisplay
-                                = {this._onRemoteVideoMenuDisplay.bind(this)}
-                            onRemoteControlToggle = { onRemoteControlToggle }
-                            onVolumeChange = { onVolumeChange }
-                            participantID = { participantID }
-                            remoteControlState = { remoteControlState } />
-                    </AtlasKitThemeProvider>
-                </I18nextProvider>
-            </Provider>,
-            remoteVideoMenuContainer);
     }
 
     /**

@@ -7,13 +7,10 @@ import { ColorSchemeRegistry } from '../../../base/color-scheme';
 import { Container } from '../../../base/react';
 import { connect } from '../../../base/redux';
 import { StyleType } from '../../../base/styles';
-import { ChatButton } from '../../../chat';
 import { isToolboxVisible } from '../../functions';
 import AudioMuteButton from '../AudioMuteButton';
-import HangupButton from '../HangupButton';
 import VideoMuteButton from '../VideoMuteButton';
 
-import OverflowMenuButton from './OverflowMenuButton';
 import styles from './styles';
 
 /**
@@ -58,37 +55,6 @@ class Toolbox extends PureComponent<Props> {
     }
 
     /**
-     * Constructs the toggled style of the chat button. This cannot be done by
-     * simple style inheritance due to the size calculation done in this
-     * component.
-     *
-     * @param {Object} baseStyle - The base style that was originally
-     * calculated.
-     * @returns {Object | Array}
-     */
-    _getChatButtonToggledStyle(baseStyle) {
-        const { _styles } = this.props;
-
-        if (Array.isArray(baseStyle.style)) {
-            return {
-                ...baseStyle,
-                style: [
-                    ...baseStyle.style,
-                    _styles.chatButtonOverride.toggled
-                ]
-            };
-        }
-
-        return {
-            ...baseStyle,
-            style: [
-                baseStyle.style,
-                _styles.chatButtonOverride.toggled
-            ]
-        };
-    }
-
-    /**
      * Renders the toolbar. In order to avoid a weird visual effect in which the
      * toolbar is (visually) rendered and then visibly changes its size, it is
      * rendered only after we've figured out the width available to the toolbar.
@@ -97,26 +63,18 @@ class Toolbox extends PureComponent<Props> {
      */
     _renderToolbar() {
         const { _styles } = this.props;
-        const { buttonStyles, buttonStylesBorderless, hangupButtonStyles, toggledButtonStyles } = _styles;
+        const { buttonStyles, buttonStylesBorderless, toggledButtonStyles } = _styles;
 
         return (
             <View
                 accessibilityRole = 'toolbar'
                 pointerEvents = 'box-none'
                 style = { styles.toolbar }>
-                <ChatButton
-                    styles = { buttonStylesBorderless }
-                    toggledStyles = { this._getChatButtonToggledStyle(toggledButtonStyles) } />
                 <AudioMuteButton
                     styles = { buttonStyles }
                     toggledStyles = { toggledButtonStyles } />
-                <HangupButton
-                    styles = { hangupButtonStyles } />
                 <VideoMuteButton
                     styles = { buttonStyles }
-                    toggledStyles = { toggledButtonStyles } />
-                <OverflowMenuButton
-                    styles = { buttonStylesBorderless }
                     toggledStyles = { toggledButtonStyles } />
             </View>
         );
