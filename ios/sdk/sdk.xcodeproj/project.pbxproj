@@ -25,6 +25,8 @@
 		0BCA49611EC4B6C600B793EE /* Proximity.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCA495E1EC4B6C600B793EE /* Proximity.m */; };
 		0BD906EA1EC0C00300C8C18E /* JitsiMeet.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BD906E81EC0C00300C8C18E /* JitsiMeet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0F65EECE1D95DA94561BB47E /* libPods-JitsiMeet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 03F2ADC957FF109849B7FCA1 /* libPods-JitsiMeet.a */; };
+		4D0F11D1254AFECA005903B7 /* VideoConfBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D0F11D0254AFECA005903B7 /* VideoConfBridge.m */; };
+		4D0F11D6254B0071005903B7 /* BridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D0F11D5254B0071005903B7 /* BridgeBase.m */; };
 		4DA94A1825304893008A0EA2 /* XmppBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DA94A1725304893008A0EA2 /* XmppBridge.m */; };
 		4DE2B14825348B8700DCBDE9 /* XmppBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DA94A5525304E28008A0EA2 /* XmppBridge.h */; };
 		4DE2B1542534A93300DCBDE9 /* JitsiMeetEventEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DE2B1522534A93300DCBDE9 /* JitsiMeetEventEmitter.h */; };
@@ -91,6 +93,10 @@
 		0BD906E51EC0C00300C8C18E /* JitsiMeet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JitsiMeet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BD906E81EC0C00300C8C18E /* JitsiMeet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JitsiMeet.h; sourceTree = "<group>"; };
 		0BD906E91EC0C00300C8C18E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4D0F11CF254AFE7E005903B7 /* VideoConfBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoConfBridge.h; sourceTree = "<group>"; };
+		4D0F11D0254AFECA005903B7 /* VideoConfBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoConfBridge.m; sourceTree = "<group>"; };
+		4D0F11D4254B0062005903B7 /* BridgeBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgeBase.h; sourceTree = "<group>"; };
+		4D0F11D5254B0071005903B7 /* BridgeBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BridgeBase.m; sourceTree = "<group>"; };
 		4DA94A1725304893008A0EA2 /* XmppBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XmppBridge.m; sourceTree = "<group>"; };
 		4DA94A5525304E28008A0EA2 /* XmppBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XmppBridge.h; sourceTree = "<group>"; };
 		4DE2B1522534A93300DCBDE9 /* JitsiMeetEventEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JitsiMeetEventEmitter.h; sourceTree = "<group>"; };
@@ -244,6 +250,10 @@
 				C8AFD27E2462C613000293D2 /* InfoPlistUtil.m */,
 				4DA94A1725304893008A0EA2 /* XmppBridge.m */,
 				4DA94A5525304E28008A0EA2 /* XmppBridge.h */,
+				4D0F11CF254AFE7E005903B7 /* VideoConfBridge.h */,
+				4D0F11D0254AFECA005903B7 /* VideoConfBridge.m */,
+				4D0F11D4254B0062005903B7 /* BridgeBase.h */,
+				4D0F11D5254B0071005903B7 /* BridgeBase.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -498,6 +508,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0BB9AD7B1F5EC8F4001C08DB /* CallKit.m in Sources */,
+				4D0F11D6254B0071005903B7 /* BridgeBase.m in Sources */,
 				4DA94A1825304893008A0EA2 /* XmppBridge.m in Sources */,
 				DE81A2DF2317ED5400AE1940 /* JitsiMeetBaseLogHandler.m in Sources */,
 				0BB9AD7D1F60356D001C08DB /* AppInfo.m in Sources */,
@@ -519,6 +530,7 @@
 				C6A34261204EF76800E062DD /* DragGestureController.swift in Sources */,
 				4DE2B1552534A93300DCBDE9 /* JitsiMeetEventEmitter.m in Sources */,
 				A4A934E9212F3ADB001E9388 /* Dropbox.m in Sources */,
+				4D0F11D1254AFECA005903B7 /* VideoConfBridge.m in Sources */,
 				C69EFA0D209A0F660027712B /* JMCallKitProxy.swift in Sources */,
 				DE81A2D52316AC4D00AE1940 /* JitsiMeetLogger.m in Sources */,
 				C69EFA0E209A0F660027712B /* JMCallKitListener.swift in Sources */,

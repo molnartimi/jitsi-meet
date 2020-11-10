@@ -11,63 +11,39 @@
 #import "JitsiMeetEventEmitter+Private.h"
 
 @implementation XmppBridge
-{
-  BOOL _hasListeners;
-}
+
+static NSString *const POST_EVENT = @"org.jitsi.meet:features/xmpp-bridge#xmpp-post-method";
+static NSString *const GET_EVENT = @"org.jitsi.meet:features/xmpp-bridge#xmpp-get-method";
 
 RCT_EXPORT_MODULE();
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        [[JitsiMeetEventEmitter sharedEmitter] registerBridge:self];
-    }
-    return self;
-}
-
 - (NSArray<NSString *> *)supportedEvents
 {
-  return @[@"org.jitsi.meet:features/xmpp-bridge#xmpp-post-method",
-           @"org.jitsi.meet:features/xmpp-bridge#xmpp-get-method"];
+  return @[POST_EVENT, GET_EVENT];
 }
 
-// Will be called when this module's first listener is added.
-- (void)startObserving
-{
-  _hasListeners = YES;
-}
-
-// Will be called when this module's last listener is removed, or on dealloc.
-- (void)stopObserving
-{
-  _hasListeners = NO;
+- (void)registerSelfToEventEmitter {
+    [[JitsiMeetEventEmitter sharedEmitter] registerXmppBridge:self];
 }
 
 - (void)callPostMethod:(NSString *)functionName
  withStringifiedParams:(NSArray *)params
-            withPlugin:(NSString *)plugin
-{
-  if (_hasListeners) {
-    [self sendEventWithName:@"org.jitsi.meet:features/xmpp-bridge#xmpp-post-method" body:@{
+            withPlugin:(NSString *)plugin {
+    [self sendEvent:POST_EVENT body:@{
         @"functionName" : functionName,
         @"stringifiedParams": params,
         @"plugin": plugin == nil ? @"" : plugin
     }];
-  }
 }
 
 - (void)callGetMethod:(NSString *)functionName
  withStringifiedParams:(NSArray *)params
-            withPlugin:(NSString *)plugin
-{
-  if (_hasListeners) {
-    [self sendEventWithName:@"org.jitsi.meet:features/xmpp-bridge#xmpp-get-method" body:@{
+            withPlugin:(NSString *)plugin {
+    [self sendEvent:GET_EVENT body:@{
         @"functionName" : functionName,
         @"stringifiedParams": params,
         @"plugin": plugin == nil ? @"" : plugin
     }];
-  }
 }
 
 @end

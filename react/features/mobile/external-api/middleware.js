@@ -23,6 +23,7 @@ import {
 } from '../../base/connection';
 import { getLogger } from '../../base/logging';
 import { MiddlewareRegistry } from '../../base/redux';
+import { TRACK_ADDED } from '../../base/tracks';
 import { ENTER_PICTURE_IN_PICTURE } from '../picture-in-picture';
 
 import { sendEvent } from './functions';
@@ -137,6 +138,13 @@ MiddlewareRegistry.register(store => next => action => {
         } catch (e) {
             logger.error('Some error occurred at sending xmpp result event to native app', e);
         }
+        break;
+    }
+    case TRACK_ADDED: {
+        sendEvent(store, TRACK_ADDED, {
+            kind: action.track.mediaType,
+            muted: action.track.muted.toString() // sending boolean caused error in Android code
+        });
         break;
     }
     }

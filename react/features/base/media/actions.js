@@ -2,6 +2,11 @@
 
 import type { Dispatch } from 'redux';
 
+import UIEvents from '../../../../service/UI/UIEvents';
+import { createToolbarEvent, sendAnalytics, VIDEO_MUTE } from '../../analytics';
+import { muteLocal } from '../../remote-video-menu/actions';
+import { setAudioOnly } from '../audio-only';
+
 import {
     SET_AUDIO_MUTED,
     SET_AUDIO_AVAILABLE,
@@ -16,6 +21,29 @@ import {
     MEDIA_TYPE,
     VIDEO_MUTISM_AUTHORITY
 } from './constants';
+
+declare var APP: Object;
+
+/**
+ * Mute a local track.
+ *
+ * @param {string} dataJsonString - Stringified params containing the media type and the target mute state.
+ * @returns {Function}
+ */
+export function muteMedia(dataJsonString: string) {
+    return async (dispatch: Dispatch<any>) => {
+        const { kind, muted } = JSON.parse(dataJsonString);
+
+        switch (kind) {
+        case MEDIA_TYPE.VIDEO:
+            dispatch(muteVideo(muted, MEDIA_TYPE.VIDEO));
+            break;
+        case MEDIA_TYPE.AUDIO:
+            dispatch(muteLocal(muted));
+            break;
+        }
+    };
+}
 
 /**
  * Action to adjust the availability of the local audio.
@@ -118,6 +146,35 @@ export function setVideoMuted(
             ensureTrack,
             muted: newValue
         });
+    };
+}
+
+/**
+ * Changes the muted state.
+ *
+ * @override
+ * @param {boolean} muted - Whether video should be muted or not.
+ * @protected
+ * @returns {void}
+ */
+export function muteVideo(muted: boolean, mediaType: string, audioOnly: boolean) {
+    return async (dispatch: Dispatch<any>) => {
+        sendAnalytics(createToolbarEvent(VIDEO_MUTE, { enable: muted }));
+        if (audioOnly) {
+            dispatch(setAudioOnly(false, /* ensureTrack */ true));
+        }
+
+        dispatch(
+            setVideoMuted(
+                muted,
+                mediaType,
+                VIDEO_MUTISM_AUTHORITY.USER,
+                /* ensureTrack */ true));
+
+        // FIXME: The old conference logic still relies on this event being
+        // emitted.
+        typeof APP === 'undefined'
+        || APP.UI.emitEvent(UIEvents.VIDEO_MUTED, muted, true);
     };
 }
 

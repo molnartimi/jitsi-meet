@@ -119,8 +119,16 @@ static void initializeViewsMap() {
     [self setProps:options == nil ? @{} : [options asProps]];
 }
 
+- (void)joinConference:(NSString *_Nonnull)dataJsonString {
+    [eventEmitter joinConference:dataJsonString];
+}
+
 - (void)leave {
     [self setProps:@{}];
+}
+
+- (void)leaveConference {
+    [eventEmitter leaveConference];
 }
 
 - (void)callXmppPostMethod:(NSString *)functionName
@@ -137,6 +145,14 @@ static void initializeViewsMap() {
     [eventEmitter callGetMethod:functionName
            withStringifiedParams:params
                       withPlugin:plugin];
+}
+
+- (void)muteMedia:(NSString *_Nonnull)dataJsonString {
+    [eventEmitter muteMedia:dataJsonString];
+}
+
+- (void)switchCamera {
+    [eventEmitter switchCamera];
 }
 
 #pragma mark Private methods

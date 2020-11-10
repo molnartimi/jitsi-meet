@@ -55,6 +55,13 @@ declare var APP: Object;
 let beforeUnloadHandler;
 
 /**
+ * Interval to send ping messages.
+ */
+let pingMessageInterval;
+
+const PING_MESSAGE_INTERVAL = 10000;
+
+/**
  * Implements the middleware of the feature base/conference.
  *
  * @param {Store} store - The redux store.
@@ -220,6 +227,9 @@ function _conferenceJoined({ dispatch, getState }, next, action) {
         dispatch(openDisplayNamePrompt(undefined));
     }
 
+    conference.sendTextMessage('');
+    pingMessageInterval = setInterval(() => conference.sendTextMessage(''), PING_MESSAGE_INTERVAL);
+
     return result;
 }
 
@@ -350,6 +360,9 @@ function _conferenceWillLeave() {
     if (typeof beforeUnloadHandler !== 'undefined') {
         window.removeEventListener('beforeunload', beforeUnloadHandler);
         beforeUnloadHandler = undefined;
+    }
+    if (pingMessageInterval) {
+        clearInterval(pingMessageInterval);
     }
 }
 
