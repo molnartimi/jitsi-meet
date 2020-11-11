@@ -1,8 +1,5 @@
 // @flow
 
-import { getPinnedParticipant, getParticipantCount } from '../base/participants';
-import { isYoutubeVideoPlaying } from '../youtube-player/functions';
-
 import { LAYOUTS } from './constants';
 
 declare var interfaceConfig: Object;
