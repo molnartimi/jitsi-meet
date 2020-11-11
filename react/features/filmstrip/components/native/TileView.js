@@ -2,14 +2,13 @@
 
 import React, { Component } from 'react';
 import {
-    ScrollView,
     TouchableWithoutFeedback,
     View
 } from 'react-native';
+import Swiper from 'react-native-swiper';
 import type { Dispatch } from 'redux';
 
 import { connect } from '../../../base/redux';
-import { ASPECT_RATIO_NARROW } from '../../../base/responsive-ui/constants';
 import { setTileViewDimensions } from '../../actions.native';
 
 import Thumbnail from './Thumbnail';
@@ -102,30 +101,56 @@ class TileView extends Component<Props> {
      * @returns {ReactElement}
      */
     render() {
-        const { _height, _width, onClick } = this.props;
+        const { onClick } = this.props;
         const rowElements = this._groupIntoRows(this._renderThumbnails(), COLUMN_COUNT);
+        const pageOrderedThumbnails = this._groupThumbnailsByPages(rowElements);
 
         return (
-            <ScrollView
-                style = {{
-                    ...styles.tileView,
-                    height: _height,
-                    width: _width
-                }}>
-                <TouchableWithoutFeedback onPress = { onClick }>
-                    <View
-                        style = {{
-                            ...styles.tileViewRows,
-                            minHeight: _height,
-                            minWidth: _width
-                        }}>
-                        { rowElements }
-                    </View>
-                </TouchableWithoutFeedback>
-            </ScrollView>
+            <TouchableWithoutFeedback
+                onPress = { onClick }
+                style = { styles.tileView }>
+                <Swiper
+                    loopJump = { false }
+                    showsButtons = { false }
+                    showsPagination = { false }>
+                    {this._getUserPages(pageOrderedThumbnails)}
+                </Swiper>
+            </TouchableWithoutFeedback>
         );
     }
 
+    _groupThumbnailsByPages(rowElements) {
+        const pageOrderedThumbnails = [];
+
+        for (let i = 0; i < rowElements.length; i += 3) {
+            pageOrderedThumbnails.push(rowElements.slice(i, i + 3));
+        }
+
+        return pageOrderedThumbnails;
+    }
+
+    /**
+     * Returns the page grids with user thumbnails from {@link userGrid}.
+     *
+     * @param {[][]} userGrid - User page matrix.
+     *
+     * @private
+     * @returns {ReactElement[]}
+     */
+    _getUserPages(userGrid) {
+        return userGrid.map((page, pageIndex) =>
+            (<View
+                key = { pageIndex }
+                style = { styles.tileColumns }>
+                {page.map((row, rowIndex) =>
+                    (<View
+                        key = { rowIndex + pageIndex }
+                        style = { styles.tileRows }>
+                        {row}
+                    </View>)
+                )}
+            </View>));
+    }
 
     /**
      * Returns all participants with the local participant at the end.
@@ -189,23 +214,18 @@ class TileView extends Component<Props> {
      * @returns {ReactElement[]}
      */
     _groupIntoRows(thumbnails, rowLength) {
-        const rowElements = [];
+        const finalRows = [];
+        let inRow = [];
 
-        for (let i = 0; i < thumbnails.length; i++) {
-            if (i % rowLength === 0) {
-                const thumbnailsInRow = thumbnails.slice(i, i + rowLength);
-
-                rowElements.push(
-                    <View
-                        key = { rowElements.length }
-                        style = { styles.tileViewRow }>
-                        { thumbnailsInRow }
-                    </View>
-                );
+        thumbnails.forEach((thumbnail, index) => {
+            inRow.push(thumbnail);
+            if ((index + 1) % rowLength === 0 || thumbnails.length === (index + 1)) {
+                finalRows.push(inRow);
+                inRow = [];
             }
-        }
+        });
 
-        return rowElements;
+        return finalRows;
     }
 
     /**
@@ -219,17 +239,102 @@ class TileView extends Component<Props> {
         const styleOverrides = {
             aspectRatio: TILE_ASPECT_RATIO,
             minHeight: this._getTileDimensions().height,
-            maxWidth: this._getTileDimensions().width * 1.05
+            maxWidth: this._getTileDimensions().height
         };
 
-        return this._getSortedParticipants()
+        const elements = [];
+
+        elements.push(this._getSortedParticipants()
+            .map(participant => (
+                <Thumbnail
+                    disableTint = { true }
+                    key = { participant.id }
+                    participant = { participant }
+                    renderDisplayName = { true }
+                    styleOverrides = { styleOverrides }
+                    tileView = { true } />)));
+        elements.push(this._getSortedParticipants()
             .map(participant => (
                 <Thumbnail
                     key = { participant.id }
                     participant = { participant }
                     renderDisplayName = { true }
                     styleOverrides = { styleOverrides }
-                    tileView = { true } />));
+                    tileView = { true } />)));
+        elements.push(this._getSortedParticipants()
+            .map(participant => (
+                <Thumbnail
+                    disableTint = { true }
+                    key = { participant.id }
+                    participant = { participant }
+                    renderDisplayName = { true }
+                    styleOverrides = { styleOverrides }
+                    tileView = { true } />)));
+        elements.push(this._getSortedParticipants()
+            .map(participant => (
+                <Thumbnail
+                    disableTint = { true }
+                    key = { participant.id }
+                    participant = { participant }
+                    renderDisplayName = { true }
+                    styleOverrides = { styleOverrides }
+                    tileView = { true } />)));
+        elements.push(this._getSortedParticipants()
+            .map(participant => (
+                <Thumbnail
+                    disableTint = { true }
+                    key = { participant.id }
+                    participant = { participant }
+                    renderDisplayName = { true }
+                    styleOverrides = { styleOverrides }
+                    tileView = { true } />)));
+        elements.push(this._getSortedParticipants()
+            .map(participant => (
+                <Thumbnail
+                    disableTint = { true }
+                    key = { participant.id }
+                    participant = { participant }
+                    renderDisplayName = { true }
+                    styleOverrides = { styleOverrides }
+                    tileView = { true } />)));
+        elements.push(this._getSortedParticipants()
+            .map(participant => (
+                <Thumbnail
+                    disableTint = { true }
+                    key = { participant.id }
+                    participant = { participant }
+                    renderDisplayName = { true }
+                    styleOverrides = { styleOverrides }
+                    tileView = { true } />)));
+        elements.push(this._getSortedParticipants()
+            .map(participant => (
+                <Thumbnail
+                    disableTint = { true }
+                    key = { participant.id }
+                    participant = { participant }
+                    renderDisplayName = { true }
+                    styleOverrides = { styleOverrides }
+                    tileView = { true } />)));
+        elements.push(this._getSortedParticipants()
+            .map(participant => (
+                <Thumbnail
+                    disableTint = { true }
+                    key = { participant.id }
+                    participant = { participant }
+                    renderDisplayName = { true }
+                    styleOverrides = { styleOverrides }
+                    tileView = { true } />)));
+        elements.push(this._getSortedParticipants()
+            .map(participant => (
+                <Thumbnail
+                    disableTint = { true }
+                    key = { participant.id }
+                    participant = { participant }
+                    renderDisplayName = { true }
+                    styleOverrides = { styleOverrides }
+                    tileView = { true } />)));
+
+        return elements;
     }
 
     /**
