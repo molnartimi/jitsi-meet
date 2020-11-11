@@ -119,6 +119,14 @@ class TileView extends Component<Props> {
         );
     }
 
+    /**
+     * Splits a list of thumbnail rows into Pages with a maximum of 3 rows in each.
+     *
+     * @param {Array} rowElements - The list of thumbnailrows that should be split
+     * into separate page groupings.
+     * @private
+     * @returns {ReactElement[]}
+     */
     _groupThumbnailsByPages(rowElements) {
         const pageOrderedThumbnails = [];
 
