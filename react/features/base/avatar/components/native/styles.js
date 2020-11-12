@@ -14,7 +14,6 @@ export default {
     avatarContainer: (size: number = DEFAULT_SIZE) => {
         return {
             alignItems: 'center',
-            borderRadius: size / 2,
             height: size,
             justifyContent: 'center',
             overflow: 'hidden',
@@ -76,8 +75,4 @@ export default {
         };
     },
 
-    staticAvatar: {
-        backgroundColor: ColorPalette.lightGrey,
-        opacity: 0.4
-    }
 };

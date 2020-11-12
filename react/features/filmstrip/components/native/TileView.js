@@ -68,6 +68,8 @@ const MARGIN = 10;
  */
 const TILE_ASPECT_RATIO = 1;
 
+const COLUMN_COUNT = 2;
+
 /**
  * Implements a React {@link Component} which displays thumbnails in a two
  * dimensional grid.
@@ -101,7 +103,7 @@ class TileView extends Component<Props> {
      */
     render() {
         const { _height, _width, onClick } = this.props;
-        const rowElements = this._groupIntoRows(this._renderThumbnails(), this._getColumnCount());
+        const rowElements = this._groupIntoRows(this._renderThumbnails(), COLUMN_COUNT);
 
         return (
             <ScrollView
@@ -124,29 +126,6 @@ class TileView extends Component<Props> {
         );
     }
 
-    /**
-     * Returns how many columns should be displayed for tile view.
-     *
-     * @returns {number}
-     * @private
-     */
-    _getColumnCount() {
-        const participantCount = this.props._participants.length;
-
-        // For narrow view, tiles should stack on top of each other for a lonely
-        // call and a 1:1 call. Otherwise tiles should be grouped into rows of
-        // two.
-        if (this.props._aspectRatio === ASPECT_RATIO_NARROW) {
-            return participantCount >= 3 ? 2 : 1;
-        }
-
-        if (participantCount === 4) {
-            // In wide view, a four person call should display as a 2x2 grid.
-            return 2;
-        }
-
-        return Math.min(3, participantCount);
-    }
 
     /**
      * Returns all participants with the local participant at the end.
@@ -179,7 +158,7 @@ class TileView extends Component<Props> {
      */
     _getTileDimensions() {
         const { _height, _participants, _width } = this.props;
-        const columns = this._getColumnCount();
+        const columns = COLUMN_COUNT;
         const participantCount = _participants.length;
         const heightToUse = _height - (MARGIN * 2);
         const widthToUse = _width - (MARGIN * 2);
@@ -239,15 +218,13 @@ class TileView extends Component<Props> {
     _renderThumbnails() {
         const styleOverrides = {
             aspectRatio: TILE_ASPECT_RATIO,
-            flex: 0,
-            height: this._getTileDimensions().height,
-            width: null
+            minHeight: this._getTileDimensions().height,
+            maxWidth: this._getTileDimensions().width * 1.05
         };
 
         return this._getSortedParticipants()
             .map(participant => (
                 <Thumbnail
-                    disableTint = { true }
                     key = { participant.id }
                     participant = { participant }
                     renderDisplayName = { true }
