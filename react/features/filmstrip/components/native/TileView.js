@@ -253,7 +253,6 @@ class TileView extends Component<Props> {
         return this._getSortedParticipants()
             .map(participant => (
                 <Thumbnail
-                    disableTint = { true }
                     key = { participant.id }
                     participant = { participant }
                     renderDisplayName = { true }
