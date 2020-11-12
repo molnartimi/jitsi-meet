@@ -128,10 +128,15 @@ class TileView extends Component<Props> {
      * @returns {ReactElement[]}
      */
     _groupThumbnailsByPages(rowElements) {
+        const { _height } = this.props;
+        const heightToUse = _height - (MARGIN * 2);
+        const tileHeight = this._getTileDimensions().height;
+        const column_count = Math.floor(heightToUse / tileHeight);
+
         const pageOrderedThumbnails = [];
 
-        for (let i = 0; i < rowElements.length; i += 3) {
-            pageOrderedThumbnails.push(rowElements.slice(i, i + 3));
+        for (let i = 0; i < rowElements.length; i += column_count) {
+            pageOrderedThumbnails.push(rowElements.slice(i, i + column_count));
         }
 
         return pageOrderedThumbnails;
@@ -223,15 +228,10 @@ class TileView extends Component<Props> {
      */
     _groupIntoRows(thumbnails, rowLength) {
         const finalRows = [];
-        let inRow = [];
 
-        thumbnails.forEach((thumbnail, index) => {
-            inRow.push(thumbnail);
-            if ((index + 1) % rowLength === 0 || thumbnails.length === (index + 1)) {
-                finalRows.push(inRow);
-                inRow = [];
-            }
-        });
+        for (let i = 0; i < thumbnails.length; i += rowLength) {
+            finalRows.push(thumbnails.slice(i, i + rowLength));
+        }
 
         return finalRows;
     }
@@ -247,12 +247,10 @@ class TileView extends Component<Props> {
         const styleOverrides = {
             aspectRatio: TILE_ASPECT_RATIO,
             minHeight: this._getTileDimensions().height,
-            maxWidth: this._getTileDimensions().height
+            maxWidth: this._getTileDimensions().width * 1.05
         };
 
-        const elements = [];
-
-        elements.push(this._getSortedParticipants()
+        return this._getSortedParticipants()
             .map(participant => (
                 <Thumbnail
                     disableTint = { true }
@@ -260,89 +258,7 @@ class TileView extends Component<Props> {
                     participant = { participant }
                     renderDisplayName = { true }
                     styleOverrides = { styleOverrides }
-                    tileView = { true } />)));
-        elements.push(this._getSortedParticipants()
-            .map(participant => (
-                <Thumbnail
-                    key = { participant.id }
-                    participant = { participant }
-                    renderDisplayName = { true }
-                    styleOverrides = { styleOverrides }
-                    tileView = { true } />)));
-        elements.push(this._getSortedParticipants()
-            .map(participant => (
-                <Thumbnail
-                    disableTint = { true }
-                    key = { participant.id }
-                    participant = { participant }
-                    renderDisplayName = { true }
-                    styleOverrides = { styleOverrides }
-                    tileView = { true } />)));
-        elements.push(this._getSortedParticipants()
-            .map(participant => (
-                <Thumbnail
-                    disableTint = { true }
-                    key = { participant.id }
-                    participant = { participant }
-                    renderDisplayName = { true }
-                    styleOverrides = { styleOverrides }
-                    tileView = { true } />)));
-        elements.push(this._getSortedParticipants()
-            .map(participant => (
-                <Thumbnail
-                    disableTint = { true }
-                    key = { participant.id }
-                    participant = { participant }
-                    renderDisplayName = { true }
-                    styleOverrides = { styleOverrides }
-                    tileView = { true } />)));
-        elements.push(this._getSortedParticipants()
-            .map(participant => (
-                <Thumbnail
-                    disableTint = { true }
-                    key = { participant.id }
-                    participant = { participant }
-                    renderDisplayName = { true }
-                    styleOverrides = { styleOverrides }
-                    tileView = { true } />)));
-        elements.push(this._getSortedParticipants()
-            .map(participant => (
-                <Thumbnail
-                    disableTint = { true }
-                    key = { participant.id }
-                    participant = { participant }
-                    renderDisplayName = { true }
-                    styleOverrides = { styleOverrides }
-                    tileView = { true } />)));
-        elements.push(this._getSortedParticipants()
-            .map(participant => (
-                <Thumbnail
-                    disableTint = { true }
-                    key = { participant.id }
-                    participant = { participant }
-                    renderDisplayName = { true }
-                    styleOverrides = { styleOverrides }
-                    tileView = { true } />)));
-        elements.push(this._getSortedParticipants()
-            .map(participant => (
-                <Thumbnail
-                    disableTint = { true }
-                    key = { participant.id }
-                    participant = { participant }
-                    renderDisplayName = { true }
-                    styleOverrides = { styleOverrides }
-                    tileView = { true } />)));
-        elements.push(this._getSortedParticipants()
-            .map(participant => (
-                <Thumbnail
-                    disableTint = { true }
-                    key = { participant.id }
-                    participant = { participant }
-                    renderDisplayName = { true }
-                    styleOverrides = { styleOverrides }
-                    tileView = { true } />)));
-
-        return elements;
+                    tileView = { true } />));
     }
 
     /**
