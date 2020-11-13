@@ -122,7 +122,7 @@ class TileView extends Component<Props> {
     /**
      * Splits a list of thumbnail rows into Pages with a maximum of 3 rows in each.
      *
-     * @param {Array} rowElements - The list of thumbnailrows that should be split
+     * @param {Array} rowElements - The list of thumbnail rows that should be split
      * into separate page groupings.
      * @private
      * @returns {ReactElement[]}
@@ -131,12 +131,12 @@ class TileView extends Component<Props> {
         const { _height } = this.props;
         const heightToUse = _height - (MARGIN * 2);
         const tileHeight = this._getTileDimensions().height;
-        const column_count = Math.floor(heightToUse / tileHeight);
+        const columnCount = Math.floor(heightToUse / tileHeight);
 
         const pageOrderedThumbnails = [];
 
-        for (let i = 0; i < rowElements.length; i += column_count) {
-            pageOrderedThumbnails.push(rowElements.slice(i, i + column_count));
+        for (let i = 0; i < rowElements.length; i += columnCount) {
+            pageOrderedThumbnails.push(rowElements.slice(i, i + columnCount));
         }
 
         return pageOrderedThumbnails;
