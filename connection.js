@@ -13,6 +13,7 @@ import {
     JitsiConnectionErrors,
     JitsiConnectionEvents
 } from './react/features/base/lib-jitsi-meet';
+import { UNDEFINED_JITSI_ERROR } from './react/features/mobile/external-api/actions';
 import { setPrejoinDisplayNameRequired } from './react/features/prejoin/actions';
 
 const logger = Logger.getLogger(__filename);
@@ -163,7 +164,13 @@ function connect(id, password, roomName) {
          */
         function handleConnectionFailed(err) {
             unsubscribe();
-            logger.error('CONNECTION FAILED:', err);
+            const localErrorMessage = 'Connection failed!';
+
+            logger.error(localErrorMessage, err);
+            APP.store.dispatch({
+                type: UNDEFINED_JITSI_ERROR,
+                message: localErrorMessage
+            });
             reject(err);
         }
 

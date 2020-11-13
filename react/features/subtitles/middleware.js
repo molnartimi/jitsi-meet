@@ -1,6 +1,7 @@
 // @flow
 
 import { MiddlewareRegistry } from '../base/redux';
+import { UNDEFINED_JITSI_ERROR } from '../mobile/external-api/actions';
 
 import {
     ENDPOINT_MESSAGE_RECEIVED,
@@ -152,8 +153,14 @@ function _endpointMessageReceived({ dispatch, getState }, next, action) {
                     transcriptMessageID,
                     newTranscriptMessage));
         }
-    } catch (error) {
-        logger.error('Error occurred while updating transcriptions\n', error);
+    } catch (err) {
+        const localErrorMessage = 'Error occured while updating transcriptions!';
+
+        logger.error(localErrorMessage, err);
+        dispatch({
+            type: UNDEFINED_JITSI_ERROR,
+            message: localErrorMessage
+        });
     }
 
     return next(action);

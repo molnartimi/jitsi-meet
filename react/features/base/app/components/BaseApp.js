@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import { compose, createStore } from 'redux';
 import Thunk from 'redux-thunk';
 
+import { UNDEFINED_JITSI_ERROR } from '../../../mobile/external-api/actions';
 import { i18next } from '../../i18n';
 import {
     MiddlewareRegistry,
@@ -87,7 +88,13 @@ export default class BaseApp extends Component<*, State> {
             .then(() => this.state.store.dispatch(appWillMount(this)))
             .catch(err => {
                 /* BaseApp should always initialize! */
-                logger.error(err);
+                const localErrorMessage = 'Base app can not initialize storage!';
+
+                logger.error(localErrorMessage, err);
+                APP.store.dispatch({
+                    type: UNDEFINED_JITSI_ERROR,
+                    message: localErrorMessage
+                });
             });
     }
 

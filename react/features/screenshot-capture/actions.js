@@ -1,6 +1,7 @@
 // @flow
 
 import { getLocalVideoTrack } from '../../features/base/tracks';
+import { UNDEFINED_JITSI_ERROR } from '../mobile/external-api/actions';
 import { createScreenshotCaptureEffect } from '../stream-effects/screenshot-capture';
 
 import { SET_SCREENSHOT_CAPTURE } from './actionTypes';
@@ -50,10 +51,16 @@ export function toggleScreenshotCaptureEffect(enabled: boolean) {
                         jitsiTrack.videoType
                     );
                     dispatch(setScreenshotCapture(enabled));
-                } catch {
+                } catch (err) {
 
                     // Handle promise rejection from {@code startEffect} due to stream type not being desktop.
-                    logger.error('Unsupported stream type.');
+                    const localErrorMessage = 'Unsupported stream type!';
+
+                    logger.error(localErrorMessage, err);
+                    dispatch({
+                        type: UNDEFINED_JITSI_ERROR,
+                        message: localErrorMessage
+                    });
                 }
             } else {
                 ongoingEffect.stopEffect();
