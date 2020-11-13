@@ -101,14 +101,18 @@ class TileView extends Component<Props> {
      * @returns {ReactElement}
      */
     render() {
-        const { onClick } = this.props;
+        const { _height, _width, onClick } = this.props;
         const rowElements = this._groupIntoRows(this._renderThumbnails(), COLUMN_COUNT);
         const pageOrderedThumbnails = this._groupThumbnailsByPages(rowElements);
 
         return (
             <TouchableWithoutFeedback
                 onPress = { onClick }
-                style = { styles.tileView }>
+                style = {{
+                    ...styles.tileView,
+                    height: _height,
+                    width: _width
+                }}>
                 <Swiper
                     loopJump = { false }
                     showsButtons = { false }
@@ -120,7 +124,8 @@ class TileView extends Component<Props> {
     }
 
     /**
-     * Splits a list of thumbnail rows into Pages with a maximum of 3 rows in each.
+     * Splits a list of thumbnail rows into Pages with a maximum
+     * of displayable rows at the actual screen.
      *
      * @param {Array} rowElements - The list of thumbnail rows that should be split
      * into separate page groupings.
