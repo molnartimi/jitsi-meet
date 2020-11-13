@@ -131,15 +131,6 @@ export default {
         alignContent: 'stretch'
     },
 
-    tileViewRows: {
-        justifyContent: 'flex-start'
-    },
-
-    tileViewRow: {
-        flexDirection: 'row',
-        justifyContent: 'flex-start'
-    },
-
     tileRows: {
         flexDirection: 'row',
         alignSelf: 'stretch',
