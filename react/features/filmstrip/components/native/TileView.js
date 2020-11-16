@@ -114,7 +114,7 @@ class TileView extends Component<Props> {
                     width: _width
                 }}>
                 <Swiper
-                    loopJump = { false }
+                    loop = { false }
                     showsButtons = { false }
                     showsPagination = { false }>
                     {this._getUserPages(pageOrderedThumbnails)}
@@ -256,6 +256,16 @@ class TileView extends Component<Props> {
         };
 
         return this._getSortedParticipants()
+            .concat(this._getSortedParticipants())
+            .concat(this._getSortedParticipants())
+            .concat(this._getSortedParticipants())
+            .concat(this._getSortedParticipants())
+            .concat(this._getSortedParticipants())
+            .concat(this._getSortedParticipants())
+            .concat(this._getSortedParticipants())
+            .concat(this._getSortedParticipants())
+            .concat(this._getSortedParticipants())
+            .concat(this._getSortedParticipants())
             .map(participant => (
                 <Thumbnail
                     key = { participant.id }
