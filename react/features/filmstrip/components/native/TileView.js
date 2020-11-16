@@ -256,16 +256,6 @@ class TileView extends Component<Props> {
         };
 
         return this._getSortedParticipants()
-            .concat(this._getSortedParticipants())
-            .concat(this._getSortedParticipants())
-            .concat(this._getSortedParticipants())
-            .concat(this._getSortedParticipants())
-            .concat(this._getSortedParticipants())
-            .concat(this._getSortedParticipants())
-            .concat(this._getSortedParticipants())
-            .concat(this._getSortedParticipants())
-            .concat(this._getSortedParticipants())
-            .concat(this._getSortedParticipants())
             .map(participant => (
                 <Thumbnail
                     key = { participant.id }
