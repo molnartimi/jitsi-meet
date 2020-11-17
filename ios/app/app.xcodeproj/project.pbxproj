@@ -31,6 +31,30 @@
 		DE4C456121DE1E4E00EA0709 /* FIRUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = DE4C455F21DE1E4E00EA0709 /* FIRUtilities.m */; };
 		E588011722789D43008B0561 /* JitsiMeetContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = E58801132278944E008B0561 /* JitsiMeetContext.swift */; };
 		E5C97B63227A1EB400199214 /* JitsiMeetCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C97B62227A1EB400199214 /* JitsiMeetCommands.swift */; };
+		47D2F2A42CA349798EB8A755 /* Archer-Book.svg in Resources */ = {isa = PBXBuildFile; fileRef = 8F71A877F6E7499282654DB8 /* Archer-Book.svg */; };
+		E4C49094A35C46DDAB081BB8 /* Archer-BookItalic.svg in Resources */ = {isa = PBXBuildFile; fileRef = FD72EFAEAE2A44E7AA178317 /* Archer-BookItalic.svg */; };
+		9A875931012044D6883B1ACF /* Montserrat Light.svg in Resources */ = {isa = PBXBuildFile; fileRef = 884852CB11594ADD83476A49 /* Montserrat Light.svg */; };
+		27F805DF478C45F28FA6054A /* Montserrat Regular.svg in Resources */ = {isa = PBXBuildFile; fileRef = 7EEF1292E3A145E591E3BEE6 /* Montserrat Regular.svg */; };
+		B0A7C3D0FFFF4116A0829274 /* OpenSans-Light-webfont.svg in Resources */ = {isa = PBXBuildFile; fileRef = 16086AC38CC84AC184267592 /* OpenSans-Light-webfont.svg */; };
+		192A793300914804AD7B0616 /* Archer-Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = E3D03AC171B14DB496524E7A /* Archer-Book.otf */; };
+		D1D123B67C59427E883F45AB /* Archer-Book.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DF995CBBB7224D368FB186D7 /* Archer-Book.ttf */; };
+		A61E4D7E399B4AB08969C267 /* Archer-Book.woff in Resources */ = {isa = PBXBuildFile; fileRef = 0B36D84B6AE645ABABAF2BE6 /* Archer-Book.woff */; };
+		D5EE5F1C8828434AAC76F750 /* Archer-Book.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = 226354AA3EF6408C84A8D4F5 /* Archer-Book.woff2 */; };
+		D01A0E34A0DF46FBADDEDA82 /* Archer-BookItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 46A30BF6E1354597B5ACB235 /* Archer-BookItalic.otf */; };
+		AB9B8363492A46959ADE9481 /* Archer-BookItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0598ACD602444945A600D2F3 /* Archer-BookItalic.ttf */; };
+		D91232A30A164313A088B3EB /* Archer-BookItalic.woff in Resources */ = {isa = PBXBuildFile; fileRef = C69860F60592489C80DB498E /* Archer-BookItalic.woff */; };
+		076216BBD592470C865B074C /* Archer-BookItalic.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = 8199A238A1DE4B548DF8C13B /* Archer-BookItalic.woff2 */; };
+		36DDFE09A2AC44AD81E7D373 /* Montserrat Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = B998BD584BE8407384B08660 /* Montserrat Light.otf */; };
+		459FC02234814596A6FEBB46 /* Montserrat Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D3AD632B861D4CBCBBA5A070 /* Montserrat Light.ttf */; };
+		E9075EF5925B4CEA8B6E6E43 /* Montserrat Light.woff in Resources */ = {isa = PBXBuildFile; fileRef = D447513BDE7D430BBAF9D797 /* Montserrat Light.woff */; };
+		C15E92902B4F479DBF055944 /* Montserrat Light.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = F440A91364194E2A98EF498A /* Montserrat Light.woff2 */; };
+		1BC7F16DAB4B4C989B04081D /* Montserrat Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 96846865657A43268A6DC5FB /* Montserrat Regular.ttf */; };
+		14D242562E7140708BDB8D80 /* Montserrat Regular.woff in Resources */ = {isa = PBXBuildFile; fileRef = 0750DD8E606C4D7D80D3E469 /* Montserrat Regular.woff */; };
+		3017C6FE227E424D90ADE3CF /* Montserrat Regular.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = 8009C1BB65C0472EB210A461 /* Montserrat Regular.woff2 */; };
+		4D3A4B62F042436782AD17D6 /* MontserratRegular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5DE8979A04C44434B292BF64 /* MontserratRegular.otf */; };
+		8172F473AA124743B6A6C9E7 /* OpenSans-Light-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2EA8C1B6264B4C58849AFA94 /* OpenSans-Light-webfont.ttf */; };
+		32A9764DC51546B1B327FB33 /* OpenSans-Light-webfont.woff in Resources */ = {isa = PBXBuildFile; fileRef = 3CECE8A772164465A6F5D7B0 /* OpenSans-Light-webfont.woff */; };
+		6B973A6AB5004B80840CEEA3 /* Montserrat Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = F979C97DFC204E15B2CDAAE1 /* Montserrat Regular.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,6 +145,30 @@
 		DE4C456021DE1E4E00EA0709 /* FIRUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FIRUtilities.h; sourceTree = "<group>"; };
 		E58801132278944E008B0561 /* JitsiMeetContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsiMeetContext.swift; sourceTree = "<group>"; };
 		E5C97B62227A1EB400199214 /* JitsiMeetCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsiMeetCommands.swift; sourceTree = "<group>"; };
+		8F71A877F6E7499282654DB8 /* Archer-Book.svg */ = {isa = PBXFileReference; name = "Archer-Book.svg"; path = "../../assets/fonts/Archer-Book.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		FD72EFAEAE2A44E7AA178317 /* Archer-BookItalic.svg */ = {isa = PBXFileReference; name = "Archer-BookItalic.svg"; path = "../../assets/fonts/Archer-BookItalic.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		884852CB11594ADD83476A49 /* Montserrat Light.svg */ = {isa = PBXFileReference; name = "Montserrat Light.svg"; path = "../../assets/fonts/Montserrat Light.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7EEF1292E3A145E591E3BEE6 /* Montserrat Regular.svg */ = {isa = PBXFileReference; name = "Montserrat Regular.svg"; path = "../../assets/fonts/Montserrat Regular.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		16086AC38CC84AC184267592 /* OpenSans-Light-webfont.svg */ = {isa = PBXFileReference; name = "OpenSans-Light-webfont.svg"; path = "../../assets/fonts/OpenSans-Light-webfont.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E3D03AC171B14DB496524E7A /* Archer-Book.otf */ = {isa = PBXFileReference; name = "Archer-Book.otf"; path = "../../assets/fonts/Archer-Book.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		DF995CBBB7224D368FB186D7 /* Archer-Book.ttf */ = {isa = PBXFileReference; name = "Archer-Book.ttf"; path = "../../assets/fonts/Archer-Book.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0B36D84B6AE645ABABAF2BE6 /* Archer-Book.woff */ = {isa = PBXFileReference; name = "Archer-Book.woff"; path = "../../assets/fonts/Archer-Book.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		226354AA3EF6408C84A8D4F5 /* Archer-Book.woff2 */ = {isa = PBXFileReference; name = "Archer-Book.woff2"; path = "../../assets/fonts/Archer-Book.woff2"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		46A30BF6E1354597B5ACB235 /* Archer-BookItalic.otf */ = {isa = PBXFileReference; name = "Archer-BookItalic.otf"; path = "../../assets/fonts/Archer-BookItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0598ACD602444945A600D2F3 /* Archer-BookItalic.ttf */ = {isa = PBXFileReference; name = "Archer-BookItalic.ttf"; path = "../../assets/fonts/Archer-BookItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C69860F60592489C80DB498E /* Archer-BookItalic.woff */ = {isa = PBXFileReference; name = "Archer-BookItalic.woff"; path = "../../assets/fonts/Archer-BookItalic.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8199A238A1DE4B548DF8C13B /* Archer-BookItalic.woff2 */ = {isa = PBXFileReference; name = "Archer-BookItalic.woff2"; path = "../../assets/fonts/Archer-BookItalic.woff2"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B998BD584BE8407384B08660 /* Montserrat Light.otf */ = {isa = PBXFileReference; name = "Montserrat Light.otf"; path = "../../assets/fonts/Montserrat Light.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D3AD632B861D4CBCBBA5A070 /* Montserrat Light.ttf */ = {isa = PBXFileReference; name = "Montserrat Light.ttf"; path = "../../assets/fonts/Montserrat Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D447513BDE7D430BBAF9D797 /* Montserrat Light.woff */ = {isa = PBXFileReference; name = "Montserrat Light.woff"; path = "../../assets/fonts/Montserrat Light.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F440A91364194E2A98EF498A /* Montserrat Light.woff2 */ = {isa = PBXFileReference; name = "Montserrat Light.woff2"; path = "../../assets/fonts/Montserrat Light.woff2"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		96846865657A43268A6DC5FB /* Montserrat Regular.ttf */ = {isa = PBXFileReference; name = "Montserrat Regular.ttf"; path = "../../assets/fonts/Montserrat Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0750DD8E606C4D7D80D3E469 /* Montserrat Regular.woff */ = {isa = PBXFileReference; name = "Montserrat Regular.woff"; path = "../../assets/fonts/Montserrat Regular.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8009C1BB65C0472EB210A461 /* Montserrat Regular.woff2 */ = {isa = PBXFileReference; name = "Montserrat Regular.woff2"; path = "../../assets/fonts/Montserrat Regular.woff2"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5DE8979A04C44434B292BF64 /* MontserratRegular.otf */ = {isa = PBXFileReference; name = "MontserratRegular.otf"; path = "../../assets/fonts/MontserratRegular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2EA8C1B6264B4C58849AFA94 /* OpenSans-Light-webfont.ttf */ = {isa = PBXFileReference; name = "OpenSans-Light-webfont.ttf"; path = "../../assets/fonts/OpenSans-Light-webfont.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		3CECE8A772164465A6F5D7B0 /* OpenSans-Light-webfont.woff */ = {isa = PBXFileReference; name = "OpenSans-Light-webfont.woff"; path = "../../assets/fonts/OpenSans-Light-webfont.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F979C97DFC204E15B2CDAAE1 /* Montserrat Regular.otf */ = {isa = PBXFileReference; name = "Montserrat Regular.otf"; path = "../../assets/fonts/Montserrat Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,6 +275,7 @@
 				5E96ADD5E49F3B3822EF9A52 /* Pods */,
 				0BEA5C261F7B8F73000D0AB4 /* Watch app */,
 				0BEA5C351F7B8F73000D0AB4 /* WatchKit extension */,
+				ED9B1C5489B84842BE18E838 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -241,6 +290,38 @@
 			);
 			name = Products;
 			sourceTree = "<group>";
+		};
+		ED9B1C5489B84842BE18E838 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				8F71A877F6E7499282654DB8 /* Archer-Book.svg */,
+				FD72EFAEAE2A44E7AA178317 /* Archer-BookItalic.svg */,
+				884852CB11594ADD83476A49 /* Montserrat Light.svg */,
+				7EEF1292E3A145E591E3BEE6 /* Montserrat Regular.svg */,
+				16086AC38CC84AC184267592 /* OpenSans-Light-webfont.svg */,
+				E3D03AC171B14DB496524E7A /* Archer-Book.otf */,
+				DF995CBBB7224D368FB186D7 /* Archer-Book.ttf */,
+				0B36D84B6AE645ABABAF2BE6 /* Archer-Book.woff */,
+				226354AA3EF6408C84A8D4F5 /* Archer-Book.woff2 */,
+				46A30BF6E1354597B5ACB235 /* Archer-BookItalic.otf */,
+				0598ACD602444945A600D2F3 /* Archer-BookItalic.ttf */,
+				C69860F60592489C80DB498E /* Archer-BookItalic.woff */,
+				8199A238A1DE4B548DF8C13B /* Archer-BookItalic.woff2 */,
+				B998BD584BE8407384B08660 /* Montserrat Light.otf */,
+				D3AD632B861D4CBCBBA5A070 /* Montserrat Light.ttf */,
+				D447513BDE7D430BBAF9D797 /* Montserrat Light.woff */,
+				F440A91364194E2A98EF498A /* Montserrat Light.woff2 */,
+				96846865657A43268A6DC5FB /* Montserrat Regular.ttf */,
+				0750DD8E606C4D7D80D3E469 /* Montserrat Regular.woff */,
+				8009C1BB65C0472EB210A461 /* Montserrat Regular.woff2 */,
+				5DE8979A04C44434B292BF64 /* MontserratRegular.otf */,
+				2EA8C1B6264B4C58849AFA94 /* OpenSans-Light-webfont.ttf */,
+				3CECE8A772164465A6F5D7B0 /* OpenSans-Light-webfont.woff */,
+				F979C97DFC204E15B2CDAAE1 /* Montserrat Regular.otf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -386,6 +467,30 @@
 				0B412F211EDEE95300B1A0A6 /* Main.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				47D2F2A42CA349798EB8A755 /* Archer-Book.svg in Resources */,
+				E4C49094A35C46DDAB081BB8 /* Archer-BookItalic.svg in Resources */,
+				9A875931012044D6883B1ACF /* Montserrat Light.svg in Resources */,
+				27F805DF478C45F28FA6054A /* Montserrat Regular.svg in Resources */,
+				B0A7C3D0FFFF4116A0829274 /* OpenSans-Light-webfont.svg in Resources */,
+				192A793300914804AD7B0616 /* Archer-Book.otf in Resources */,
+				D1D123B67C59427E883F45AB /* Archer-Book.ttf in Resources */,
+				A61E4D7E399B4AB08969C267 /* Archer-Book.woff in Resources */,
+				D5EE5F1C8828434AAC76F750 /* Archer-Book.woff2 in Resources */,
+				D01A0E34A0DF46FBADDEDA82 /* Archer-BookItalic.otf in Resources */,
+				AB9B8363492A46959ADE9481 /* Archer-BookItalic.ttf in Resources */,
+				D91232A30A164313A088B3EB /* Archer-BookItalic.woff in Resources */,
+				076216BBD592470C865B074C /* Archer-BookItalic.woff2 in Resources */,
+				36DDFE09A2AC44AD81E7D373 /* Montserrat Light.otf in Resources */,
+				459FC02234814596A6FEBB46 /* Montserrat Light.ttf in Resources */,
+				E9075EF5925B4CEA8B6E6E43 /* Montserrat Light.woff in Resources */,
+				C15E92902B4F479DBF055944 /* Montserrat Light.woff2 in Resources */,
+				1BC7F16DAB4B4C989B04081D /* Montserrat Regular.ttf in Resources */,
+				14D242562E7140708BDB8D80 /* Montserrat Regular.woff in Resources */,
+				3017C6FE227E424D90ADE3CF /* Montserrat Regular.woff2 in Resources */,
+				4D3A4B62F042436782AD17D6 /* MontserratRegular.otf in Resources */,
+				8172F473AA124743B6A6C9E7 /* OpenSans-Light-webfont.ttf in Resources */,
+				32A9764DC51546B1B327FB33 /* OpenSans-Light-webfont.woff in Resources */,
+				6B973A6AB5004B80840CEEA3 /* Montserrat Regular.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

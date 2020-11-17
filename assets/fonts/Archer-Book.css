@@ -1,0 +1,14 @@
+@font-face {
+    font-family:'Archer-Book';
+    src: url('Archer-Book.eot');
+	src: url('Archer-Book.eot?#iefix') format('embedded-opentype'),
+		url('Archer-Book.woff2') format('woff2'),
+		url('Archer-Book.woff') format('woff'),
+		url('Archer-Book.ttf') format('truetype'),
+		url('Archer-Book.otf') format('opentype'),
+		url('Archer-Book.svg#Archer-Book') format('svg');
+    font-weight: 325;
+    font-style: normal;
+    font-stretch: normal;
+    unicode-range: U+0020-FB04;
+}

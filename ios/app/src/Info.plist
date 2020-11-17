@@ -101,5 +101,27 @@
 	<false/>
 	<key>FirebaseCrashlyticsCollectionEnabled</key>
 	<string>false</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Archer-Book.otf</string>
+		<string>Archer-Book.ttf</string>
+		<string>Archer-Book.woff</string>
+		<string>Archer-Book.woff2</string>
+		<string>Archer-BookItalic.otf</string>
+		<string>Archer-BookItalic.ttf</string>
+		<string>Archer-BookItalic.woff</string>
+		<string>Archer-BookItalic.woff2</string>
+		<string>Montserrat Light.otf</string>
+		<string>Montserrat Light.ttf</string>
+		<string>Montserrat Light.woff</string>
+		<string>Montserrat Light.woff2</string>
+		<string>Montserrat Regular.ttf</string>
+		<string>Montserrat Regular.woff</string>
+		<string>Montserrat Regular.woff2</string>
+		<string>MontserratRegular.otf</string>
+		<string>OpenSans-Light-webfont.ttf</string>
+		<string>OpenSans-Light-webfont.woff</string>
+		<string>Montserrat Regular.otf</string>
+	</array>
 </dict>
 </plist>

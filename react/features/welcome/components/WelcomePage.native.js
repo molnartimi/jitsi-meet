@@ -34,6 +34,7 @@ import LocalVideoTrackUnderlay from './LocalVideoTrackUnderlay';
 import VideoSwitch from './VideoSwitch';
 import WelcomePageLists from './WelcomePageLists';
 import WelcomePageSideBar from './WelcomePageSideBar';
+import PreShowCountdown from './PreShowCountdown';
 import styles, { PLACEHOLDER_TEXT_COLOR } from './styles';
 
 /**
@@ -275,6 +276,7 @@ class WelcomePage extends AbstractWelcomePage {
         return (
             <LocalVideoTrackUnderlay style = { styles.welcomePage }>
                 <View style = { _headerStyles.page }>
+                    <PreShowCountdown></PreShowCountdown>
                     <Header style = { styles.header }>
                         <TouchableOpacity onPress = { this._onShowSideBar } >
                             <Icon

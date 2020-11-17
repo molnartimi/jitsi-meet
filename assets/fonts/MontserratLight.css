@@ -1,0 +1,14 @@
+@font-face {
+    font-family:'Montserrat Light';
+    src: url('Montserrat Light.eot');
+	src: url('Montserrat Light.eot?#iefix') format('embedded-opentype'),
+		url('Montserrat Light.woff2') format('woff2'),
+		url('Montserrat Light.woff') format('woff'),
+		url('Montserrat Light.ttf') format('truetype'),
+		url('Montserrat Light.otf') format('opentype'),
+		url('Montserrat Light.svg#Montserrat Light') format('svg');
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    unicode-range: U+0020-2044;
+}
