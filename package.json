@@ -82,6 +82,7 @@
     "react-native-svg": "9.7.1",
     "react-native-svg-transformer": "0.13.0",
     "react-native-swipeout": "2.3.6",
+    "react-native-swiper": "^1.6.0-rc.3",
     "react-native-url-polyfill": "^1.2.0",
     "react-native-watch-connectivity": "0.4.3",
     "react-native-webrtc": "1.84.0",

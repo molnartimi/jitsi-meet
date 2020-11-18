@@ -26,11 +26,11 @@ export default {
     },
 
     notDominantSpeaker: {
-        paddingBottom: 4,
+        paddingBottom: 4
     },
 
     dominantSpeaker: {
-        paddingBottom: 0 
+        paddingBottom: 0
     },
 
     /**
@@ -97,7 +97,7 @@ export default {
         flex: 1,
         justifyContent: 'center',
         overflow: 'hidden',
-        position: 'relative',
+        position: 'relative'
     },
 
     /**
@@ -127,17 +127,20 @@ export default {
     },
 
     tileView: {
-        alignSelf: 'flex-start',
-        alignContent: 'center'
+        alignSelf: 'stretch',
+        alignContent: 'stretch'
     },
 
-    tileViewRows: {
-        justifyContent: 'flex-start'
-    },
-
-    tileViewRow: {
+    tileRows: {
         flexDirection: 'row',
-        justifyContent: 'flex-start'
+        alignSelf: 'stretch',
+        alignContent: 'stretch'
+    },
+
+    tileColumns: {
+        flexDirection: 'column',
+        alignSelf: 'stretch',
+        alignContent: 'stretch'
     }
 };
 
@@ -166,7 +169,7 @@ ColorSchemeRegistry.register('Thumbnail', {
      * Coloring if the thumbnail background.
      */
     participantViewStyle: {
-        backgroundColor: schemeColor('background'),
+        backgroundColor: schemeColor('background')
     },
 
     /**

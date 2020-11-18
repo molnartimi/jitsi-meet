@@ -2,14 +2,13 @@
 
 import React, { Component } from 'react';
 import {
-    ScrollView,
     TouchableWithoutFeedback,
     View
 } from 'react-native';
+import Swiper from 'react-native-swiper';
 import type { Dispatch } from 'redux';
 
 import { connect } from '../../../base/redux';
-import { ASPECT_RATIO_NARROW } from '../../../base/responsive-ui/constants';
 import { setTileViewDimensions } from '../../actions.native';
 
 import Thumbnail from './Thumbnail';
@@ -104,28 +103,72 @@ class TileView extends Component<Props> {
     render() {
         const { _height, _width, onClick } = this.props;
         const rowElements = this._groupIntoRows(this._renderThumbnails(), COLUMN_COUNT);
+        const pageOrderedThumbnails = this._groupThumbnailsByPages(rowElements);
 
         return (
-            <ScrollView
+            <TouchableWithoutFeedback
+                onPress = { onClick }
                 style = {{
                     ...styles.tileView,
                     height: _height,
                     width: _width
                 }}>
-                <TouchableWithoutFeedback onPress = { onClick }>
-                    <View
-                        style = {{
-                            ...styles.tileViewRows,
-                            minHeight: _height,
-                            minWidth: _width
-                        }}>
-                        { rowElements }
-                    </View>
-                </TouchableWithoutFeedback>
-            </ScrollView>
+                <Swiper
+                    loop = { false }
+                    showsButtons = { false }
+                    showsPagination = { false }>
+                    {this._getUserPages(pageOrderedThumbnails)}
+                </Swiper>
+            </TouchableWithoutFeedback>
         );
     }
 
+    /**
+     * Splits a list of thumbnail rows into Pages with a maximum
+     * of displayable rows at the actual screen.
+     *
+     * @param {Array} rowElements - The list of thumbnail rows that should be split
+     * into separate page groupings.
+     * @private
+     * @returns {ReactElement[]}
+     */
+    _groupThumbnailsByPages(rowElements) {
+        const { _height } = this.props;
+        const heightToUse = _height - (MARGIN * 2);
+        const tileHeight = this._getTileDimensions().height;
+        const columnCount = Math.floor(heightToUse / tileHeight);
+
+        const pageOrderedThumbnails = [];
+
+        for (let i = 0; i < rowElements.length; i += columnCount) {
+            pageOrderedThumbnails.push(rowElements.slice(i, i + columnCount));
+        }
+
+        return pageOrderedThumbnails;
+    }
+
+    /**
+     * Returns the page grids with user thumbnails from {@link userGrid}.
+     *
+     * @param {[][]} userGrid - User page matrix.
+     *
+     * @private
+     * @returns {ReactElement[]}
+     */
+    _getUserPages(userGrid) {
+        return userGrid.map((page, pageIndex) =>
+            (<View
+                key = { pageIndex }
+                style = { styles.tileColumns }>
+                {page.map((row, rowIndex) =>
+                    (<View
+                        key = { rowIndex + pageIndex }
+                        style = { styles.tileRows }>
+                        {row}
+                    </View>)
+                )}
+            </View>));
+    }
 
     /**
      * Returns all participants with the local participant at the end.
@@ -189,23 +232,13 @@ class TileView extends Component<Props> {
      * @returns {ReactElement[]}
      */
     _groupIntoRows(thumbnails, rowLength) {
-        const rowElements = [];
+        const finalRows = [];
 
-        for (let i = 0; i < thumbnails.length; i++) {
-            if (i % rowLength === 0) {
-                const thumbnailsInRow = thumbnails.slice(i, i + rowLength);
-
-                rowElements.push(
-                    <View
-                        key = { rowElements.length }
-                        style = { styles.tileViewRow }>
-                        { thumbnailsInRow }
-                    </View>
-                );
-            }
+        for (let i = 0; i < thumbnails.length; i += rowLength) {
+            finalRows.push(thumbnails.slice(i, i + rowLength));
         }
 
-        return rowElements;
+        return finalRows;
     }
 
     /**
