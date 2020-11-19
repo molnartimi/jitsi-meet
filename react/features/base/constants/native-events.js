@@ -7,6 +7,7 @@ export const NativeEvents = {
     VIDEOCONF_LEAVE: 'org.jitsi.meet:features/videoconf-bridge#leave-conference',
     MUTE_MEDIA: 'org.jitsi.meet:features/videoconf-bridge#mute-media',
     SWITCH_CAMERA: 'org.jitsi.meet:features/videoconf-bridge#switch-camera',
+    SHOW_SPEAKER_VIEW: 'org.jitsi.meet:features/videoconf-bridge#show-speaker-view',
 };
 
 export const ResponseEventsToNative = {

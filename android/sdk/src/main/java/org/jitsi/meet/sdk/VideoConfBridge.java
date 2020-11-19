@@ -29,6 +29,11 @@ public class VideoConfBridge {
     private static final String SWITCH_CAMERA = "org.jitsi.meet:features/videoconf-bridge#switch-camera";
 
     /**
+     * View change event.
+     */
+    private static final String SHOW_SPEAKER_VIEW = "org.jitsi.meet:features/videoconf-bridge#show-speaker-view";
+
+    /**
      * Sends a videoconf join event to React Native.
      */
     public static void joinConference(String roomName) {
@@ -58,5 +63,12 @@ public class VideoConfBridge {
      */
     public static void switchCamera() {
         ReactInstanceManagerHolder.emitEvent(SWITCH_CAMERA, null);
+    }
+
+    /**
+     * Sends a view change event to React Native.
+     */
+    public static void showSpeakerView(boolean shouldShow) {
+        ReactInstanceManagerHolder.emitEvent(SHOW_SPEAKER_VIEW, shouldShow);
     }
 }
