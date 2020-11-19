@@ -45,6 +45,11 @@ public class VideoConfBridge {
     private static final String ADD_COMMAND_LISTENER = "org.jitsi.meet:features/videoconf-bridge#add-command-listener";
 
     /**
+     * View change event.
+     */
+    private static final String SHOW_SPEAKER_VIEW = "org.jitsi.meet:features/videoconf-bridge#show-speaker-view";
+
+    /**
      * Sends a videoconf join event to React Native.
      */
     public static void joinConference(String roomName) {
@@ -95,5 +100,12 @@ public class VideoConfBridge {
      */
     public static void addJitsiCommandListener(String commandName) {
         ReactInstanceManagerHolder.emitEvent(ADD_COMMAND_LISTENER, commandName);
+    }
+
+    /**
+     * Sends a view change event to React Native.
+     */
+    public static void showSpeakerView(boolean shouldShow) {
+        ReactInstanceManagerHolder.emitEvent(SHOW_SPEAKER_VIEW, shouldShow);
     }
 }
