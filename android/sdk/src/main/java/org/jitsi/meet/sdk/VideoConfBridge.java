@@ -59,6 +59,11 @@ public class VideoConfBridge {
     private static final String SET_COUNTDOWN = "org.jitsi.meet:features/videoconf-bridge#set-countdown";
 
     /**
+     * View change event.
+     */
+    private static final String SHOW_SPEAKER_VIEW = "org.jitsi.meet:features/videoconf-bridge#show-speaker-view";
+
+    /**
      * Sends a videoconf join event to React Native.
      */
     public static void joinConference(String dataJsonString) {
@@ -130,5 +135,12 @@ public class VideoConfBridge {
      */
     public static void setCountdown(String datetime) {
         ReactInstanceManagerHolder.emitEvent(SET_COUNTDOWN, datetime);
+    }
+
+    /**
+     * Sends a view change event to React Native.
+     */
+    public static void showSpeakerView(boolean shouldShow) {
+        ReactInstanceManagerHolder.emitEvent(SHOW_SPEAKER_VIEW, shouldShow);
     }
 }

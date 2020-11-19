@@ -12,7 +12,9 @@ export const NativeEvents = {
     SET_CURRENT_SWIPER_INDEX: 'org.jitsi.meet:features/videoconf-bridge#set-current-swiper-index',
     SHOW_WRAP_UP_BUTTONS: 'org.jitsi.meet:features/videoconf-bridge#show-wrap-up-buttons',
     PLACEHOLDER_DATA: 'org.jitsi.meet:features/videoconf-bridge#placeholder-data',
-    SET_COUNTDOWN: 'org.jitsi.meet:features/videoconf-bridge#set-countdown'
+    SET_COUNTDOWN: 'org.jitsi.meet:features/videoconf-bridge#set-countdown',
+    ADD_COMMAND_LISTENER: 'org.jitsi.meet:features/videoconf-bridge#add-command-listener',
+    SHOW_SPEAKER_VIEW: 'org.jitsi.meet:features/videoconf-bridge#show-speaker-view'
 };
 
 export const ResponseEventsToNative = {

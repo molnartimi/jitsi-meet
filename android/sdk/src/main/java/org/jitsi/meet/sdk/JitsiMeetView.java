@@ -197,6 +197,13 @@ public class JitsiMeetView extends BaseReactView<JitsiMeetViewListener>
     }
 
     /**
+     * Switches between conference and speaker frame view.
+     */
+    public void showSpeakerView(boolean shouldShow) {
+        VideoConfBridge.showSpeakerView(shouldShow);
+    }
+
+    /**
      * Sends an Xmpp post method to React Native through XmppBridge.
      */
     public void callXmppPostMethod(Object data) {
