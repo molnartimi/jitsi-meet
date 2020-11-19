@@ -82,4 +82,19 @@
  */
 - (void)switchCamera;
 
+/**
+ * Send jitsi command in confernce.
+ */
+- (void)sendJitsiCommand:(NSString *_Nonnull)dataJsonString;
+
+/**
+ * Remove jitsi command from presence.
+ */
+- (void)removeJitsiCommand:(NSString *_Nonnull)commandName;
+
+/**
+ * Add jitsi command listener.
+ */
+- (void)addJitsiCommandListener:(NSString *_Nonnull)commandName;
+
 @end

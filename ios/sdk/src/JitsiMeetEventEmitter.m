@@ -70,4 +70,16 @@
     [_videoConfBridge switchCamera];
 }
 
+- (void)sendCommand:(NSString *_Nonnull)dataJsonString {
+    [_videoConfBridge sendCommand:dataJsonString];
+}
+
+- (void)removeCommand:(NSString *_Nonnull)commandName {
+    [_videoConfBridge removeCommand:commandName];
+}
+
+- (void)addCommandListener:(NSString *)commandName {
+    [_videoConfBridge addCommandListener:commandName];
+}
+
 @end

@@ -25,5 +25,8 @@ withStringifiedParams:(NSString *_Nonnull)params
            withPlugin:(NSString *_Nullable)plugin;
 - (void)muteMedia:(NSString *_Nonnull)dataJsonString;
 - (void)switchCamera;
+- (void)sendCommand:(NSString *_Nonnull)dataJsonString;
+- (void)removeCommand:(NSString *_Nonnull)commandName;
+- (void)addCommandListener:(NSString *_Nonnull)commandName;
 
 @end

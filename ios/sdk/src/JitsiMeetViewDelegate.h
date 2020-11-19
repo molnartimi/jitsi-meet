@@ -54,6 +54,14 @@
 - (void)xmppResult:(NSDictionary *)data;
 
 /**
+ * Called when new command value received we are subscribed to.
+ *
+ * The `data` dictionary contains:
+ * - value: stringified object of command name and command value
+*/
+- (void)commandValue:(NSDictionary *)data;
+
+/**
  * Called when a local track created.
  *
  * The `data` dictionary contains:

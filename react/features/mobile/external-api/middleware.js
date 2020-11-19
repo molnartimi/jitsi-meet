@@ -9,6 +9,7 @@ import {
     CONFERENCE_WILL_JOIN,
     JITSI_CONFERENCE_URL_KEY,
     SET_ROOM,
+    COMMAND_VALUE,
     forEachConference,
     isRoomValid
 } from '../../base/conference';
@@ -140,6 +141,22 @@ MiddlewareRegistry.register(store => next => action => {
         }
         break;
     }
+    case COMMAND_VALUE: {
+        try {
+            const { commandName, value } = action;
+            const response = {
+                commandName,
+                value
+            };
+
+            sendEvent(store, COMMAND_VALUE, {
+                value: flatted.stringify(response)
+            });
+        } catch (e) {
+            logger.error('Some error occurred at sending command value to native app', e);
+        }
+        break;
+    }
     case TRACK_ADDED: {
         sendEvent(store, TRACK_ADDED, {
             kind: action.track.mediaType,
@@ -230,6 +247,7 @@ function _sendConferenceEvent(
     // transport an "equivalent".
     if (conference) {
         data.url = _normalizeUrl(conference[JITSI_CONFERENCE_URL_KEY]);
+        data.userId = conference.myUserId();
     }
 
     if (_swallowEvent(store, action, data)) {

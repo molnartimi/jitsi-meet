@@ -49,7 +49,8 @@ import {
     SET_PASSWORD_FAILED,
     SET_ROOM,
     SET_PENDING_SUBJECT_CHANGE,
-    SET_START_MUTED_POLICY
+    SET_START_MUTED_POLICY,
+    COMMAND_VALUE
 } from './actionTypes';
 import {
     AVATAR_ID_COMMAND,
@@ -738,5 +739,94 @@ export function setSubject(subject: string) {
                 subject
             });
         }
+    };
+}
+
+/**
+ * Send a command in the current conference.
+ *
+ * @param {string} dataJsonString - Stringified params with command parameters.
+ * @returns {Function}
+ */
+export function sendCommand(dataJsonString: string) {
+    return (dispatch: Dispatch<any>, getState: Function) => {
+        try {
+            const params = JSON.parse(dataJsonString);
+            const { conference } = getState()['features/base/conference'];
+
+            if (!conference) {
+                logger.warn('No conference object found when trying to send command', params.commandName);
+
+                return;
+            }
+
+            if (params.onlyOnce) {
+                conference.sendCommandOnce(params.commandName, params.value);
+            } else {
+                conference.sendCommand(params.commandName, params.value);
+            }
+        } catch (e) {
+            logger.error('Something went wrong at parsing command parameters.', e);
+        }
+    };
+}
+
+/**
+ * Remove a command from logged in user presence.
+ *
+ * @param {string} commandName - Command to remove from presence.
+ * @returns {Function}
+ */
+export function removeCommand(commandName: string) {
+    return (dispatch: Dispatch<any>, getState: Function) => {
+        const { conference } = getState()['features/base/conference'];
+
+        if (!conference) {
+            logger.warn('No conference object found when trying to remove command', commandName);
+
+            return;
+        }
+
+        conference.removeCommand(commandName);
+        conference.room.sendPresence();
+    };
+}
+
+/**
+ * Add command listener. Send event to native app as callback.
+ *
+ * @param {string} commandName - Command to listen to.
+ * @returns {Function}
+ */
+export function addCommandListener(commandName: string) {
+    return (dispatch: Dispatch<any>, getState: Function) => {
+        const { conference } = getState()['features/base/conference'];
+
+        if (!conference) {
+            logger.warn('No conference object found when trying to remove command', commandName);
+
+            return;
+        }
+
+        const listener = value => dispatch({
+            type: COMMAND_VALUE,
+            commandName,
+            value
+        });
+
+        const cleanupListener = () => {
+            conference.removeEventListener(JitsiConferenceEvents.CONFERENCE_ERROR, cleanupListener);
+            conference.removeEventListener(JitsiConferenceEvents.CONFERENCE_FAILED, cleanupListener);
+            conference.removeEventListener(JitsiConferenceEvents.CONFERENCE_LEFT, cleanupListener);
+            conference.removeCommandListener(commandName, listener);
+        };
+
+        // Handling the cleanup when leaving the conference is done by the leaveConference method.
+        conference.addEventListener(JitsiConferenceEvents.CONFERENCE_ERROR, cleanupListener);
+        conference.addEventListener(JitsiConferenceEvents.CONFERENCE_FAILED, cleanupListener);
+        conference.addEventListener(JitsiConferenceEvents.CONFERENCE_LEFT, cleanupListener);
+
+        conference.addCommandListener(commandName, listener);
+        conference.room.sendPresence();
     };
 }

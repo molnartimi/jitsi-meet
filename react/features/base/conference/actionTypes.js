@@ -230,3 +230,14 @@ export const SET_SIP_GATEWAY_ENABLED = 'SET_SIP_GATEWAY_ENABLED';
  * }
  */
 export const SET_START_MUTED_POLICY = 'SET_START_MUTED_POLICY';
+
+/**
+ * The type of (redux) action which send command value to native app.
+ *
+ * {
+ *     type: COMMAND_VALUE,
+ *     commandName: string,
+ *     value: any
+ * }
+ */
+export const COMMAND_VALUE = 'COMMAND_VALUE';
