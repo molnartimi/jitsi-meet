@@ -227,8 +227,9 @@ function _conferenceJoined({ dispatch, getState }, next, action) {
         dispatch(openDisplayNamePrompt(undefined));
     }
 
-    conference.sendTextMessage('');
-    pingMessageInterval = setInterval(() => conference.sendTextMessage(''), PING_MESSAGE_INTERVAL);
+    _sendPingMessage(conference);
+    _clearPingInterval();
+    pingMessageInterval = setInterval(() => _sendPingMessage(conference), PING_MESSAGE_INTERVAL);
 
     return result;
 }
@@ -559,4 +560,31 @@ function _updateLocalParticipantInConference({ dispatch, getState }, next, actio
     }
 
     return result;
+}
+
+/**
+ * Send empty ping message to conference.
+ *
+ * @param {JitsiConference} conference - Jitsi Conference object.
+ * @returns {void}
+ */
+function _sendPingMessage(conference): void {
+    try {
+        conference.sendTextMessage('');
+    } catch (e) {
+        logger.warn('Cannot send ping message, clear interval');
+        _clearPingInterval();
+    }
+}
+
+/**
+ * Clearing ping message interval if exists.
+ *
+ * @returns {void}
+ */
+function _clearPingInterval(): void {
+    if (pingMessageInterval) {
+        clearInterval(pingMessageInterval);
+        pingMessageInterval = undefined;
+    }
 }
