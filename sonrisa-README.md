@@ -27,11 +27,13 @@ Currently building the application is not supported on Windows, for this purpose
 ##### Build in Mac/Linux
 To build the Android SDK you need to run the following command from /jitsi-meet:
 ```
-cd jitsi-meet
-npm install
-brew install jq
-brew install coreutils
-./android/scripts/release-sdk.sh <absolute_path_to>/jitsi-maven-repo
+$ cd jitsi-meet
+// checkout the appropriate branch (at the time of writing, that's VS-mobile-integration)
+$ npm install
+$ brew install jq               # macOS
+$ brew install coreutils        # macOS
+$ sudo apt install coreutils jq # Linux based OSes. Substitute apt install with the approriate command/switches for whatever packaging system you use.
+$ ./android/scripts/release-sdk.sh <absolute_path_to>/jitsi-maven-repo
 ```
 This will publish the SDK as maven artifacts to the specified Maven repository, which you can add to the top-level build.gradle file of your project:
 ```
