@@ -67,7 +67,7 @@ static void initializeViewsMap() {
 - (instancetype)init {
     self = [super init];
     if (self) {
-        [self initWithXXX];
+        [self initExternalAPIScopeAndBackgroundColor];
     }
 
     return self;
@@ -76,7 +76,7 @@ static void initializeViewsMap() {
 - (instancetype)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder:coder];
     if (self) {
-        [self initWithXXX];
+        [self initExternalAPIScopeAndBackgroundColor];
     }
 
     return self;
@@ -85,7 +85,7 @@ static void initializeViewsMap() {
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        [self initWithXXX];
+        [self initExternalAPIScopeAndBackgroundColor];
     }
 
     return self;
@@ -97,7 +97,7 @@ static void initializeViewsMap() {
  * - sets the background color
  * - initializes the external API scope
  */
-- (void)initWithXXX {
+- (void)initExternalAPIScopeAndBackgroundColor {
     // Hook this JitsiMeetView into ExternalAPI.
     externalAPIScope = externalAPIScope == nil ? [NSUUID UUID].UUIDString : externalAPIScope;
     [views setObject:self forKey:externalAPIScope];
