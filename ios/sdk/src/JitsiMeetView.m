@@ -32,12 +32,6 @@ static NSString *const PiPEnabledFeatureFlag = @"pip.enabled";
 
 
 @implementation JitsiMeetView {
-    /**
-     * The unique identifier of this `JitsiMeetView` within the process for the
-     * purposes of `ExternalAPI`. The name scope was inspired by postis which we
-     * use on Web for the similar purposes of the iframe-based external API.
-     */
-    NSString *externalAPIScope;
 
     /**
      * React Native view where the entire content will be rendered.
@@ -52,6 +46,13 @@ static NSString *const PiPEnabledFeatureFlag = @"pip.enabled";
  * identifiers within the process).
  */
 static NSMapTable<NSString *, JitsiMeetView *> *views;
+
+/**
+ * The unique identifier of this `JitsiMeetView` within the process for the
+ * purposes of `ExternalAPI`. The name scope was inspired by postis which we
+ * use on Web for the similar purposes of the iframe-based external API.
+ */
+static NSString *externalAPIScope;
 
 /**
  * This gets called automagically when the program starts.
@@ -98,7 +99,7 @@ static void initializeViewsMap() {
  */
 - (void)initWithXXX {
     // Hook this JitsiMeetView into ExternalAPI.
-    externalAPIScope = [NSUUID UUID].UUIDString;
+    externalAPIScope = externalAPIScope == nil ? [NSUUID UUID].UUIDString : externalAPIScope;
     [views setObject:self forKey:externalAPIScope];
 
     // Set a background color which is in accord with the JavaScript and Android
