@@ -141,6 +141,54 @@ export default {
         flexDirection: 'column',
         alignSelf: 'stretch',
         alignContent: 'stretch'
+    },
+
+    buttonPlaceholder: {
+        height: '65%',
+        width: '100%'
+    },
+
+    bottomVideoPlaceholder: {
+        width: '30%',
+        height: '100%'
+    },
+
+    bottomVideoContainer: {
+        height: '20%',
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center'
+    },
+
+    fillView: {
+        flex: 1,
+        width: '100%',
+        height: '100%'
+    },
+
+    nameComponent: {
+        width: '100%',
+        fontSize: 30,
+        alignSelf: 'center',
+        fontWeight: 'bold',
+        color: 'white',
+        textAlign: 'center'
+    },
+
+    inFrontTopView: {
+        position: 'absolute',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        width: '100%',
+        height: '100%'
+    },
+
+    inFrontBackView: {
+        position: 'absolute',
+        justifyContent: 'flex-end',
+        width: '100%',
+        height: '100%'
     }
 };
 

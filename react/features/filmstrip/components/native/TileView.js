@@ -1,5 +1,4 @@
 // @flow
-
 import React, { Component } from 'react';
 import {
     TouchableWithoutFeedback,
@@ -11,6 +10,7 @@ import type { Dispatch } from 'redux';
 import { connect } from '../../../base/redux';
 import { setTileViewDimensions } from '../../actions.native';
 
+import InFocusView from './InFocusView';
 import Thumbnail from './Thumbnail';
 import styles from './styles';
 
@@ -103,7 +103,14 @@ class TileView extends Component<Props> {
     render() {
         const { _height, _width, onClick } = this.props;
         const rowElements = this._groupIntoRows(this._renderThumbnails(), COLUMN_COUNT);
-        const pageOrderedThumbnails = this._groupThumbnailsByPages(rowElements);
+        const mainUser = this.props._participants[1];
+        const sideUser = this.props._participants[0];
+
+        const pages = [ <InFocusView
+            mainUser = { mainUser }
+            sideUser = { sideUser } /> ];
+
+        pages.push(this._getUserPages(this._groupThumbnailsByPages(rowElements)));
 
         return (
             <TouchableWithoutFeedback
@@ -117,7 +124,7 @@ class TileView extends Component<Props> {
                     loop = { false }
                     showsButtons = { false }
                     showsPagination = { false }>
-                    {this._getUserPages(pageOrderedThumbnails)}
+                    {pages}
                 </Swiper>
             </TouchableWithoutFeedback>
         );
