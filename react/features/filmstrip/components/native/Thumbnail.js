@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import React, { Component } from 'react';
 import { View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import type { Dispatch } from 'redux';
@@ -94,52 +94,51 @@ type Props = {
  * @param {Props} props - Properties passed to this functional component.
  * @returns {Component} - A React component.
  */
-function Thumbnail(props: Props) {
-    const {
-        _onClick,
-        _isDominantSpeaker: isDominantSpeaker,
-        _styles,
-        participant,
-        renderDisplayName,
-        tileView
-    } = props;
+class Thumbnail extends Component<Props> {
 
-    const participantId = participant?.id == null ? 0 : participant.id;
+    render() {
+        const participantId = this.props.participant?.id === undefined ? 0 : this.props.participant.id;
 
-    return (
-        <Container
-            onClick = { _onClick }
-            style = { [
-                styles.thumbnail,
-                props.styleOverrides || null,
-                isDominantSpeaker ? _styles.dominantSpeaker : null
-            ] }
-            touchFeedback = { false }>
-
-            <ParticipantView
-                avatarSize = { tileView ? AVATAR_SIZE * 1.5 : AVATAR_SIZE }
-                participantId = { participantId }
-                style = { _styles.participantViewStyle }
-                tintEnabled = { false }
-                tintStyle = { _styles.activeThumbnailTint }
-                zOrder = { 1 } />
-
-            { renderDisplayName && <Container style = { styles.displayNameContainer }>
-                <LinearGradient colors = { [ 'rgba(0,0,0,0.0)', 'rgba(0,0,0,0.40)' ] }>
-                    <Container style = { isDominantSpeaker ? styles.dominantSpeaker : styles.notDominantSpeaker }>
-                        <DisplayNameLabel participantId = { participantId } />
-                    </Container>
-                </LinearGradient>
-            </Container> }
-
-            { !participant?.isFakeParticipant && <View
+        return (
+            <Container
+                onClick = { this.props._onClick }
                 style = { [
-                    styles.thumbnailTopIndicatorContainer,
-                    styles.thumbnailTopRightIndicatorContainer
-                ] } /> }
+                    styles.thumbnail,
+                    this.props.styleOverrides || null,
+                    this.props._isDominantSpeaker ? styles.dominantSpeaker : null
+                ] }
+                touchFeedback = { false }>
 
-        </Container>
-    );
+                <ParticipantView
+                    avatarSize = { this.props.tileView ? AVATAR_SIZE * 1.5 : AVATAR_SIZE }
+                    participantId = { participantId }
+                    style = { styles.participantViewStyle }
+                    tintEnabled = { false }
+                    tintStyle = { styles.activeThumbnailTint }
+                    zOrder = { 1 } />
+
+                {this.props.renderDisplayName
+                && <Container style = { styles.displayNameContainer }>
+                    <LinearGradient
+                        colors = { [ 'rgba(0,0,0,0.0)', 'rgba(0,0,0,0.40)' ] }>
+                        <Container
+                            style = { this.props._isDominantSpeaker
+                                ? styles.dominantSpeaker
+                                : styles.notDominantSpeaker }>
+                            <DisplayNameLabel participantId = { participantId } />
+                        </Container>
+                    </LinearGradient>
+                </Container>}
+
+                {!this.props.participant?.isFakeParticipant && <View
+                    style = { [
+                        styles.thumbnailTopIndicatorContainer,
+                        styles.thumbnailTopRightIndicatorContainer
+                    ] } />}
+
+            </Container>
+        );
+    }
 }
 
 /**
@@ -186,12 +185,12 @@ function _mapStateToProps(state, ownProps) {
     const largeVideo = state['features/large-video'];
     const tracks = state['features/base/tracks'];
     const { participant } = ownProps;
-    const id = participant?.id == null ? 0 : participant.id;
+    const id = participant?.id === undefined ? 0 : participant.id;
     const audioTrack
         = getTrackByMediaTypeAndParticipant(tracks, MEDIA_TYPE.AUDIO, id);
     const videoTrack
         = getTrackByMediaTypeAndParticipant(tracks, MEDIA_TYPE.VIDEO, id);
-    const isDominantSpeaker = participant?.dominantSpeaker == null ? false : participant.dominantSpeaker;
+    const isDominantSpeaker = participant?.dominantSpeaker === undefined ? false : participant.dominantSpeaker;
     const _isEveryoneModerator = isEveryoneModerator(state);
     const renderModeratorIndicator = !_isEveryoneModerator && participant?.role === PARTICIPANT_ROLE.MODERATOR;
 
