@@ -7,11 +7,10 @@ import type { Dispatch } from 'redux';
 import { ColorSchemeRegistry } from '../../../base/color-scheme';
 import { MEDIA_TYPE } from '../../../base/media';
 import {
-    getParticipantCount,
     isEveryoneModerator,
     PARTICIPANT_ROLE,
     ParticipantView,
-    pinParticipant,
+    pinParticipant
 } from '../../../base/participants';
 import { Container } from '../../../base/react';
 import { connect } from '../../../base/redux';
@@ -19,6 +18,7 @@ import { StyleType } from '../../../base/styles';
 import { getTrackByMediaTypeAndParticipant } from '../../../base/tracks';
 import { DisplayNameLabel } from '../../../display-name';
 import { toggleToolboxVisible } from '../../../toolbox/actions.native';
+
 import styles, { AVATAR_SIZE } from './styles';
 
 
@@ -86,7 +86,7 @@ type Props = {
      * If true, it tells the thumbnail that it needs to behave differently. E.g. react differently to a single tap.
      */
     tileView?: boolean
-};
+}
 
 /**
  * React component for video thumbnail.
@@ -96,21 +96,15 @@ type Props = {
  */
 function Thumbnail(props: Props) {
     const {
-        _audioMuted: audioMuted,
-        _largeVideo: largeVideo,
         _onClick,
         _isDominantSpeaker: isDominantSpeaker,
-        _renderModeratorIndicator: renderModeratorIndicator,
         _styles,
-        _videoTrack: videoTrack,
         participant,
         renderDisplayName,
         tileView
     } = props;
 
-    const participantId = participant.id;
-    const participantInLargeVideo
-        = participantId === largeVideo.participantId;
+    const participantId = participant?.id == null ? 0 : participant.id;
 
     return (
         <Container
@@ -131,19 +125,18 @@ function Thumbnail(props: Props) {
                 zOrder = { 1 } />
 
             { renderDisplayName && <Container style = { styles.displayNameContainer }>
-               <LinearGradient colors={['rgba(0,0,0,0.0)', 'rgba(0,0,0,0.40)']}>
-                   <Container style = { isDominantSpeaker ? styles.dominantSpeaker : styles.notDominantSpeaker}>
-                    <DisplayNameLabel participantId = { participantId } />
+                <LinearGradient colors = { [ 'rgba(0,0,0,0.0)', 'rgba(0,0,0,0.40)' ] }>
+                    <Container style = { isDominantSpeaker ? styles.dominantSpeaker : styles.notDominantSpeaker }>
+                        <DisplayNameLabel participantId = { participantId } />
                     </Container>
-               </LinearGradient>
+                </LinearGradient>
             </Container> }
 
-            { !participant.isFakeParticipant && <View
+            { !participant?.isFakeParticipant && <View
                 style = { [
                     styles.thumbnailTopIndicatorContainer,
                     styles.thumbnailTopRightIndicatorContainer
-                ] }>
-            </View> }
+                ] } /> }
 
         </Container>
     );
@@ -172,9 +165,9 @@ function _mapDispatchToProps(dispatch: Function, ownProps): Object {
             if (tileView) {
                 dispatch(toggleToolboxVisible());
             } else {
-                dispatch(pinParticipant(participant.pinned ? null : participant.id));
+                dispatch(pinParticipant(participant?.pinned ? null : participant.id));
             }
-        },
+        }
 
     };
 }
@@ -193,14 +186,14 @@ function _mapStateToProps(state, ownProps) {
     const largeVideo = state['features/large-video'];
     const tracks = state['features/base/tracks'];
     const { participant } = ownProps;
-    const id = participant.id;
+    const id = participant?.id == null ? 0 : participant.id;
     const audioTrack
         = getTrackByMediaTypeAndParticipant(tracks, MEDIA_TYPE.AUDIO, id);
     const videoTrack
         = getTrackByMediaTypeAndParticipant(tracks, MEDIA_TYPE.VIDEO, id);
-    const isDominantSpeaker = participant.dominantSpeaker;
+    const isDominantSpeaker = participant?.dominantSpeaker == null ? false : participant.dominantSpeaker;
     const _isEveryoneModerator = isEveryoneModerator(state);
-    const renderModeratorIndicator = !_isEveryoneModerator && participant.role === PARTICIPANT_ROLE.MODERATOR;
+    const renderModeratorIndicator = !_isEveryoneModerator && participant?.role === PARTICIPANT_ROLE.MODERATOR;
 
     return {
         _audioMuted: audioTrack?.muted ?? true,
