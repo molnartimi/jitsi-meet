@@ -107,6 +107,7 @@ class TileView extends Component<Props> {
         const sideUser = this.props._participants[0];
 
         const pages = [ <InFocusView
+            key = { 'infocus' }
             mainUser = { mainUser }
             sideUser = { sideUser } /> ];
 

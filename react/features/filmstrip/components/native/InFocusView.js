@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 
 import { connect } from '../../../base/redux';
@@ -6,21 +6,17 @@ import { connect } from '../../../base/redux';
 import Thumbnail from './Thumbnail';
 import styles from './styles';
 
-
-/**
- * InFront component's property types.
- */
 type Props = {
 
     /**
      * Main user object for show the user in the whole screen.
      */
-    _mainUser: Object,
+    mainUser: Object,
 
     /**
      * Side user object for show the user in the bottom right corner of the screen.
      */
-    _sideUser: Object
+    sideUser: Object
 }
 
 const NAME_PLACEHOLDER = 'FALL \'20 COLLECTION';
@@ -31,26 +27,23 @@ const NAME_PLACEHOLDER = 'FALL \'20 COLLECTION';
  * @param {Props} props - Properties passed to this functional component.
  * @returns {Component} - A React component.
  */
-function InFocusView(props: Props) {
-    const {
-        _mainUser: mainUser,
-        _sideUser: sideUser
-    } = props;
+class InFocusView extends Component<Props> {
 
-
-    return (
-        <View
-            style = { styles.fillView }>
-
-            {_createMainUserComponent(mainUser)}
-
+    render() {
+        return (
             <View
-                style = { styles.inFrontTopView }>
-                {_createTopNameComponent(mainUser)}
-                {_createShowButtonsPlaceholder()}
-                {_createBottomVideoComponent(sideUser)}
-            </View>
-        </View>);
+                style = { styles.fillView }>
+
+                {_createMainUserComponent(this.props.mainUser)}
+
+                <View
+                    style = { styles.inFrontTopView }>
+                    {_createTopNameComponent(this.props.mainUser)}
+                    {_createShowButtonsPlaceholder()}
+                    {_createBottomVideoComponent(this.props.sideUser)}
+                </View>
+            </View>);
+    }
 }
 
 function _createTopNameComponent(mainUser) {
@@ -98,8 +91,8 @@ function _mapStateToProps(state, ownProps) {
     const { mainUser, sideUser } = ownProps;
 
     return {
-        _mainUser: mainUser,
-        _sideUser: sideUser
+        mainUser: mainUser === undefined ? {} : mainUser,
+        sideUser: sideUser === undefined ? {} : sideUser
     };
 }
 export default connect(_mapStateToProps)(InFocusView);
