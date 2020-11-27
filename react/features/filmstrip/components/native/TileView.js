@@ -2,14 +2,13 @@
 
 import React, { Component } from 'react';
 import {
-    ScrollView,
     TouchableWithoutFeedback,
     View
 } from 'react-native';
+import Swiper from 'react-native-swiper';
 import type { Dispatch } from 'redux';
 
 import { connect } from '../../../base/redux';
-import { ASPECT_RATIO_NARROW } from '../../../base/responsive-ui/constants';
 import { setTileViewDimensions } from '../../actions.native';
 
 import Thumbnail from './Thumbnail';
@@ -68,6 +67,8 @@ const MARGIN = 10;
  */
 const TILE_ASPECT_RATIO = 1;
 
+const COLUMN_COUNT = 2;
+
 /**
  * Implements a React {@link Component} which displays thumbnails in a two
  * dimensional grid.
@@ -101,51 +102,72 @@ class TileView extends Component<Props> {
      */
     render() {
         const { _height, _width, onClick } = this.props;
-        const rowElements = this._groupIntoRows(this._renderThumbnails(), this._getColumnCount());
+        const rowElements = this._groupIntoRows(this._renderThumbnails(), COLUMN_COUNT);
+        const pageOrderedThumbnails = this._groupThumbnailsByPages(rowElements);
 
         return (
-            <ScrollView
+            <TouchableWithoutFeedback
+                onPress = { onClick }
                 style = {{
                     ...styles.tileView,
                     height: _height,
                     width: _width
                 }}>
-                <TouchableWithoutFeedback onPress = { onClick }>
-                    <View
-                        style = {{
-                            ...styles.tileViewRows,
-                            minHeight: _height,
-                            minWidth: _width
-                        }}>
-                        { rowElements }
-                    </View>
-                </TouchableWithoutFeedback>
-            </ScrollView>
+                <Swiper
+                    loop = { false }
+                    showsButtons = { false }
+                    showsPagination = { false }>
+                    {this._getUserPages(pageOrderedThumbnails)}
+                </Swiper>
+            </TouchableWithoutFeedback>
         );
     }
 
     /**
-     * Returns how many columns should be displayed for tile view.
+     * Splits a list of thumbnail rows into Pages with a maximum
+     * of displayable rows at the actual screen.
      *
-     * @returns {number}
+     * @param {Array} rowElements - The list of thumbnail rows that should be split
+     * into separate page groupings.
      * @private
+     * @returns {ReactElement[]}
      */
-    _getColumnCount() {
-        const participantCount = this.props._participants.length;
+    _groupThumbnailsByPages(rowElements) {
+        const { _height } = this.props;
+        const heightToUse = _height - (MARGIN * 2);
+        const tileHeight = this._getTileDimensions().height;
+        const columnCount = Math.floor(heightToUse / tileHeight);
 
-        // For narrow view, tiles should stack on top of each other for a lonely
-        // call and a 1:1 call. Otherwise tiles should be grouped into rows of
-        // two.
-        if (this.props._aspectRatio === ASPECT_RATIO_NARROW) {
-            return participantCount >= 3 ? 2 : 1;
+        const pageOrderedThumbnails = [];
+
+        for (let i = 0; i < rowElements.length; i += columnCount) {
+            pageOrderedThumbnails.push(rowElements.slice(i, i + columnCount));
         }
 
-        if (participantCount === 4) {
-            // In wide view, a four person call should display as a 2x2 grid.
-            return 2;
-        }
+        return pageOrderedThumbnails;
+    }
 
-        return Math.min(3, participantCount);
+    /**
+     * Returns the page grids with user thumbnails from {@link userGrid}.
+     *
+     * @param {[][]} userGrid - User page matrix.
+     *
+     * @private
+     * @returns {ReactElement[]}
+     */
+    _getUserPages(userGrid) {
+        return userGrid.map((page, pageIndex) =>
+            (<View
+                key = { pageIndex }
+                style = { styles.tileColumns }>
+                {page.map((row, rowIndex) =>
+                    (<View
+                        key = { rowIndex + pageIndex }
+                        style = { styles.tileRows }>
+                        {row}
+                    </View>)
+                )}
+            </View>));
     }
 
     /**
@@ -179,7 +201,7 @@ class TileView extends Component<Props> {
      */
     _getTileDimensions() {
         const { _height, _participants, _width } = this.props;
-        const columns = this._getColumnCount();
+        const columns = COLUMN_COUNT;
         const participantCount = _participants.length;
         const heightToUse = _height - (MARGIN * 2);
         const widthToUse = _width - (MARGIN * 2);
@@ -210,23 +232,13 @@ class TileView extends Component<Props> {
      * @returns {ReactElement[]}
      */
     _groupIntoRows(thumbnails, rowLength) {
-        const rowElements = [];
+        const finalRows = [];
 
-        for (let i = 0; i < thumbnails.length; i++) {
-            if (i % rowLength === 0) {
-                const thumbnailsInRow = thumbnails.slice(i, i + rowLength);
-
-                rowElements.push(
-                    <View
-                        key = { rowElements.length }
-                        style = { styles.tileViewRow }>
-                        { thumbnailsInRow }
-                    </View>
-                );
-            }
+        for (let i = 0; i < thumbnails.length; i += rowLength) {
+            finalRows.push(thumbnails.slice(i, i + rowLength));
         }
 
-        return rowElements;
+        return finalRows;
     }
 
     /**
@@ -239,15 +251,13 @@ class TileView extends Component<Props> {
     _renderThumbnails() {
         const styleOverrides = {
             aspectRatio: TILE_ASPECT_RATIO,
-            flex: 0,
-            height: this._getTileDimensions().height,
-            width: null
+            minHeight: this._getTileDimensions().height,
+            maxWidth: this._getTileDimensions().width * 1.05
         };
 
         return this._getSortedParticipants()
             .map(participant => (
                 <Thumbnail
-                    disableTint = { true }
                     key = { participant.id }
                     participant = { participant }
                     renderDisplayName = { true }

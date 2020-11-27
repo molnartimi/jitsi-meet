@@ -153,13 +153,6 @@ class Avatar<P: Props> extends PureComponent<P, State> {
             avatarProps.url = effectiveURL;
         }
 
-        const initials = getInitials(_initialsBase);
-
-        if (initials) {
-            avatarProps.color = getAvatarColor(colorBase || _initialsBase);
-            avatarProps.initials = initials;
-        }
-
         return (
             <StatelessAvatar
                 { ...avatarProps } />

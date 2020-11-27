@@ -1,18 +1,17 @@
 // @flow
-
 import React from 'react';
 import { View } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import type { Dispatch } from 'redux';
 
 import { ColorSchemeRegistry } from '../../../base/color-scheme';
-import { openDialog } from '../../../base/dialog';
-import { MEDIA_TYPE, VIDEO_TYPE } from '../../../base/media';
+import { MEDIA_TYPE } from '../../../base/media';
 import {
-    PARTICIPANT_ROLE,
-    ParticipantView,
     getParticipantCount,
     isEveryoneModerator,
-    pinParticipant
+    PARTICIPANT_ROLE,
+    ParticipantView,
+    pinParticipant,
 } from '../../../base/participants';
 import { Container } from '../../../base/react';
 import { connect } from '../../../base/redux';
@@ -20,9 +19,8 @@ import { StyleType } from '../../../base/styles';
 import { getTrackByMediaTypeAndParticipant } from '../../../base/tracks';
 import { DisplayNameLabel } from '../../../display-name';
 import { toggleToolboxVisible } from '../../../toolbox/actions.native';
-
-import DominantSpeakerIndicator from './DominantSpeakerIndicator';
 import styles, { AVATAR_SIZE } from './styles';
+
 
 /**
  * Thumbnail component's property types.
@@ -47,7 +45,7 @@ type Props = {
     /**
      * Whether to show the dominant speaker indicator or not.
      */
-    _renderDominantSpeakerIndicator: boolean,
+    _isDominantSpeaker: boolean,
 
     /**
      * Whether to show the moderator indicator or not.
@@ -63,13 +61,6 @@ type Props = {
      * The Redux representation of the participant's video track.
      */
     _videoTrack: Object,
-
-    /**
-     * If true, there will be no color overlay (tint) on the thumbnail
-     * indicating the participant associated with the thumbnail is displayed on
-     * large video. By default there will be a tint.
-     */
-    disableTint?: boolean,
 
     /**
      * Invoked to trigger state changes in Redux.
@@ -108,11 +99,10 @@ function Thumbnail(props: Props) {
         _audioMuted: audioMuted,
         _largeVideo: largeVideo,
         _onClick,
-        _renderDominantSpeakerIndicator: renderDominantSpeakerIndicator,
+        _isDominantSpeaker: isDominantSpeaker,
         _renderModeratorIndicator: renderModeratorIndicator,
         _styles,
         _videoTrack: videoTrack,
-        disableTint,
         participant,
         renderDisplayName,
         tileView
@@ -127,9 +117,8 @@ function Thumbnail(props: Props) {
             onClick = { _onClick }
             style = { [
                 styles.thumbnail,
-                participant.pinned && !tileView
-                    ? _styles.thumbnailPinned : null,
-                props.styleOverrides || null
+                props.styleOverrides || null,
+                isDominantSpeaker ? _styles.dominantSpeaker : null
             ] }
             touchFeedback = { false }>
 
@@ -137,12 +126,16 @@ function Thumbnail(props: Props) {
                 avatarSize = { tileView ? AVATAR_SIZE * 1.5 : AVATAR_SIZE }
                 participantId = { participantId }
                 style = { _styles.participantViewStyle }
-                tintEnabled = { participantInLargeVideo && !disableTint }
+                tintEnabled = { false }
                 tintStyle = { _styles.activeThumbnailTint }
                 zOrder = { 1 } />
 
             { renderDisplayName && <Container style = { styles.displayNameContainer }>
-                <DisplayNameLabel participantId = { participantId } />
+               <LinearGradient colors={['rgba(0,0,0,0.0)', 'rgba(0,0,0,0.40)']}>
+                   <Container style = { isDominantSpeaker ? styles.dominantSpeaker : styles.notDominantSpeaker}>
+                    <DisplayNameLabel participantId = { participantId } />
+                    </Container>
+               </LinearGradient>
             </Container> }
 
             { !participant.isFakeParticipant && <View
@@ -205,15 +198,14 @@ function _mapStateToProps(state, ownProps) {
         = getTrackByMediaTypeAndParticipant(tracks, MEDIA_TYPE.AUDIO, id);
     const videoTrack
         = getTrackByMediaTypeAndParticipant(tracks, MEDIA_TYPE.VIDEO, id);
-    const participantCount = getParticipantCount(state);
-    const renderDominantSpeakerIndicator = participant.dominantSpeaker && participantCount > 2;
+    const isDominantSpeaker = participant.dominantSpeaker;
     const _isEveryoneModerator = isEveryoneModerator(state);
     const renderModeratorIndicator = !_isEveryoneModerator && participant.role === PARTICIPANT_ROLE.MODERATOR;
 
     return {
         _audioMuted: audioTrack?.muted ?? true,
         _largeVideo: largeVideo,
-        _renderDominantSpeakerIndicator: renderDominantSpeakerIndicator,
+        _isDominantSpeaker: isDominantSpeaker,
         _renderModeratorIndicator: renderModeratorIndicator,
         _styles: ColorSchemeRegistry.get(state, 'Thumbnail'),
         _videoTrack: videoTrack

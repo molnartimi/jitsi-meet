@@ -18,11 +18,19 @@ export default {
      * The display name container.
      */
     displayNameContainer: {
-        alignSelf: 'center',
         bottom: 0,
-        flex: 1,
-        margin: 4,
-        position: 'absolute'
+        margin: 0,
+        position: 'absolute',
+        width: '100%',
+        textAlign: 'center'
+    },
+
+    notDominantSpeaker: {
+        paddingBottom: 4
+    },
+
+    dominantSpeaker: {
+        paddingBottom: 0
     },
 
     /**
@@ -84,16 +92,12 @@ export default {
         alignItems: 'stretch',
         backgroundColor: ColorPalette.appBackground,
         borderColor: '#424242',
-        borderRadius: 3,
         borderStyle: 'solid',
         borderWidth: 1,
         flex: 1,
-        height: 80,
         justifyContent: 'center',
-        margin: 2,
         overflow: 'hidden',
-        position: 'relative',
-        width: 80
+        position: 'relative'
     },
 
     /**
@@ -123,16 +127,20 @@ export default {
     },
 
     tileView: {
-        alignSelf: 'center'
+        alignSelf: 'stretch',
+        alignContent: 'stretch'
     },
 
-    tileViewRows: {
-        justifyContent: 'center'
-    },
-
-    tileViewRow: {
+    tileRows: {
         flexDirection: 'row',
-        justifyContent: 'center'
+        alignSelf: 'stretch',
+        alignContent: 'stretch'
+    },
+
+    tileColumns: {
+        flexDirection: 'column',
+        alignSelf: 'stretch',
+        alignContent: 'stretch'
     }
 };
 
@@ -140,6 +148,15 @@ export default {
  * Color schemed styles for the @{code Thumbnail} component.
  */
 ColorSchemeRegistry.register('Thumbnail', {
+
+    /**
+     * Dominant speaker style
+     */
+    dominantSpeaker: {
+        borderWidth: 8,
+        borderStyle: 'solid',
+        borderColor: schemeColor('cabiPink')
+    },
 
     /**
      * Tinting style of the on-stage participant thumbnail.

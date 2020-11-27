@@ -12,7 +12,8 @@ export default {
         background: 'rgb(255, 255, 255)',
         errorText: ColorPalette.red,
         icon: 'rgb(28, 32, 37)',
-        text: 'rgb(28, 32, 37)'
+        text: 'rgb(28, 32, 37)',
+        cabiPink: 'rgb(243,146,160)'
     },
     'Chat': {
         displayName: 'rgb(94, 109, 121)',
