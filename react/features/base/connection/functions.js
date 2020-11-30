@@ -224,6 +224,21 @@ export function convertXmppPostMethodParam(param: NativeXmppPostMethodEventParam
         return param;
     }
 
+    Object.keys(parsedParam).forEach(p => {
+        if (parsedParam[p] && parsedParam[p].nativeResponseType) {
+            // Some functions take callback methods as parameters.
+            // We can't send them through native app, so we send a object with a type string,
+            // and we will send back the objects with which callbacks are called with this type to native app.
+            const _nativeResponsType = parsedParam[p].nativeResponseType;
+            const _defaultReturnValueOfCallback = parsedParam[p].defaultReturnValueOfCallback;
+            parsedParam[p] = callbackParam => {
+                dispatch(sendXmppResult(_nativeResponsType, callbackParam));
+
+                return _defaultReturnValueOfCallback;
+            };
+        }
+    });
+
     if (parsedParam && parsedParam.nativeResponseType) {
         // Some functions take callback methods as parameters.
         // We can't send them through native app, so we send a object with a type string,
