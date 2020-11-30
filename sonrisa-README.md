@@ -25,7 +25,7 @@
 Currently building the application is not supported on Windows, for this purpose you can use the Dockerfile (and run.sh) from the dockerize-android-sdk-build branch. This contains all dependencies required by this project and a short howto on usage.
 
 ##### Build in Mac/Linux
-To build the Android SDK you need to run the following command from /jitsi-meet:
+To build the jitsi meet SDK for android, run the following commands from the project' root directory:
 ```
 $ cd jitsi-meet
 // checkout the appropriate branch (at the time of writing, that's VS-mobile-integration)
@@ -35,11 +35,5 @@ $ brew install coreutils        # macOS
 $ sudo apt install coreutils jq # Linux based OSes. Substitute apt install with the approriate command/switches for whatever packaging system you use.
 $ ./android/scripts/release-sdk.sh <absolute_path_to>/jitsi-maven-repo
 ```
-This will publish the SDK as maven artifacts to the specified Maven repository, which you can add to the top-level build.gradle file of your project:
-```
-allprojects {
-    repositories {
-        maven { url "file:/<absolute_path_to>/jitsi-maven-repo" }
-    }
-}
-```
+
+Last command will build the SDK & publish the built SDK as maven artifacts to the specified Maven repository.
