@@ -48,7 +48,7 @@ class InFocusView extends Component<Props> {
                     {this.props.mainUser === undefined
                         ? _createDefaultMainUserName()
                         : _createShowButtonsPlaceholder()}
-                    {_createBottomVideoComponent(this.props.sideUser, true)}
+                    {_createBottomVideoComponent(this.props.sideUser, this.props.isSideUserAudioMuted)}
                 </View>
             </View>);
     }
