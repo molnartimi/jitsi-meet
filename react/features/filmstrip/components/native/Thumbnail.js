@@ -85,7 +85,12 @@ type Props = {
     /**
      * If true, it tells the thumbnail that it needs to behave differently. E.g. react differently to a single tap.
      */
-    tileView?: boolean
+    tileView?: boolean,
+
+    /**
+     * Indicates whether shown in front view or not.
+     */
+    isInFrontView: boolean
 }
 
 /**
@@ -110,7 +115,8 @@ class Thumbnail extends Component<Props> {
                 touchFeedback = { false }>
 
                 <ParticipantView
-                    avatarSize = { this.props.tileView ? AVATAR_SIZE * 1.5 : AVATAR_SIZE }
+                    avatarSize = { this.props.tileView ? AVATAR_SIZE * 2.5 : AVATAR_SIZE }
+                    isInFrontView = { this.props.isInFrontView }
                     participantId = { participantId }
                     style = { styles.participantViewStyle }
                     tintEnabled = { false }
@@ -184,7 +190,7 @@ function _mapStateToProps(state, ownProps) {
     // the stage i.e. as a large video.
     const largeVideo = state['features/large-video'];
     const tracks = state['features/base/tracks'];
-    const { participant } = ownProps;
+    const { participant, isInFrontView } = ownProps;
     const id = participant?.id === undefined ? 0 : participant.id;
     const audioTrack
         = getTrackByMediaTypeAndParticipant(tracks, MEDIA_TYPE.AUDIO, id);
@@ -200,7 +206,8 @@ function _mapStateToProps(state, ownProps) {
         _isDominantSpeaker: isDominantSpeaker,
         _renderModeratorIndicator: renderModeratorIndicator,
         _styles: ColorSchemeRegistry.get(state, 'Thumbnail'),
-        _videoTrack: videoTrack
+        _videoTrack: videoTrack,
+        isInFrontView
     };
 }
 

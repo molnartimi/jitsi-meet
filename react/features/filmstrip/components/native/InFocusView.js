@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Image } from 'react-native';
 
+import { MEDIA_TYPE } from '../../../base/media';
 import { connect } from '../../../base/redux';
+import { getTrackByMediaTypeAndParticipant } from '../../../base/tracks';
 
 import Thumbnail from './Thumbnail';
 import styles from './styles';
@@ -16,10 +18,12 @@ type Props = {
     /**
      * Side user object for show the user in the bottom right corner of the screen.
      */
-    sideUser: Object
+    sideUser: Object,
+    isSideUserAudioMuted: boolean
 }
 
 const NAME_PLACEHOLDER = 'FALL \'20 COLLECTION';
+const UNKNOWN_NAME = 'UNKNOWN';
 
 /**
  * React component for in-focus view.
@@ -34,13 +38,17 @@ class InFocusView extends Component<Props> {
             <View
                 style = { styles.fillView }>
 
-                {_createMainUserComponent(this.props.mainUser)}
+                {this.props.mainUser === undefined
+                    ? _createDefaultMainUserComponent()
+                    : _createMainUserComponent(this.props.mainUser)}
 
                 <View
                     style = { styles.inFrontTopView }>
-                    {_createTopNameComponent(this.props.mainUser)}
-                    {_createShowButtonsPlaceholder()}
-                    {_createBottomVideoComponent(this.props.sideUser)}
+                    {this.props.mainUser !== undefined && _createTopNameComponent(this.props.mainUser)}
+                    {this.props.mainUser === undefined
+                        ? _createDefaultMainUserName()
+                        : _createShowButtonsPlaceholder()}
+                    {_createBottomVideoComponent(this.props.sideUser, true)}
                 </View>
             </View>);
     }
@@ -48,8 +56,15 @@ class InFocusView extends Component<Props> {
 
 function _createTopNameComponent(mainUser) {
     return (<Text style = { styles.nameComponent }>{
-            mainUser?.name == null ? NAME_PLACEHOLDER : mainUser.name
+            mainUser?.name == null ? UNKNOWN_NAME : mainUser.name
     }</Text>);
+}
+
+function _createDefaultMainUserName() {
+    return (<View
+        style = { styles.buttonPlaceholder } >
+        <Text style = { styles.nameComponent }>{NAME_PLACEHOLDER}</Text>
+    </View>);
 }
 
 function _createShowButtonsPlaceholder() {
@@ -57,7 +72,7 @@ function _createShowButtonsPlaceholder() {
         style = { styles.buttonPlaceholder } />);
 }
 
-function _createBottomVideoComponent(sideUser) {
+function _createBottomVideoComponent(sideUser, isSideUserAudioMuted) {
     return (<View
         style = { styles.bottomVideoContainer }>
 
@@ -68,16 +83,29 @@ function _createBottomVideoComponent(sideUser) {
                 renderDisplayName = { true }
                 styleOverrides = { styles.fillView }
                 tileView = { true } />
+            {isSideUserAudioMuted && <View style = { styles.microphoneViewStyle }>
+                <Image
+                    style = { styles.microphoneIconStyle }
+                    source = { require('../../../../../resources/img/muted_microphone.png') } /></View>}
         </View>
     </View>);
 }
 
 function _createMainUserComponent(mainUser) {
     return (<Thumbnail
+        isInFrontView = { true }
         participant = { mainUser }
         renderDisplayName = { true }
         styleOverrides = { styles.inFrontBackView }
         tileView = { true } />);
+}
+
+function _createDefaultMainUserComponent() {
+    return (<Image
+        source = {{
+            uri: 'https://media.cliotest.com/VS/0da11b19-985d-497b-a532-c6120f4dec5f.png'
+        }}
+        style = { styles.fillView } />);
 }
 
 /**
@@ -89,10 +117,17 @@ function _createMainUserComponent(mainUser) {
  */
 function _mapStateToProps(state, ownProps) {
     const { mainUser, sideUser } = ownProps;
+    const placeholderUser = { name: UNKNOWN_NAME };
+
+    const tracks = state['features/base/tracks'];
+    const id = sideUser?.id;
+    const audioTrack
+        = getTrackByMediaTypeAndParticipant(tracks, MEDIA_TYPE.AUDIO, id);
 
     return {
-        mainUser: mainUser === undefined ? {} : mainUser,
-        sideUser: sideUser === undefined ? {} : sideUser
+        mainUser,
+        sideUser: sideUser === undefined ? placeholderUser : sideUser,
+        isSideUserAudioMuted: audioTrack?.muted ?? true
     };
 }
 export default connect(_mapStateToProps)(InFocusView);

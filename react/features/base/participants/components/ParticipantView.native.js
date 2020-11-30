@@ -1,10 +1,9 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { Image, Text, View } from 'react-native';
 
 import { YoutubeLargeVideo } from '../../../youtube-player/components';
-import { Avatar } from '../../avatar';
 import { translate } from '../../i18n';
 import { JitsiParticipantConnectionStatus } from '../../lib-jitsi-meet';
 import {
@@ -126,8 +125,16 @@ type Props = {
     /**
      * Indicates whether zooming (pinch to zoom and/or drag) is enabled.
      */
-    zoomEnabled: boolean
+    zoomEnabled: boolean,
+
+    /**
+     * Indicates whether shown in front view or not.
+     */
+    isInFrontView: boolean,
+
+    profileImageUrl: string
 };
+
 
 /**
  * Implements a React Component which depicts a specific participant's avatar
@@ -236,9 +243,16 @@ class ParticipantView extends Component<Props> {
 
                 { !renderYoutubeLargeVideo && !renderVideo
                     && <View style = { styles.avatarContainer }>
-                        <Avatar
-                            participantId = { this.props.participantId }
-                            size = { this.props.avatarSize } />
+                        <Image
+                            source = { this.props.isInFrontView
+                                ? require('../../../../../resources/img/default_user_icon.png')
+                                : { uri: this.props.profileImageUrl } }
+                            style = { this.props.isInFrontView
+                                ? { ...styles.circleAvatar,
+                                    width: this.props.avatarSize,
+                                    height: this.props.avatarSize,
+                                    borderRadius: this.props.avatarSize / 2 }
+                                : styles.avatarContainer } />
                     </View> }
 
                 { useTint
@@ -266,7 +280,7 @@ class ParticipantView extends Component<Props> {
  * @returns {Props}
  */
 function _mapStateToProps(state, ownProps) {
-    const { disableVideo, participantId } = ownProps;
+    const { disableVideo, participantId, isInFrontView } = ownProps;
     const participant = getParticipantById(state, participantId);
     let connectionStatus;
     let participantName;
@@ -282,7 +296,9 @@ function _mapStateToProps(state, ownProps) {
             getTrackByMediaTypeAndParticipant(
                 state['features/base/tracks'],
                 MEDIA_TYPE.VIDEO,
-                participantId)
+                participantId),
+        isInFrontView,
+        profileImageUrl: participant?.loadableAvatarUrl
     };
 }
 

@@ -14,6 +14,13 @@ export default {
         justifyContent: 'center'
     },
 
+    circleAvatar: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '50%',
+        height: '50%'
+    },
+
     /**
      * Style for the text rendered when there is a connectivity problem.
      */
