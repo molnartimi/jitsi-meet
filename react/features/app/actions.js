@@ -158,7 +158,12 @@ export function appNavigate(uri: ?string) {
  * @param {boolean} startWithVideoMuted - If camera should start muted.
  * @returns {Function}
  */
-export function appJoinRoom(serverURL: string, roomName: string, startWithAudioMuted: boolean, startWithVideoMuted: boolean) {
+export function appJoinRoom(serverURL: string, 
+                            roomName: string, 
+                            startWithAudioMuted: boolean, 
+                            startWithVideoMuted: boolean,
+                            noCam: boolean,
+                            noMic: boolean) {
     return async (dispatch: Dispatch<any>) => {
         dispatch(updateSettings({ startWithAudioMuted, startWithVideoMuted }));
 
@@ -168,7 +173,14 @@ export function appJoinRoom(serverURL: string, roomName: string, startWithAudioM
         dispatch(setRoom(roomName));
 
         if (isNativeApp()) {
-            dispatch(createDesiredLocalTracks());
+            const desiredTypes = [];
+            if (!noCam) {
+                desiredTypes.push(MEDIA_TYPE.VIDEO);
+            }
+            if (!noMic) {
+                desiredTypes.push(MEDIA_TYPE.AUDIO);
+            }
+            dispatch(createDesiredLocalTracks.apply(this, desiredTypes));
             dispatch(createConference());
         }
     };

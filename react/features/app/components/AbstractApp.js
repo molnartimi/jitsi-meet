@@ -210,9 +210,9 @@ export class AbstractApp extends BaseApp<Props, *> {
 
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.VIDEOCONF_JOIN,
             (dataJsonString: string) => {
-                const { roomName, audioMuted, videoMuted } = JSON.parse(dataJsonString);
+                const { roomName, audioMuted, videoMuted, noCam, noMic } = JSON.parse(dataJsonString);
                 this.props.url.room = roomName;
-                this.state.store.dispatch(appJoinRoom(this.props.url.serverURL, roomName, audioMuted, videoMuted));
+                this.state.store.dispatch(appJoinRoom(this.props.url.serverURL, roomName, audioMuted, videoMuted, noCam, noMic));
             }));
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.VIDEOCONF_LEAVE,
             () => dispatch(appLeaveRoom())));

@@ -58,7 +58,6 @@ export function createDesiredLocalTracks(...desiredTypes) {
             (video.muted & ~VIDEO_MUTISM_AUTHORITY.BACKGROUND)
                 || desiredTypes.push(MEDIA_TYPE.VIDEO);
         }
-
         const availableTypes
             = getLocalTracks(
                     state['features/base/tracks'],
