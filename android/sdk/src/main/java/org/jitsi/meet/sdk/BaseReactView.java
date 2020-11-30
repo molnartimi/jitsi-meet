@@ -93,7 +93,7 @@ public abstract class BaseReactView<ListenerT>
      * inspired by postis which we use on Web for the similar purposes of the
      * iframe-based external API.
      */
-    protected final String externalAPIScope;
+    protected static final String externalAPIScope = UUID.randomUUID().toString();
 
     /**
      * The listener (e.g. {@link JitsiMeetViewListener}) instance for reporting
@@ -114,7 +114,6 @@ public abstract class BaseReactView<ListenerT>
         ReactInstanceManagerHolder.initReactInstanceManager((Activity)context);
 
         // Hook this BaseReactView into ExternalAPI.
-        externalAPIScope = UUID.randomUUID().toString();
         synchronized (views) {
             views.add(this);
         }

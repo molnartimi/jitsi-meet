@@ -32,12 +32,6 @@ static NSString *const PiPEnabledFeatureFlag = @"pip.enabled";
 
 
 @implementation JitsiMeetView {
-    /**
-     * The unique identifier of this `JitsiMeetView` within the process for the
-     * purposes of `ExternalAPI`. The name scope was inspired by postis which we
-     * use on Web for the similar purposes of the iframe-based external API.
-     */
-    NSString *externalAPIScope;
 
     /**
      * React Native view where the entire content will be rendered.
@@ -54,6 +48,13 @@ static NSString *const PiPEnabledFeatureFlag = @"pip.enabled";
 static NSMapTable<NSString *, JitsiMeetView *> *views;
 
 /**
+ * The unique identifier of this `JitsiMeetView` within the process for the
+ * purposes of `ExternalAPI`. The name scope was inspired by postis which we
+ * use on Web for the similar purposes of the iframe-based external API.
+ */
+static NSString *externalAPIScope;
+
+/**
  * This gets called automagically when the program starts.
  */
 __attribute__((constructor))
@@ -66,7 +67,7 @@ static void initializeViewsMap() {
 - (instancetype)init {
     self = [super init];
     if (self) {
-        [self initWithXXX];
+        [self initExternalAPIScopeAndBackgroundColor];
     }
 
     return self;
@@ -75,7 +76,7 @@ static void initializeViewsMap() {
 - (instancetype)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder:coder];
     if (self) {
-        [self initWithXXX];
+        [self initExternalAPIScopeAndBackgroundColor];
     }
 
     return self;
@@ -84,7 +85,7 @@ static void initializeViewsMap() {
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        [self initWithXXX];
+        [self initExternalAPIScopeAndBackgroundColor];
     }
 
     return self;
@@ -96,9 +97,9 @@ static void initializeViewsMap() {
  * - sets the background color
  * - initializes the external API scope
  */
-- (void)initWithXXX {
+- (void)initExternalAPIScopeAndBackgroundColor {
     // Hook this JitsiMeetView into ExternalAPI.
-    externalAPIScope = [NSUUID UUID].UUIDString;
+    externalAPIScope = externalAPIScope == nil ? [NSUUID UUID].UUIDString : externalAPIScope;
     [views setObject:self forKey:externalAPIScope];
 
     // Set a background color which is in accord with the JavaScript and Android
