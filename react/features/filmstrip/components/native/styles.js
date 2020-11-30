@@ -145,20 +145,22 @@ export default {
 
     buttonPlaceholder: {
         height: '65%',
-        width: '100%'
+        width: '100%',
+        justifyContent: 'flex-end',
+        marginBottom: '5%'
     },
 
     bottomVideoPlaceholder: {
         width: '30%',
-        height: '100%'
+        height: '100%',
+        justifyContent: 'flex-end'
     },
 
     bottomVideoContainer: {
         height: '20%',
         width: '100%',
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        alignItems: 'center'
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end'
     },
 
     fillView: {
@@ -167,13 +169,29 @@ export default {
         height: '100%'
     },
 
+    microphoneViewStyle: {
+        position: 'absolute',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        marginBottom: '30%',
+        width: '100%',
+        height: '100%'
+    },
+
+    microphoneIconStyle: {
+        height: '30%',
+        width: '30%'
+    },
+
     nameComponent: {
         width: '100%',
         fontSize: 30,
         alignSelf: 'center',
         fontWeight: 'bold',
         color: 'white',
-        textAlign: 'center'
+        textAlign: 'center',
+        marginBottom: '5%',
+        fontFamily: 'Montserrat Light'
     },
 
     inFrontTopView: {
