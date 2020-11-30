@@ -126,12 +126,7 @@ type Props = {
      * Indicates whether zooming (pinch to zoom and/or drag) is enabled.
      */
     zoomEnabled: boolean,
-
-    /**
-     * Indicates whether shown in front view or not.
-     */
     isInFrontView: boolean,
-
     profileImageUrl: string
 };
 

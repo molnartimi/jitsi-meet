@@ -9,15 +9,7 @@ import Thumbnail from './Thumbnail';
 import styles from './styles';
 
 type Props = {
-
-    /**
-     * Main user object for show the user in the whole screen.
-     */
     mainUser: Object,
-
-    /**
-     * Side user object for show the user in the bottom right corner of the screen.
-     */
     sideUser: Object,
     isSideUserAudioMuted: boolean
 }
