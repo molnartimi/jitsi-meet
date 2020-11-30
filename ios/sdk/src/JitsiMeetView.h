@@ -92,9 +92,4 @@
  */
 - (void)removeJitsiCommand:(NSString *_Nonnull)commandName;
 
-/**
- * Add jitsi command listener.
- */
-- (void)addJitsiCommandListener:(NSString *_Nonnull)commandName;
-
 @end

@@ -152,7 +152,9 @@ MiddlewareRegistry.register(store => next => action => {
             };
 
             sendEvent(store, COMMAND_VALUE, {
-                value: flatted.stringify(response)
+                value: flatted.stringify(response,
+                        // escape special characters with replacer function, so flatted.parse won't raise an error later on
+                        (_, val) => typeof val === 'string' ? val.replace(/\\/g, '\\\\') : val)
             });
         } catch (e) {
             logger.error('Some error occurred at sending command value to native app', e);

@@ -20,6 +20,41 @@ export const AVATAR_URL_COMMAND = 'avatar-url';
 export const EMAIL_COMMAND = 'email';
 
 /**
+ * The command type for updating the current in-focus participant.
+ *
+ * @type {string}
+ */
+export const IN_FOCUS_COMMAND = 'currentfocus';
+
+/**
+ * The command type for updating a participant's vip type.
+ *
+ * @type {string}
+ */
+export const VIP_COMMAND = 'viptype';
+
+/**
+ * The command type for updating a participant's disable state.
+ *
+ * @type {string}
+ */
+export const DISABLE_COMMAND = 'disable';
+
+/**
+ * The command type for notifying a participant of a video being stopped.
+ *
+ * @type {string}
+ */
+export const VIDEO_STOPPED_COMMAND = 'videostopped';
+
+/**
+ * The command type for updating a participant's media state.
+ *
+ * @type {string}
+ */
+export const NO_MEDIA_COMMAND = 'nomedia';
+
+/**
  * The name of the {@code JitsiConference} property which identifies the URL of
  * the conference represented by the {@code JitsiConference} instance.
  *
