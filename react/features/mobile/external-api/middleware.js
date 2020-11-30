@@ -27,6 +27,7 @@ import { MiddlewareRegistry } from '../../base/redux';
 import { TRACK_ADDED } from '../../base/tracks';
 import { ENTER_PICTURE_IN_PICTURE } from '../picture-in-picture';
 
+import { UNDEFINED_JITSI_ERROR } from './actions';
 import { sendEvent } from './functions';
 
 /**
@@ -138,6 +139,7 @@ MiddlewareRegistry.register(store => next => action => {
             );
         } catch (e) {
             logger.error('Some error occurred at sending xmpp result event to native app', e);
+            _sendErrorToNativeApp(store, e);
         }
         break;
     }
@@ -154,6 +156,7 @@ MiddlewareRegistry.register(store => next => action => {
             });
         } catch (e) {
             logger.error('Some error occurred at sending command value to native app', e);
+            _sendErrorToNativeApp(store, e);
         }
         break;
     }
@@ -162,6 +165,11 @@ MiddlewareRegistry.register(store => next => action => {
             kind: action.track.mediaType,
             muted: action.track.muted.toString() // sending boolean caused error in Android code
         });
+        break;
+    }
+
+    case UNDEFINED_JITSI_ERROR: {
+        _sendErrorToNativeApp(store, action.error);
         break;
     }
     }
@@ -357,4 +365,20 @@ function _swallowEvent(store, action, data) {
     default:
         return false;
     }
+}
+
+/**
+ * Send error message to native app.
+ *
+ * @param {Object} store - Redux store.
+ * @param {string} errorMsg - Error message string.
+ * @returns {void}
+ */
+function _sendErrorToNativeApp(store, errorMsg) {
+    sendEvent(
+        store,
+        UNDEFINED_JITSI_ERROR,
+        {
+            errorMessage: errorMsg
+        });
 }
