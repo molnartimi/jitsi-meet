@@ -57,6 +57,13 @@ public interface JitsiMeetViewListener {
     void onXmppResult(Map<String, Object> data);
 
     /**
+     * Called when new command value received we are subscribed to.
+     *
+     * @param data Map with a "value" key with the stringified object of command name and command value.
+     */
+    void onCommandValue(Map<String, Object> data);
+
+    /**
      * Called whenever a local track is created.
      * @param data Map with a "kind" key stating the track type
      * and a "muted" stringified boolean value.

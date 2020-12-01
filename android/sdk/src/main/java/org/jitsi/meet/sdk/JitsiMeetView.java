@@ -212,6 +212,27 @@ public class JitsiMeetView extends BaseReactView<JitsiMeetViewListener>
     }
 
     /**
+     * Sends a Jitsi command to conference.
+     */
+    public void sendJitsiCommand(String data) {
+        VideoConfBridge.sendJitsiCommand(data);
+    }
+
+    /**
+     * Remove a Jitsi command from presence.
+     */
+    public void removeJitsiCommand(String commandName) {
+        VideoConfBridge.removeJitsiCommand(commandName);
+    }
+
+    /**
+     * Add a Jitsi command listener.
+     */
+    public void addJitsiCommandListener(String commandName) {
+        VideoConfBridge.addJitsiCommandListener(commandName);
+    }
+
+    /**
      * Helper method to set the React Native props.
      * @param newProps - New props to be set on the React Native view.
      */

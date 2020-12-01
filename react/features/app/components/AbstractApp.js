@@ -4,6 +4,7 @@ import React, { Fragment } from 'react';
 import { NativeEventEmitter, NativeModules } from 'react-native';
 
 import { BaseApp } from '../../base/app';
+import { sendCommand, removeCommand, addCommandListener } from '../../base/conference';
 import { storeConfig } from '../../base/config';
 import { NativeEvents } from '../../base/constants';
 import { muteMedia, toggleCameraFacingMode } from '../../base/media';
@@ -211,8 +212,10 @@ export class AbstractApp extends BaseApp<Props, *> {
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.VIDEOCONF_JOIN,
             (dataJsonString: string) => {
                 const { roomName, audioMuted, videoMuted, noCam, noMic } = JSON.parse(dataJsonString);
+
                 this.props.url.room = roomName;
-                this.state.store.dispatch(appJoinRoom(this.props.url.serverURL, roomName, audioMuted, videoMuted, noCam, noMic));
+                this.state.store.dispatch(appJoinRoom(this.props.url.serverURL, roomName,
+                    audioMuted, videoMuted, noCam, noMic));
             }));
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.VIDEOCONF_LEAVE,
             () => dispatch(appLeaveRoom())));
@@ -220,6 +223,12 @@ export class AbstractApp extends BaseApp<Props, *> {
             (dataJsonString: string) => dispatch(muteMedia(dataJsonString, this.state.store.dispatch))));
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.SWITCH_CAMERA,
             () => dispatch(toggleCameraFacingMode())));
+        this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.SEND_COMMAND,
+            (dataJsonString: string) => dispatch(sendCommand(dataJsonString))));
+        this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.REMOVE_COMMAND,
+            (commandName: string) => dispatch(removeCommand(commandName))));
+        this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.ADD_COMMAND_LISTENER,
+            (commandName: string) => dispatch(addCommandListener(commandName))));
     }
 
 }

@@ -156,6 +156,18 @@ static void initializeViewsMap() {
     [eventEmitter switchCamera];
 }
 
+- (void)sendJitsiCommand:(NSString *_Nonnull)dataJsonString {
+    [eventEmitter sendCommand:dataJsonString];
+}
+
+- (void)removeJitsiCommand:(NSString *_Nonnull)commandName {
+    [eventEmitter removeCommand:commandName];
+}
+
+- (void)addJitsiCommandListener:(NSString *)commandName {
+    [eventEmitter addCommandListener:commandName];
+}
+
 #pragma mark Private methods
 
 /**

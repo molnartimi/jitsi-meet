@@ -29,6 +29,22 @@ public class VideoConfBridge {
     private static final String SWITCH_CAMERA = "org.jitsi.meet:features/videoconf-bridge#switch-camera";
 
     /**
+     * Send Jitsi command.
+     */
+    private static final String SEND_COMMAND = "org.jitsi.meet:features/videoconf-bridge#send-command";
+
+
+    /**
+     * Remove Jitsi command.
+     */
+    private static final String REMOVE_COMMAND = "org.jitsi.meet:features/videoconf-bridge#remove-command";
+
+    /**
+     * Add Jitsi command listener.
+     */
+    private static final String ADD_COMMAND_LISTENER = "org.jitsi.meet:features/videoconf-bridge#add-command-listener";
+
+    /**
      * Sends a videoconf join event to React Native.
      */
     public static void joinConference(String roomName) {
@@ -58,5 +74,26 @@ public class VideoConfBridge {
      */
     public static void switchCamera() {
         ReactInstanceManagerHolder.emitEvent(SWITCH_CAMERA, null);
+    }
+
+    /**
+     * Send jitsi command in confernce.
+     */
+    public static void sendJitsiCommand(String dataJsonString) {
+        ReactInstanceManagerHolder.emitEvent(SEND_COMMAND, dataJsonString);
+    }
+
+    /**
+     * Remove jitsi command from presence.
+     */
+    public static void removeJitsiCommand(String commandName) {
+        ReactInstanceManagerHolder.emitEvent(REMOVE_COMMAND, commandName);
+    }
+
+    /**
+     * Add jitsi command listener.
+     */
+    public static void addJitsiCommandListener(String commandName) {
+        ReactInstanceManagerHolder.emitEvent(ADD_COMMAND_LISTENER, commandName);
     }
 }
