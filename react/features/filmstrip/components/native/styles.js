@@ -144,7 +144,7 @@ export default {
     },
 
     buttonPlaceholder: {
-        height: '65%',
+        height: '60%',
         width: '100%',
         justifyContent: 'flex-end',
         marginBottom: '5%'
@@ -153,11 +153,13 @@ export default {
     bottomVideoPlaceholder: {
         width: '30%',
         height: '100%',
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
+        paddingBottom: 10,
+        paddingHorizontal: 10
     },
 
     bottomVideoContainer: {
-        height: '20%',
+        height: '25%',
         width: '100%',
         alignItems: 'flex-end',
         justifyContent: 'flex-end'
@@ -173,14 +175,20 @@ export default {
         position: 'absolute',
         justifyContent: 'flex-end',
         alignItems: 'center',
-        marginBottom: '30%',
+        alignSelf: 'flex-end',
+        paddingBottom: '20%',
+
+        // backgroundColor: 'red',
         width: '100%',
-        height: '100%'
+        height: '100%',
+        top: '0%',
+        left: '10%'
     },
 
     microphoneIconStyle: {
         height: '30%',
-        width: '30%'
+        width: '30%',
+        alignSelf: 'center'
     },
 
     nameComponent: {
@@ -207,7 +215,11 @@ export default {
         justifyContent: 'flex-end',
         width: '100%',
         height: '100%'
-    }
+    },
+
+    gradientOverlay: { position: 'absolute',
+        top: '100%',
+        left: '100%' }
 };
 
 /**

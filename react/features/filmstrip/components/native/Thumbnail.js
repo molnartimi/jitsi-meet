@@ -90,7 +90,7 @@ type Props = {
     /**
      * Indicates whether shown in front view or not.
      */
-    isInFrontView: boolean
+    isAvatarCircled: boolean
 }
 
 /**
@@ -115,32 +115,32 @@ class Thumbnail extends Component<Props> {
                 touchFeedback = { false }>
 
                 <ParticipantView
-                    avatarSize = { this.props.tileView ? AVATAR_SIZE * 2.5 : AVATAR_SIZE }
-                    isInFrontView = { this.props.isInFrontView }
+                    avatarSize = { this.props.tileView ? AVATAR_SIZE * 2.3 : AVATAR_SIZE }
+                    isAvatarCircled = { this.props.isAvatarCircled }
                     participantId = { participantId }
                     style = { styles.participantViewStyle }
                     tintEnabled = { false }
-                    tintStyle = { styles.activeThumbnailTint }
-                    zOrder = { 1 } />
+                    tintStyle = { styles.activeThumbnailTint } />
 
                 {this.props.renderDisplayName
-                && <Container style = { styles.displayNameContainer }>
-                    <LinearGradient
-                        colors = { [ 'rgba(0,0,0,0.0)', 'rgba(0,0,0,0.40)' ] }>
+                    && <Container style = { styles.displayNameContainer }>
                         <Container
                             style = { this.props._isDominantSpeaker
                                 ? styles.dominantSpeaker
                                 : styles.notDominantSpeaker }>
                             <DisplayNameLabel participantId = { participantId } />
                         </Container>
-                    </LinearGradient>
-                </Container>}
+                    </Container>}
 
                 {!this.props.participant?.isFakeParticipant && <View
                     style = { [
                         styles.thumbnailTopIndicatorContainer,
                         styles.thumbnailTopRightIndicatorContainer
                     ] } />}
+
+                <LinearGradient
+                    colors = { [ 'black', 'white' ] }
+                    style = { styles.gradientOverlay } />
 
             </Container>
         );
@@ -190,7 +190,7 @@ function _mapStateToProps(state, ownProps) {
     // the stage i.e. as a large video.
     const largeVideo = state['features/large-video'];
     const tracks = state['features/base/tracks'];
-    const { participant, isInFrontView } = ownProps;
+    const { participant, isAvatarCircled } = ownProps;
     const id = participant?.id === undefined ? 0 : participant.id;
     const audioTrack
         = getTrackByMediaTypeAndParticipant(tracks, MEDIA_TYPE.AUDIO, id);
@@ -207,7 +207,7 @@ function _mapStateToProps(state, ownProps) {
         _renderModeratorIndicator: renderModeratorIndicator,
         _styles: ColorSchemeRegistry.get(state, 'Thumbnail'),
         _videoTrack: videoTrack,
-        isInFrontView
+        isAvatarCircled
     };
 }
 

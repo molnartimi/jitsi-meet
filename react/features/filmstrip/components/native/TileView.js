@@ -266,6 +266,7 @@ class TileView extends Component<Props> {
         return this._getSortedParticipants()
             .map(participant => (
                 <Thumbnail
+                    isAvatarCircled = { false }
                     key = { participant.id }
                     participant = { participant }
                     renderDisplayName = { true }

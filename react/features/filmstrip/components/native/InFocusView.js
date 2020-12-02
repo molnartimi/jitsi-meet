@@ -71,21 +71,25 @@ function _createBottomVideoComponent(sideUser, isSideUserAudioMuted) {
         <View
             style = { styles.bottomVideoPlaceholder }>
             <Thumbnail
+                isAvatarCircled = { false }
                 participant = { sideUser }
                 renderDisplayName = { true }
-                styleOverrides = { styles.fillView }
+                styleOverrides = {{ ...styles.fillView,
+                    borderRadius: 15 }}
                 tileView = { true } />
-            {isSideUserAudioMuted && <View style = { styles.microphoneViewStyle }>
+            {isSideUserAudioMuted
+            && <View style = { styles.microphoneViewStyle } >
                 <Image
-                    style = { styles.microphoneIconStyle }
-                    source = { require('../../../../../resources/img/muted_microphone.png') } /></View>}
+                    source = { require('../../../../../resources/img/muted_microphone.png') }
+                    style = { styles.microphoneIconStyle } />
+            </View>}
         </View>
     </View>);
 }
 
 function _createMainUserComponent(mainUser) {
     return (<Thumbnail
-        isInFrontView = { true }
+        isAvatarCircled = { true }
         participant = { mainUser }
         renderDisplayName = { true }
         styleOverrides = { styles.inFrontBackView }

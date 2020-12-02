@@ -126,7 +126,7 @@ type Props = {
      * Indicates whether zooming (pinch to zoom and/or drag) is enabled.
      */
     zoomEnabled: boolean,
-    isInFrontView: boolean,
+    isAvatarCircled: boolean,
     profileImageUrl: string
 };
 
@@ -239,15 +239,15 @@ class ParticipantView extends Component<Props> {
                 { !renderYoutubeLargeVideo && !renderVideo
                     && <View style = { styles.avatarContainer }>
                         <Image
-                            source = { this.props.isInFrontView
+                            source = { this.props.profileImageUrl === undefined
                                 ? require('../../../../../resources/img/default_user_icon.png')
                                 : { uri: this.props.profileImageUrl } }
-                            style = { this.props.isInFrontView
+                            style = { this.props.isAvatarCircled
                                 ? { ...styles.circleAvatar,
                                     width: this.props.avatarSize,
                                     height: this.props.avatarSize,
                                     borderRadius: this.props.avatarSize / 2 }
-                                : styles.avatarContainer } />
+                                : { ...styles.avatarContainer } } />
                     </View> }
 
                 { useTint
@@ -275,7 +275,7 @@ class ParticipantView extends Component<Props> {
  * @returns {Props}
  */
 function _mapStateToProps(state, ownProps) {
-    const { disableVideo, participantId, isInFrontView } = ownProps;
+    const { disableVideo, participantId, isAvatarCircled } = ownProps;
     const participant = getParticipantById(state, participantId);
     let connectionStatus;
     let participantName;
@@ -292,7 +292,7 @@ function _mapStateToProps(state, ownProps) {
                 state['features/base/tracks'],
                 MEDIA_TYPE.VIDEO,
                 participantId),
-        isInFrontView,
+        isAvatarCircled,
         profileImageUrl: participant?.loadableAvatarUrl
     };
 }
