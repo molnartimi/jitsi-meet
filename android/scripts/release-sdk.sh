@@ -2,8 +2,32 @@
 
 set -e -u
 
+# Update version in gradle.properties file in case of dev build
+# Changes will be reverted at the end of this script
+update_version_if_dev_build() 
+{
+  CURRENT_DIR=$1
+  BUILD_MODE=$2
+  
+  # defaul SDK version is coming from gradle.properties file
+  DEFAULT_SDK_VERSION=$(grep sdkVersion ${THIS_DIR}/../gradle.properties | cut -d"=" -f2)
+   
+  if [ ${BUILD_MODE} == "dev" ]; then
+   COMMIT_ID=$(git --git-dir=/jitsi-meet/.git rev-parse --verify HEAD)   
+   DEV_VERSION="${DEFAULT_SDK_VERSION}-${COMMIT_ID}"
+   
+   echo "Building in dev mode thus updating SDK version in gradle.properties to ${DEV_VERSION}"
+   
+   sed -i "s/sdkVersion=.*/sdkVersion=${DEV_VERSION}/g" ${THIS_DIR}/../gradle.properties
+   
+  fi
+
+}
 
 THIS_DIR=$(cd -P "$(dirname "$(readlink "${BASH_SOURCE[0]}" || echo "${BASH_SOURCE[0]}")")" && pwd)
+
+update_version_if_dev_build ${THIS_DIR} ${2:-"prod"}
+
 DEFAULT_MVN_REPO="${THIS_DIR}/../../../jitsi-maven-repository/releases"
 THE_MVN_REPO=${MVN_REPO:-${1:-$DEFAULT_MVN_REPO}}
 MVN_HTTP=0
@@ -106,6 +130,11 @@ if [[ $DO_GIT_TAG == 1 ]]; then
     # Tag the release
     git tag android-sdk-${SDK_VERSION}
 fi
+
+if [ ${BUILD_MODE} == "dev" ]; then
+  # Cleanup the changes made in the version due to the dev build
+  git --git-dir=/jitsi-meet/.git checkout android/gradle.properties
+fi 
 
 # Done!
 echo "Finished! Don't forget to push the tag and the Maven repo artifacts."

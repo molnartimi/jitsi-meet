@@ -1,0 +1,30 @@
+version: "3.2"
+
+services:
+  # Docker container for building jitsi-sdk on windows
+  jitsi-build:
+    container_name: jitsi-build
+    build: .
+    image: jitsi-build
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    ports:
+      - 4300:8080 
+      - 4301:8081
+      - 5555:5555
+    volumes:
+      - type: bind
+        source: ${JITSI_MEET_WORKSPACE}
+        target: /jitsi-meet
+      - type: bind
+        source: ${MAVEN_REPOSITORY}
+        target: /jitsi-maven-repository
+      
+      # Keeping node_modules and scripts folders inside the docker container 
+      # makes the build faster. Note: files in the scripts folder gets copied 
+      # into the container due the COPY commands in the dockerfile.
+      
+      # node_modules folder will be placed inside the docker container
+      - /jitsi-meet/node_modules 
+      # scripts folder will be placed inside the docker container
+      - /jitsi-meet/android/scripts

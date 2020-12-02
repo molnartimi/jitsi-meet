@@ -22,7 +22,47 @@
 ```
 ### [Android](https://jitsi.github.io/handbook/docs/dev-guide/dev-guide-android-sdk)
 ##### Build in Windows
-Currently building the application is not supported on Windows, for this purpose you can use the Dockerfile (and run.sh) from the dockerize-android-sdk-build branch. This contains all dependencies required by this project and a short howto on usage.
+Currently building the application is not supported on Windows. 
+For being able to build jitsi-SDK on Windows we created a docker container so the build process can be executed inside the container.
+
+You have two options to use the docker container:
+
+###### Using docker-compose
+First of you need to set the absolute path of the jitsi-meet workspace in the .env file.
+Then for using the docker container for building the SDK please do the followings:
+```
+$ cd jitsi-meet
+$ docker-compose up -d
+```
+Now you have the running docker container that can be used for building the SDK. Go and jump to the common part.
+
+###### Using docker CLI
+First you need to build the docker image with this command:
+```
+$ docker build -t jitsi-build .
+```
+Then you can start the docker container:
+```
+$ docker run -d -it --name jitsi-build --mount type=bind,source=<ABSOLUTE_PATH_TO>/jitsi-meet,target=/jitsi-meet --mount type=bind,source=<ABSOLUTE_PATH_TO>/jitsi-maven-repository,target=/jitsi-maven-repository -v /jitsi-meet/node_modules -v /jitsi-meet/android/scripts -p 4300:8080 -p 4301:8081 -p 5555:5555 jitsi-build 
+```
+The `<ABSOLUTE_PATH_TO>/jitsi-meet` should be the full path of your jitsi-meet workspace. 
+The `<ABSOLUTE_PATH_TO>/jitsi-maven-repository` should be the full path of the maven repository where you want to push the SDK binary, something like `c:\users\{USER_NAME}\.m2\repository`.
+
+Now you have the running docker container that can be used for building the SDK. From this point you can follow the instructions above in the common part.
+
+###### Common part
+
+```
+$ docker exec -it jitsi-build /bin/bash 
+# npm i
+# ./android/scripts/release-sdk.sh /jitsi-maven-repository dev
+```
+
+ - Once the build is ready, you'll find your results in the `~\.m2\repository\org\jitsi\react\jitsi-meet-sdk` folder.
+ - If you want to change the path of the targeted maven repository, you can do that in the .env docker environment file.
+ - By passing the `dev` argument to the `release-sdk.sh` script the current git head revisionID will be appended to the version of the SDK. This is useful especially when you're switching between different branches because it keeps the different SDK versions in your maven repository, so you don't have to rebuild the SDK on each branch. 
+ - If you want to produce a production SDK build, then do not pass the `dev` argument. Production build is the default. 
+ 
 
 ##### Build in Mac/Linux
 To build the jitsi meet SDK for android, run the following commands from the project' root directory:
