@@ -10,11 +10,12 @@ import Thumbnail from './Thumbnail';
 import styles from './styles';
 
 type Props = {
-    mainUser: Object,
-    sideUser: Object,
+    inFocusUser: Object,
+    localUser: Object,
     isSideUserAudioMuted: boolean
 }
 
+// TODO: make NAME_PLACEHOLDER settable by tabletparty.
 const NAME_PLACEHOLDER = 'FALL \'20 COLLECTION';
 const UNKNOWN_NAME = 'UNKNOWN';
 
@@ -31,78 +32,105 @@ class InFocusView extends Component<Props> {
             <View
                 style = { styles.fillView }>
 
-                {_.isNaN(this.props.mainUser)
-                    ? _createDefaultMainUserComponent()
-                    : _createMainUserComponent(this.props.mainUser)}
+                {_.isNil(this.props.inFocusUser)
+                    ? this._createTemplateImageComponent()
+                    : this._createInFocusVideoComponent()}
 
-                <View
-                    style = { styles.inFrontTopView }>
-                    {!_.isNaN(this.props.mainUser) && _createTopNameComponent(this.props.mainUser)}
-                    {_.isNaN(this.props.mainUser)
-                        ? _createDefaultMainUserName()
-                        : _createShowButtonsPlaceholder()}
-                    {_createBottomVideoComponent(this.props.sideUser, this.props.isSideUserAudioMuted)}
-                </View>
+                {this._createInFocusTopView()}
             </View>);
     }
-}
 
-function _createTopNameComponent(mainUser) {
-    return (<Text style = { styles.nameComponent }>{
-        _.isNaN(mainUser?.name) ? UNKNOWN_NAME : mainUser.name
-    }</Text>);
-}
+    /**
+     * This is the View of the in focus user video. It fills the whole screen.
+     * The in focus screen other elements will be rendered on the top of it.
+     *
+     * @returns {ReactElement}
+     * @private
+     */
+    _createInFocusVideoComponent() {
+        return (<Thumbnail
+            isAvatarCircled = { true }
+            participant = { this.props.inFocusUser }
+            renderDisplayName = { true }
+            styleOverrides = { styles.inFrontBackView }
+            tileView = { true } />);
+    }
 
-function _createDefaultMainUserName() {
-    return (<View
-        style = { styles.buttonPlaceholder } >
-        <Text style = { styles.nameComponent }>{NAME_PLACEHOLDER}</Text>
-    </View>);
-}
+    _createTemplateImageComponent() {
+        return (<Image
+            source = {{
+                // TODO: make this URL settable by tabletparty.
+                uri: 'https://media.cliotest.com/VS/0da11b19-985d-497b-a532-c6120f4dec5f.png'
+            }}
+            style = { styles.fillView } />);
+    }
 
-function _createShowButtonsPlaceholder() {
-    return (<View
-        style = { styles.buttonPlaceholder } />);
-}
+    /**
+     * This is the View which appears at the top of the in focus user video.
+     * This is a floating layout. It contains the user name view,
+     * the wrap up buttons and the self frame video also.
+     *
+     * @returns {ReactElement}
+     * @private
+     */
+    _createInFocusTopView() {
+        return (<View
+            style = { styles.inFrontTopView }>
 
-function _createBottomVideoComponent(sideUser, isSideUserAudioMuted) {
-    return (<View
-        style = { styles.bottomVideoContainer }>
+            {!_.isNil(this.props.inFocusUser)
+            && this._createTopNameComponent(this.props.inFocusUser)}
 
-        <View
-            style = { styles.bottomVideoPlaceholder }>
-            <Thumbnail
-                isAvatarCircled = { false }
-                participant = { sideUser }
-                renderDisplayName = { true }
-                styleOverrides = {{ ...styles.fillView,
-                    borderRadius: 15 }}
-                tileView = { true } />
-            {isSideUserAudioMuted
-            && <View style = { styles.microphoneViewStyle } >
-                <Image
-                    source = { require('../../../../../resources/img/muted_microphone.png') }
-                    style = { styles.microphoneIconStyle } />
-            </View>}
-        </View>
-    </View>);
-}
+            {_.isNil(this.props.inFocusUser)
+                ? this._createDefaultInFocusUserName()
+                : this._createWrapUpButtonsPlaceholder()}
+            {this._createSelfFrameVideoComponent()}
+        </View>);
+    }
 
-function _createMainUserComponent(mainUser) {
-    return (<Thumbnail
-        isAvatarCircled = { true }
-        participant = { mainUser }
-        renderDisplayName = { true }
-        styleOverrides = { styles.inFrontBackView }
-        tileView = { true } />);
-}
+    _createTopNameComponent() {
+        return (<Text style = { styles.nameComponent }>{
+            _.isNil(this.props.inFocusUser?.name)
+                ? UNKNOWN_NAME
+                : this.props.inFocusUser.name
+        }</Text>);
+    }
 
-function _createDefaultMainUserComponent() {
-    return (<Image
-        source = {{
-            uri: 'https://media.cliotest.com/VS/0da11b19-985d-497b-a532-c6120f4dec5f.png'
-        }}
-        style = { styles.fillView } />);
+    _createDefaultInFocusUserName() {
+        return (<View
+            style = { styles.buttonPlaceholder }>
+            <Text style = { styles.nameComponent }>{NAME_PLACEHOLDER}</Text>
+        </View>);
+    }
+
+    _createWrapUpButtonsPlaceholder() {
+        return (<View
+            style = { styles.buttonPlaceholder } />);
+    }
+
+    _createSelfFrameVideoComponent() {
+        return (<View
+            style = { styles.bottomVideoContainer }>
+
+            <View
+                style = { styles.bottomVideoPlaceholder }>
+                <Thumbnail
+                    isAvatarCircled = { false }
+                    participant = { this.props.localUser }
+                    renderDisplayName = { true }
+                    styleOverrides = {{
+                        ...styles.fillView,
+                        borderRadius: 15
+                    }}
+                    tileView = { true } />
+                {this.props.isSideUserAudioMuted
+                && <View style = { styles.microphoneViewStyle }>
+                    <Image
+                        source = { require('../../../../../resources/img/muted_microphone.png') }
+                        style = { styles.microphoneIconStyle } />
+                </View>}
+            </View>
+        </View>);
+    }
 }
 
 /**
@@ -113,17 +141,17 @@ function _createDefaultMainUserComponent() {
  * @returns {Object}
  */
 function _mapStateToProps(state, ownProps) {
-    const { mainUser, sideUser } = ownProps;
+    const { inFocusUser, localUser } = ownProps;
     const placeholderUser = { name: UNKNOWN_NAME };
 
     const tracks = state['features/base/tracks'];
-    const id = sideUser?.id;
+    const id = localUser?.id;
     const audioTrack
         = getTrackByMediaTypeAndParticipant(tracks, MEDIA_TYPE.AUDIO, id);
 
     return {
-        mainUser,
-        sideUser: _.isNaN(sideUser) ? placeholderUser : sideUser,
+        inFocusUser,
+        sideUser: _.isNil(localUser) ? placeholderUser : localUser,
         isSideUserAudioMuted: audioTrack?.muted ?? true
     };
 }

@@ -144,25 +144,25 @@ export default {
     },
 
     buttonPlaceholder: {
-        height: '60%',
+        height: '65%',
         width: '100%',
         justifyContent: 'flex-end',
         marginBottom: '5%'
     },
 
     bottomVideoPlaceholder: {
-        width: '30%',
+        width: '25%',
         height: '100%',
-        justifyContent: 'flex-end',
-        paddingBottom: 10,
-        paddingHorizontal: 10
+        justifyContent: 'flex-end'
     },
 
     bottomVideoContainer: {
-        height: '25%',
+        height: '20%',
         width: '100%',
         alignItems: 'flex-end',
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
+        marginBottom: '3%',
+        paddingHorizontal: '3%'
     },
 
     fillView: {
@@ -177,12 +177,8 @@ export default {
         alignItems: 'center',
         alignSelf: 'flex-end',
         paddingBottom: '20%',
-
-        // backgroundColor: 'red',
         width: '100%',
-        height: '100%',
-        top: '0%',
-        left: '10%'
+        height: '100%'
     },
 
     microphoneIconStyle: {
@@ -218,8 +214,9 @@ export default {
     },
 
     gradientOverlay: { position: 'absolute',
-        top: '100%',
-        left: '100%' }
+        width: '100%',
+        height: '100%'
+    }
 };
 
 /**

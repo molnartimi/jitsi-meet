@@ -1,7 +1,6 @@
 // @flow
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import type { Dispatch } from 'redux';
 
@@ -17,7 +16,6 @@ import { Container } from '../../../base/react';
 import { connect } from '../../../base/redux';
 import { StyleType } from '../../../base/styles';
 import { getTrackByMediaTypeAndParticipant } from '../../../base/tracks';
-import { DisplayNameLabel } from '../../../display-name';
 import { toggleToolboxVisible } from '../../../toolbox/actions.native';
 
 import styles, { AVATAR_SIZE } from './styles';
@@ -103,7 +101,7 @@ type Props = {
 class Thumbnail extends Component<Props> {
 
     render() {
-        const participantId = _.isNaN(this.props.participant?.id) ? 0 : this.props.participant.id;
+        const participantId = _.isNil(this.props.participant?.id) ? 0 : this.props.participant.id;
 
         return (
             <Container
@@ -123,26 +121,13 @@ class Thumbnail extends Component<Props> {
                     tintEnabled = { false }
                     tintStyle = { styles.activeThumbnailTint } />
 
-                {this.props.renderDisplayName
-                    && <Container style = { styles.displayNameContainer }>
-                        <Container
-                            style = { this.props._isDominantSpeaker
-                                ? styles.dominantSpeaker
-                                : styles.notDominantSpeaker }>
-                            <DisplayNameLabel participantId = { participantId } />
-                        </Container>
-                    </Container>}
-
-                {!this.props.participant?.isFakeParticipant && <View
-                    style = { [
-                        styles.thumbnailTopIndicatorContainer,
-                        styles.thumbnailTopRightIndicatorContainer
-                    ] } />}
-
                 <LinearGradient
-                    colors = { [ 'black', 'white' ] }
+                    colors = { [ '#000000', '#00000000' ] }
+                    start = {{ x: 0,
+                        y: 1 }}
+                    end = {{ x: 0,
+                        y: 0.6 }}
                     style = { styles.gradientOverlay } />
-
             </Container>
         );
     }
@@ -192,12 +177,12 @@ function _mapStateToProps(state, ownProps) {
     const largeVideo = state['features/large-video'];
     const tracks = state['features/base/tracks'];
     const { participant, isAvatarCircled } = ownProps;
-    const id = _.isNaN(participant?.id) ? 0 : participant.id;
+    const id = _.isNil(participant?.id) ? 0 : participant.id;
     const audioTrack
         = getTrackByMediaTypeAndParticipant(tracks, MEDIA_TYPE.AUDIO, id);
     const videoTrack
         = getTrackByMediaTypeAndParticipant(tracks, MEDIA_TYPE.VIDEO, id);
-    const isDominantSpeaker = _.isNaN(participant?.dominantSpeaker) ? false : participant.dominantSpeaker;
+    const isDominantSpeaker = _.isNil(participant?.dominantSpeaker) ? false : participant.dominantSpeaker;
     const _isEveryoneModerator = isEveryoneModerator(state);
     const renderModeratorIndicator = !_isEveryoneModerator && participant?.role === PARTICIPANT_ROLE.MODERATOR;
 

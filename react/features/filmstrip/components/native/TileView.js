@@ -103,13 +103,12 @@ class TileView extends Component<Props> {
     render() {
         const { _height, _width, onClick } = this.props;
         const rowElements = this._groupIntoRows(this._renderThumbnails(), COLUMN_COUNT);
-        const mainUser = this.props._participants[1];
-        const sideUser = this.props._participants[0];
+        const inFocusUser = this.props._participants[1];
+        const localUser = this.props._participants[0];
 
         const pages = [ <InFocusView
-            key = { 'infocus' }
-            mainUser = { mainUser }
-            sideUser = { sideUser } /> ];
+            inFocusUser = { inFocusUser }
+            localUser = { localUser } /> ];
 
         pages.push(this._getUserPages(this._groupThumbnailsByPages(rowElements)));
 
