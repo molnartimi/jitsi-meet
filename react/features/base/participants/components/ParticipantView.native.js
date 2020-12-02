@@ -1,5 +1,6 @@
 // @flow
 
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { Image, Text, View } from 'react-native';
 
@@ -239,7 +240,7 @@ class ParticipantView extends Component<Props> {
                 { !renderYoutubeLargeVideo && !renderVideo
                     && <View style = { styles.avatarContainer }>
                         <Image
-                            source = { this.props.profileImageUrl === undefined
+                            source = { _.isNaN(this.props.profileImageUrl)
                                 ? require('../../../../../resources/img/default_user_icon.png')
                                 : { uri: this.props.profileImageUrl } }
                             style = { this.props.isAvatarCircled

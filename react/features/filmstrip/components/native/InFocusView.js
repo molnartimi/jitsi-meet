@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { Text, View, Image } from 'react-native';
 
@@ -30,14 +31,14 @@ class InFocusView extends Component<Props> {
             <View
                 style = { styles.fillView }>
 
-                {this.props.mainUser === undefined
+                {_.isNaN(this.props.mainUser)
                     ? _createDefaultMainUserComponent()
                     : _createMainUserComponent(this.props.mainUser)}
 
                 <View
                     style = { styles.inFrontTopView }>
-                    {this.props.mainUser !== undefined && _createTopNameComponent(this.props.mainUser)}
-                    {this.props.mainUser === undefined
+                    {!_.isNaN(this.props.mainUser) && _createTopNameComponent(this.props.mainUser)}
+                    {_.isNaN(this.props.mainUser)
                         ? _createDefaultMainUserName()
                         : _createShowButtonsPlaceholder()}
                     {_createBottomVideoComponent(this.props.sideUser, this.props.isSideUserAudioMuted)}
@@ -48,7 +49,7 @@ class InFocusView extends Component<Props> {
 
 function _createTopNameComponent(mainUser) {
     return (<Text style = { styles.nameComponent }>{
-            mainUser?.name == null ? UNKNOWN_NAME : mainUser.name
+        _.isNaN(mainUser?.name) ? UNKNOWN_NAME : mainUser.name
     }</Text>);
 }
 
@@ -122,7 +123,7 @@ function _mapStateToProps(state, ownProps) {
 
     return {
         mainUser,
-        sideUser: sideUser === undefined ? placeholderUser : sideUser,
+        sideUser: _.isNaN(sideUser) ? placeholderUser : sideUser,
         isSideUserAudioMuted: audioTrack?.muted ?? true
     };
 }

@@ -1,4 +1,5 @@
 // @flow
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -102,7 +103,7 @@ type Props = {
 class Thumbnail extends Component<Props> {
 
     render() {
-        const participantId = this.props.participant?.id === undefined ? 0 : this.props.participant.id;
+        const participantId = _.isNaN(this.props.participant?.id) ? 0 : this.props.participant.id;
 
         return (
             <Container
@@ -191,12 +192,12 @@ function _mapStateToProps(state, ownProps) {
     const largeVideo = state['features/large-video'];
     const tracks = state['features/base/tracks'];
     const { participant, isAvatarCircled } = ownProps;
-    const id = participant?.id === undefined ? 0 : participant.id;
+    const id = _.isNaN(participant?.id) ? 0 : participant.id;
     const audioTrack
         = getTrackByMediaTypeAndParticipant(tracks, MEDIA_TYPE.AUDIO, id);
     const videoTrack
         = getTrackByMediaTypeAndParticipant(tracks, MEDIA_TYPE.VIDEO, id);
-    const isDominantSpeaker = participant?.dominantSpeaker === undefined ? false : participant.dominantSpeaker;
+    const isDominantSpeaker = _.isNaN(participant?.dominantSpeaker) ? false : participant.dominantSpeaker;
     const _isEveryoneModerator = isEveryoneModerator(state);
     const renderModeratorIndicator = !_isEveryoneModerator && participant?.role === PARTICIPANT_ROLE.MODERATOR;
 
