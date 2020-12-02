@@ -7,6 +7,7 @@ import { checkIfCanJoin, conferenceLeft } from '../base/conference';
 import { connectionFailed } from '../base/connection';
 import { openDialog } from '../base/dialog';
 import { set } from '../base/redux';
+import { UNDEFINED_JITSI_ERROR } from '../mobile/external-api/actions';
 
 import {
     CANCEL_LOGIN,
@@ -56,7 +57,13 @@ export function authenticateAndUpgradeRole(
             /* onRejected */ error => {
                 // The lack of an error signals a cancellation.
                 if (error.authenticationError || error.connectionError) {
-                    logger.error('authenticateAndUpgradeRole failed', error);
+                    const localErrorMessage = 'Authenticate and upgrade role failed!';
+
+                    logger.error(localErrorMessage, error);
+                    dispatch({
+                        type: UNDEFINED_JITSI_ERROR,
+                        message: localErrorMessage
+                    });
                 }
 
                 dispatch(_upgradeRoleFinished(process, error));

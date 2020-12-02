@@ -9,6 +9,7 @@ import { storeConfig } from '../../base/config';
 import { NativeEvents } from '../../base/constants';
 import { muteMedia, toggleCameraFacingMode } from '../../base/media';
 import { toURLString } from '../../base/util';
+import { UNDEFINED_JITSI_ERROR } from '../../mobile/external-api/actions';
 import { OverlayContainer } from '../../overlay';
 import { appNavigate, appConnect, appJoinRoom, appLeaveRoom } from '../actions';
 import { getDefaultURL } from '../functions';
@@ -179,8 +180,14 @@ export class AbstractApp extends BaseApp<Props, *> {
             this._storeConfig(config);
             this.state.store.dispatch(appConnect(config, this.props.userInfo.userId, this.props.userInfo.password));
             this._subscribeToNativeEvents();
-        } catch (e) {
-            logger.error('Something went wrong at parsing config json string', e);
+        } catch (err) {
+            const localErrorMessage = 'Something went wrong at parsing config json string!';
+
+            logger.error(localErrorMessage, err);
+            this.state.store.dispatch({
+                type: UNDEFINED_JITSI_ERROR,
+                message: localErrorMessage
+            });
         }
     }
 

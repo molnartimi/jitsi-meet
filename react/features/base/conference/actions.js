@@ -7,6 +7,7 @@ import {
     sendAnalytics
 } from '../../analytics';
 import { getName } from '../../app/functions';
+import { UNDEFINED_JITSI_ERROR } from '../../mobile/external-api/actions';
 import { endpointMessageReceived } from '../../subtitles';
 import { JITSI_CONNECTION_CONFERENCE_KEY } from '../connection';
 import { JitsiConferenceEvents } from '../lib-jitsi-meet';
@@ -78,10 +79,12 @@ declare var APP: Object;
  * @returns {void}
  */
 function _addConferenceListeners(conference, dispatch) {
-    // A simple logger for conference errors received through
-    // the listener. These errors are not handled now, but logged.
+    // A simple logger for conference errors received through the listener.
     conference.on(JitsiConferenceEvents.CONFERENCE_ERROR,
-        error => logger.error('Conference error.', error));
+        () => dispatch({
+            type: UNDEFINED_JITSI_ERROR,
+            message: 'Conference error!'
+        }));
 
     // Dispatches into features/base/conference follow:
 

@@ -69,4 +69,12 @@ public interface JitsiMeetViewListener {
      * and a "muted" stringified boolean value.
      */
     void onTrackAdded(Map<String, Object> data);
+
+    /**
+     * Called whenever we catch an error which has no exact error handling
+     * use-case in business logic.
+     * @param data Map with an "errorMessage" key stating the message
+     * of the catched error.
+     */
+    void onUndefinedJitsiError(Map<String, Object> data);
 }

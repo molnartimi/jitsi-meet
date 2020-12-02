@@ -12,6 +12,7 @@ import {
     participantLeft,
     pinParticipant
 } from '../../../react/features/base/participants';
+import { UNDEFINED_JITSI_ERROR } from '../../../react/features/mobile/external-api/actions';
 import { dockToolbox, showToolbox } from '../../../react/features/toolbox/actions.web';
 import { getToolboxHeight } from '../../../react/features/toolbox/functions.web';
 import { YOUTUBE_PARTICIPANT_NAME } from '../../../react/features/youtube-player/constants';
@@ -318,7 +319,13 @@ export default class SharedVideoManager {
         };
 
         window.onPlayerError = function(event) {
-            logger.error('Error in the player:', event.data);
+            const localErrorMessage = 'Error in player!';
+
+            logger.error(localErrorMessage, event.data);
+            APP.store.dispatch({
+                type: UNDEFINED_JITSI_ERROR,
+                message: localErrorMessage
+            });
 
             // store the error player, so we can remove it
             self.errorInPlayer = event.target;

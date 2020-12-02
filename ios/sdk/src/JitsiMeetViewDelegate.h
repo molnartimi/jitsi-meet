@@ -62,6 +62,14 @@
 - (void)commandValue:(NSDictionary *)data;
 
 /**
+ * Called whenever we catch an error which has no exact error handling
+ * use-case in business logic.
+ * The `data` dictionary contains:
+ * - errorMessage: cached error message string
+*/
+-(void)undefinedJitsiError:(NSDictionary *)data;
+
+/**
  * Called when a local track created.
  *
  * The `data` dictionary contains:

@@ -7,6 +7,7 @@ import { setJWT } from '../../../react/features/base/jwt';
 import {
     JitsiConnectionErrors
 } from '../../../react/features/base/lib-jitsi-meet';
+import { UNDEFINED_JITSI_ERROR } from '../../../react/features/mobile/external-api/actions';
 import UIUtil from '../util/UIUtil';
 
 import LoginDialog from './LoginDialog';
@@ -121,25 +122,40 @@ function initJWTTokenListener(room) {
                     room.room.moderator.authenticate()
                         .then(() => {
                             logger.info('User role upgrade done !');
-                            // eslint-disable-line no-use-before-define
+
                             unregister();
                         })
                         .catch((err, errCode) => {
-                            logger.error('Authentication failed: ',
-                                err, errCode);
+                            const localErrorMessage = 'Authentication failed!';
+
+                            logger.error(localErrorMessage, err, errCode);
+                            APP.store.dispatch({
+                                type: UNDEFINED_JITSI_ERROR,
+                                message: localErrorMessage
+                            });
                             unregister();
                         });
                 })
-                .catch((error, code) => {
+                .catch((err, errCode) => {
                     unregister();
                     connection.disconnect();
-                    logger.error(
-                        'Authentication failed on the new connection',
-                        error, code);
+                    const localErrorMessage = 'Authentication failed on the new connection!';
+
+                    logger.error(localErrorMessage, err, errCode);
+                    APP.store.dispatch({
+                        type: UNDEFINED_JITSI_ERROR,
+                        message: localErrorMessage
+                    });
                 });
             }, err => {
                 unregister();
-                logger.error('Failed to open new connection', err);
+                const localErrorMessage = 'Failed to open new connection!';
+
+                logger.error(localErrorMessage, err);
+                APP.store.dispatch({
+                    type: UNDEFINED_JITSI_ERROR,
+                    message: localErrorMessage
+                });
             });
         }
     }

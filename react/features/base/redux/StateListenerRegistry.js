@@ -2,6 +2,8 @@
 
 import type { Store } from 'redux';
 
+import { UNDEFINED_JITSI_ERROR } from '../../mobile/external-api/actions';
+
 import { equals } from './functions';
 import logger from './logger';
 
@@ -122,7 +124,13 @@ class StateListenerRegistry {
             } catch (e) {
                 // Don't let one faulty listener prevent other listeners from
                 // being notified about their associated changes.
-                logger.error(e);
+                const localErrorMessage = 'Listener fault!';
+
+                logger.error(localErrorMessage, e);
+                store.dispatch({
+                    type: UNDEFINED_JITSI_ERROR,
+                    message: localErrorMessage
+                });
             }
         }
     }

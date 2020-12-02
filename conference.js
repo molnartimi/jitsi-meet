@@ -114,6 +114,7 @@ import {
     maybeOpenFeedbackDialog,
     submitFeedback
 } from './react/features/feedback';
+import { UNDEFINED_JITSI_ERROR } from './react/features/mobile/external-api/actions';
 import { showNotification } from './react/features/notifications';
 import { mediaPermissionPromptVisibilityChanged } from './react/features/overlay';
 import { suspendDetected } from './react/features/power-monitor';
@@ -531,7 +532,13 @@ export default {
                         });
                 })
                 .catch(error => {
-                    logger.error('Failed to obtain desktop stream', error);
+                    const localErrorMessage = 'Failed to obtain desktop stream!';
+
+                    logger.error(localErrorMessage, error);
+                    APP.store.dispatch({
+                        type: UNDEFINED_JITSI_ERROR,
+                        message: localErrorMessage
+                    });
                     errors.screenSharingError = error;
 
                     return requestedAudio
@@ -565,12 +572,24 @@ export default {
 
                         return [];
                     }
-                    logger.error('Should never happen');
+                    const localErrorMessage = 'Failed to create local tracks!';
+
+                    logger.error(localErrorMessage, err);
+                    APP.store.dispatch({
+                        type: UNDEFINED_JITSI_ERROR,
+                        message: localErrorMessage
+                    });
                 })
                 .catch(err => {
                     // Log this just in case...
                     if (!requestedAudio) {
-                        logger.error('The impossible just happened', err);
+                        const localErrorMessage = 'Failed to request audio permission!';
+
+                        logger.error(localErrorMessage, err);
+                        APP.store.dispatch({
+                            type: UNDEFINED_JITSI_ERROR,
+                            message: localErrorMessage
+                        });
                     }
                     errors.audioOnlyError = err;
 
@@ -582,7 +601,13 @@ export default {
                 .catch(err => {
                     // Log this just in case...
                     if (!requestedVideo) {
-                        logger.error('The impossible just happened', err);
+                        const localErrorMessage = 'Failed to request video permission!';
+
+                        logger.error(localErrorMessage, err);
+                        APP.store.dispatch({
+                            type: UNDEFINED_JITSI_ERROR,
+                            message: localErrorMessage
+                        });
                     }
                     errors.videoOnlyError = err;
 
@@ -828,7 +853,13 @@ export default {
     muteAudio(mute, showUI = true) {
         if (!mute
                 && isUserInteractionRequiredForUnmute(APP.store.getState())) {
-            logger.error('Unmuting audio requires user interaction');
+            const localErrorMessage = 'Re-enable audio requires user interaction!';
+
+            logger.error(localErrorMessage);
+            APP.store.dispatch({
+                type: UNDEFINED_JITSI_ERROR,
+                message: localErrorMessage
+            });
 
             return;
         }
@@ -927,7 +958,13 @@ export default {
     muteVideo(mute, showUI = true) {
         if (!mute
                 && isUserInteractionRequiredForUnmute(APP.store.getState())) {
-            logger.error('Unmuting video requires user interaction');
+            const localErrorMessage = 'Re-enable video requires user interaction!';
+
+            logger.error(localErrorMessage);
+            APP.store.dispatch({
+                type: UNDEFINED_JITSI_ERROR,
+                message: localErrorMessage
+            });
 
             return;
         }
@@ -1621,7 +1658,13 @@ export default {
 
                 return;
             } catch (err) {
-                logger.error('Failed to switch to screensharing', err);
+                const localErrorMessage = 'Failed to switch to screen sharing!';
+
+                logger.error(localErrorMessage, err);
+                APP.store.dispatch({
+                    type: UNDEFINED_JITSI_ERROR,
+                    message: localErrorMessage
+                });
 
                 return;
             }
@@ -1701,7 +1744,13 @@ export default {
             try {
                 this.localPresenterVideo = await createLocalPresenterTrack({ cameraDeviceId }, height);
             } catch (err) {
-                logger.error('Failed to create a camera track for presenter', err);
+                const localErrorMessage = 'Failed to create a camera track for presenter!';
+
+                logger.error(localErrorMessage, err);
+                APP.store.dispatch({
+                    type: UNDEFINED_JITSI_ERROR,
+                    message: localErrorMessage
+                });
 
                 return;
             }
@@ -1712,7 +1761,13 @@ export default {
 
             return effect;
         } catch (err) {
-            logger.error('Failed to create the presenter effect', err);
+            const localErrorMessage = 'Failed to create the presenter effect!';
+
+            logger.error(localErrorMessage, err);
+            APP.store.dispatch({
+                type: UNDEFINED_JITSI_ERROR,
+                message: localErrorMessage
+            });
         }
     },
 
@@ -1775,7 +1830,13 @@ export default {
                 try {
                     await this.localVideo.track.applyConstraints(desktopResizeConstraints);
                 } catch (err) {
-                    logger.error('Failed to apply constraints on the desktop stream for presenter mode', err);
+                    const localErrorMessage = 'Failed to apply constaints on the desktop stream for presenter mode!';
+
+                    logger.error(localErrorMessage, err);
+                    APP.store.dispatch({
+                        type: UNDEFINED_JITSI_ERROR,
+                        message: localErrorMessage
+                    });
 
                     return;
                 }
@@ -1798,7 +1859,13 @@ export default {
                 APP.store.dispatch(setVideoMuted(mute, MEDIA_TYPE.PRESENTER));
                 this.setVideoMuteStatus(mute);
             } catch (err) {
-                logger.error('Failed to apply the Presenter effect', err);
+                const localErrorMessage = 'Failed to apply the presenter effect!';
+
+                logger.error(localErrorMessage, err);
+                APP.store.dispatch({
+                    type: UNDEFINED_JITSI_ERROR,
+                    message: localErrorMessage
+                });
             }
         } else {
             APP.store.dispatch(setVideoMuted(mute, MEDIA_TYPE.PRESENTER));

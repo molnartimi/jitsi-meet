@@ -1,5 +1,6 @@
 /* global APP */
 
+import { UNDEFINED_JITSI_ERROR } from '../../mobile/external-api/actions';
 import JitsiMeetJS, { JitsiTrackErrors, browser } from '../lib-jitsi-meet';
 import { MEDIA_TYPE, setAudioMuted } from '../media';
 import {
@@ -177,12 +178,24 @@ export function createPrejoinTracks() {
 
                         return [];
                     }
-                    logger.error('Should never happen');
+                    const localErrorMessage = 'Failed to request permissions!';
+
+                    logger.error(localErrorMessage, err);
+                    APP.store.dispatch({
+                        type: UNDEFINED_JITSI_ERROR,
+                        message: localErrorMessage
+                    });
                 })
                 .catch(err => {
                     // Log this just in case...
                     if (!requestedAudio) {
-                        logger.error('The impossible just happened', err);
+                        const localErrorMessage = 'Failed to request audio permission!';
+
+                        logger.error(localErrorMessage, err);
+                        APP.store.dispatch({
+                            type: UNDEFINED_JITSI_ERROR,
+                            message: localErrorMessage
+                        });
                     }
                     errors.audioOnlyError = err;
 
@@ -194,7 +207,13 @@ export function createPrejoinTracks() {
                 .catch(err => {
                     // Log this just in case...
                     if (!requestedVideo) {
-                        logger.error('The impossible just happened', err);
+                        const localErrorMessage = 'Failed to request video permission!';
+
+                        logger.error(localErrorMessage, err);
+                        APP.store.dispatch({
+                            type: UNDEFINED_JITSI_ERROR,
+                            message: localErrorMessage
+                        });
                     }
                     errors.videoOnlyError = err;
 

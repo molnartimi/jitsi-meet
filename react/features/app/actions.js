@@ -29,6 +29,7 @@ import {
     toURLString
 } from '../base/util';
 import { isVpaasMeeting } from '../billing-counter/functions';
+import { UNDEFINED_JITSI_ERROR } from '../mobile/external-api/actions';
 import { clearNotifications, showNotification } from '../notifications';
 import { setFatalError } from '../overlay';
 
@@ -125,7 +126,13 @@ export function appNavigate(uri: ?string) {
                     }
 
                     // If there is no room (we are on the welcome page), don't fail, just create a fake one.
-                    logger.warn('Failed to load config but there is no room, applying a fake one');
+                    const localErrorMessage = 'Failed to load config but there is no room, applying a fake one!';
+
+                    logger.error(localErrorMessage, error);
+                    dispatch({
+                        type: UNDEFINED_JITSI_ERROR,
+                        message: localErrorMessage
+                    });
                     config = createFakeConfig(baseURL);
                 }
             }
@@ -158,14 +165,16 @@ export function appNavigate(uri: ?string) {
  * @param {boolean} startWithVideoMuted - If camera should start muted.
  * @returns {Function}
  */
-export function appJoinRoom(serverURL: string, 
-                            roomName: string, 
-                            startWithAudioMuted: boolean, 
-                            startWithVideoMuted: boolean,
-                            noCam: boolean,
-                            noMic: boolean) {
+export function appJoinRoom(
+        serverURL: string,
+        roomName: string,
+        startWithAudioMuted: boolean,
+        startWithVideoMuted: boolean,
+        noCam: boolean,
+        noMic: boolean) {
     return async (dispatch: Dispatch<any>) => {
-        dispatch(updateSettings({ startWithAudioMuted, startWithVideoMuted }));
+        dispatch(updateSettings({ startWithAudioMuted,
+            startWithVideoMuted }));
 
         const locationURL = new URL(`${serverURL}/${roomName}`);
 
@@ -174,6 +183,7 @@ export function appJoinRoom(serverURL: string,
 
         if (isNativeApp()) {
             const desiredTypes = [];
+
             if (!noCam) {
                 desiredTypes.push(MEDIA_TYPE.VIDEO);
             }
@@ -195,6 +205,7 @@ export function appLeaveRoom() {
     return async (dispatch: Dispatch<any>, getState: Function) => {
         const state = getState();
         const conference_ = getCurrentConference(state);
+
         dispatch(conferenceWillLeave(conference_));
 
         return conference_.leave()

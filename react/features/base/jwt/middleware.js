@@ -2,6 +2,7 @@
 
 import jwtDecode from 'jwt-decode';
 
+import { UNDEFINED_JITSI_ERROR } from '../../mobile/external-api/actions';
 import { SET_CONFIG } from '../config';
 import { SET_LOCATION_URL } from '../connection';
 import {
@@ -138,8 +139,14 @@ function _setJWT(store, next, action) {
 
             try {
                 jwtPayload = jwtDecode(jwt);
-            } catch (e) {
-                logger.error(e);
+            } catch (err) {
+                const localErrorMessage = 'Failed to set JWT!';
+
+                logger.error(localErrorMessage, err);
+                APP.store.dispatch({
+                    type: UNDEFINED_JITSI_ERROR,
+                    message: localErrorMessage
+                });
             }
 
             if (jwtPayload) {
