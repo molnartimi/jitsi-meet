@@ -41,13 +41,6 @@ export const VIP_COMMAND = 'viptype';
 export const DISABLE_COMMAND = 'disable';
 
 /**
- * The command type for notifying a participant of a video being stopped.
- *
- * @type {string}
- */
-export const VIDEO_STOPPED_COMMAND = 'videostopped';
-
-/**
  * The command type for updating a participant's media state.
  *
  * @type {string}

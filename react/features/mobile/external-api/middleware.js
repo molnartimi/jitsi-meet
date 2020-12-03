@@ -153,7 +153,7 @@ MiddlewareRegistry.register(store => next => action => {
 
             sendEvent(store, COMMAND_VALUE, {
                 value: flatted.stringify(response,
-                        // escape special characters with replacer function, so flatted.parse won't raise an error later on
+                        // replace '\' characters with '\\', so flatted.parse won't raise an error later on
                         (_, val) => typeof val === 'string' ? val.replace(/\\/g, '\\\\') : val)
             });
         } catch (e) {
