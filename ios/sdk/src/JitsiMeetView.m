@@ -37,7 +37,7 @@ static NSString *const PiPEnabledFeatureFlag = @"pip.enabled";
      * React Native view where the entire content will be rendered.
      */
     RNRootView *rootView;
-    
+
     JitsiMeetEventEmitter *eventEmitter;
 }
 
@@ -162,10 +162,6 @@ static void initializeViewsMap() {
 
 - (void)removeJitsiCommand:(NSString *_Nonnull)commandName {
     [eventEmitter removeCommand:commandName];
-}
-
-- (void)addJitsiCommandListener:(NSString *)commandName {
-    [eventEmitter addCommandListener:commandName];
 }
 
 #pragma mark Private methods

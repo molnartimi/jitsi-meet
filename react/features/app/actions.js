@@ -163,6 +163,7 @@ export function appNavigate(uri: ?string) {
  * @param {string} roomName - Conference room name.
  * @param {boolean} startWithAudioMuted - If microphone should start muted.
  * @param {boolean} startWithVideoMuted - If camera should start muted.
+ * @param {string[]} commandsToListenTo - List of commandNames the client app intends to listen to.
  * @returns {Function}
  */
 export function appJoinRoom(
@@ -171,7 +172,8 @@ export function appJoinRoom(
         startWithAudioMuted: boolean,
         startWithVideoMuted: boolean,
         noCam: boolean,
-        noMic: boolean) {
+        noMic: boolean,
+        commandsToListenTo: string[]) {
     return async (dispatch: Dispatch<any>) => {
         dispatch(updateSettings({ startWithAudioMuted,
             startWithVideoMuted }));
@@ -191,7 +193,7 @@ export function appJoinRoom(
                 desiredTypes.push(MEDIA_TYPE.AUDIO);
             }
             dispatch(createDesiredLocalTracks.apply(this, desiredTypes));
-            dispatch(createConference());
+            dispatch(createConference(commandsToListenTo));
         }
     };
 }

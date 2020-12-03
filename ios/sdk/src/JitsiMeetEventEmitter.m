@@ -16,7 +16,7 @@
     XmppBridge *_xmppBridge;
     VideoConfBridge *_videoConfBridge;
 }
-   
+
 #pragma mark Singleton Method
 
 + (id)sharedEmitter {
@@ -76,10 +76,6 @@
 
 - (void)removeCommand:(NSString *_Nonnull)commandName {
     [_videoConfBridge removeCommand:commandName];
-}
-
-- (void)addCommandListener:(NSString *)commandName {
-    [_videoConfBridge addCommandListener:commandName];
 }
 
 @end
