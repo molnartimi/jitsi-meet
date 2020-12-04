@@ -110,7 +110,7 @@ class TileView extends Component<Props> {
             inFocusUser = { inFocusUser }
             localUser = { localUser } /> ];
 
-        pages.push(this._getUserPages(this._groupThumbnailsByPages(rowElements)));
+        pages.push(...this._getUserPages(this._groupThumbnailsByPages(rowElements)));
 
         return (
             <TouchableWithoutFeedback
