@@ -1,24 +1,23 @@
 // @flow
-import React from 'react';
-import { View } from 'react-native';
+import _ from 'lodash';
+import React, { Component } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import type { Dispatch } from 'redux';
 
 import { ColorSchemeRegistry } from '../../../base/color-scheme';
 import { MEDIA_TYPE } from '../../../base/media';
 import {
-    getParticipantCount,
     isEveryoneModerator,
     PARTICIPANT_ROLE,
     ParticipantView,
-    pinParticipant,
+    pinParticipant
 } from '../../../base/participants';
 import { Container } from '../../../base/react';
 import { connect } from '../../../base/redux';
 import { StyleType } from '../../../base/styles';
 import { getTrackByMediaTypeAndParticipant } from '../../../base/tracks';
-import { DisplayNameLabel } from '../../../display-name';
 import { toggleToolboxVisible } from '../../../toolbox/actions.native';
+
 import styles, { AVATAR_SIZE } from './styles';
 
 
@@ -85,8 +84,13 @@ type Props = {
     /**
      * If true, it tells the thumbnail that it needs to behave differently. E.g. react differently to a single tap.
      */
-    tileView?: boolean
-};
+    tileView?: boolean,
+
+    /**
+     * Indicates whether shown in front view or not.
+     */
+    isAvatarCircled: boolean
+}
 
 /**
  * React component for video thumbnail.
@@ -94,59 +98,39 @@ type Props = {
  * @param {Props} props - Properties passed to this functional component.
  * @returns {Component} - A React component.
  */
-function Thumbnail(props: Props) {
-    const {
-        _audioMuted: audioMuted,
-        _largeVideo: largeVideo,
-        _onClick,
-        _isDominantSpeaker: isDominantSpeaker,
-        _renderModeratorIndicator: renderModeratorIndicator,
-        _styles,
-        _videoTrack: videoTrack,
-        participant,
-        renderDisplayName,
-        tileView
-    } = props;
+class Thumbnail extends Component<Props> {
 
-    const participantId = participant.id;
-    const participantInLargeVideo
-        = participantId === largeVideo.participantId;
+    render() {
+        const participantId = _.isNil(this.props.participant?.id) ? 0 : this.props.participant.id;
 
-    return (
-        <Container
-            onClick = { _onClick }
-            style = { [
-                styles.thumbnail,
-                props.styleOverrides || null,
-                isDominantSpeaker ? _styles.dominantSpeaker : null
-            ] }
-            touchFeedback = { false }>
-
-            <ParticipantView
-                avatarSize = { tileView ? AVATAR_SIZE * 1.5 : AVATAR_SIZE }
-                participantId = { participantId }
-                style = { _styles.participantViewStyle }
-                tintEnabled = { false }
-                tintStyle = { _styles.activeThumbnailTint }
-                zOrder = { 1 } />
-
-            { renderDisplayName && <Container style = { styles.displayNameContainer }>
-               <LinearGradient colors={['rgba(0,0,0,0.0)', 'rgba(0,0,0,0.40)']}>
-                   <Container style = { isDominantSpeaker ? styles.dominantSpeaker : styles.notDominantSpeaker}>
-                    <DisplayNameLabel participantId = { participantId } />
-                    </Container>
-               </LinearGradient>
-            </Container> }
-
-            { !participant.isFakeParticipant && <View
+        return (
+            <Container
+                onClick = { this.props._onClick }
                 style = { [
-                    styles.thumbnailTopIndicatorContainer,
-                    styles.thumbnailTopRightIndicatorContainer
-                ] }>
-            </View> }
+                    styles.thumbnail,
+                    this.props.styleOverrides || null,
+                    this.props._isDominantSpeaker ? styles.dominantSpeaker : null
+                ] }
+                touchFeedback = { false }>
 
-        </Container>
-    );
+                <ParticipantView
+                    avatarSize = { this.props.tileView ? AVATAR_SIZE * 2.3 : AVATAR_SIZE }
+                    isAvatarCircled = { this.props.isAvatarCircled }
+                    participantId = { participantId }
+                    style = { styles.participantViewStyle }
+                    tintEnabled = { false }
+                    tintStyle = { styles.activeThumbnailTint } />
+
+                <LinearGradient
+                    colors = { [ '#000000', '#00000000' ] }
+                    start = {{ x: 0,
+                        y: 1 }}
+                    end = {{ x: 0,
+                        y: 0.6 }}
+                    style = { styles.gradientOverlay } />
+            </Container>
+        );
+    }
 }
 
 /**
@@ -172,9 +156,9 @@ function _mapDispatchToProps(dispatch: Function, ownProps): Object {
             if (tileView) {
                 dispatch(toggleToolboxVisible());
             } else {
-                dispatch(pinParticipant(participant.pinned ? null : participant.id));
+                dispatch(pinParticipant(participant?.pinned ? null : participant.id));
             }
-        },
+        }
 
     };
 }
@@ -192,15 +176,15 @@ function _mapStateToProps(state, ownProps) {
     // the stage i.e. as a large video.
     const largeVideo = state['features/large-video'];
     const tracks = state['features/base/tracks'];
-    const { participant } = ownProps;
-    const id = participant.id;
+    const { participant, isAvatarCircled } = ownProps;
+    const id = _.isNil(participant?.id) ? 0 : participant.id;
     const audioTrack
         = getTrackByMediaTypeAndParticipant(tracks, MEDIA_TYPE.AUDIO, id);
     const videoTrack
         = getTrackByMediaTypeAndParticipant(tracks, MEDIA_TYPE.VIDEO, id);
-    const isDominantSpeaker = participant.dominantSpeaker;
+    const isDominantSpeaker = _.isNil(participant?.dominantSpeaker) ? false : participant.dominantSpeaker;
     const _isEveryoneModerator = isEveryoneModerator(state);
-    const renderModeratorIndicator = !_isEveryoneModerator && participant.role === PARTICIPANT_ROLE.MODERATOR;
+    const renderModeratorIndicator = !_isEveryoneModerator && participant?.role === PARTICIPANT_ROLE.MODERATOR;
 
     return {
         _audioMuted: audioTrack?.muted ?? true,
@@ -208,7 +192,8 @@ function _mapStateToProps(state, ownProps) {
         _isDominantSpeaker: isDominantSpeaker,
         _renderModeratorIndicator: renderModeratorIndicator,
         _styles: ColorSchemeRegistry.get(state, 'Thumbnail'),
-        _videoTrack: videoTrack
+        _videoTrack: videoTrack,
+        isAvatarCircled
     };
 }
 

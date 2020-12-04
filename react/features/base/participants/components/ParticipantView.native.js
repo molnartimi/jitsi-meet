@@ -1,10 +1,9 @@
 // @flow
 
+import _ from 'lodash';
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { Image, Text, View } from 'react-native';
 
-import { YoutubeLargeVideo } from '../../../youtube-player/components';
-import { Avatar } from '../../avatar';
 import { translate } from '../../i18n';
 import { JitsiParticipantConnectionStatus } from '../../lib-jitsi-meet';
 import {
@@ -14,7 +13,6 @@ import {
 import { Container, TintedView } from '../../react';
 import { connect } from '../../redux';
 import type { StyleType } from '../../styles';
-import { TestHint } from '../../testing/components';
 import { getTrackByMediaTypeAndParticipant } from '../../tracks';
 import { shouldRenderParticipantVideo, getParticipantById } from '../functions';
 
@@ -33,13 +31,6 @@ type Props = {
      * @private
      */
     _connectionStatus: string,
-
-    /**
-     * True if the participant which this component represents is fake.
-     *
-     * @private
-     */
-    _isFakeParticipant: boolean,
 
     /**
      * The name of the participant which this component represents.
@@ -126,8 +117,11 @@ type Props = {
     /**
      * Indicates whether zooming (pinch to zoom and/or drag) is enabled.
      */
-    zoomEnabled: boolean
+    zoomEnabled: boolean,
+    isAvatarCircled: boolean,
+    profileImageUrl: string
 };
+
 
 /**
  * Implements a React Component which depicts a specific participant's avatar
@@ -189,10 +183,8 @@ class ParticipantView extends Component<Props> {
     render() {
         const {
             _connectionStatus: connectionStatus,
-            _isFakeParticipant,
             _renderVideo: renderVideo,
             _videoTrack: videoTrack,
-            disableVideo,
             onPress,
             tintStyle
         } = this.props;
@@ -203,30 +195,16 @@ class ParticipantView extends Component<Props> {
         const useTint
             = connectionProblem || this.props.tintEnabled;
 
-        const testHintId
-            = this.props.testHintId
-                ? this.props.testHintId
-                : `org.jitsi.meet.Participant#${this.props.participantId}`;
-
-        const renderYoutubeLargeVideo = _isFakeParticipant && !disableVideo;
-
         return (
             <Container
-                onClick = { renderVideo || renderYoutubeLargeVideo ? undefined : onPress }
+                onClick = { renderVideo ? undefined : onPress }
                 style = {{
                     ...styles.participantView,
                     ...this.props.style
                 }}
                 touchFeedback = { false }>
 
-                <TestHint
-                    id = { testHintId }
-                    onPress = { renderYoutubeLargeVideo ? undefined : onPress }
-                    value = '' />
-
-                { renderYoutubeLargeVideo && <YoutubeLargeVideo youtubeId = { this.props.participantId } /> }
-
-                { !_isFakeParticipant && renderVideo
+                { renderVideo
                     && <VideoTrack
                         onPress = { onPress }
                         videoTrack = { videoTrack }
@@ -234,16 +212,21 @@ class ParticipantView extends Component<Props> {
                         zOrder = { this.props.zOrder }
                         zoomEnabled = { this.props.zoomEnabled } /> }
 
-                { !renderYoutubeLargeVideo && !renderVideo
+                { !renderVideo
                     && <View style = { styles.avatarContainer }>
-                        <Avatar
-                            participantId = { this.props.participantId }
-                            size = { this.props.avatarSize } />
+                        <Image
+                            source = { _.isNil(this.props.profileImageUrl)
+                                ? require('../../../../../resources/img/default_user_icon.png')
+                                : { uri: this.props.profileImageUrl } }
+                            style = { this.props.isAvatarCircled
+                                ? { ...styles.circleAvatar,
+                                    width: this.props.avatarSize,
+                                    height: this.props.avatarSize,
+                                    borderRadius: this.props.avatarSize / 2 }
+                                : { ...styles.avatarContainer } } />
                     </View> }
 
-                { useTint
-
-                    // If the connection has problems, tint the video / avatar.
+                { useTint // If the connection has problems, tint the video / avatar.
                     && <TintedView
                         style = {
                             connectionProblem ? undefined : tintStyle } /> }
@@ -266,23 +249,22 @@ class ParticipantView extends Component<Props> {
  * @returns {Props}
  */
 function _mapStateToProps(state, ownProps) {
-    const { disableVideo, participantId } = ownProps;
+    const { disableVideo, participantId, isAvatarCircled } = ownProps;
     const participant = getParticipantById(state, participantId);
     let connectionStatus;
-    let participantName;
 
     return {
         _connectionStatus:
             connectionStatus
                 || JitsiParticipantConnectionStatus.ACTIVE,
-        _isFakeParticipant: participant && participant.isFakeParticipant,
-        _participantName: participantName,
         _renderVideo: shouldRenderParticipantVideo(state, participantId) && !disableVideo,
         _videoTrack:
             getTrackByMediaTypeAndParticipant(
                 state['features/base/tracks'],
                 MEDIA_TYPE.VIDEO,
-                participantId)
+                participantId),
+        isAvatarCircled,
+        profileImageUrl: participant?.loadableAvatarUrl
     };
 }
 

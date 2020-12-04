@@ -141,6 +141,81 @@ export default {
         flexDirection: 'column',
         alignSelf: 'stretch',
         alignContent: 'stretch'
+    },
+
+    buttonPlaceholder: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        marginBottom: '30%'
+    },
+
+    bottomVideoPlaceholder: {
+        height: '33%',
+        width: '25%',
+        justifyContent: 'flex-end'
+    },
+
+    bottomVideoContainer: {
+        position: 'absolute',
+        aspectRatio: 1,
+        width: '100%',
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end',
+        paddingHorizontal: '7%',
+        paddingBottom: '3%'
+    },
+
+    fillView: {
+        flex: 1,
+        width: '100%',
+        height: '100%'
+    },
+
+    microphoneViewStyle: {
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        paddingBottom: '20%',
+        justifyContent: 'flex-end'
+    },
+
+    microphoneIconStyle: {
+        height: '30%',
+        width: '30%',
+        alignSelf: 'center'
+    },
+
+    nameComponent: {
+        width: '100%',
+        fontSize: 30,
+        alignSelf: 'center',
+        fontWeight: 'bold',
+        color: 'white',
+        textAlign: 'center',
+        marginBottom: '5%',
+        marginTop: '5%',
+        fontFamily: 'Montserrat Light'
+    },
+
+    inFrontTopView: {
+        position: 'absolute',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        width: '100%',
+        height: '100%'
+    },
+
+    inFrontBackView: {
+        position: 'absolute',
+        justifyContent: 'flex-end',
+        width: '100%',
+        height: '100%'
+    },
+
+    gradientOverlay: {
+        position: 'absolute',
+        width: '100%',
+        height: '100%'
     }
 };
 
