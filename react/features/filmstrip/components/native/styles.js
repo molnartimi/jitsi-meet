@@ -143,38 +143,45 @@ export default {
         alignContent: 'stretch'
     },
 
-    buttonPlaceholder: {
+    fillView: {
+        flex: 1
+    },
+
+    wrapUpPlaceholder: {
         flex: 1,
         justifyContent: 'flex-end',
-        marginBottom: '30%'
+        alignItems: 'center',
+        marginHorizontal: '6%',
+        marginBottom: '2%'
+    },
+
+    wrapUpText: {
+        fontFamily: 'Montserrat Light',
+        color: 'white',
+        fontSize: 45,
+        marginBottom: '3%'
+    },
+
+    wrapUpButtonStyle: {
+        flex: 1,
+        height: 40,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'white'
     },
 
     bottomVideoPlaceholder: {
-        height: '33%',
+        aspectRatio: 0.75,
         width: '25%',
-        justifyContent: 'flex-end'
-    },
-
-    bottomVideoContainer: {
-        position: 'absolute',
-        aspectRatio: 1,
-        width: '100%',
-        alignItems: 'flex-end',
-        justifyContent: 'flex-end',
-        paddingHorizontal: '7%',
-        paddingBottom: '3%'
-    },
-
-    fillView: {
-        flex: 1,
-        width: '100%',
-        height: '100%'
+        alignSelf: 'flex-end',
+        marginHorizontal: '3%',
+        marginBottom: '3%'
     },
 
     microphoneViewStyle: {
         position: 'absolute',
+        aspectRatio: 0.75,
         width: '100%',
-        height: '100%',
         paddingBottom: '20%',
         justifyContent: 'flex-end'
     },
@@ -186,28 +193,29 @@ export default {
     },
 
     nameComponent: {
-        width: '100%',
-        fontSize: 30,
+        position: 'absolute',
+        flex: 1,
         alignSelf: 'center',
         fontWeight: 'bold',
         color: 'white',
+        fontSize: 30,
         textAlign: 'center',
-        marginBottom: '5%',
-        marginTop: '5%',
+        paddingVertical: 15,
         fontFamily: 'Montserrat Light'
+    },
+
+    cabiName: {
+        justifyContent: 'center'
+    },
+
+    inFocusUserName: {
+        justifyContent: 'flex-start'
     },
 
     inFrontTopView: {
         position: 'absolute',
         justifyContent: 'flex-end',
         alignItems: 'center',
-        width: '100%',
-        height: '100%'
-    },
-
-    inFrontBackView: {
-        position: 'absolute',
-        justifyContent: 'flex-end',
         width: '100%',
         height: '100%'
     },
