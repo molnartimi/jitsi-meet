@@ -8,9 +8,13 @@ import Swiper from 'react-native-swiper';
 import type { Dispatch } from 'redux';
 
 import { connect } from '../../../base/redux';
-import { setTileViewDimensions } from '../../actions.native';
+import {
+    sendSwipeEventTodoRename,
+    setTileViewDimensions
+} from '../../actions.native';
 
 import InFocusView from './InFocusView';
+import TapView from './TapView';
 import Thumbnail from './Thumbnail';
 import styles from './styles';
 
@@ -45,6 +49,11 @@ type Props = {
     dispatch: Dispatch<any>,
 
     /**
+     * Number of total pages in swiper.
+     */
+    totalPages: number,
+
+    /**
      * Callback to invoke when tile view is tapped.
      */
     onClick: Function
@@ -76,6 +85,14 @@ const COLUMN_COUNT = 2;
  * @extends Component
  */
 class TileView extends Component<Props> {
+    /**
+     * TileView constructor.
+     */
+    constructor() {
+        super();
+        this._onSwipe = this._onSwipe.bind(this);
+    }
+
     /**
      * Implements React's {@link Component#componentDidMount}.
      *
@@ -112,6 +129,8 @@ class TileView extends Component<Props> {
             localUser = { localUser } /> ];
 
         pages.push(...this._getUserPages(this._groupThumbnailsByPages(rowElements)));
+        pages.push(<TapView />);
+        this.props.totalPages = pages.length;
 
         return (
             <TouchableWithoutFeedback
@@ -123,12 +142,26 @@ class TileView extends Component<Props> {
                 }}>
                 <Swiper
                     loop = { false }
+                    onIndexChanged = { this._onSwipe }
                     showsButtons = { false }
                     showsPagination = { false }>
                     {pages}
                 </Swiper>
             </TouchableWithoutFeedback>
         );
+    }
+
+    /**
+     * Send page data to native after successful swipe action.
+     *
+     * @param {number} index - Current page index.
+     * @private
+     * @returns {void}
+     */
+    _onSwipe(index: number) {
+        if (!isNaN(index) && this.props.totalPages) {
+            this.props.dispatch(sendSwipeEventTodoRename(index, this.props.totalPages));
+        }
     }
 
     /**

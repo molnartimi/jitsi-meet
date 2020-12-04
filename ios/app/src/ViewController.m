@@ -108,6 +108,10 @@
     [self _onJitsiMeetViewDelegateEvent:@"TRACK_ADDED" withData:data];
 }
 
+- (void)swipeEvent:(NSDictionary *)data {
+    [self _onJitsiMeetViewDelegateEvent:@"SWIPE_EVENT" withData:data];
+}
+
 #if 0
 - (void)enterPictureInPicture:(NSDictionary *)data {
     [self _onJitsiMeetViewDelegateEvent:@"ENTER_PICTURE_IN_PICTURE" withData:data];

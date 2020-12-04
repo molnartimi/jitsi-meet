@@ -79,6 +79,15 @@
 - (void)trackAdded:(NSDictionary *)data;
 
 /**
+  * Called whenever swipe happens between conference pages.
+  *
+  * The `data` dictionary contains:
+  * - index: actual page index
+  * - total: total number of native pages
+*/
+- (void)swipeEvent:(NSDictionary *)data;
+
+/**
  * Called when entering Picture-in-Picture is requested by the user. The app
  * should now activate its Picture-in-Picture implementation (and resize the
  * associated `JitsiMeetView`. The latter will automatically detect its new size

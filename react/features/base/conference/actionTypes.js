@@ -241,3 +241,14 @@ export const SET_START_MUTED_POLICY = 'SET_START_MUTED_POLICY';
  * }
  */
 export const COMMAND_VALUE = 'COMMAND_VALUE';
+
+/**
+ * The type of (redux) action which send swipe event data to native app.
+ *
+ * {
+ *     type: SWIPE_EVENT,
+ *     index: number,
+ *     total: number
+ * }
+ */
+export const SWIPE_EVENT = 'SWIPE_EVENT';
