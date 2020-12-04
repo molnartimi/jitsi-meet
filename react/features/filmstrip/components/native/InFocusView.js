@@ -17,7 +17,7 @@ type Props = {
 
 // TODO: make NAME_PLACEHOLDER settable by tabletparty.
 const NAME_PLACEHOLDER = 'FALL \'20 COLLECTION';
-const UNKNOWN_NAME = 'UNKNOWN';
+const UNKNOWN_NAME = '';
 
 /**
  * React component for in-focus view.
