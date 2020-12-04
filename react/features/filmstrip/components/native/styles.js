@@ -212,7 +212,8 @@ export default {
         height: '100%'
     },
 
-    gradientOverlay: { position: 'absolute',
+    gradientOverlay: {
+        position: 'absolute',
         width: '100%',
         height: '100%'
     }
