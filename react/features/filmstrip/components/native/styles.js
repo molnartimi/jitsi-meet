@@ -144,25 +144,25 @@ export default {
     },
 
     buttonPlaceholder: {
-        height: '65%',
-        width: '100%',
+        flex: 1,
         justifyContent: 'flex-end',
-        marginBottom: '5%'
+        marginBottom: '30%'
     },
 
     bottomVideoPlaceholder: {
+        height: '33%',
         width: '25%',
-        height: '100%',
         justifyContent: 'flex-end'
     },
 
     bottomVideoContainer: {
-        height: '20%',
+        position: 'absolute',
+        aspectRatio: 1,
         width: '100%',
         alignItems: 'flex-end',
         justifyContent: 'flex-end',
-        marginBottom: '3%',
-        paddingHorizontal: '3%'
+        paddingHorizontal: '7%',
+        paddingBottom: '3%'
     },
 
     fillView: {
@@ -173,12 +173,10 @@ export default {
 
     microphoneViewStyle: {
         position: 'absolute',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        alignSelf: 'flex-end',
-        paddingBottom: '20%',
         width: '100%',
-        height: '100%'
+        height: '100%',
+        paddingBottom: '20%',
+        justifyContent: 'flex-end'
     },
 
     microphoneIconStyle: {
@@ -195,6 +193,7 @@ export default {
         color: 'white',
         textAlign: 'center',
         marginBottom: '5%',
+        marginTop: '5%',
         fontFamily: 'Montserrat Light'
     },
 
