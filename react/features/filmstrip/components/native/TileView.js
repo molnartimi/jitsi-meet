@@ -49,11 +49,6 @@ type Props = {
     dispatch: Dispatch<any>,
 
     /**
-     * Number of total pages in swiper.
-     */
-    totalPages: number,
-
-    /**
      * Callback to invoke when tile view is tapped.
      */
     onClick: Function
@@ -85,12 +80,16 @@ const COLUMN_COUNT = 2;
  * @extends Component
  */
 class TileView extends Component<Props> {
+    swiperRef: Swiper;
+    totalPages: number;
+
     /**
      * TileView constructor.
      */
     constructor() {
         super();
         this._onSwipe = this._onSwipe.bind(this);
+        this.swiperRef = React.createRef();
     }
 
     /**
@@ -130,7 +129,7 @@ class TileView extends Component<Props> {
 
         pages.push(...this._getUserPages(this._groupThumbnailsByPages(rowElements)));
         pages.push(<TapView />);
-        this.props.totalPages = pages.length;
+        this.totalPages = pages.length;
 
         return (
             <TouchableWithoutFeedback
@@ -143,6 +142,7 @@ class TileView extends Component<Props> {
                 <Swiper
                     loop = { false }
                     onIndexChanged = { this._onSwipe }
+                    ref = { this.swiperRef }
                     showsButtons = { false }
                     showsPagination = { false }>
                     {pages}
@@ -159,8 +159,13 @@ class TileView extends Component<Props> {
      * @returns {void}
      */
     _onSwipe(index: number) {
-        if (!isNaN(index) && this.props.totalPages) {
-            this.props.dispatch(sendSwipeEventTodoRename(index, this.props.totalPages));
+        if (!isNaN(index) && this.totalPages) {
+            this.props.dispatch(sendSwipeEventTodoRename(index, this.totalPages));
+            if (index === this.totalPages - 1
+                    && this.swiperRef && this.swiperRef.current && this.swiperRef.current.scrollBy) {
+                // Scroll by 0 scrolls back to last page.
+                this.swiperRef.current.scrollBy(0);
+            }
         }
     }
 
