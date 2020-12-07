@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { Text, View, Image } from 'react-native';
+import { Text, View, Image, TouchableOpacity } from 'react-native';
 
 import { MEDIA_TYPE } from '../../../base/media';
 import { connect } from '../../../base/redux';
@@ -12,12 +12,16 @@ import styles from './styles';
 type Props = {
     inFocusUser: Object,
     localUser: Object,
-    isSideUserAudioMuted: boolean
+    isSideUserAudioMuted: boolean,
+    isWrapUpVisible: boolean
 }
 
 // TODO: make NAME_PLACEHOLDER settable by tabletparty.
 const NAME_PLACEHOLDER = 'FALL \'20 COLLECTION';
 const UNKNOWN_NAME = '';
+const COLLECTION_BUTTON = 'COLLECTION';
+const FAVORITES_BUTTON = 'MY FAVORITES';
+const LOOKBOOK_BUTTON = 'LOOK BOOK';
 
 /**
  * React component for in-focus view.
@@ -40,6 +44,36 @@ class InFocusView extends Component<Props> {
             </View>);
     }
 
+    _createTemplateImageComponent() {
+        return (
+            <View
+                style = { [
+                    styles.fillView,
+                    styles.cabiName,
+                    this.props.isWrapUpVisible
+                        ? { paddingBottom: '23%' }
+                        : { paddingBottom: 0 } ] }>
+                <Image
+                    source = {{
+                        // TODO: make this URL settable by tabletparty.
+                        uri: 'https://media.cliotest.com/VS/0da11b19-985d-497b-a532-c6120f4dec5f.png'
+                    }}
+                    style = { styles.fillView } />
+                {!this.props.isWrapUpVisible && this._createDefaultInFocusUserName()}
+            </View>);
+    }
+
+    _createDefaultInFocusUserName() {
+        return (
+            <Text
+                style = {{
+                    ...styles.nameComponent,
+                    paddingTop: 220 }}>
+                {NAME_PLACEHOLDER}
+            </Text>
+        );
+    }
+
     /**
      * This is the View of the in focus user video. It fills the whole screen.
      * The in focus screen other elements will be rendered on the top of it.
@@ -48,43 +82,24 @@ class InFocusView extends Component<Props> {
      * @private
      */
     _createInFocusVideoComponent() {
-        return (<Thumbnail
-            isAvatarCircled = { true }
-            participant = { this.props.inFocusUser }
-            renderDisplayName = { true }
-            styleOverrides = { styles.inFrontBackView }
-            tileView = { true } />);
-    }
+        return (
+            <View
+                style = { [
+                    styles.fillView,
+                    styles.inFocusUserName,
+                    this.props.isWrapUpVisible
+                        ? { paddingBottom: '23%' }
+                        : { paddingBottom: 0 } ] }>
+                <Thumbnail
+                    isAvatarCircled = { true }
+                    participant = { this.props.inFocusUser }
+                    renderDisplayName = { true }
+                    styleOverrides = { styles.fillView }
+                    tileView = { true } />
 
-    _createTemplateImageComponent() {
-        return (<Image
-            source = {{
-                // TODO: make this URL settable by tabletparty.
-                uri: 'https://media.cliotest.com/VS/0da11b19-985d-497b-a532-c6120f4dec5f.png'
-            }}
-            style = { styles.fillView } />);
-    }
-
-    /**
-     * This is the View which appears at the top of the in focus user video.
-     * This is a floating layout. It contains the user name view,
-     * the wrap up buttons and the self frame video also.
-     *
-     * @returns {ReactElement}
-     * @private
-     */
-    _createInFocusTopView() {
-        return (<View
-            style = { styles.inFrontTopView }>
-
-            {!_.isNil(this.props.inFocusUser)
-            && this._createTopNameComponent(this.props.inFocusUser)}
-
-            {_.isNil(this.props.inFocusUser)
-                ? this._createDefaultInFocusUserName()
-                : this._createWrapUpButtonsPlaceholder()}
-            {this._createSelfFrameVideoComponent()}
-        </View>);
+                {!_.isNil(this.props.inFocusUser)
+                && this._createTopNameComponent(this.props.inFocusUser)}
+            </View>);
     }
 
     _createTopNameComponent() {
@@ -95,22 +110,55 @@ class InFocusView extends Component<Props> {
         }</Text>);
     }
 
-    _createDefaultInFocusUserName() {
+    /**
+     * This is the View which appears at the top of the in focus user video.
+     * This is a floating layout. It contains
+     * the wrap up buttons and the self frame video also.
+     *
+     * @returns {ReactElement}
+     * @private
+     */
+    _createInFocusTopView() {
         return (<View
-            style = { styles.buttonPlaceholder }>
-            <Text style = { styles.nameComponent }>{NAME_PLACEHOLDER}</Text>
+            style = { styles.inFrontTopView }>
+            {this.props.isWrapUpVisible
+                && this._createWrapUpButtonsPlaceholder()}
+            {this._createSelfFrameVideoComponent()}
         </View>);
     }
 
     _createWrapUpButtonsPlaceholder() {
         return (<View
-            style = { styles.buttonPlaceholder } />);
+            style = { styles.wrapUpPlaceholder }>
+            <Text style = { styles.wrapUpText }>It's time to shop!</Text>
+            <View
+                style = { styles.wrapUpButtonRow }>
+                <TouchableOpacity
+                    style = {{
+                        ...styles.wrapUpButtonStyle,
+                        marginRight: 3
+                    }}>
+                    <Text style = { styles.normalText }>{LOOKBOOK_BUTTON}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style = {{
+                        ...styles.wrapUpButtonStyle,
+                        marginLeft: 3
+                    }}>
+                    <Text style = { styles.normalText }>{COLLECTION_BUTTON}</Text>
+                </TouchableOpacity>
+            </View>
+            <View style = {{ flexDirection: 'row' }}>
+                <TouchableOpacity
+                    style = { styles.wrapUpButtonStyle }>
+                    <Text style = { styles.normalText }>{FAVORITES_BUTTON}</Text>
+                </TouchableOpacity>
+            </View>
+        </View>);
     }
 
     _createSelfFrameVideoComponent() {
-        return (<View
-            style = { styles.bottomVideoContainer }>
-
+        return (
             <View
                 style = { styles.bottomVideoPlaceholder }>
                 <Thumbnail
@@ -128,8 +176,7 @@ class InFocusView extends Component<Props> {
                         source = { require('../../../../../resources/img/muted_microphone.png') }
                         style = { styles.microphoneIconStyle } />
                 </View>}
-            </View>
-        </View>);
+            </View>);
     }
 }
 
@@ -141,7 +188,7 @@ class InFocusView extends Component<Props> {
  * @returns {Object}
  */
 function _mapStateToProps(state, ownProps) {
-    const { inFocusUser, localUser } = ownProps;
+    const { inFocusUser, localUser, isWrapUpVisible } = ownProps;
     const placeholderUser = { name: UNKNOWN_NAME };
 
     const tracks = state['features/base/tracks'];
@@ -151,6 +198,7 @@ function _mapStateToProps(state, ownProps) {
 
     return {
         inFocusUser,
+        isWrapUpVisible,
         sideUser: _.isNil(localUser) ? placeholderUser : localUser,
         isSideUserAudioMuted: audioTrack?.muted ?? true
     };
