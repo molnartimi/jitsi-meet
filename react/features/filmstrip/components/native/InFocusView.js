@@ -19,6 +19,9 @@ type Props = {
 // TODO: make NAME_PLACEHOLDER settable by tabletparty.
 const NAME_PLACEHOLDER = 'FALL \'20 COLLECTION';
 const UNKNOWN_NAME = '';
+const COLLECTION_BUTTON = 'COLLECTION';
+const FAVORITES_BUTTON = 'MY FAVORITES';
+const LOOKBOOK_BUTTON = 'LOOK BOOK';
 
 /**
  * React component for in-focus view.
@@ -129,27 +132,26 @@ class InFocusView extends Component<Props> {
             style = { styles.wrapUpPlaceholder }>
             <Text style = { styles.wrapUpText }>It's time to shop!</Text>
             <View
-                style = {{ flexDirection: 'row',
-                    marginBottom: '3%' }}>
+                style = { styles.wrapUpButtonRow }>
                 <TouchableOpacity
                     style = {{
                         ...styles.wrapUpButtonStyle,
                         marginRight: 3
                     }}>
-                    <Text style = {{ color: 'black' }}>{'LOOK BOOK'}</Text>
+                    <Text style = { styles.normalText }>{LOOKBOOK_BUTTON}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style = {{
                         ...styles.wrapUpButtonStyle,
                         marginLeft: 3
                     }}>
-                    <Text style = {{ color: 'black' }}>{'COLLECTION'}</Text>
+                    <Text style = { styles.normalText }>{COLLECTION_BUTTON}</Text>
                 </TouchableOpacity>
             </View>
             <View style = {{ flexDirection: 'row' }}>
                 <TouchableOpacity
                     style = { styles.wrapUpButtonStyle }>
-                    <Text style = {{ color: 'black' }}>{'MY FAVORITES'}</Text>
+                    <Text style = { styles.normalText }>{FAVORITES_BUTTON}</Text>
                 </TouchableOpacity>
             </View>
         </View>);

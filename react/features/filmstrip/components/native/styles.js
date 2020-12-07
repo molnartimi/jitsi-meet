@@ -143,6 +143,10 @@ export default {
         alignContent: 'stretch'
     },
 
+    normalText: {
+        color: 'black'
+    },
+
     fillView: {
         flex: 1
     },
@@ -161,6 +165,10 @@ export default {
         fontSize: 45,
         marginBottom: '3%'
     },
+
+    wrapUpButtonRow: {
+        flexDirection: 'row',
+        marginBottom: '3%' },
 
     wrapUpButtonStyle: {
         flex: 1,
