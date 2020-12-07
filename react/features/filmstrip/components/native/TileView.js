@@ -99,6 +99,7 @@ class TileView extends Component<Props> {
      */
     componentDidMount() {
         this._updateReceiverQuality();
+        this._onSwipe(0);
     }
 
     /**
