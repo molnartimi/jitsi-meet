@@ -2,6 +2,9 @@
 
 set -e -u
 
+THIS_DIR=$(cd -P "$(dirname "$(readlink "${BASH_SOURCE[0]}" || echo "${BASH_SOURCE[0]}")")" && pwd)
+
+
 # Update version in gradle.properties file in case of dev build
 # Changes will be reverted at the end of this script
 update_version_if_dev_build() 
@@ -24,9 +27,26 @@ update_version_if_dev_build()
 
 }
 
-THIS_DIR=$(cd -P "$(dirname "$(readlink "${BASH_SOURCE[0]}" || echo "${BASH_SOURCE[0]}")")" && pwd)
 
-update_version_if_dev_build ${THIS_DIR} ${2:-"prod"}
+
+# Cleanup the changes made in the version due to the dev build
+cleanup() {
+	BUILD_MODE=$1
+	
+	if [ ${BUILD_MODE} == "dev" ]; then
+	  echo "Cleaning up after dev build."
+	  cd /jitsi-meet
+	  git --git-dir=/jitsi-meet/.git checkout -- android/gradle.properties
+	  cd ${THIS_DIR}
+	  echo "Cleanup is done."
+	fi 
+}
+
+BUILD_MODE=${2:-"prod"}
+
+trap 'cleanup ${BUILD_MODE}' ERR
+
+update_version_if_dev_build ${THIS_DIR} ${BUILD_MODE}
 
 DEFAULT_MVN_REPO="${THIS_DIR}/../../../jitsi-maven-repository/releases"
 THE_MVN_REPO=${MVN_REPO:-${1:-$DEFAULT_MVN_REPO}}
@@ -131,10 +151,7 @@ if [[ $DO_GIT_TAG == 1 ]]; then
     git tag android-sdk-${SDK_VERSION}
 fi
 
-if [ ${BUILD_MODE} == "dev" ]; then
-  # Cleanup the changes made in the version due to the dev build
-  git --git-dir=/jitsi-meet/.git checkout android/gradle.properties
-fi 
+cleanup ${BUILD_MODE}
 
 # Done!
 echo "Finished! Don't forget to push the tag and the Maven repo artifacts."

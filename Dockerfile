@@ -68,26 +68,3 @@ RUN apt-get clean && \
 COPY run.sh /run.sh
 RUN dos2unix /run.sh
 CMD [ "/run.sh" ]
-
-### To build the container run these commands from /jitsi-meet:
-# docker build -t jitsi-build .
-
-
-# docker run -d -it --name jitsi-build --mount type=bind,source=<ABSOLUTE_PATH_TO>/jitsi-meet,target=/jitsi-meet --mount type=bind,source=<ABSOLUTE_PATH_TO>/jitsi-maven-repository,target=/jitsi-maven-repository -v /jitsi-meet/node_modules -v /jitsi-meet/android/scripts -p 4300:8080 -p 4301:8081 -p 5555:5555 jitsi-build
-
-### Note that node modules are managed separately (they are excluded from the mount to speed up the build process)
-### If you need to change package.json after building the container, you'll need to run 'docker exec -it jitsi-build npm i' before your next build
-
-### To build your production Android SDK run the following commands:
-# docker exec -it jitsi-build /bin/bash
-# ./android/scripts/release-sdk.sh /jitsi-maven-repository
-
-### To deploy the react-native frontend to an external device follow these steps:
-# 1) Connect an external device to the same wifi network you use for your dev machine
-# 2) Run 'adb start-server' and 'adb tcpip 5555' on your host machine
-# 3) Run 'adb connect <DEVICE_IP>' in the docker container
-#    If 'adb devices' lists your device as unauthorized, you'll need to allow your dev machine to connect to the device
-#    Make sure the device remembers this decision
-#    Run 'adb disconnect <DEVICE_IP> && adb connect <DEVICE_IP>' in the container
-# 4) Run 'npx react-native start' in a separate docker terminal
-# 5) After that's finished, run 'npx react-native run-android'

@@ -25,10 +25,10 @@
 Currently building the application is not supported on Windows. 
 For being able to build jitsi-SDK on Windows we created a docker container so the build process can be executed inside the container.
 
-You have two options to use the docker container:
+You have two options to use the docker container. It can be started by using docker-compose or you can build and start the container by using the docker command line interface. Both will end up with the same docker container, choose based on your personal preference. 
 
 ###### Using docker-compose
-First of you need to set the absolute path of the jitsi-meet workspace in the .env file.
+First of you need to set the absolute path of the jitsi-meet workspace in the .env file. (If you want to change the path of the targeted maven repository, you can also do that in the .env file.)
 Then for using the docker container for building the SDK please do the followings:
 ```
 $ cd jitsi-meet
@@ -58,11 +58,24 @@ $ docker exec -it jitsi-build /bin/bash
 # ./android/scripts/release-sdk.sh /jitsi-maven-repository dev
 ```
 
+**Notes:**
+
  - Once the build is ready, you'll find your results in the `~\.m2\repository\org\jitsi\react\jitsi-meet-sdk` folder.
- - If you want to change the path of the targeted maven repository, you can do that in the .env docker environment file.
  - By passing the `dev` argument to the `release-sdk.sh` script the current git head revisionID will be appended to the version of the SDK. This is useful especially when you're switching between different branches because it keeps the different SDK versions in your maven repository, so you don't have to rebuild the SDK on each branch. 
  - If you want to produce a production SDK build, then do not pass the `dev` argument. Production build is the default. 
- 
+ - Note that node modules are managed separately (they are excluded from the mount to speed up the build process). If you need to change package.json after building the container, you'll need to run 'docker exec -it jitsi-build npm i' before your next build.
+ - Also note, that the scripts folder isn't mounted, but rather the files are copied inside the continer. So if you make any changes in the buld script, you need to copy the file to the container again: `docker cp release-sdk.sh jitsi-build:/jitsi-meet/android/scripts/release-sdk.sh`
+
+###### How to deploy the react-native frontend to an external device
+
+1) Connect an external device to the same wifi network you use for your dev machine
+2) Run `adb start-server` and `adb tcpip 5555` on your host machine
+3) Run `adb connect <DEVICE_IP>` in the docker container
+   If `adb devices` lists your device as unauthorized, you'll need to allow your dev machine to connect to the device
+   Make sure the device remembers this decision
+   Run `adb disconnect <DEVICE_IP> && adb connect <DEVICE_IP>` in the container
+4) Run `npx react-native start` in a separate docker terminal
+5) After that's finished, run `npx react-native run-android`
 
 ##### Build in Mac/Linux
 To build the jitsi meet SDK for android, run the following commands from the project' root directory:
