@@ -9,7 +9,7 @@ import type { Dispatch } from 'redux';
 
 import { connect } from '../../../base/redux';
 import {
-    sendSwipeEventTodoRename,
+    swipeEvent,
     setTileViewDimensions
 } from '../../actions.native';
 
@@ -161,7 +161,7 @@ class TileView extends Component<Props> {
      */
     _onSwipe(index: number) {
         if (!isNaN(index) && this.totalPages) {
-            this.props.dispatch(sendSwipeEventTodoRename(index, this.totalPages));
+            this.props.dispatch(swipeEvent(index, this.totalPages));
             if (index === this.totalPages - 1
                     && this.swiperRef && this.swiperRef.current && this.swiperRef.current.scrollBy) {
                 // Scroll by 0 scrolls back to last page.

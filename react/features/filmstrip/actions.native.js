@@ -91,7 +91,7 @@ export function setTileViewDimensions({ thumbnailSize }: Object) {
  *     total: number
  * }}
  */
-export function sendSwipeEventTodoRename(index: number, total: number) {
+export function swipeEvent(index: number, total: number) {
     return {
         type: SWIPE_EVENT,
         index: index.toString(),
