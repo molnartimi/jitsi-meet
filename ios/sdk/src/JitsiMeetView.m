@@ -168,6 +168,10 @@ static void initializeViewsMap() {
     [eventEmitter addCommandListener:commandName];
 }
 
+- (void)showSpeakerView:(NSNumber *_Nonnull)show {
+    [eventEmitter showSpeakerView:show];
+}
+
 #pragma mark Private methods
 
 /**

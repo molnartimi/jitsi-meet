@@ -19,5 +19,6 @@
 - (void)sendCommand:(NSString *_Nonnull)dataJsonString;
 - (void)removeCommand:(NSString *_Nonnull)commandName;
 - (void)addCommandListener:(NSString *_Nonnull)commandName;
+- (void)showSpeakerView:(NSNumber *_Nonnull)show;
 
 @end

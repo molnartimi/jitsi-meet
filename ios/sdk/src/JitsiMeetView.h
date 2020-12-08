@@ -97,4 +97,9 @@
  */
 - (void)addJitsiCommandListener:(NSString *_Nonnull)commandName;
 
+/**
+ * Switch react view between gallery view and speaker view.
+ */
+- (void)showSpeakerView:(NSNumber *_Nonnull)show;
+
 @end

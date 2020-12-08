@@ -82,4 +82,8 @@
     [_videoConfBridge addCommandListener:commandName];
 }
 
+- (void)showSpeakerView:(NSNumber *_Nonnull)show {
+    [_videoConfBridge showSpeakerView:show];
+}
+
 @end
