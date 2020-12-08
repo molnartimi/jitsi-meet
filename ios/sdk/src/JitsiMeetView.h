@@ -112,4 +112,9 @@
  */
 - (void)setCountdown:(NSString *_Nonnull)jsonString;
 
+/**
+ * Switch react view between gallery view and speaker view.
+ */
+- (void)showSpeakerView:(NSNumber *_Nonnull)show;
+
 @end

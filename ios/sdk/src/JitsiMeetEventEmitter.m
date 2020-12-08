@@ -94,4 +94,8 @@
     [_videoConfBridge setCountdown:jsonString];
 }
 
+- (void)showSpeakerView:(NSNumber *_Nonnull)show {
+    [_videoConfBridge showSpeakerView:show];
+}
+
 @end

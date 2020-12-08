@@ -31,5 +31,7 @@ withStringifiedParams:(NSString *_Nonnull)params
 - (void)showWrapUpButtons;
 - (void)sendPlaceholderData:(NSString *_Nonnull)data;
 - (void)setCountdown:(NSString *_Nonnull)jsonString;
+- (void)addCommandListener:(NSString *_Nonnull)commandName;
+- (void)showSpeakerView:(NSNumber *_Nonnull)show;
 
 @end
