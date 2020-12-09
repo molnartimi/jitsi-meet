@@ -7,57 +7,60 @@ import styles from './styles';
 
 function PreShowCountdown() {
 
-	const calculateTimeLeft = () => {
-		const difference = new Date(2020, 11, 17, 16) - new Date();
-		let timeLeft = {};
+    const calculateTimeLeft = () => {
+        const difference = new Date(2020, 11, 17, 16) - new Date();
+        let timeLeft = {};
 
-		if (difference > 0) {
-			timeLeft = {
-				days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-				hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-				min: Math.floor((difference / 1000 / 60) % 60),
-				sec: Math.floor((difference / 1000) % 60),
-			};
-		} else {
-			timeLeft = {}
-		}
+        if (difference > 0) {
+            timeLeft = {
+                days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+                hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+                min: Math.floor((difference / 1000 / 60) % 60),
+                sec: Math.floor((difference / 1000) % 60)
+            };
+        } else {
+            timeLeft = {};
+        }
 
-		return timeLeft;
-	};
+        return timeLeft;
+    };
 
-	const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+    const [ timeLeft, setTimeLeft ] = useState(calculateTimeLeft());
 
-	useEffect(() => {
-		setTimeout(() => {
-			setTimeLeft(calculateTimeLeft());
-		}, 1000);
-	});
+    useEffect(() => {
+        setTimeout(() => {
+            setTimeLeft(calculateTimeLeft());
+        }, 1000);
+    });
 
-	const timerComponents = [];
+    const timerComponents = [];
 
-	Object.keys(timeLeft).forEach((interval) => {
-		const timeLeftInInt = timeLeft[interval];
-		if (!timeLeftInInt && (interval === 'hours' || interval === 'days')) {
-			return;
-		}
+    Object.keys(timeLeft).forEach(interval => {
+        const timeLeftInInt = timeLeft[interval];
 
-		timerComponents.push(
-		<Text >
-			{timeLeft[interval]} {interval ? interval : '00'}{interval !== 'sec' ? " | " : ""}
-		</Text>
-		);
-	});
+        if (!timeLeftInInt && (interval === 'hours' || interval === 'days')) {
+            return;
+        }
 
-	if (Object.keys(timeLeft).length) {
-		return (
-			<View style={styles.preShowCountdownContainer}>
-				<Text style={styles.preShowCountdownStartingIn}>{ "Starting in: "}</Text>
-				<Text style={styles.preShowCountdownTimer}>{timerComponents}</Text>
-			</View>
-		);
-	} else {
-		return null;
-	}
-	
+        timerComponents.push(
+            <Text>
+                {timeLeft[interval]} {interval ? interval : '00'}{interval === 'sec' ? '' : ' | '}
+            </Text>
+        );
+    });
+
+    if (Object.keys(timeLeft).length) {
+        return (
+            <View style = { styles.preShowCountdownContainer }>
+                <Text style = { styles.preShowCountdownStartingIn }>{'Starting in: '}</Text>
+                <Text style = { styles.preShowCountdownTimer }>{timerComponents}</Text>
+            </View>
+        );
+    }
+
+    return null;
+
+
 }
+
 export default PreShowCountdown;

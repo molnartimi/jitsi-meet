@@ -5,6 +5,7 @@ import { Text, View, Image, TouchableOpacity } from 'react-native';
 import { MEDIA_TYPE } from '../../../base/media';
 import { connect } from '../../../base/redux';
 import { getTrackByMediaTypeAndParticipant } from '../../../base/tracks';
+import PreShowCountdown from '../../../welcome/components/PreShowCountdown';
 
 import Thumbnail from './Thumbnail';
 import styles from './styles';
@@ -30,11 +31,18 @@ const LOOKBOOK_BUTTON = 'LOOK BOOK';
  */
 class InFocusView extends Component<Props> {
 
+    /**
+     * Implements React's {@link Component#render()}.
+     *
+     * @inheritdoc
+     * @returns {ReactElement}
+     */
     render() {
         return (
             <View
                 style = { styles.fillView }>
 
+                <PreShowCountdown />
                 {_.isNil(this.props.inFocusUser)
                     ? this._createTemplateImageComponent()
                     : this._createInFocusVideoComponent()}
