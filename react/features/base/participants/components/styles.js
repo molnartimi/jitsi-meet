@@ -11,7 +11,16 @@ export default {
      */
     avatarContainer: {
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        width: '100%',
+        height: '100%'
+    },
+
+    circleAvatar: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '50%',
+        height: '50%'
     },
 
     /**

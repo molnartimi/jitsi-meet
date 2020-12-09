@@ -141,6 +141,97 @@ export default {
         flexDirection: 'column',
         alignSelf: 'stretch',
         alignContent: 'stretch'
+    },
+
+    normalText: {
+        color: 'black'
+    },
+
+    fillView: {
+        flex: 1
+    },
+
+    wrapUpPlaceholder: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        marginHorizontal: '6%',
+        marginBottom: '2%'
+    },
+
+    wrapUpText: {
+        fontFamily: 'Montserrat Light',
+        color: 'white',
+        fontSize: 45,
+        marginBottom: '3%'
+    },
+
+    wrapUpButtonRow: {
+        flexDirection: 'row',
+        marginBottom: '3%' },
+
+    wrapUpButtonStyle: {
+        flex: 1,
+        height: 40,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'white'
+    },
+
+    bottomVideoPlaceholder: {
+        aspectRatio: 0.75,
+        width: '25%',
+        alignSelf: 'flex-end',
+        marginHorizontal: '3%',
+        marginBottom: '3%'
+    },
+
+    microphoneViewStyle: {
+        position: 'absolute',
+        aspectRatio: 0.75,
+        width: '100%',
+        paddingBottom: '20%',
+        justifyContent: 'flex-end'
+    },
+
+    microphoneIconStyle: {
+        height: '30%',
+        width: '30%',
+        alignSelf: 'center'
+    },
+
+    nameComponent: {
+        position: 'absolute',
+        flex: 1,
+        alignSelf: 'center',
+        fontWeight: 'bold',
+        color: 'white',
+        fontSize: 30,
+        textAlign: 'center',
+        paddingVertical: 15,
+        fontFamily: 'Montserrat Light'
+    },
+
+    cabiName: {
+        justifyContent: 'center'
+    },
+
+    inFocusUserName: {
+        justifyContent: 'flex-start'
+    },
+
+    inFrontTopView: {
+        position: 'absolute',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        width: '100%',
+        height: '100%'
+    },
+
+    gradientOverlay: {
+        position: 'absolute',
+        width: '100%',
+        height: '100%'
     }
 };
 

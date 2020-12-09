@@ -9,6 +9,7 @@ import {
     CONFERENCE_WILL_JOIN,
     JITSI_CONFERENCE_URL_KEY,
     SET_ROOM,
+    SWIPE_EVENT,
     COMMAND_VALUE,
     forEachConference,
     isRoomValid
@@ -143,6 +144,7 @@ MiddlewareRegistry.register(store => next => action => {
         }
         break;
     }
+
     case COMMAND_VALUE: {
         try {
             const { commandName, value } = action;
@@ -162,6 +164,15 @@ MiddlewareRegistry.register(store => next => action => {
         }
         break;
     }
+
+    case SWIPE_EVENT: {
+        sendEvent(store, SWIPE_EVENT, {
+            index: action.index,
+            total: action.total
+        });
+        break;
+    }
+
     case TRACK_ADDED: {
         sendEvent(store, TRACK_ADDED, {
             kind: action.track.mediaType,

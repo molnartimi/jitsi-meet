@@ -1,5 +1,4 @@
 // @flow
-
 import React, { Component } from 'react';
 import {
     TouchableWithoutFeedback,
@@ -9,8 +8,13 @@ import Swiper from 'react-native-swiper';
 import type { Dispatch } from 'redux';
 
 import { connect } from '../../../base/redux';
-import { setTileViewDimensions } from '../../actions.native';
+import {
+    swipeEvent,
+    setTileViewDimensions
+} from '../../actions.native';
 
+import InFocusView from './InFocusView';
+import TapView from './TapView';
 import Thumbnail from './Thumbnail';
 import styles from './styles';
 
@@ -76,6 +80,18 @@ const COLUMN_COUNT = 2;
  * @extends Component
  */
 class TileView extends Component<Props> {
+    swiperRef: Swiper;
+    totalPages: number;
+
+    /**
+     * TileView constructor.
+     */
+    constructor() {
+        super();
+        this._onSwipe = this._onSwipe.bind(this);
+        this.swiperRef = React.createRef();
+    }
+
     /**
      * Implements React's {@link Component#componentDidMount}.
      *
@@ -83,6 +99,7 @@ class TileView extends Component<Props> {
      */
     componentDidMount() {
         this._updateReceiverQuality();
+        this._onSwipe(0);
     }
 
     /**
@@ -103,7 +120,17 @@ class TileView extends Component<Props> {
     render() {
         const { _height, _width, onClick } = this.props;
         const rowElements = this._groupIntoRows(this._renderThumbnails(), COLUMN_COUNT);
-        const pageOrderedThumbnails = this._groupThumbnailsByPages(rowElements);
+        const inFocusUser = this.props._participants[1];
+        const localUser = this.props._participants[0];
+
+        const pages = [ <InFocusView
+            inFocusUser = { inFocusUser }
+            isWrapUpVisible = { false } // TODO: implement the logic when wrap up is visible
+            localUser = { localUser } /> ];
+
+        pages.push(...this._getUserPages(this._groupThumbnailsByPages(rowElements)));
+        pages.push(<TapView />);
+        this.totalPages = pages.length;
 
         return (
             <TouchableWithoutFeedback
@@ -115,12 +142,32 @@ class TileView extends Component<Props> {
                 }}>
                 <Swiper
                     loop = { false }
+                    onIndexChanged = { this._onSwipe }
+                    ref = { this.swiperRef }
                     showsButtons = { false }
                     showsPagination = { false }>
-                    {this._getUserPages(pageOrderedThumbnails)}
+                    {pages}
                 </Swiper>
             </TouchableWithoutFeedback>
         );
+    }
+
+    /**
+     * Send page data to native after successful swipe action.
+     *
+     * @param {number} index - Current page index.
+     * @private
+     * @returns {void}
+     */
+    _onSwipe(index: number) {
+        if (!isNaN(index) && this.totalPages) {
+            this.props.dispatch(swipeEvent(index, this.totalPages));
+            if (index === this.totalPages - 1
+                    && this.swiperRef && this.swiperRef.current && this.swiperRef.current.scrollBy) {
+                // Scroll by 0 scrolls back to last page.
+                this.swiperRef.current.scrollBy(0);
+            }
+        }
     }
 
     /**
@@ -258,6 +305,7 @@ class TileView extends Component<Props> {
         return this._getSortedParticipants()
             .map(participant => (
                 <Thumbnail
+                    isAvatarCircled = { false }
                     key = { participant.id }
                     participant = { participant }
                     renderDisplayName = { true }

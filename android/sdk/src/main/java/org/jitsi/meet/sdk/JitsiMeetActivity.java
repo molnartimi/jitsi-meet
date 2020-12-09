@@ -247,4 +247,9 @@ public class JitsiMeetActivity extends FragmentActivity
     public void onUndefinedJitsiError(Map<String, Object> data) {
         JitsiMeetLogger.i("Unhandled error catched: " + data);
     }
+
+    @Override
+    public void onSwipeEvent(Map<String, Object> data) {
+        JitsiMeetLogger.i("Swipe event: " + data);
+    }
 }
