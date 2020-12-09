@@ -71,6 +71,12 @@ public interface JitsiMeetViewListener {
     void onTrackAdded(Map<String, Object> data);
 
     /**
+     * Called whenever swipe happens between conference pages.
+     * @param data Map with 'index' and 'total' number of native pages
+     */
+    void onSwipeEvent(Map<String, Object> data);
+
+    /**
      * Called whenever we catch an error which has no exact error handling
      * use-case in business logic.
      * @param data Map with an "errorMessage" key stating the message

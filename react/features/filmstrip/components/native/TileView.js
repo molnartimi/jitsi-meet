@@ -8,9 +8,13 @@ import Swiper from 'react-native-swiper';
 import type { Dispatch } from 'redux';
 
 import { connect } from '../../../base/redux';
-import { setTileViewDimensions } from '../../actions.native';
+import {
+    swipeEvent,
+    setTileViewDimensions
+} from '../../actions.native';
 
 import InFocusView from './InFocusView';
+import TapView from './TapView';
 import Thumbnail from './Thumbnail';
 import styles from './styles';
 
@@ -76,6 +80,18 @@ const COLUMN_COUNT = 2;
  * @extends Component
  */
 class TileView extends Component<Props> {
+    swiperRef: Swiper;
+    totalPages: number;
+
+    /**
+     * TileView constructor.
+     */
+    constructor() {
+        super();
+        this._onSwipe = this._onSwipe.bind(this);
+        this.swiperRef = React.createRef();
+    }
+
     /**
      * Implements React's {@link Component#componentDidMount}.
      *
@@ -83,6 +99,7 @@ class TileView extends Component<Props> {
      */
     componentDidMount() {
         this._updateReceiverQuality();
+        this._onSwipe(0);
     }
 
     /**
@@ -112,6 +129,8 @@ class TileView extends Component<Props> {
             localUser = { localUser } /> ];
 
         pages.push(...this._getUserPages(this._groupThumbnailsByPages(rowElements)));
+        pages.push(<TapView />);
+        this.totalPages = pages.length;
 
         return (
             <TouchableWithoutFeedback
@@ -123,12 +142,32 @@ class TileView extends Component<Props> {
                 }}>
                 <Swiper
                     loop = { false }
+                    onIndexChanged = { this._onSwipe }
+                    ref = { this.swiperRef }
                     showsButtons = { false }
                     showsPagination = { false }>
                     {pages}
                 </Swiper>
             </TouchableWithoutFeedback>
         );
+    }
+
+    /**
+     * Send page data to native after successful swipe action.
+     *
+     * @param {number} index - Current page index.
+     * @private
+     * @returns {void}
+     */
+    _onSwipe(index: number) {
+        if (!isNaN(index) && this.totalPages) {
+            this.props.dispatch(swipeEvent(index, this.totalPages));
+            if (index === this.totalPages - 1
+                    && this.swiperRef && this.swiperRef.current && this.swiperRef.current.scrollBy) {
+                // Scroll by 0 scrolls back to last page.
+                this.swiperRef.current.scrollBy(0);
+            }
+        }
     }
 
     /**

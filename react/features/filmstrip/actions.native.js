@@ -1,5 +1,7 @@
 // @flow
 
+import { SWIPE_EVENT } from '../base/conference';
+
 import {
     SET_FILMSTRIP_ENABLED,
     SET_FILMSTRIP_HOVERED,
@@ -75,5 +77,24 @@ export function setTileViewDimensions({ thumbnailSize }: Object) {
         dimensions: {
             thumbnailSize
         }
+    };
+}
+
+/**
+ * Creates action which send swipe event data to native app.
+ *
+ * @param {number} index - Index of current page.
+ * @param {number} total - Total number of native pages.
+ * @returns {{
+ *     type: SWIPE_EVENT,
+ *     index: number,
+ *     total: number
+ * }}
+ */
+export function swipeEvent(index: number, total: number) {
+    return {
+        type: SWIPE_EVENT,
+        index: index.toString(),
+        total: total.toString()
     };
 }
