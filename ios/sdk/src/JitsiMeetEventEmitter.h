@@ -28,5 +28,6 @@ withStringifiedParams:(NSString *_Nonnull)params
 - (void)sendCommand:(NSString *_Nonnull)dataJsonString;
 - (void)removeCommand:(NSString *_Nonnull)commandName;
 - (void)addCommandListener:(NSString *_Nonnull)commandName;
+- (void)setCurrentSwiperIndex:(NSString *_Nonnull)pageNumber;
 
 @end

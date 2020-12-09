@@ -40,6 +40,11 @@ public class VideoConfBridge {
     private static final String REMOVE_COMMAND = "org.jitsi.meet:features/videoconf-bridge#remove-command";
 
     /**
+     * Remove Jitsi command.
+     */
+    private static final String SET_CURRENT_SWIPER_INDEX = "org.jitsi.meet:features/videoconf-bridge#set-current-swiper-index";
+
+    /**
      * Add Jitsi command listener.
      */
     private static final String ADD_COMMAND_LISTENER = "org.jitsi.meet:features/videoconf-bridge#add-command-listener";
@@ -88,6 +93,13 @@ public class VideoConfBridge {
      */
     public static void removeJitsiCommand(String commandName) {
         ReactInstanceManagerHolder.emitEvent(REMOVE_COMMAND, commandName);
+    }
+
+    /**
+     * Swipe to given page.
+     */
+    public static void setCurrentSwiperIndex(String pageNumber) {
+        ReactInstanceManagerHolder.emitEvent(SET_CURRENT_SWIPER_INDEX, pageNumber);
     }
 
     /**

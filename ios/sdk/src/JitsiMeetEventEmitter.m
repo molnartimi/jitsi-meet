@@ -16,7 +16,7 @@
     XmppBridge *_xmppBridge;
     VideoConfBridge *_videoConfBridge;
 }
-   
+
 #pragma mark Singleton Method
 
 + (id)sharedEmitter {
@@ -80,6 +80,10 @@
 
 - (void)addCommandListener:(NSString *)commandName {
     [_videoConfBridge addCommandListener:commandName];
+}
+
+- (void)setCurrentSwiperIndex:(NSString *_Nonnull)pageNumber {
+    [_videoConfBridge setCurrentSwiperIndex:pageNumber];
 }
 
 @end

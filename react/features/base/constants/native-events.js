@@ -9,6 +9,7 @@ export const NativeEvents = {
     SWITCH_CAMERA: 'org.jitsi.meet:features/videoconf-bridge#switch-camera',
     SEND_COMMAND: 'org.jitsi.meet:features/videoconf-bridge#send-command',
     REMOVE_COMMAND: 'org.jitsi.meet:features/videoconf-bridge#remove-command',
+    SET_CURRENT_SWIPER_INDEX: 'org.jitsi.meet:features/videoconf-bridge#set-current-swiper-index',
     ADD_COMMAND_LISTENER: 'org.jitsi.meet:features/videoconf-bridge#add-command-listener'
 };
 

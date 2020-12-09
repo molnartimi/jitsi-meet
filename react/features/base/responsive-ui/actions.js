@@ -2,7 +2,12 @@
 
 import type { Dispatch } from 'redux';
 
-import { CLIENT_RESIZED, SET_ASPECT_RATIO, SET_REDUCED_UI } from './actionTypes';
+import {
+    CLIENT_RESIZED,
+    SET_ASPECT_RATIO,
+    SET_REDUCED_UI,
+    UPDATE_SWIPER_INDEX
+} from './actionTypes';
 import { ASPECT_RATIO_NARROW, ASPECT_RATIO_WIDE } from './constants';
 
 /**
@@ -28,6 +33,19 @@ export function clientResized(clientWidth: number, clientHeight: number) {
         type: CLIENT_RESIZED,
         clientHeight,
         clientWidth
+    };
+}
+
+/**
+ * Updates TileView swiper index.
+ *
+ * @param {number} currentSwiperIndex - The current index.
+ * @returns {Object}
+ */
+export function updateSwiperIndex(currentSwiperIndex: number) {
+    return {
+        type: UPDATE_SWIPER_INDEX,
+        currentSwiperIndex
     };
 }
 

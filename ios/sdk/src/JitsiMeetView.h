@@ -97,4 +97,9 @@
  */
 - (void)addJitsiCommandListener:(NSString *_Nonnull)commandName;
 
+/**
+ * Swipe to a given page.
+ */
+- (void)setCurrentSwiperIndex:(NSString *_Nonnull)pageNumber;
+
 @end
