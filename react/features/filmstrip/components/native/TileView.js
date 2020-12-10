@@ -120,7 +120,7 @@ class TileView extends Component<Props> {
     render() {
         const { _height, _width, onClick } = this.props;
         const rowElements = this._groupIntoRows(this._renderThumbnails(), COLUMN_COUNT);
-        const inFocusUser = this.props._participants[1];
+        const inFocusUser = this.props._inFocusUser;
         const localUser = this.props._participants[0];
 
         const pages = [ <InFocusView
@@ -341,11 +341,14 @@ class TileView extends Component<Props> {
  */
 function _mapStateToProps(state) {
     const responsiveUi = state['features/base/responsive-ui'];
+    const participants = state['features/base/participants'];
+    const inFocusUser = participants.find(p => p.currentfocus);
 
     return {
         _aspectRatio: responsiveUi.aspectRatio,
         _height: responsiveUi.clientHeight,
-        _participants: state['features/base/participants'],
+        _participants: participants,
+        _inFocusUser: inFocusUser,
         _width: responsiveUi.clientWidth
     };
 }

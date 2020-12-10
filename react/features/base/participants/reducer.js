@@ -9,7 +9,8 @@ import {
     PARTICIPANT_LEFT,
     PARTICIPANT_UPDATED,
     PIN_PARTICIPANT,
-    SET_LOADABLE_AVATAR_URL
+    SET_LOADABLE_AVATAR_URL,
+    SET_CURRENT_FOCUS
 } from './actionTypes';
 import { LOCAL_PARTICIPANT_DEFAULT_ID, PARTICIPANT_ROLE } from './constants';
 
@@ -65,6 +66,7 @@ const PARTICIPANT_PROPS_TO_OMIT_WHEN_UPDATE = [
 ReducerRegistry.register('features/base/participants', (state = [], action) => {
     switch (action.type) {
     case SET_LOADABLE_AVATAR_URL:
+    case SET_CURRENT_FOCUS:
     case DOMINANT_SPEAKER_CHANGED:
     case PARTICIPANT_ID_CHANGED:
     case PARTICIPANT_UPDATED:
@@ -162,6 +164,9 @@ function _participant(state: Object = {}, action) {
     case PIN_PARTICIPANT:
         // Currently, only one pinned participant is allowed.
         return set(state, 'pinned', state.id === action.participant.id);
+
+    case SET_CURRENT_FOCUS:
+        return set(state, 'currentfocus', state.id === action.participantId);
     }
 
     return state;

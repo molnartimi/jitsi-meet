@@ -268,7 +268,8 @@ function _sendConferenceEvent(
     // transport an "equivalent".
     if (conference) {
         data.url = _normalizeUrl(conference[JITSI_CONFERENCE_URL_KEY]);
-        data.userId = conference.myUserId();
+        // replace '\' characters with '\\', so client side command handlers won't raise an error
+        data.userId = conference.myUserId().replace(/\\/g, '\\\\');
     }
 
     if (_swallowEvent(store, action, data)) {

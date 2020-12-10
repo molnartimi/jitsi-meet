@@ -60,3 +60,16 @@ export const SET_TILE_VIEW_DIMENSIONS = 'SET_TILE_VIEW_DIMENSIONS';
  * }
  */
 export const SET_HORIZONTAL_VIEW_DIMENSIONS = 'SET_HORIZONTAL_VIEW_DIMENSIONS';
+
+/**
+ * The type of (redux) action which sets the placeholder data for in-focus view.
+ *
+ * {
+ *     type: SET_PLACEHOLDER_DATA,
+ *     placeholderData: {
+ *          title: string,
+ *          imageUrl: string
+ *     }
+ * }
+ */
+export const SET_PLACEHOLDER_DATA = 'SET_PLACEHOLDER_DATA';

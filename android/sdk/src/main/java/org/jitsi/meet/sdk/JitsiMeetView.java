@@ -225,6 +225,13 @@ public class JitsiMeetView extends BaseReactView<JitsiMeetViewListener>
     }
 
     /**
+     * Sends in-focus placeholder data to React Native.
+     */
+    public void sendPlaceholderData(String data) {
+        VideoConfBridge.sendPlaceholderData(data);
+    }
+
+    /**
      * Helper method to set the React Native props.
      * @param newProps - New props to be set on the React Native view.
      */
