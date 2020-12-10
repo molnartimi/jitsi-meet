@@ -21,7 +21,8 @@ import {
     participantMutedUs,
     participantPresenceChanged,
     participantRoleChanged,
-    participantUpdated
+    participantUpdated,
+    setCurrentFocus
 } from '../participants';
 import { getLocalTracks, trackAdded, trackRemoved } from '../tracks';
 import {
@@ -58,6 +59,7 @@ import {
     AVATAR_URL_COMMAND,
     EMAIL_COMMAND,
     DISABLE_COMMAND,
+    IN_FOCUS_COMMAND,
     JITSI_CONFERENCE_URL_KEY
 } from './constants';
 import {
@@ -863,6 +865,10 @@ export function handleCommand(commandName: string, value: any) {
                         dispatch(setAudioMuted(true));
                     }
                 };
+                break;
+            }
+            case IN_FOCUS_COMMAND: {
+                dispatch(setCurrentFocus(value.value));
                 break;
             }
         }

@@ -13,11 +13,10 @@ type Props = {
     inFocusUser: Object,
     localUser: Object,
     isSideUserAudioMuted: boolean,
-    isWrapUpVisible: boolean
+    isWrapUpVisible: boolean,
+    placeholderData: Object
 }
 
-// TODO: make NAME_PLACEHOLDER settable by tabletparty.
-const NAME_PLACEHOLDER = 'FALL \'20 COLLECTION';
 const UNKNOWN_NAME = '';
 const COLLECTION_BUTTON = 'COLLECTION';
 const FAVORITES_BUTTON = 'MY FAVORITES';
@@ -55,8 +54,7 @@ class InFocusView extends Component<Props> {
                         : { paddingBottom: 0 } ] }>
                 <Image
                     source = {{
-                        // TODO: make this URL settable by tabletparty.
-                        uri: 'https://media.cliotest.com/VS/0da11b19-985d-497b-a532-c6120f4dec5f.png'
+                        uri: this.props.placeholderData.imageUrl
                     }}
                     style = { styles.fillView } />
                 {!this.props.isWrapUpVisible && this._createDefaultInFocusUserName()}
@@ -69,7 +67,7 @@ class InFocusView extends Component<Props> {
                 style = {{
                     ...styles.nameComponent,
                     paddingTop: 220 }}>
-                {NAME_PLACEHOLDER}
+                { this.props.placeholderData.title }
             </Text>
         );
     }
@@ -196,11 +194,14 @@ function _mapStateToProps(state, ownProps) {
     const audioTrack
         = getTrackByMediaTypeAndParticipant(tracks, MEDIA_TYPE.AUDIO, id);
 
+    const { placeholderData } = state['features/filmstrip'];
+
     return {
         inFocusUser,
         isWrapUpVisible,
         sideUser: _.isNil(localUser) ? placeholderUser : localUser,
-        isSideUserAudioMuted: audioTrack?.muted ?? true
+        isSideUserAudioMuted: audioTrack?.muted ?? true,
+        placeholderData
     };
 }
 export default connect(_mapStateToProps)(InFocusView);

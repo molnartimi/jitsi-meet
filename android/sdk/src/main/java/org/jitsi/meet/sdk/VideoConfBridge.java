@@ -33,11 +33,15 @@ public class VideoConfBridge {
      */
     private static final String SEND_COMMAND = "org.jitsi.meet:features/videoconf-bridge#send-command";
 
-
     /**
      * Remove Jitsi command.
      */
     private static final String REMOVE_COMMAND = "org.jitsi.meet:features/videoconf-bridge#remove-command";
+
+    /**
+     * In-focus placeholder data.
+     */
+    private static final String PLACEHOLDER_DATA = "org.jitsi.meet:features/videoconf-bridge#placeholder-data";
 
     /**
      * Sends a videoconf join event to React Native.
@@ -83,5 +87,12 @@ public class VideoConfBridge {
      */
     public static void removeJitsiCommand(String commandName) {
         ReactInstanceManagerHolder.emitEvent(REMOVE_COMMAND, commandName);
+    }
+
+    /**
+     * Sends in-focus placeholder data to React Native.
+     */
+    public static void sendPlaceholderData(String data) {
+        ReactInstanceManagerHolder.emitEvent(PLACEHOLDER_DATA, data);
     }
 }

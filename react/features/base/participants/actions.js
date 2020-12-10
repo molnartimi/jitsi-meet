@@ -14,7 +14,8 @@ import {
     PARTICIPANT_LEFT,
     PARTICIPANT_UPDATED,
     PIN_PARTICIPANT,
-    SET_LOADABLE_AVATAR_URL
+    SET_LOADABLE_AVATAR_URL,
+    SET_CURRENT_FOCUS
 } from './actionTypes';
 import {
     getLocalParticipant,
@@ -493,5 +494,21 @@ export function setLoadableAvatarUrl(participantId, url) {
             id: participantId,
             loadableAvatarUrl: url
         }
+    };
+}
+
+/**
+ * Creates an action which sets the in-focus user based on given participantId.
+ *
+ * @param {string} participantId - The ID of the participant.
+ * @returns {{
+ *     type: SET_CURRENT_FOCUS,
+ *     participantId
+ * }}
+*/
+export function setCurrentFocus(participantId) {
+    return {
+        type: SET_CURRENT_FOCUS,
+        participantId
     };
 }

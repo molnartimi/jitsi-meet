@@ -13,6 +13,7 @@ import { UNDEFINED_JITSI_ERROR } from '../../mobile/external-api/actions';
 import { OverlayContainer } from '../../overlay';
 import { appNavigate, appConnect, appJoinRoom, appLeaveRoom } from '../actions';
 import { getDefaultURL } from '../functions';
+import { setPlaceholderData } from '../../filmstrip/actions.native';
 import logger from '../logger';
 
 /**
@@ -234,6 +235,11 @@ export class AbstractApp extends BaseApp<Props, *> {
             (dataJsonString: string) => dispatch(sendCommand(dataJsonString))));
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.REMOVE_COMMAND,
             (commandName: string) => dispatch(removeCommand(commandName))));
+        this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.PLACEHOLDER_DATA,
+            (dataJsonString: string) => {
+                const { title, imageUrl } = JSON.parse(dataJsonString);
+                dispatch(setPlaceholderData(title, imageUrl));
+            }));
     }
 
 }
