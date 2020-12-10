@@ -93,6 +93,11 @@
 - (void)removeJitsiCommand:(NSString *_Nonnull)commandName;
 
 /**
+ * Update avatar in thumbnail.
+ */
+- (void)updateAvatar:(NSString *_Nonnull)dataJsonString;
+
+/**
  * Send placeholder data.
  */
 - (void)sendPlaceholderData:(NSString *_Nonnull)data;

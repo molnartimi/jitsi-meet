@@ -23,5 +23,7 @@
 - (void)sendPlaceholderData:(NSString *_Nonnull)data;
 - (void)setCountdown:(NSString *_Nonnull)jsonString;
 - (void)showSpeakerView:(NSNumber *_Nonnull)show;
+- (void)updateAvatar:(NSString *_Nonnull)dataJsonString;
+- (void)addCommandListener:(NSString *_Nonnull)commandName;
 
 @end

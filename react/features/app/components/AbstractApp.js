@@ -4,7 +4,13 @@ import React, { Fragment } from 'react';
 import { NativeEventEmitter, NativeModules } from 'react-native';
 
 import { BaseApp } from '../../base/app';
-import { sendCommand, removeCommand, editSpeakerViewVisibility } from '../../base/conference';
+import {
+    sendCommand,
+    removeCommand,
+    editSpeakerViewVisibility,
+    addCommandListener,
+    updateAvatar
+} from '../../base/conference';
 import { storeConfig } from '../../base/config';
 import { NativeEvents } from '../../base/constants';
 import { muteMedia, toggleCameraFacingMode } from '../../base/media';
@@ -251,6 +257,10 @@ export class AbstractApp extends BaseApp<Props, *> {
             }));
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.SHOW_SPEAKER_VIEW,
             (showSpeakerView: boolean | number) => dispatch(editSpeakerViewVisibility(Boolean(showSpeakerView)))));
+        this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.UPDATE_AVATAR,
+            (commandName: string) => dispatch(updateAvatar(commandName))));
+        this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.ADD_COMMAND_LISTENER,
+            (commandName: string) => dispatch(addCommandListener(commandName))));
     }
 
 }

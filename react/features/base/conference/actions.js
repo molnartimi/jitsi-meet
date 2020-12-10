@@ -819,6 +819,22 @@ export function removeCommand(commandName: string) {
 }
 
 /**
+ * Update avatar url in thumbnails.
+ *
+ * @param {string} dataJsonString - Stringified params with image data.
+ * @returns {Function}
+ */
+export function updateAvatar(dataJsonString: string) {
+    return (dispatch: Dispatch<any>, getState: Function) => {
+        const params = JSON.parse(dataJsonString);
+
+        console.log('function updateAvatar', params);
+
+        // TODO.
+    };
+}
+
+/**
  * Add command listener. Send event to native app as callback.
  *
  * @param {JitsiConference} conference - The JitsiConference instance.

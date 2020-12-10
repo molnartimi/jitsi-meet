@@ -44,6 +44,11 @@ public class VideoConfBridge {
     private static final String SET_CURRENT_SWIPER_INDEX = "org.jitsi.meet:features/videoconf-bridge#set-current-swiper-index";
 
     /**
+     * Update avatar url in thumbnails.
+     */
+    private static final String UPDATE_AVATAR = "org.jitsi.meet:features/videoconf-bridge#update-avatar";
+
+    /**
      * Show wrap up buttons in TileView.
      */
     private static final String SHOW_WRAP_UP_BUTTONS = "org.jitsi.meet:features/videoconf-bridge#show-wrap-up-buttons";
@@ -135,6 +140,13 @@ public class VideoConfBridge {
      */
     public static void setCountdown(String datetime) {
         ReactInstanceManagerHolder.emitEvent(SET_COUNTDOWN, datetime);
+    }
+
+    /**
+     * Update avatar url in thumbnails.
+     */
+    public static void updateAvatar(String dataJsonString) {
+        ReactInstanceManagerHolder.emitEvent(UPDATE_AVATAR, dataJsonString);
     }
 
     /**

@@ -184,6 +184,14 @@ static void initializeViewsMap() {
     [eventEmitter showSpeakerView:show];
 }
 
+- (void)updateAvatar:(NSString *_Nonnull)dataJsonString {
+    [eventEmitter updateAvatar:dataJsonString];
+}
+
+- (void)addJitsiCommandListener:(NSString *)commandName {
+    [eventEmitter addCommandListener:commandName];
+}
+
 #pragma mark Private methods
 
 /**

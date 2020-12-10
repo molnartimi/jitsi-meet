@@ -253,6 +253,13 @@ public class JitsiMeetView extends BaseReactView<JitsiMeetViewListener>
     }
 
     /**
+     * Update avatar url in thumbnails.
+     */
+    public void updateAvatar(String dataJsonString) {
+        VideoConfBridge.updateAvatar(dataJsonString);
+    }
+
+    /**
      * Set pre show countdown date time.
      */
     public static void setCountdown(String jsonString) {
