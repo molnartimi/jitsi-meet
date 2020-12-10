@@ -239,11 +239,6 @@ public class JitsiMeetActivity extends FragmentActivity
     }
 
     @Override
-    public void onTrackAdded(Map<String, Object> data) {
-        JitsiMeetLogger.i("Track added: " + data);
-    }
-
-    @Override
     public void onUndefinedJitsiError(Map<String, Object> data) {
         JitsiMeetLogger.i("Unhandled error catched: " + data);
     }

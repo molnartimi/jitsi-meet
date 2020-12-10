@@ -104,10 +104,6 @@
     [self _onJitsiMeetViewDelegateEvent:@"COMMAND_VALUE" withData:data];
 }
 
-- (void)trackAdded:(NSDictionary *)data {
-    [self _onJitsiMeetViewDelegateEvent:@"TRACK_ADDED" withData:data];
-}
-
 - (void)swipeEvent:(NSDictionary *)data {
     [self _onJitsiMeetViewDelegateEvent:@"SWIPE_EVENT" withData:data];
 }

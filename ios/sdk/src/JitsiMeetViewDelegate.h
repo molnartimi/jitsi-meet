@@ -70,15 +70,6 @@
 -(void)undefinedJitsiError:(NSDictionary *)data;
 
 /**
- * Called when a local track created.
- *
- * The `data` dictionary contains:
- * - kind: 'video' or 'audio'
- * - muted: stringified boolean value
-*/
-- (void)trackAdded:(NSDictionary *)data;
-
-/**
   * Called whenever swipe happens between conference pages.
   *
   * The `data` dictionary contains:
