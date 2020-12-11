@@ -64,13 +64,6 @@ public interface JitsiMeetViewListener {
     void onCommandValue(Map<String, Object> data);
 
     /**
-     * Called whenever a local track is created.
-     * @param data Map with a "kind" key stating the track type
-     * and a "muted" stringified boolean value.
-     */
-    void onTrackAdded(Map<String, Object> data);
-
-    /**
      * Called whenever swipe happens between conference pages.
      * @param data Map with 'index' and 'total' number of native pages
      */
