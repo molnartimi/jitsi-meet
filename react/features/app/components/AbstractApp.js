@@ -252,9 +252,10 @@ export class AbstractApp extends BaseApp<Props, *> {
             }));
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.ADD_COMMAND_LISTENER,
             (commandName: string) => dispatch(addCommandListener(commandName))));
-        // TODO replace with appropriate logic. Received value can be a boolean, or number 0 or 1.
+        this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.ADD_COMMAND_LISTENER,
+            (commandName: string) => dispatch(addCommandListener(commandName))));
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.SHOW_SPEAKER_VIEW,
-            (showSpeakerView: boolean | number) => logger.info('Show speaker view value received: ', showSpeakerView)));
+            (showSpeakerView: boolean | number) => dispatch(editSpeakerViewVisibility(Boolean(showSpeakerView)))));
     }
 
 }

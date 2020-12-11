@@ -52,7 +52,8 @@ import {
     SET_ROOM,
     SET_PENDING_SUBJECT_CHANGE,
     SET_START_MUTED_POLICY,
-    COMMAND_VALUE
+    COMMAND_VALUE,
+    SET_SPEAKER_VIEW_VISIBILITY
 } from './actionTypes';
 import {
     AVATAR_ID_COMMAND,
@@ -880,5 +881,17 @@ export function handleCommand(commandName: string, value: any) {
                 break;
             }
         }
+
+/**
+ * Edit the style of meeting UI.
+ *
+ * @param {boolean} isSpeakerViewShowed -
+ * are we hate to show speaker view style or not.
+ * @returns {Function}
+ */
+export function editSpeakerViewVisibility(isSpeakerViewShowed: boolean) {
+    return {
+        type: SET_SPEAKER_VIEW_VISIBILITY,
+        isSpeakerViewShowed
     };
 }
