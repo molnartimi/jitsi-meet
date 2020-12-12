@@ -78,4 +78,8 @@
     [_videoConfBridge removeCommand:commandName];
 }
 
+- (void)sendPlaceholderData:(NSString *_Nonnull)data {
+    [_videoConfBridge sendPlaceholderData:data];
+}
+
 @end

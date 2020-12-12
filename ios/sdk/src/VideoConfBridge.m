@@ -20,6 +20,7 @@ static NSString *const SWITCH_CAM_EVENT = @"org.jitsi.meet:features/videoconf-br
 static NSString *const SEND_COMMAND_EVENT = @"org.jitsi.meet:features/videoconf-bridge#send-command";
 static NSString *const REMOVE_COMMAND_EVENT = @"org.jitsi.meet:features/videoconf-bridge#remove-command";
 static NSString *const TAP_MENU_EVENT = @"org.jitsi.meet:features/videoconf-bridge#open-tap-menu";
+static NSString *const PLACEHOLDER_DATA_EVENT = @"org.jitsi.meet:features/videoconf-bridge#placeholder-data";
 
 RCT_EXPORT_MODULE();
 
@@ -30,7 +31,7 @@ RCT_EXPORT_MODULE();
 
 - (NSArray<NSString *> *)supportedEvents {
   return @[JOIN_EVENT, LEAVE_EVENT, MUTE_EVENT, SWITCH_CAM_EVENT,
-           SEND_COMMAND_EVENT, REMOVE_COMMAND_EVENT, TAP_MENU_EVENT];
+           SEND_COMMAND_EVENT, REMOVE_COMMAND_EVENT, TAP_MENU_EVENT, PLACEHOLDER_DATA_EVENT];
 }
 
 - (void)join:(NSString *)dataJsonString {
@@ -55,6 +56,10 @@ RCT_EXPORT_MODULE();
 
 - (void)removeCommand:(NSString *_Nonnull)commandName {
     [self sendEvent:REMOVE_COMMAND_EVENT body:commandName];
+}
+
+- (void)sendPlaceholderData:(NSString *_Nonnull)data {
+    [self sendEvent:PLACEHOLDER_DATA_EVENT body:data];
 }
 
 @end

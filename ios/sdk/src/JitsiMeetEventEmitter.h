@@ -27,5 +27,6 @@ withStringifiedParams:(NSString *_Nonnull)params
 - (void)switchCamera;
 - (void)sendCommand:(NSString *_Nonnull)dataJsonString;
 - (void)removeCommand:(NSString *_Nonnull)commandName;
+- (void)sendPlaceholderData:(NSString *_Nonnull)data;
 
 @end

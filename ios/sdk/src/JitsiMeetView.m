@@ -164,6 +164,10 @@ static void initializeViewsMap() {
     [eventEmitter removeCommand:commandName];
 }
 
+- (void)sendPlaceholderData:(NSString *_Nonnull)data {
+    [eventEmitter sendPlaceholderData:data];
+}
+
 #pragma mark Private methods
 
 /**

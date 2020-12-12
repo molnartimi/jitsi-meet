@@ -92,4 +92,9 @@
  */
 - (void)removeJitsiCommand:(NSString *_Nonnull)commandName;
 
+/**
+ * Send placeholder data.
+ */
+- (void)sendPlaceholderData:(NSString *_Nonnull)data;
+
 @end
