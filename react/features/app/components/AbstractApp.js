@@ -4,16 +4,16 @@ import React, { Fragment } from 'react';
 import { NativeEventEmitter, NativeModules } from 'react-native';
 
 import { BaseApp } from '../../base/app';
-import { sendCommand, removeCommand, addCommandListener } from '../../base/conference';
+import { sendCommand, removeCommand } from '../../base/conference';
 import { storeConfig } from '../../base/config';
 import { NativeEvents } from '../../base/constants';
 import { muteMedia, toggleCameraFacingMode } from '../../base/media';
 import { toURLString } from '../../base/util';
+import { setPlaceholderData } from '../../filmstrip';
 import { UNDEFINED_JITSI_ERROR } from '../../mobile/external-api/actions';
 import { OverlayContainer } from '../../overlay';
 import { appNavigate, appConnect, appJoinRoom, appLeaveRoom } from '../actions';
 import { getDefaultURL } from '../functions';
-import { setPlaceholderData } from '../../filmstrip/actions.native';
 import logger from '../logger';
 
 /**
@@ -219,7 +219,8 @@ export class AbstractApp extends BaseApp<Props, *> {
 
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.VIDEOCONF_JOIN,
             (dataJsonString: string) => {
-                const { roomName, audioMuted, videoMuted, noCam, noMic, commandsToListenTo } = JSON.parse(dataJsonString);
+                const { roomName, audioMuted, videoMuted, noCam, noMic, commandsToListenTo }
+                    = JSON.parse(dataJsonString);
 
                 this.props.url.room = roomName;
                 this.state.store.dispatch(appJoinRoom(this.props.url.serverURL, roomName,
@@ -238,6 +239,7 @@ export class AbstractApp extends BaseApp<Props, *> {
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.PLACEHOLDER_DATA,
             (dataJsonString: string) => {
                 const { title, imageUrl } = JSON.parse(dataJsonString);
+
                 dispatch(setPlaceholderData(title, imageUrl));
             }));
     }
