@@ -15,6 +15,7 @@ import { OverlayContainer } from '../../overlay';
 import { appNavigate, appConnect, appJoinRoom, appLeaveRoom } from '../actions';
 import { getDefaultURL } from '../functions';
 import logger from '../logger';
+import { updateSwiperIndex } from '../../base/responsive-ui';
 
 /**
  * The type of React {@code Component} props of {@link AbstractApp}.
@@ -236,6 +237,8 @@ export class AbstractApp extends BaseApp<Props, *> {
             (dataJsonString: string) => dispatch(sendCommand(dataJsonString))));
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.REMOVE_COMMAND,
             (commandName: string) => dispatch(removeCommand(commandName))));
+        this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.SET_CURRENT_SWIPER_INDEX,
+            (pageNumber: string) => dispatch(updateSwiperIndex(Number(pageNumber)))));
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.PLACEHOLDER_DATA,
             (dataJsonString: string) => {
                 const { title, imageUrl } = JSON.parse(dataJsonString);

@@ -232,6 +232,13 @@ public class JitsiMeetView extends BaseReactView<JitsiMeetViewListener>
     }
 
     /**
+     * Swipe to given page.
+     */
+    public void setCurrentSwiperIndex(String pageNumber) {
+        VideoConfBridge.setCurrentSwiperIndex(pageNumber);
+    }
+
+    /**
      * Helper method to set the React Native props.
      * @param newProps - New props to be set on the React Native view.
      */

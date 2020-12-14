@@ -30,3 +30,15 @@ export const SET_ASPECT_RATIO = 'SET_ASPECT_RATIO';
  * @public
  */
 export const SET_REDUCED_UI = 'SET_REDUCED_UI';
+
+/**
+ * The type of redux action which signals that TileView should update the index
+ *
+ * {
+ *     type: UPDATE_SWIPER_INDEX,
+ *     currentSwiperIndex: number
+ * }
+ *
+ * @public
+ */
+export const UPDATE_SWIPER_INDEX = 'UPDATE_SWIPER_INDEX';

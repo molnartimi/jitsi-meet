@@ -168,6 +168,10 @@ static void initializeViewsMap() {
     [eventEmitter sendPlaceholderData:data];
 }
 
+- (void)setCurrentSwiperIndex:(NSString *)pageNumber {
+    [eventEmitter setCurrentSwiperIndex:pageNumber];
+}
+
 #pragma mark Private methods
 
 /**

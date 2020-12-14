@@ -82,4 +82,8 @@
     [_videoConfBridge sendPlaceholderData:data];
 }
 
+- (void)setCurrentSwiperIndex:(NSString *_Nonnull)pageNumber {
+    [_videoConfBridge setCurrentSwiperIndex:pageNumber];
+}
+
 @end

@@ -17,6 +17,7 @@ import InFocusView from './InFocusView';
 import TapView from './TapView';
 import Thumbnail from './Thumbnail';
 import styles from './styles';
+import { updateSwiperIndex } from '../../../base/responsive-ui';
 
 /**
  * The type of the React {@link Component} props of {@link TileView}.
@@ -42,6 +43,11 @@ type Props = {
      * Application's viewport height.
      */
     _width: number,
+
+    /**
+     * Swiper's current index.
+     */
+    _currentIndex: number,
 
     /**
      * Invoked to update the receiver video quality.
@@ -131,6 +137,9 @@ class TileView extends Component<Props> {
         pages.push(...this._getUserPages(this._groupThumbnailsByPages(rowElements)));
         pages.push(<TapView />);
         this.totalPages = pages.length;
+        if (this.props._currentIndex >= 0 && this.swiperRef && this.swiperRef.current) {
+            this.swiperRef.current.scrollTo(this.props._currentIndex, false);
+        }
 
         return (
             <TouchableWithoutFeedback
@@ -162,11 +171,6 @@ class TileView extends Component<Props> {
     _onSwipe(index: number) {
         if (!isNaN(index) && this.totalPages) {
             this.props.dispatch(swipeEvent(index, this.totalPages));
-            if (index === this.totalPages - 1
-                    && this.swiperRef && this.swiperRef.current && this.swiperRef.current.scrollBy) {
-                // Scroll by 0 scrolls back to last page.
-                this.swiperRef.current.scrollBy(0);
-            }
         }
     }
 
@@ -347,9 +351,10 @@ function _mapStateToProps(state) {
     return {
         _aspectRatio: responsiveUi.aspectRatio,
         _height: responsiveUi.clientHeight,
+        _width: responsiveUi.clientWidth,
+        _currentIndex: responsiveUi.currentSwiperIndex,
         _participants: participants,
-        _inFocusUser: inFocusUser,
-        _width: responsiveUi.clientWidth
+        _inFocusUser: inFocusUser
     };
 }
 

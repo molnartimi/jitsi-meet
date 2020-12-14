@@ -2,7 +2,12 @@
 
 import { ReducerRegistry, set } from '../redux';
 
-import { CLIENT_RESIZED, SET_ASPECT_RATIO, SET_REDUCED_UI } from './actionTypes';
+import {
+    CLIENT_RESIZED,
+    SET_ASPECT_RATIO,
+    SET_REDUCED_UI,
+    UPDATE_SWIPER_INDEX
+} from './actionTypes';
 import { ASPECT_RATIO_NARROW } from './constants';
 
 const {
@@ -17,6 +22,7 @@ const DEFAULT_STATE = {
     aspectRatio: ASPECT_RATIO_NARROW,
     clientHeight: innerHeight,
     clientWidth: innerWidth,
+    currentSwiperIndex: -1,
     reducedUI: false
 };
 
@@ -28,6 +34,9 @@ ReducerRegistry.register('features/base/responsive-ui', (state = DEFAULT_STATE, 
             clientWidth: action.clientWidth,
             clientHeight: action.clientHeight
         };
+    }
+    case UPDATE_SWIPER_INDEX: {
+        return set(state, 'currentSwiperIndex', action.currentSwiperIndex);
     }
     case SET_ASPECT_RATIO:
         return set(state, 'aspectRatio', action.aspectRatio);

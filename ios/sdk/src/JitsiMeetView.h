@@ -97,4 +97,9 @@
  */
 - (void)sendPlaceholderData:(NSString *_Nonnull)data;
 
+/**
+ * Swipe to a given page.
+ */
+- (void)setCurrentSwiperIndex:(NSString *_Nonnull)pageNumber;
+
 @end
