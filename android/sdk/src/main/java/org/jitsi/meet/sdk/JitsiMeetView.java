@@ -150,10 +150,9 @@ public class JitsiMeetView extends BaseReactView<JitsiMeetViewListener>
 
     /**
      * Joins the specified conference room. Config options should be set by xmppConnect beforehand.
-     * @param roomName - Conference room to join to.
      */
-    public void joinConference(String roomName) {
-        VideoConfBridge.joinConference(roomName);
+    public void joinConference(String dataJsonString) {
+        VideoConfBridge.joinConference(dataJsonString);
     }
 
     /**
@@ -226,10 +225,10 @@ public class JitsiMeetView extends BaseReactView<JitsiMeetViewListener>
     }
 
     /**
-     * Add a Jitsi command listener.
+     * Sends in-focus placeholder data to React Native.
      */
-    public void addJitsiCommandListener(String commandName) {
-        VideoConfBridge.addJitsiCommandListener(commandName);
+    public void sendPlaceholderData(String data) {
+        VideoConfBridge.sendPlaceholderData(data);
     }
 
     /**

@@ -153,7 +153,9 @@ MiddlewareRegistry.register(store => next => action => {
             };
 
             sendEvent(store, COMMAND_VALUE, {
-                value: flatted.stringify(response)
+                value: flatted.stringify(response,
+                        // replace '\' characters with '\\', so flatted.parse won't raise an error later on
+                        (_, val) => typeof val === 'string' ? val.replace(/\\/g, '\\\\') : val)
             });
         } catch (e) {
             logger.error('Some error occurred at sending command value to native app', e);
@@ -257,7 +259,8 @@ function _sendConferenceEvent(
     // transport an "equivalent".
     if (conference) {
         data.url = _normalizeUrl(conference[JITSI_CONFERENCE_URL_KEY]);
-        data.userId = conference.myUserId();
+        // replace '\' characters with '\\', so client side command handlers won't raise an error
+        data.userId = conference.myUserId().replace(/\\/g, '\\\\');
     }
 
     if (_swallowEvent(store, action, data)) {

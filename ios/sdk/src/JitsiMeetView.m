@@ -164,8 +164,8 @@ static void initializeViewsMap() {
     [eventEmitter removeCommand:commandName];
 }
 
-- (void)addJitsiCommandListener:(NSString *)commandName {
-    [eventEmitter addCommandListener:commandName];
+- (void)sendPlaceholderData:(NSString *_Nonnull)data {
+    [eventEmitter sendPlaceholderData:data];
 }
 
 - (void)setCurrentSwiperIndex:(NSString *)pageNumber {

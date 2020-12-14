@@ -21,7 +21,8 @@ import {
     participantMutedUs,
     participantPresenceChanged,
     participantRoleChanged,
-    participantUpdated
+    participantUpdated,
+    setCurrentFocus
 } from '../participants';
 import { getLocalTracks, trackAdded, trackRemoved } from '../tracks';
 import {
@@ -57,6 +58,8 @@ import {
     AVATAR_ID_COMMAND,
     AVATAR_URL_COMMAND,
     EMAIL_COMMAND,
+    DISABLE_COMMAND,
+    IN_FOCUS_COMMAND,
     JITSI_CONFERENCE_URL_KEY
 } from './constants';
 import {
@@ -406,7 +409,7 @@ export function conferenceWillLeave(conference: Object) {
  *
  * @returns {Function}
  */
-export function createConference() {
+export function createConference(commandsToListenTo?: string[]) {
     return (dispatch: Function, getState: Function) => {
         const state = getState();
         const { connection, locationURL } = state['features/base/connection'];
@@ -437,6 +440,11 @@ export function createConference() {
                     statisticsDisplayName: config.enableDisplayNameInStats ? nick : undefined,
                     statisticsId: config.enableEmailInStats ? email : undefined
                 });
+
+        if (commandsToListenTo) {
+            // Register command listeners
+            commandsToListenTo.forEach(commandName => dispatch(addCommandListener(conference, commandName)));
+        }
 
         connection[JITSI_CONNECTION_CONFERENCE_KEY] = conference;
 
@@ -798,24 +806,29 @@ export function removeCommand(commandName: string) {
 /**
  * Add command listener. Send event to native app as callback.
  *
+ * @param {JitsiConference} conference - The JitsiConference instance.
  * @param {string} commandName - Command to listen to.
  * @returns {Function}
  */
-export function addCommandListener(commandName: string) {
+export function addCommandListener(conference: JitsiConference, commandName: string) {
     return (dispatch: Dispatch<any>, getState: Function) => {
-        const { conference } = getState()['features/base/conference'];
-
         if (!conference) {
             logger.warn('No conference object found when trying to remove command', commandName);
 
             return;
         }
 
-        const listener = value => dispatch({
-            type: COMMAND_VALUE,
-            commandName,
-            value
-        });
+        const listener = value => {
+            // Handle command internally if needed
+            dispatch(handleCommand(commandName, value));
+
+            // Forward command to client app
+            return dispatch({
+                type: COMMAND_VALUE,
+                commandName,
+                value
+            });
+        };
 
         const cleanupListener = () => {
             conference.removeEventListener(JitsiConferenceEvents.CONFERENCE_ERROR, cleanupListener);
@@ -831,5 +844,33 @@ export function addCommandListener(commandName: string) {
 
         conference.addCommandListener(commandName, listener);
         conference.room.sendPresence();
+    };
+}
+
+/**
+ * Some commands require additional handler actions in React Native,
+ * this general handler method is supposed to take care of that.
+ */
+export function handleCommand(commandName: string, value: any) {
+    return (dispatch: Dispatch<any>, getState: Function) => {
+        const { joining } = getState()['features/base/conference'];
+        switch (commandName) {
+            case DISABLE_COMMAND: {
+                // Mute media if a disabled command arrives before conference join.
+                if (joining) {
+                    if (value.attributes.video === 'true') {
+                        dispatch(setVideoMuted(true));
+                    }
+                    if (value.attributes.audio === 'true') {
+                        dispatch(setAudioMuted(true));
+                    }
+                };
+                break;
+            }
+            case IN_FOCUS_COMMAND: {
+                dispatch(setCurrentFocus(value.value));
+                break;
+            }
+        }
     };
 }

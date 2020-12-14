@@ -33,27 +33,26 @@ public class VideoConfBridge {
      */
     private static final String SEND_COMMAND = "org.jitsi.meet:features/videoconf-bridge#send-command";
 
-
     /**
      * Remove Jitsi command.
      */
     private static final String REMOVE_COMMAND = "org.jitsi.meet:features/videoconf-bridge#remove-command";
 
     /**
-     * Remove Jitsi command.
+     * Set current swiper index.
      */
     private static final String SET_CURRENT_SWIPER_INDEX = "org.jitsi.meet:features/videoconf-bridge#set-current-swiper-index";
 
     /**
-     * Add Jitsi command listener.
+     * In-focus placeholder data.
      */
-    private static final String ADD_COMMAND_LISTENER = "org.jitsi.meet:features/videoconf-bridge#add-command-listener";
+    private static final String PLACEHOLDER_DATA = "org.jitsi.meet:features/videoconf-bridge#placeholder-data";
 
     /**
      * Sends a videoconf join event to React Native.
      */
-    public static void joinConference(String roomName) {
-        ReactInstanceManagerHolder.emitEvent(VIDEOCONF_JOIN, roomName);
+    public static void joinConference(String dataJsonString) {
+        ReactInstanceManagerHolder.emitEvent(VIDEOCONF_JOIN, dataJsonString);
     }
 
     /**
@@ -103,9 +102,9 @@ public class VideoConfBridge {
     }
 
     /**
-     * Add jitsi command listener.
+     * Sends in-focus placeholder data to React Native.
      */
-    public static void addJitsiCommandListener(String commandName) {
-        ReactInstanceManagerHolder.emitEvent(ADD_COMMAND_LISTENER, commandName);
+    public static void sendPlaceholderData(String data) {
+        ReactInstanceManagerHolder.emitEvent(PLACEHOLDER_DATA, data);
     }
 }

@@ -93,9 +93,9 @@
 - (void)removeJitsiCommand:(NSString *_Nonnull)commandName;
 
 /**
- * Add jitsi command listener.
+ * Send placeholder data.
  */
-- (void)addJitsiCommandListener:(NSString *_Nonnull)commandName;
+- (void)sendPlaceholderData:(NSString *_Nonnull)data;
 
 /**
  * Swipe to a given page.

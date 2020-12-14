@@ -7,7 +7,8 @@ import {
     SET_FILMSTRIP_HOVERED,
     SET_FILMSTRIP_VISIBLE,
     SET_HORIZONTAL_VIEW_DIMENSIONS,
-    SET_TILE_VIEW_DIMENSIONS
+    SET_TILE_VIEW_DIMENSIONS,
+    SET_PLACEHOLDER_DATA
 } from './actionTypes';
 
 const DEFAULT_STATE = {
@@ -41,7 +42,15 @@ const DEFAULT_STATE = {
      * @public
      * @type {boolean}
      */
-    visible: true
+    visible: true,
+
+    /**
+     * The in-focus placeholder data.
+     *
+     * @public
+     * @type {Object}
+     */
+    placeholderData: {}
 };
 
 ReducerRegistry.register(
@@ -83,6 +92,11 @@ ReducerRegistry.register(
             return {
                 ...state,
                 tileViewDimensions: action.dimensions
+            };
+        case SET_PLACEHOLDER_DATA:
+            return {
+                ...state,
+                placeholderData: action.placeholderData
             };
         }
 

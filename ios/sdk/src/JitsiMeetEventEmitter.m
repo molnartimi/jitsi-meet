@@ -78,8 +78,8 @@
     [_videoConfBridge removeCommand:commandName];
 }
 
-- (void)addCommandListener:(NSString *)commandName {
-    [_videoConfBridge addCommandListener:commandName];
+- (void)sendPlaceholderData:(NSString *_Nonnull)data {
+    [_videoConfBridge sendPlaceholderData:data];
 }
 
 - (void)setCurrentSwiperIndex:(NSString *_Nonnull)pageNumber {

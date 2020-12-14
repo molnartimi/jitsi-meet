@@ -6,7 +6,8 @@ import {
     SET_FILMSTRIP_ENABLED,
     SET_FILMSTRIP_HOVERED,
     SET_FILMSTRIP_VISIBLE,
-    SET_TILE_VIEW_DIMENSIONS
+    SET_TILE_VIEW_DIMENSIONS,
+    SET_PLACEHOLDER_DATA
 } from './actionTypes';
 
 /**
@@ -97,4 +98,22 @@ export function swipeEvent(index: number, total: number) {
         index: index.toString(),
         total: total.toString()
     };
+}
+
+
+/**
+ * Sets placeholder data for in-focus view.
+ *
+ * @param {string} title - Placeholder image title.
+ * @param {string} imageUrl - Placeholder image url.
+ * @returns {{
+    *     type: SET_PLACEHOLDER_DATA,
+    *     placeholderData: Object
+    * }}
+*/
+export function setPlaceholderData(title: string, imageUrl: string) {
+    return {
+        type: SET_PLACEHOLDER_DATA,
+        placeholderData: { title, imageUrl }
+    }
 }
