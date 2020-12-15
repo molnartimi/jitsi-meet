@@ -93,6 +93,7 @@ class InFocusView extends Component<Props> {
                     participant = { this.props.inFocusUser }
                     renderDisplayName = { true }
                     styleOverrides = { styles.fillView }
+                    zOrder = { 0 }
                     tileView = { true } />
 
                 {!_.isNil(this.props.inFocusUser)
@@ -163,6 +164,7 @@ class InFocusView extends Component<Props> {
                     isAvatarCircled = { false }
                     participant = { this.props.localUser }
                     renderDisplayName = { true }
+                    zOrder = { 1 }
                     styleOverrides = {{
                         ...styles.fillView,
                         borderRadius: 15
