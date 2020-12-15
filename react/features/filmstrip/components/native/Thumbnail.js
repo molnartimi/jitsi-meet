@@ -89,7 +89,14 @@ type Props = {
     /**
      * Indicates whether shown in front view or not.
      */
-    isAvatarCircled: boolean
+    isAvatarCircled: boolean,
+
+    /**
+     * The z-order of the {@link Video} of {@link ParticipantView} in the
+     * stacking space of all {@code Video}s. For more details, refer to the
+     * {@code zOrder} property of the {@code Video} class for React Native.
+     */
+    zOrder?: number,
 }
 
 /**
@@ -102,7 +109,6 @@ class Thumbnail extends Component<Props> {
 
     render() {
         const participantId = _.isNil(this.props.participant?.id) ? 0 : this.props.participant.id;
-
         return (
             <Container
                 onClick = { this.props._onClick }
@@ -119,6 +125,7 @@ class Thumbnail extends Component<Props> {
                     participantId = { participantId }
                     style = { styles.participantViewStyle }
                     tintEnabled = { false }
+                    zOrder = {this.props.zOrder}
                     tintStyle = { styles.activeThumbnailTint } />
 
                 <LinearGradient
