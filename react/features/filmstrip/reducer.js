@@ -3,6 +3,7 @@
 import { ReducerRegistry } from '../base/redux';
 
 import {
+    SET_COUNTDOWN,
     SET_FILMSTRIP_ENABLED,
     SET_FILMSTRIP_HOVERED,
     SET_FILMSTRIP_VISIBLE,
@@ -97,6 +98,13 @@ ReducerRegistry.register(
             return {
                 ...state,
                 placeholderData: action.placeholderData
+            };
+
+        case SET_COUNTDOWN:
+            return {
+                ...state,
+                countdownStartDatetime: action.fromDate,
+                countdownTargetDatetime: action.toDate
             };
         }
 

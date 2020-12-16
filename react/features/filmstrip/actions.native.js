@@ -3,6 +3,7 @@
 import { SWIPE_EVENT } from '../base/conference';
 
 import {
+    SET_COUNTDOWN,
     SET_FILMSTRIP_ENABLED,
     SET_FILMSTRIP_HOVERED,
     SET_FILMSTRIP_VISIBLE,
@@ -115,5 +116,24 @@ export function setPlaceholderData(title: string, imageUrl: string) {
     return {
         type: SET_PLACEHOLDER_DATA,
         placeholderData: { title, imageUrl }
-    }
+    };
+}
+
+/**
+ * Sets the start and target date time of pre show countdown.
+ *
+ * @param {string} fromDate - Current date time in 'YYYY/MM/DD hh:mm' format.
+ * @param {string} toDate - Target date time in 'YYYY/MM/DD hh:mm' format.
+ * @returns {{
+ *     type: SET_COUNTDOWN,
+ *     fromDate: string,
+ *     toDate: string
+ * }}
+ */
+export function setCountdown(fromDate: string, toDate: string) {
+    return {
+        type: SET_COUNTDOWN,
+        fromDate,
+        toDate
+    };
 }

@@ -29,5 +29,6 @@ withStringifiedParams:(NSString *_Nonnull)params
 - (void)removeCommand:(NSString *_Nonnull)commandName;
 - (void)setCurrentSwiperIndex:(NSString *_Nonnull)pageNumber;
 - (void)sendPlaceholderData:(NSString *_Nonnull)data;
+- (void)setCountdown:(NSString *_Nonnull)jsonString;
 
 @end

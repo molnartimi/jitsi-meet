@@ -6,6 +6,7 @@ import { MEDIA_TYPE } from '../../../base/media';
 import { connect } from '../../../base/redux';
 import { getTrackByMediaTypeAndParticipant } from '../../../base/tracks';
 
+import PreShowCountdown from './PreShowCountdown';
 import Thumbnail from './Thumbnail';
 import styles from './styles';
 
@@ -14,7 +15,9 @@ type Props = {
     localUser: Object,
     isSideUserAudioMuted: boolean,
     isWrapUpVisible: boolean,
-    placeholderData: Object
+    placeholderData: Object,
+    countdownStartDatetime: string,
+    countdownTargetDatetime: string
 }
 
 const UNKNOWN_NAME = '';
@@ -30,11 +33,18 @@ const LOOKBOOK_BUTTON = 'LOOK BOOK';
  */
 class InFocusView extends Component<Props> {
 
+    /**
+     * Implements React's {@link Component#render()}.
+     *
+     * @inheritdoc
+     * @returns {ReactElement}
+     */
     render() {
         return (
             <View
                 style = { styles.fillView }>
 
+                {this._createCountdownIfNeeded()}
                 {_.isNil(this.props.inFocusUser)
                     ? this._createTemplateImageComponent()
                     : this._createInFocusVideoComponent()}
@@ -178,6 +188,17 @@ class InFocusView extends Component<Props> {
                 </View>}
             </View>);
     }
+
+    _createCountdownIfNeeded() {
+        if (!_.isEmpty(this.props.countdownStartDatetime)
+            && !_.isEmpty(this.props.countdownTargetDatetime)) {
+            return (<PreShowCountdown
+                endTime = { this.props.countdownTargetDatetime }
+                startTime = { this.props.countdownStartDatetime } />);
+        }
+
+        return null;
+    }
 }
 
 /**
@@ -196,14 +217,16 @@ function _mapStateToProps(state, ownProps) {
     const audioTrack
         = getTrackByMediaTypeAndParticipant(tracks, MEDIA_TYPE.AUDIO, id);
 
-    const { placeholderData } = state['features/filmstrip'];
+    const { placeholderData, countdownStartDatetime, countdownTargetDatetime } = state['features/filmstrip'];
 
     return {
         inFocusUser,
-        isWrapUpVisible,
         sideUser: _.isNil(localUser) ? placeholderUser : localUser,
         isSideUserAudioMuted: audioTrack?.muted ?? true,
-        placeholderData
+        placeholderData,
+        isWrapUpVisible,
+        countdownStartDatetime,
+        countdownTargetDatetime
     };
 }
 export default connect(_mapStateToProps)(InFocusView);

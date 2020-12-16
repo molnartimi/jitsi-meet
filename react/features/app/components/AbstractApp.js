@@ -8,14 +8,14 @@ import { sendCommand, removeCommand } from '../../base/conference';
 import { storeConfig } from '../../base/config';
 import { NativeEvents } from '../../base/constants';
 import { muteMedia, toggleCameraFacingMode } from '../../base/media';
+import { updateSwiperIndex } from '../../base/responsive-ui';
 import { toURLString } from '../../base/util';
-import { setPlaceholderData } from '../../filmstrip';
+import { setPlaceholderData, setCountdown } from '../../filmstrip';
 import { UNDEFINED_JITSI_ERROR } from '../../mobile/external-api/actions';
 import { OverlayContainer } from '../../overlay';
 import { appNavigate, appConnect, appJoinRoom, appLeaveRoom } from '../actions';
 import { getDefaultURL } from '../functions';
 import logger from '../logger';
-import { updateSwiperIndex } from '../../base/responsive-ui';
 
 /**
  * The type of React {@code Component} props of {@link AbstractApp}.
@@ -244,6 +244,12 @@ export class AbstractApp extends BaseApp<Props, *> {
                 const { title, imageUrl } = JSON.parse(dataJsonString);
 
                 dispatch(setPlaceholderData(title, imageUrl));
+            }));
+        this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.SET_COUNTDOWN,
+            (jsonString: string) => {
+                const { fromDateString, toDateString } = JSON.parse(jsonString);
+
+                dispatch(setCountdown(fromDateString, toDateString));
             }));
     }
 
