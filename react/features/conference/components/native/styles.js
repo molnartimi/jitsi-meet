@@ -117,6 +117,10 @@ export default {
         top: 0
     },
 
+    fillView: {
+        flex: 1
+    },
+
     navBarSafeView: {
         left: 0,
         position: 'absolute',

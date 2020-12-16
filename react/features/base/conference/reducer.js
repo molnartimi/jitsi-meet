@@ -35,7 +35,8 @@ const DEFAULT_STATE = {
     locked: undefined,
     membersOnly: undefined,
     password: undefined,
-    passwordRequired: undefined
+    passwordRequired: undefined,
+    isSpeakerViewShowed: false
 };
 
 /**

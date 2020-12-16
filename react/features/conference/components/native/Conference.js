@@ -184,21 +184,11 @@ class Conference extends AbstractConference<Props, *> {
      * @returns {React$Element}
      */
     _renderContent() {
-        const {
-            _largeVideoParticipant,
-            _isSpeakerViewShowed
-        } = this.props;
-
         return (
             <>
                 {
-                    _isSpeakerViewShowed
-                        ? <Thumbnail
-                            isAvatarCircled = { false }
-                            key = { _largeVideoParticipant.participantId }
-                            participant = { _largeVideoParticipant }
-                            renderDisplayName = { true }
-                            tileView = { true } />
+                    this.props._isSpeakerViewShowed
+                        ? this._createSelfFrameVideoComponent()
                         : <TileView onClick = { this._onClick } />
                 }
 
@@ -209,6 +199,22 @@ class Conference extends AbstractConference<Props, *> {
                     <KnockingParticipantList />
                 </SafeAreaView>
             </>
+        );
+    }
+
+    _createSelfFrameVideoComponent() {
+        return (
+            <Thumbnail
+                isAvatarCircled = { false }
+                key = { this.props._largeVideoParticipant?.id }
+                participant = { this.props._largeVideoParticipant }
+                renderDisplayName = { true }
+                styleOverrides = {{
+                    ...styles.fillView,
+                    borderRadius: 15
+                }}
+                tileView = { true }
+                zOrder = { 1 } />
         );
     }
 
@@ -290,13 +296,16 @@ function _mapStateToProps(state) {
     const connecting_
         = connecting || (connection && (!membersOnly && (joining || (!conference && !leaving))));
 
+    const participants = state['features/base/participants'];
+    const localParticipant = participants.find(p => p.currentfocus);
+
     return {
         ...abstractMapStateToProps(state),
         _aspectRatio: aspectRatio,
         _calendarEnabled: isCalendarEnabled(state),
         _connecting: Boolean(connecting_),
         _filmstripVisible: isFilmstripVisible(state),
-        _largeVideoParticipant: state['features/large-video'],
+        _largeVideoParticipant: localParticipant,
         _pictureInPictureEnabled: getFeatureFlag(state, PIP_ENABLED),
         _toolboxVisible: isToolboxVisible(state),
         _isSpeakerViewShowed: isSpeakerViewShowed
