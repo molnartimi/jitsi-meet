@@ -73,8 +73,6 @@ import {
 } from './functions';
 import logger from './logger';
 
-declare var APP: Object;
-
 /**
  * Adds conference (event) listeners.
  *
@@ -416,6 +414,7 @@ export function conferenceWillLeave(conference: Object) {
 /**
  * Initializes a new conference.
  *
+ * @param {string[]} commandsToListenTo - List of the commands we have to listen.
  * @returns {Function}
  */
 export function createConference(commandsToListenTo?: string[]) {
@@ -820,7 +819,7 @@ export function removeCommand(commandName: string) {
  * @returns {Function}
  */
 export function addCommandListener(conference: JitsiConference, commandName: string) {
-    return (dispatch: Dispatch<any>, getState: Function) => {
+    return (dispatch: Dispatch<any>) => {
         if (!conference) {
             logger.warn('No conference object found when trying to remove command', commandName);
 
@@ -859,28 +858,35 @@ export function addCommandListener(conference: JitsiConference, commandName: str
 /**
  * Some commands require additional handler actions in React Native,
  * this general handler method is supposed to take care of that.
+ *
+ * @param {string} commandName - Name of the command.
+ * @param {any} value - Value of the command.
+ * @returns {Function}
  */
 export function handleCommand(commandName: string, value: any) {
     return (dispatch: Dispatch<any>, getState: Function) => {
         const { joining } = getState()['features/base/conference'];
+
         switch (commandName) {
-            case DISABLE_COMMAND: {
-                // Mute media if a disabled command arrives before conference join.
-                if (joining) {
-                    if (value.attributes.video === 'true') {
-                        dispatch(setVideoMuted(true));
-                    }
-                    if (value.attributes.audio === 'true') {
-                        dispatch(setAudioMuted(true));
-                    }
-                };
-                break;
+        case DISABLE_COMMAND: {
+            // Mute media if a disabled command arrives before conference join.
+            if (joining) {
+                if (value.attributes.video === 'true') {
+                    dispatch(setVideoMuted(true));
+                }
+                if (value.attributes.audio === 'true') {
+                    dispatch(setAudioMuted(true));
+                }
             }
-            case IN_FOCUS_COMMAND: {
-                dispatch(setCurrentFocus(value.value));
-                break;
-            }
+            break;
         }
+        case IN_FOCUS_COMMAND: {
+            dispatch(setCurrentFocus(value.value));
+            break;
+        }
+        }
+    };
+}
 
 /**
  * Edit the style of meeting UI.
