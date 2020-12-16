@@ -188,7 +188,8 @@ class InFocusView extends Component<Props> {
     }
 
     _createCountdownIfNeeded() {
-        if (this.props.countdownStartDatetime && this.props.countdownTargetDatetime) {
+        if (!_.isEmpty(this.props.countdownStartDatetime)
+            && !_.isEmpty(this.props.countdownTargetDatetime)) {
             return (<PreShowCountdown
                 endTime = { this.props.countdownTargetDatetime }
                 startTime = { this.props.countdownStartDatetime } />);
