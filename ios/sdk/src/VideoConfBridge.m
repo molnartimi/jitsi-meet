@@ -20,8 +20,8 @@ static NSString *const SWITCH_CAM_EVENT = @"org.jitsi.meet:features/videoconf-br
 static NSString *const SEND_COMMAND_EVENT = @"org.jitsi.meet:features/videoconf-bridge#send-command";
 static NSString *const REMOVE_COMMAND_EVENT = @"org.jitsi.meet:features/videoconf-bridge#remove-command";
 static NSString *const SWIPE_TO_PAGE_EVENT = @"org.jitsi.meet:features/videoconf-bridge#set-current-swiper-index";
-static NSString *const TAP_MENU_EVENT = @"org.jitsi.meet:features/videoconf-bridge#open-tap-menu";
 static NSString *const PLACEHOLDER_DATA_EVENT = @"org.jitsi.meet:features/videoconf-bridge#placeholder-data";
+static NSString *const SET_COUNTDOWN_EVENT = @"org.jitsi.meet:features/videoconf-bridge#set-countdown";
 
 RCT_EXPORT_MODULE();
 
@@ -33,7 +33,7 @@ RCT_EXPORT_MODULE();
 - (NSArray<NSString *> *)supportedEvents {
   return @[JOIN_EVENT, LEAVE_EVENT, MUTE_EVENT, SWITCH_CAM_EVENT,
            SEND_COMMAND_EVENT, REMOVE_COMMAND_EVENT, SWIPE_TO_PAGE_EVENT,
-           TAP_MENU_EVENT, PLACEHOLDER_DATA_EVENT];
+           PLACEHOLDER_DATA_EVENT, SET_COUNTDOWN_EVENT];
 }
 
 - (void)join:(NSString *)dataJsonString {
@@ -66,6 +66,10 @@ RCT_EXPORT_MODULE();
 
 - (void)setCurrentSwiperIndex:(NSString *_Nonnull)pageNumber {
     [self sendEvent:SWIPE_TO_PAGE_EVENT body:pageNumber];
+}
+
+- (void)setCountdown:(NSString *_Nonnull)jsonString {
+    [self sendEvent:SET_COUNTDOWN_EVENT body:jsonString];
 }
 
 @end

@@ -86,4 +86,8 @@
     [_videoConfBridge setCurrentSwiperIndex:pageNumber];
 }
 
+- (void)setCountdown:(NSString *_Nonnull)jsonString {
+    [_videoConfBridge setCountdown:jsonString];
+}
+
 @end

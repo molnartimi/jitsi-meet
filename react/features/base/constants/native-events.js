@@ -10,7 +10,8 @@ export const NativeEvents = {
     SEND_COMMAND: 'org.jitsi.meet:features/videoconf-bridge#send-command',
     REMOVE_COMMAND: 'org.jitsi.meet:features/videoconf-bridge#remove-command',
     SET_CURRENT_SWIPER_INDEX: 'org.jitsi.meet:features/videoconf-bridge#set-current-swiper-index',
-    PLACEHOLDER_DATA: 'org.jitsi.meet:features/videoconf-bridge#placeholder-data'
+    PLACEHOLDER_DATA: 'org.jitsi.meet:features/videoconf-bridge#placeholder-data',
+    SET_COUNTDOWN: 'org.jitsi.meet:features/videoconf-bridge#set-countdown'
 };
 
 export const ResponseEventsToNative = {

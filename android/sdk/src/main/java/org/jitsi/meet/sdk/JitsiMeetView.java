@@ -239,6 +239,13 @@ public class JitsiMeetView extends BaseReactView<JitsiMeetViewListener>
     }
 
     /**
+     * Set pre show countdown date time.
+     */
+    public static void setCountdown(String jsonString) {
+        VideoConfBridge.setCountdown(jsonString);
+    }
+
+    /**
      * Helper method to set the React Native props.
      * @param newProps - New props to be set on the React Native view.
      */

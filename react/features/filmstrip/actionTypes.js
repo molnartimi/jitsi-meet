@@ -73,3 +73,14 @@ export const SET_HORIZONTAL_VIEW_DIMENSIONS = 'SET_HORIZONTAL_VIEW_DIMENSIONS';
  * }
  */
 export const SET_PLACEHOLDER_DATA = 'SET_PLACEHOLDER_DATA';
+
+/**
+ * The type of (redux) action which sets the start and target date time of pre show countdown.
+ *
+ * {
+ *     type: SET_COUNTDOWN,
+ *     fromDate: string,
+ *     toDate: string
+ * }
+ */
+export const SET_COUNTDOWN = 'SET_COUNTDOWN';

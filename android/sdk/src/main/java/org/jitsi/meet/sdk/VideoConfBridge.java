@@ -49,6 +49,11 @@ public class VideoConfBridge {
     private static final String PLACEHOLDER_DATA = "org.jitsi.meet:features/videoconf-bridge#placeholder-data";
 
     /**
+     * Set pre show countdown date time
+     */
+    private static final String SET_COUNTDOWN = "org.jitsi.meet:features/videoconf-bridge#set-countdown";
+
+    /**
      * Sends a videoconf join event to React Native.
      */
     public static void joinConference(String dataJsonString) {
@@ -106,5 +111,12 @@ public class VideoConfBridge {
      */
     public static void sendPlaceholderData(String data) {
         ReactInstanceManagerHolder.emitEvent(PLACEHOLDER_DATA, data);
+    }
+
+    /**
+     * Set pre show countdown date time.
+     */
+    public static void setCountdown(String datetime) {
+        ReactInstanceManagerHolder.emitEvent(SET_COUNTDOWN, datetime);
     }
 }

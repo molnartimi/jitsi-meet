@@ -3,7 +3,6 @@
 import { StyleSheet } from 'react-native';
 
 import { BoxModel, ColorPalette } from '../../base/styles';
-import PreShowCountdown from './PreShowCountdown';
 
 export const PLACEHOLDER_TEXT_COLOR = 'rgba(255, 255, 255, 0.5)';
 
@@ -299,24 +298,6 @@ export default {
     insecureRoomNameWarningText: {
         color: ColorPalette.warning,
         flex: 1
-    },
-
-    preShowCountdownContainer: {
-        alignItems: 'center',
-        backgroundColor: ColorPalette.black
-    },
-
-    preShowCountdownStartingIn: {
-        textTransform: 'uppercase',
-        fontFamily: 'Montserrat Regular',
-        fontSize: 14,
-        color: ColorPalette.white,
-    },
-
-    preShowCountdownTimer: {
-        fontSize: 26,
-        color: ColorPalette.white,
-        fontFamily: 'Archer-Book',
     },
 
     /**

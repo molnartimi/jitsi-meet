@@ -232,6 +232,26 @@ export default {
         position: 'absolute',
         width: '100%',
         height: '100%'
+    },
+
+    preShowCountdownContainer: {
+        alignItems: 'center',
+        backgroundColor: ColorPalette.black,
+        paddingTop: 30,
+        paddingBottom: 20
+    },
+
+    preShowCountdownStartingIn: {
+        textTransform: 'uppercase',
+        fontFamily: 'Montserrat Regular',
+        fontSize: 14,
+        color: ColorPalette.white
+    },
+
+    preShowCountdownTimer: {
+        fontSize: 26,
+        color: ColorPalette.white,
+        fontFamily: 'Archer-Book'
     }
 };
 

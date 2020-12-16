@@ -102,4 +102,9 @@
  */
 - (void)setCurrentSwiperIndex:(NSString *_Nonnull)pageNumber;
 
+/**
+ * Set pre-show countdown target datetime
+ */
+- (void)setCountdown:(NSString *_Nonnull)jsonString;
+
 @end
