@@ -108,6 +108,10 @@
     [self _onJitsiMeetViewDelegateEvent:@"SWIPE_EVENT" withData:data];
 }
 
+- (void)timeToShopEvent:(NSDictionary *)data {
+    [self _onJitsiMeetViewDelegateEvent:@"TIME_TO_SHOP_EVENT" withData:data];
+}
+
 #if 0
 - (void)enterPictureInPicture:(NSDictionary *)data {
     [self _onJitsiMeetViewDelegateEvent:@"ENTER_PICTURE_IN_PICTURE" withData:data];

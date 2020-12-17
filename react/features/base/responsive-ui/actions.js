@@ -6,6 +6,7 @@ import {
     CLIENT_RESIZED,
     SET_ASPECT_RATIO,
     SET_REDUCED_UI,
+    SHOW_WRAP_UP_BUTTONS,
     UPDATE_SWIPER_INDEX
 } from './actionTypes';
 import { ASPECT_RATIO_NARROW, ASPECT_RATIO_WIDE } from './constants';
@@ -46,6 +47,17 @@ export function updateSwiperIndex(currentSwiperIndex: number) {
     return {
         type: UPDATE_SWIPER_INDEX,
         currentSwiperIndex
+    };
+}
+
+/**
+ * Show wrap up buttons in TileView.
+ *
+ * @returns {Object}
+ */
+export function showWrapUpButtons() {
+    return {
+        type: SHOW_WRAP_UP_BUTTONS
     };
 }
 

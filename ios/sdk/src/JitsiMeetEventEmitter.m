@@ -86,6 +86,10 @@
     [_videoConfBridge setCurrentSwiperIndex:pageNumber];
 }
 
+- (void)showWrapUpButtons {
+    [_videoConfBridge showWrapUpButtons];
+}
+
 - (void)setCountdown:(NSString *_Nonnull)jsonString {
     [_videoConfBridge setCountdown:jsonString];
 }

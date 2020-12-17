@@ -17,7 +17,6 @@ import InFocusView from './InFocusView';
 import TapView from './TapView';
 import Thumbnail from './Thumbnail';
 import styles from './styles';
-import { updateSwiperIndex } from '../../../base/responsive-ui';
 
 /**
  * The type of the React {@link Component} props of {@link TileView}.
@@ -45,9 +44,14 @@ type Props = {
     _width: number,
 
     /**
-     * Swiper's current index.
+     * Override swiper's current index.
      */
     _currentIndex: number,
+
+    /**
+     * Show wrap-up buttons.
+     */
+    _showWrapUpButtons: number,
 
     /**
      * Invoked to update the receiver video quality.
@@ -131,7 +135,7 @@ class TileView extends Component<Props> {
 
         const pages = [ <InFocusView
             inFocusUser = { inFocusUser }
-            isWrapUpVisible = { false } // TODO: implement the logic when wrap up is visible
+            isWrapUpVisible = { true }
             localUser = { localUser } /> ];
 
         pages.push(...this._getUserPages(this._groupThumbnailsByPages(rowElements)));
@@ -353,6 +357,7 @@ function _mapStateToProps(state) {
         _height: responsiveUi.clientHeight,
         _width: responsiveUi.clientWidth,
         _currentIndex: responsiveUi.currentSwiperIndex,
+        _showWrapUpButtons: responsiveUi.showWrapUpButtons,
         _participants: participants,
         _inFocusUser: inFocusUser
     };

@@ -168,7 +168,8 @@ export default {
 
     wrapUpButtonRow: {
         flexDirection: 'row',
-        marginBottom: '3%' },
+        marginBottom: '3%'
+    },
 
     wrapUpButtonStyle: {
         flex: 1,

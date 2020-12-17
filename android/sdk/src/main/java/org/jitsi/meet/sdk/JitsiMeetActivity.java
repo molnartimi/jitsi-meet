@@ -247,4 +247,9 @@ public class JitsiMeetActivity extends FragmentActivity
     public void onSwipeEvent(Map<String, Object> data) {
         JitsiMeetLogger.i("Swipe event: " + data);
     }
+
+    @Override
+    public void onTimeToShopEvent(Map<String, Object> data) {
+        JitsiMeetLogger.i("Time to shop event: " + data);
+    }
 }

@@ -8,7 +8,7 @@ import { sendCommand, removeCommand } from '../../base/conference';
 import { storeConfig } from '../../base/config';
 import { NativeEvents } from '../../base/constants';
 import { muteMedia, toggleCameraFacingMode } from '../../base/media';
-import { updateSwiperIndex } from '../../base/responsive-ui';
+import { showWrapUpButtons, updateSwiperIndex } from '../../base/responsive-ui';
 import { toURLString } from '../../base/util';
 import { setPlaceholderData, setCountdown } from '../../filmstrip';
 import { UNDEFINED_JITSI_ERROR } from '../../mobile/external-api/actions';
@@ -168,9 +168,6 @@ export class AbstractApp extends BaseApp<Props, *> {
     /**
      * Connect to xmpp server with config, userId and password.
      *
-     * @param {Object|string} config - Xmpp server config.
-     * @param {string} userId - User id to log in.
-     * @param {string} password - Password of user to log in with.
      * @private
      * @returns {void}
      */
@@ -239,6 +236,8 @@ export class AbstractApp extends BaseApp<Props, *> {
             (commandName: string) => dispatch(removeCommand(commandName))));
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.SET_CURRENT_SWIPER_INDEX,
             (pageNumber: string) => dispatch(updateSwiperIndex(Number(pageNumber)))));
+        this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.SHOW_WRAP_UP_BUTTONS,
+            () => dispatch(showWrapUpButtons())));
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.PLACEHOLDER_DATA,
             (dataJsonString: string) => {
                 const { title, imageUrl } = JSON.parse(dataJsonString);

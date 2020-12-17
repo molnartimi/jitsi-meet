@@ -103,6 +103,11 @@
 - (void)setCurrentSwiperIndex:(NSString *_Nonnull)pageNumber;
 
 /**
+ * Show wrap-up buttons.
+ */
+- (void)showWrapUpButtons;
+
+/**
  * Set pre-show countdown target datetime
  */
 - (void)setCountdown:(NSString *_Nonnull)jsonString;

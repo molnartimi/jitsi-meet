@@ -252,3 +252,13 @@ export const COMMAND_VALUE = 'COMMAND_VALUE';
  * }
  */
 export const SWIPE_EVENT = 'SWIPE_EVENT';
+
+/**
+ * The type of (redux) action which send time to shop event data to native app.
+ *
+ * {
+ *     type: TIME_TO_SHOP_EVENT,
+ *     navigationTarget: string
+ * }
+ */
+export const TIME_TO_SHOP_EVENT = 'TIME_TO_SHOP_EVENT';

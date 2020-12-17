@@ -1,6 +1,6 @@
 // @flow
 
-import { SWIPE_EVENT } from '../base/conference';
+import { SWIPE_EVENT, TIME_TO_SHOP_EVENT } from '../base/conference';
 
 import {
     SET_COUNTDOWN,
@@ -101,6 +101,22 @@ export function swipeEvent(index: number, total: number) {
     };
 }
 
+/**
+ * Called whenever wrap up buttons are pressed.
+ *
+ * @param {string} navigationTarget - Page to navigate to.
+ * @returns {{
+ *     type: TIME_TO_SHOP_EVENT,
+ *     index: number,
+ *     total: number
+ * }}
+ */
+export function timeToShopEvent(navigationTarget: string) {
+    return {
+        type: TIME_TO_SHOP_EVENT,
+        navigationTarget
+    };
+}
 
 /**
  * Sets placeholder data for in-focus view.

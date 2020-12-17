@@ -32,7 +32,7 @@ export const SET_ASPECT_RATIO = 'SET_ASPECT_RATIO';
 export const SET_REDUCED_UI = 'SET_REDUCED_UI';
 
 /**
- * The type of redux action which signals that TileView should update the index
+ * The type of redux action which signals that TileView should update the index.
  *
  * {
  *     type: UPDATE_SWIPER_INDEX,
@@ -42,3 +42,14 @@ export const SET_REDUCED_UI = 'SET_REDUCED_UI';
  * @public
  */
 export const UPDATE_SWIPER_INDEX = 'UPDATE_SWIPER_INDEX';
+
+/**
+ * Show wrap up buttons in TileView.
+ *
+ * {
+ *     type: SHOW_WRAP_UP_BUTTONS
+ * }
+ *
+ * @public
+ */
+export const SHOW_WRAP_UP_BUTTONS = 'SHOW_WRAP_UP_BUTTONS';

@@ -5,6 +5,7 @@ import { Text, View, Image, TouchableOpacity } from 'react-native';
 import { MEDIA_TYPE } from '../../../base/media';
 import { connect } from '../../../base/redux';
 import { getTrackByMediaTypeAndParticipant } from '../../../base/tracks';
+import { timeToShopEvent } from '../../actions.native';
 
 import PreShowCountdown from './PreShowCountdown';
 import Thumbnail from './Thumbnail';
@@ -32,6 +33,16 @@ const LOOKBOOK_BUTTON = 'LOOK BOOK';
  * @returns {Component} - A React component.
  */
 class InFocusView extends Component<Props> {
+
+    /**
+     * InFocusView constructor.
+     */
+    constructor() {
+        super();
+        this._onTimeToShopLookBook = this._onTimeToShopLookBook.bind(this);
+        this._onTimeToShopCollection = this._onTimeToShopCollection.bind(this);
+        this._onTimeToShopFavs = this._onTimeToShopFavs.bind(this);
+    }
 
     /**
      * Implements React's {@link Component#render()}.
@@ -103,8 +114,8 @@ class InFocusView extends Component<Props> {
                     participant = { this.props.inFocusUser }
                     renderDisplayName = { true }
                     styleOverrides = { styles.fillView }
-                    zOrder = { 0 }
-                    tileView = { true } />
+                    tileView = { true }
+                    zOrder = { 0 } />
 
                 {!_.isNil(this.props.inFocusUser)
                 && this._createTopNameComponent(this.props.inFocusUser)}
@@ -143,6 +154,7 @@ class InFocusView extends Component<Props> {
             <View
                 style = { styles.wrapUpButtonRow }>
                 <TouchableOpacity
+                    onPress = { this._onTimeToShopLookBook }
                     style = {{
                         ...styles.wrapUpButtonStyle,
                         marginRight: 3
@@ -150,6 +162,7 @@ class InFocusView extends Component<Props> {
                     <Text style = { styles.normalText }>{LOOKBOOK_BUTTON}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
+                    onPress = { this._onTimeToShopCollection }
                     style = {{
                         ...styles.wrapUpButtonStyle,
                         marginLeft: 3
@@ -159,6 +172,7 @@ class InFocusView extends Component<Props> {
             </View>
             <View style = {{ flexDirection: 'row' }}>
                 <TouchableOpacity
+                    onPress = { this._onTimeToShopFavs }
                     style = { styles.wrapUpButtonStyle }>
                     <Text style = { styles.normalText }>{FAVORITES_BUTTON}</Text>
                 </TouchableOpacity>
@@ -174,12 +188,12 @@ class InFocusView extends Component<Props> {
                     isAvatarCircled = { false }
                     participant = { this.props.localUser }
                     renderDisplayName = { true }
-                    zOrder = { 1 }
                     styleOverrides = {{
                         ...styles.fillView,
                         borderRadius: 15
                     }}
-                    tileView = { true } />
+                    tileView = { true }
+                    zOrder = { 1 } />
                 {this.props.isSideUserAudioMuted
                 && <View style = { styles.microphoneViewStyle }>
                     <Image
@@ -187,6 +201,22 @@ class InFocusView extends Component<Props> {
                         style = { styles.microphoneIconStyle } />
                 </View>}
             </View>);
+    }
+
+    _onTimeToShopLookBook() {
+        this._onTimeToShop('look-book');
+    }
+
+    _onTimeToShopCollection() {
+        this._onTimeToShop('browse-collection');
+    }
+
+    _onTimeToShopFavs() {
+        this._onTimeToShop('my-favorites');
+    }
+
+    _onTimeToShop(navigationTarget: string) {
+        this.props.dispatch(timeToShopEvent(navigationTarget));
     }
 
     _createCountdownIfNeeded() {
