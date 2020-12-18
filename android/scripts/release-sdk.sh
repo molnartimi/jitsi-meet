@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e -u
+set -u
 
 THIS_DIR=$(cd -P "$(dirname "$(readlink "${BASH_SOURCE[0]}" || echo "${BASH_SOURCE[0]}")")" && pwd)
 
