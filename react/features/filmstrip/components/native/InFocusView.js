@@ -111,6 +111,8 @@ class InFocusView extends Component<Props> {
                         : { paddingBottom: 0 } ] }>
                 <Thumbnail
                     isAvatarCircled = { true }
+                    isGradientRequired = { true }
+                    isNameRequired = { false }
                     participant = { this.props.inFocusUser }
                     styleOverrides = { styles.fillView }
                     tileView = { true }
@@ -185,6 +187,8 @@ class InFocusView extends Component<Props> {
                 style = { styles.bottomVideoPlaceholder }>
                 <Thumbnail
                     isAvatarCircled = { false }
+                    isGradientRequired = { true }
+                    isNameRequired = { false }
                     participant = { this.props.localUser }
                     styleOverrides = {{
                         ...styles.fillView,

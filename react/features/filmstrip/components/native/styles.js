@@ -15,25 +15,6 @@ export const AVATAR_SIZE = 50;
 export default {
 
     /**
-     * The display name container.
-     */
-    displayNameContainer: {
-        bottom: 0,
-        margin: 0,
-        position: 'absolute',
-        width: '100%',
-        textAlign: 'center'
-    },
-
-    notDominantSpeaker: {
-        paddingBottom: 4
-    },
-
-    dominantSpeaker: {
-        paddingBottom: 0
-    },
-
-    /**
      * The style of the narrow {@link Filmstrip} version which displays
      * thumbnails in a row at the bottom of the screen.
      */
@@ -91,7 +72,7 @@ export default {
     thumbnail: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'flex-end',
+        justifyContent: 'center',
         backgroundColor: ColorPalette.appBackground,
         borderColor: '#424242',
         borderStyle: 'solid',
@@ -130,14 +111,17 @@ export default {
 
     tileRows: {
         flexDirection: 'row',
-        alignSelf: 'stretch',
-        alignContent: 'stretch'
+        alignSelf: 'flex-start',
+        alignContent: 'flex-start',
+        justifyContent: 'flex-start',
+        zIndex: 1
     },
 
     tileColumns: {
         flexDirection: 'column',
         alignSelf: 'stretch',
-        alignContent: 'stretch'
+        alignContent: 'stretch',
+        zIndex: 1
     },
 
     normalText: {
@@ -233,12 +217,13 @@ export default {
     },
 
     participantName: {
-        flex: 1,
         position: 'absolute',
+        height: '100%',
         color: 'white',
         fontFamily: 'Montserrat Regular',
         fontSize: 13,
-        marginBottom: 12
+        paddingBottom: 12,
+        textAlignVertical: 'bottom'
     },
 
     preShowCountdownContainer: {
@@ -259,6 +244,17 @@ export default {
         fontSize: 26,
         color: ColorPalette.white,
         fontFamily: 'Archer-Book'
+    },
+
+    dominantSpeakerFrame: {
+        position: 'absolute',
+        alignSelf: 'center',
+        height: '105%',
+        width: '105%',
+        borderStyle: 'solid',
+        borderColor: schemeColor('cabiPink'),
+        borderWidth: 12,
+        zIndex: 10
     }
 };
 

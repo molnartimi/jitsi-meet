@@ -1,7 +1,7 @@
 // @flow
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import type { Dispatch } from 'redux';
 
@@ -43,11 +43,6 @@ type Props = {
     _onClick: ?Function,
 
     /**
-     * Whether to show the dominant speaker indicator or not.
-     */
-    _isDominantSpeaker: boolean,
-
-    /**
      * Whether to show the moderator indicator or not.
      */
     _renderModeratorIndicator: boolean,
@@ -73,11 +68,6 @@ type Props = {
     participant: Object,
 
     /**
-     * Whether to display or hide the display name of the participant in the thumbnail.
-     */
-    renderDisplayName: ?boolean,
-
-    /**
      * Optional styling to add or override on the Thumbnail component root.
      */
     styleOverrides?: Object,
@@ -98,6 +88,9 @@ type Props = {
      * {@code zOrder} property of the {@code Video} class for React Native.
      */
     zOrder?: number,
+    isNameRequired: ?boolean,
+    isGradientRequired: ?boolean,
+    isDominantSpeaker: ?boolean
 }
 
 /**
@@ -115,7 +108,7 @@ class Thumbnail extends Component<Props> {
                 style = { [
                     styles.thumbnail,
                     this.props.styleOverrides || null,
-                    this.props._isDominantSpeaker ? styles.dominantSpeaker : null
+                    this.props.isDominantSpeaker ? styles.dominantSpeaker : null
                 ] }
                 touchFeedback = { false }>
 
@@ -123,22 +116,32 @@ class Thumbnail extends Component<Props> {
                     avatarSize = { this.props.tileView ? AVATAR_SIZE * 2.3 : AVATAR_SIZE }
                     isAvatarCircled = { this.props.isAvatarCircled }
                     participantId = { this.props.participant?.id }
-                    style = { styles.participantViewStyle }
                     tintEnabled = { false }
                     tintStyle = { styles.activeThumbnailTint }
                     zOrder = { this.props.zOrder } />
 
-                <LinearGradient
-                    colors = { [ '#000000', '#00000000' ] }
-                    start = {{ x: 0,
-                        y: 1 }}
-                    end = {{ x: 0,
-                        y: 0.6 }}
-                    style = { styles.gradientOverlay } />
+                {this.props.isGradientRequired
+                    ? <LinearGradient
+                        colors = { [ '#000000', '#00000000' ] }
+                        start = {{ x: 0,
+                            y: 1 }}
+                        end = {{ x: 0,
+                            y: 0.6 }}
+                        style = { styles.gradientOverlay } />
+                    : null}
 
-                {this.props.renderDisplayName ? <Text
-                    style = { styles.participantName }>
-                    {this.props.participant?.name}</Text> : null}
+                {this.props.isNameRequired
+                    ? <Text
+                        style = { styles.participantName }>
+                        {this.props.participant?.name}</Text>
+                    : null}
+
+                {this.props.isDominantSpeaker
+                    ? <View
+                        style = {{
+                            ...styles.dominantSpeakerFrame }} />
+                    : null}
+
             </Container>
         );
     }
@@ -187,7 +190,7 @@ function _mapStateToProps(state, ownProps) {
     // the stage i.e. as a large video.
     const largeVideo = state['features/large-video'];
     const tracks = state['features/base/tracks'];
-    const { participant, isAvatarCircled, renderDisplayName } = ownProps;
+    const { participant, isAvatarCircled, isGradientRequired, isNameRequired } = ownProps;
     const id = _.isNil(participant?.id) ? 0 : participant.id;
     const audioTrack
         = getTrackByMediaTypeAndParticipant(tracks, MEDIA_TYPE.AUDIO, id);
@@ -200,12 +203,13 @@ function _mapStateToProps(state, ownProps) {
     return {
         _audioMuted: audioTrack?.muted ?? true,
         _largeVideo: largeVideo,
-        _isDominantSpeaker: isDominantSpeaker,
+        isDominantSpeaker,
         _renderModeratorIndicator: renderModeratorIndicator,
         _styles: ColorSchemeRegistry.get(state, 'Thumbnail'),
         _videoTrack: videoTrack,
         isAvatarCircled,
-        renderDisplayName: renderDisplayName ?? false
+        isNameRequired: isNameRequired ?? false,
+        isGradientRequired: isGradientRequired ?? false
     };
 }
 
