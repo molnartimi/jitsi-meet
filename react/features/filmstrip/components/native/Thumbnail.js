@@ -190,26 +190,25 @@ function _mapStateToProps(state, ownProps) {
     // the stage i.e. as a large video.
     const largeVideo = state['features/large-video'];
     const tracks = state['features/base/tracks'];
-    const { participant, isAvatarCircled, isGradientRequired, isNameRequired } = ownProps;
+    const { participant, isAvatarCircled, isGradientRequired, isNameRequired, isDominantSpeaker } = ownProps;
     const id = _.isNil(participant?.id) ? 0 : participant.id;
     const audioTrack
         = getTrackByMediaTypeAndParticipant(tracks, MEDIA_TYPE.AUDIO, id);
     const videoTrack
         = getTrackByMediaTypeAndParticipant(tracks, MEDIA_TYPE.VIDEO, id);
-    const isDominantSpeaker = _.isNil(participant?.dominantSpeaker) ? false : participant.dominantSpeaker;
     const _isEveryoneModerator = isEveryoneModerator(state);
     const renderModeratorIndicator = !_isEveryoneModerator && participant?.role === PARTICIPANT_ROLE.MODERATOR;
 
     return {
         _audioMuted: audioTrack?.muted ?? true,
         _largeVideo: largeVideo,
-        isDominantSpeaker,
         _renderModeratorIndicator: renderModeratorIndicator,
         _styles: ColorSchemeRegistry.get(state, 'Thumbnail'),
         _videoTrack: videoTrack,
         isAvatarCircled,
-        isNameRequired: isNameRequired ?? false,
-        isGradientRequired: isGradientRequired ?? false
+        isDominantSpeaker: _.isEmpty(isDominantSpeaker) ? false : isDominantSpeaker,
+        isNameRequired: _.isEmpty(isNameRequired) ? false : isNameRequired,
+        isGradientRequired: _.isEmpty(isGradientRequired) ? false : isGradientRequired
     };
 }
 

@@ -111,6 +111,7 @@ class InFocusView extends Component<Props> {
                         : { paddingBottom: 0 } ] }>
                 <Thumbnail
                     isAvatarCircled = { true }
+                    isDominantSpeaker= { false }
                     isGradientRequired = { true }
                     isNameRequired = { false }
                     participant = { this.props.inFocusUser }
@@ -187,6 +188,7 @@ class InFocusView extends Component<Props> {
                 style = { styles.bottomVideoPlaceholder }>
                 <Thumbnail
                     isAvatarCircled = { false }
+                    isDominantSpeaker = { false }
                     isGradientRequired = { true }
                     isNameRequired = { false }
                     participant = { this.props.localUser }
