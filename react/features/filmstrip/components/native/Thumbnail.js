@@ -1,6 +1,7 @@
 // @flow
 import _ from 'lodash';
 import React, { Component } from 'react';
+import { Text } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import type { Dispatch } from 'redux';
 
@@ -108,7 +109,6 @@ type Props = {
 class Thumbnail extends Component<Props> {
 
     render() {
-        const participantId = _.isNil(this.props.participant?.id) ? 0 : this.props.participant.id;
         return (
             <Container
                 onClick = { this.props._onClick }
@@ -122,11 +122,11 @@ class Thumbnail extends Component<Props> {
                 <ParticipantView
                     avatarSize = { this.props.tileView ? AVATAR_SIZE * 2.3 : AVATAR_SIZE }
                     isAvatarCircled = { this.props.isAvatarCircled }
-                    participantId = { participantId }
+                    participantId = { this.props.participant?.id }
                     style = { styles.participantViewStyle }
                     tintEnabled = { false }
-                    zOrder = {this.props.zOrder}
-                    tintStyle = { styles.activeThumbnailTint } />
+                    tintStyle = { styles.activeThumbnailTint }
+                    zOrder = { this.props.zOrder } />
 
                 <LinearGradient
                     colors = { [ '#000000', '#00000000' ] }
@@ -135,6 +135,10 @@ class Thumbnail extends Component<Props> {
                     end = {{ x: 0,
                         y: 0.6 }}
                     style = { styles.gradientOverlay } />
+
+                {this.props.renderDisplayName ? <Text
+                    style = { styles.participantName }>
+                    {this.props.participant?.name}</Text> : null}
             </Container>
         );
     }
@@ -183,7 +187,7 @@ function _mapStateToProps(state, ownProps) {
     // the stage i.e. as a large video.
     const largeVideo = state['features/large-video'];
     const tracks = state['features/base/tracks'];
-    const { participant, isAvatarCircled } = ownProps;
+    const { participant, isAvatarCircled, renderDisplayName } = ownProps;
     const id = _.isNil(participant?.id) ? 0 : participant.id;
     const audioTrack
         = getTrackByMediaTypeAndParticipant(tracks, MEDIA_TYPE.AUDIO, id);
@@ -200,7 +204,8 @@ function _mapStateToProps(state, ownProps) {
         _renderModeratorIndicator: renderModeratorIndicator,
         _styles: ColorSchemeRegistry.get(state, 'Thumbnail'),
         _videoTrack: videoTrack,
-        isAvatarCircled
+        isAvatarCircled,
+        renderDisplayName: renderDisplayName ?? false
     };
 }
 

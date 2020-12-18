@@ -89,22 +89,19 @@ export default {
      * the avatar of the associated participant.
      */
     thumbnail: {
-        alignItems: 'stretch',
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'flex-end',
         backgroundColor: ColorPalette.appBackground,
         borderColor: '#424242',
         borderStyle: 'solid',
-        borderWidth: 1,
-        flex: 1,
-        justifyContent: 'center',
-        overflow: 'hidden',
-        position: 'relative'
+        borderWidth: 1
     },
 
     /**
      * The thumbnails indicator container.
      */
     thumbnailIndicatorContainer: {
-        alignSelf: 'stretch',
         bottom: 4,
         flex: 1,
         flexDirection: 'row',
@@ -233,6 +230,15 @@ export default {
         position: 'absolute',
         width: '100%',
         height: '100%'
+    },
+
+    participantName: {
+        flex: 1,
+        position: 'absolute',
+        color: 'white',
+        fontFamily: 'Montserrat Regular',
+        fontSize: 13,
+        marginBottom: 12
     },
 
     preShowCountdownContainer: {

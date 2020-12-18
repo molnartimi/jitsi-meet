@@ -61,7 +61,8 @@ type Props = {
     /**
      * Callback to invoke when tile view is tapped.
      */
-    onClick: Function
+    onClick: Function,
+    inFocusUser: Object
 };
 
 /**
@@ -130,13 +131,11 @@ class TileView extends Component<Props> {
     render() {
         const { _height, _width, onClick } = this.props;
         const rowElements = this._groupIntoRows(this._renderThumbnails(), COLUMN_COUNT);
-        const inFocusUser = this.props._inFocusUser;
-        const localUser = this.props._participants[0];
 
         const pages = [ <InFocusView
-            inFocusUser = { inFocusUser }
-            isWrapUpVisible = { this.props._showWrapUpButtons }
-            localUser = { localUser } /> ];
+            inFocusUser = { this.props?.inFocusUser }
+            isWrapUpVisible = { false } // TODO: implement the logic when wrap up is visible
+            localUser = { this.props._participants[0] } /> ];
 
         pages.push(...this._getUserPages(this._groupThumbnailsByPages(rowElements)));
         pages.push(<TapView />);
@@ -316,7 +315,7 @@ class TileView extends Component<Props> {
                     isAvatarCircled = { false }
                     key = { participant.id }
                     participant = { participant }
-                    renderDisplayName = { true }
+                    renderDisplayName = { !participant.local }
                     styleOverrides = { styleOverrides }
                     tileView = { true } />));
     }
@@ -359,7 +358,7 @@ function _mapStateToProps(state) {
         _currentIndex: responsiveUi.currentSwiperIndex,
         _showWrapUpButtons: responsiveUi.showWrapUpButtons,
         _participants: participants,
-        _inFocusUser: inFocusUser
+        inFocusUser
     };
 }
 

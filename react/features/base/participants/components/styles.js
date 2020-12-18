@@ -49,8 +49,8 @@ export default {
      * {@code ParticipantView} style.
      */
     participantView: {
-        alignItems: 'stretch',
-        flex: 1,
+        width: '100%',
+        height: '100%',
         justifyContent: 'center'
     }
 };

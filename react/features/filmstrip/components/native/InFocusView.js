@@ -112,7 +112,6 @@ class InFocusView extends Component<Props> {
                 <Thumbnail
                     isAvatarCircled = { true }
                     participant = { this.props.inFocusUser }
-                    renderDisplayName = { true }
                     styleOverrides = { styles.fillView }
                     tileView = { true }
                     zOrder = { 0 } />
@@ -187,7 +186,6 @@ class InFocusView extends Component<Props> {
                 <Thumbnail
                     isAvatarCircled = { false }
                     participant = { this.props.localUser }
-                    renderDisplayName = { true }
                     styleOverrides = {{
                         ...styles.fillView,
                         borderRadius: 15
