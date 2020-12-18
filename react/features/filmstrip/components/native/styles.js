@@ -249,11 +249,11 @@ export default {
     dominantSpeakerFrame: {
         position: 'absolute',
         alignSelf: 'center',
-        height: '105%',
-        width: '105%',
+        height: '100%',
+        width: '100%',
         borderStyle: 'solid',
         borderColor: schemeColor('cabiPink'),
-        borderWidth: 12,
+        borderWidth: 10,
         zIndex: 10
     }
 };

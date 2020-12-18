@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import {
-    TouchableWithoutFeedback, FlatList
+    TouchableWithoutFeedback, View
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 import type { Dispatch } from 'redux';
@@ -129,7 +129,7 @@ class TileView extends Component<Props> {
      */
     render() {
         const { _height, _width, onClick } = this.props;
-        const rowElements = this._groupIntoRows(this.props._participants, COLUMN_COUNT);
+        const rowElements = this._groupIntoRows(this._renderThumbnails(), COLUMN_COUNT);
 
         const pages = [ <InFocusView
             inFocusUser = { this.props?.inFocusUser }
@@ -210,25 +210,42 @@ class TileView extends Component<Props> {
      */
     _getUserPages(userGrid) {
         return userGrid.map((page, pageIndex) =>
-            (<FlatList
-                data = { page.flatMap(row => row) }
+            (<View
                 key = { pageIndex }
-                numColumns = { COLUMN_COUNT }
-                renderItem = { this._renderThumbnail } />)
-        );
+                style = { styles.tileColumns }>
+                {page.map((row, rowIndex) =>
+                    (<View
+                        key = { rowIndex + pageIndex }
+                        style = { styles.tileRows }>
+                        {row}
+                    </View>)
+                )}
+            </View>));
     }
 
-    _renderThumbnail({ item }) {
-        return (<Thumbnail
-            isAvatarCircled = { false }
-            isGradientRequired = { !item.local }
-            isNameRequired = { !item.local }
-            key = { item.id }
-            participant = { item }
-            styleOverrides = {{
-                aspectRatio: 1,
-                flex: 1 / COLUMN_COUNT }}
-            tileView = { true }/>);
+    /**
+     * Creates React Elements to display each participant in a thumbnail. Each
+     * tile will be.
+     *
+     * @private
+     * @returns {ReactElement[]}
+     */
+    _renderThumbnails() {
+        const styleOverrides = {
+            aspectRatio: TILE_ASPECT_RATIO,
+            minHeight: this._getTileDimensions().height,
+            maxWidth: this._getTileDimensions().width * 1.05
+        };
+
+        return this._getSortedParticipants()
+            .map(participant => (
+                <Thumbnail
+                    isAvatarCircled = { false }
+                    key = { participant.id }
+                    participant = { participant }
+                    renderDisplayName = { true }
+                    styleOverrides = { styleOverrides }
+                    tileView = { true } />));
     }
 
     /**
