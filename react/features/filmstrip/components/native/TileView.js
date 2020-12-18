@@ -135,7 +135,7 @@ class TileView extends Component<Props> {
 
         const pages = [ <InFocusView
             inFocusUser = { inFocusUser }
-            isWrapUpVisible = { true }
+            isWrapUpVisible = { this.props._showWrapUpButtons }
             localUser = { localUser } /> ];
 
         pages.push(...this._getUserPages(this._groupThumbnailsByPages(rowElements)));
