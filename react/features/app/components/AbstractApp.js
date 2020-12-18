@@ -251,8 +251,6 @@ export class AbstractApp extends BaseApp<Props, *> {
             }));
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.ADD_COMMAND_LISTENER,
             (commandName: string) => dispatch(addCommandListener(commandName))));
-        this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.ADD_COMMAND_LISTENER,
-            (commandName: string) => dispatch(addCommandListener(commandName))));
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.SHOW_SPEAKER_VIEW,
             (showSpeakerView: boolean | number) => dispatch(editSpeakerViewVisibility(Boolean(showSpeakerView)))));
     }
