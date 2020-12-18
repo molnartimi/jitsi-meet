@@ -79,6 +79,14 @@
 - (void)swipeEvent:(NSDictionary *)data;
 
 /**
+  * Called whenever wrap up buttons are pressed.
+  *
+  * The `data` dictionary contains:
+  * - navigationTarget: page to navigate to
+*/
+- (void)shopButtonEvent:(NSDictionary *)data;
+
+/**
  * Called when entering Picture-in-Picture is requested by the user. The app
  * should now activate its Picture-in-Picture implementation (and resize the
  * associated `JitsiMeetView`. The latter will automatically detect its new size

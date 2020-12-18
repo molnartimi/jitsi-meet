@@ -172,6 +172,10 @@ static void initializeViewsMap() {
     [eventEmitter setCurrentSwiperIndex:pageNumber];
 }
 
+- (void)showWrapUpButtons {
+    [eventEmitter showWrapUpButtons];
+}
+
 - (void)setCountdown:(NSString *_Nonnull)jsonString {
     [eventEmitter setCountdown:jsonString];
 }

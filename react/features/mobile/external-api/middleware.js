@@ -12,7 +12,7 @@ import {
     SWIPE_EVENT,
     COMMAND_VALUE,
     forEachConference,
-    isRoomValid
+    isRoomValid, SHOP_BUTTON_EVENT
 } from '../../base/conference';
 import { LOAD_CONFIG_ERROR } from '../../base/config';
 import {
@@ -168,6 +168,13 @@ MiddlewareRegistry.register(store => next => action => {
         sendEvent(store, SWIPE_EVENT, {
             index: action.index,
             total: action.total
+        });
+        break;
+    }
+
+    case SHOP_BUTTON_EVENT: {
+        sendEvent(store, SHOP_BUTTON_EVENT, {
+            navigationTarget: action.navigationTarget
         });
         break;
     }

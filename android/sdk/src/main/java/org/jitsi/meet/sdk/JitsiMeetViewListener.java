@@ -70,6 +70,12 @@ public interface JitsiMeetViewListener {
     void onSwipeEvent(Map<String, Object> data);
 
     /**
+     * Called whenever wrap up buttons are pressed.
+     * @param data Map with 'navigationTarget' page to display in app.
+     */
+    void onShopButtonEvent(Map<String, Object> data);
+
+    /**
      * Called whenever we catch an error which has no exact error handling
      * use-case in business logic.
      * @param data Map with an "errorMessage" key stating the message

@@ -239,6 +239,13 @@ public class JitsiMeetView extends BaseReactView<JitsiMeetViewListener>
     }
 
     /**
+     * Show wrap-up buttons.
+     */
+    public void showWrapUpButtons() {
+        VideoConfBridge.showWrapUpButtons();
+    }
+
+    /**
      * Set pre show countdown date time.
      */
     public static void setCountdown(String jsonString) {

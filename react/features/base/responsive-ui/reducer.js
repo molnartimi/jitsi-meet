@@ -6,6 +6,7 @@ import {
     CLIENT_RESIZED,
     SET_ASPECT_RATIO,
     SET_REDUCED_UI,
+    SHOW_WRAP_UP_BUTTONS,
     UPDATE_SWIPER_INDEX
 } from './actionTypes';
 import { ASPECT_RATIO_NARROW } from './constants';
@@ -23,6 +24,7 @@ const DEFAULT_STATE = {
     clientHeight: innerHeight,
     clientWidth: innerWidth,
     currentSwiperIndex: -1,
+    showWrapUpButtons: false,
     reducedUI: false
 };
 
@@ -35,12 +37,12 @@ ReducerRegistry.register('features/base/responsive-ui', (state = DEFAULT_STATE, 
             clientHeight: action.clientHeight
         };
     }
-    case UPDATE_SWIPER_INDEX: {
+    case UPDATE_SWIPER_INDEX:
         return set(state, 'currentSwiperIndex', action.currentSwiperIndex);
-    }
+    case SHOW_WRAP_UP_BUTTONS:
+        return set(state, 'showWrapUpButtons', true);
     case SET_ASPECT_RATIO:
         return set(state, 'aspectRatio', action.aspectRatio);
-
     case SET_REDUCED_UI:
         return set(state, 'reducedUI', action.reducedUI);
     }

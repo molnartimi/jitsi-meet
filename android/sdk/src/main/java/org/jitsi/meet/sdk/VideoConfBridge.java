@@ -44,6 +44,11 @@ public class VideoConfBridge {
     private static final String SET_CURRENT_SWIPER_INDEX = "org.jitsi.meet:features/videoconf-bridge#set-current-swiper-index";
 
     /**
+     * Show wrap up buttons in TileView.
+     */
+    private static final String SHOW_WRAP_UP_BUTTONS = "org.jitsi.meet:features/videoconf-bridge#show-wrap-up-buttons";
+
+    /**
      * In-focus placeholder data.
      */
     private static final String PLACEHOLDER_DATA = "org.jitsi.meet:features/videoconf-bridge#placeholder-data";
@@ -104,6 +109,13 @@ public class VideoConfBridge {
      */
     public static void setCurrentSwiperIndex(String pageNumber) {
         ReactInstanceManagerHolder.emitEvent(SET_CURRENT_SWIPER_INDEX, pageNumber);
+    }
+
+    /**
+     * Show wrap up buttons.
+     */
+    public static void showWrapUpButtons() {
+        ReactInstanceManagerHolder.emitEvent(SHOW_WRAP_UP_BUTTONS, null);
     }
 
     /**
