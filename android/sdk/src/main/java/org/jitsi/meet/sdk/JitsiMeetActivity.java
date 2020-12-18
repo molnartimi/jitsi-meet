@@ -249,7 +249,7 @@ public class JitsiMeetActivity extends FragmentActivity
     }
 
     @Override
-    public void onTimeToShopEvent(Map<String, Object> data) {
-        JitsiMeetLogger.i("Time to shop event: " + data);
+    public void onShopButtonEvent(Map<String, Object> data) {
+        JitsiMeetLogger.i("Shop button event: " + data);
     }
 }

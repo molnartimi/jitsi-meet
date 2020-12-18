@@ -73,7 +73,7 @@ public interface JitsiMeetViewListener {
      * Called whenever wrap up buttons are pressed.
      * @param data Map with 'navigationTarget' page to display in app.
      */
-    void onTimeToShopEvent(Map<String, Object> data);
+    void onShopButtonEvent(Map<String, Object> data);
 
     /**
      * Called whenever we catch an error which has no exact error handling

@@ -84,7 +84,7 @@
   * The `data` dictionary contains:
   * - navigationTarget: page to navigate to
 */
-- (void)timeToShopEvent:(NSDictionary *)data;
+- (void)shopButtonEvent:(NSDictionary *)data;
 
 /**
  * Called when entering Picture-in-Picture is requested by the user. The app

@@ -5,7 +5,7 @@ import { Text, View, Image, TouchableOpacity } from 'react-native';
 import { MEDIA_TYPE } from '../../../base/media';
 import { connect } from '../../../base/redux';
 import { getTrackByMediaTypeAndParticipant } from '../../../base/tracks';
-import { timeToShopEvent } from '../../actions.native';
+import { shopButtonEvent } from '../../actions.native';
 
 import PreShowCountdown from './PreShowCountdown';
 import Thumbnail from './Thumbnail';
@@ -216,7 +216,7 @@ class InFocusView extends Component<Props> {
     }
 
     _onTimeToShop(navigationTarget: string) {
-        this.props.dispatch(timeToShopEvent(navigationTarget));
+        this.props.dispatch(shopButtonEvent(navigationTarget));
     }
 
     _createCountdownIfNeeded() {

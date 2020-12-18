@@ -1,6 +1,6 @@
 // @flow
 
-import { SWIPE_EVENT, TIME_TO_SHOP_EVENT } from '../base/conference';
+import { SWIPE_EVENT, SHOP_BUTTON_EVENT } from '../base/conference';
 
 import {
     SET_COUNTDOWN,
@@ -106,14 +106,14 @@ export function swipeEvent(index: number, total: number) {
  *
  * @param {string} navigationTarget - Page to navigate to.
  * @returns {{
- *     type: TIME_TO_SHOP_EVENT,
+ *     type: SHOP_BUTTON_EVENT,
  *     index: number,
  *     total: number
  * }}
  */
-export function timeToShopEvent(navigationTarget: string) {
+export function shopButtonEvent(navigationTarget: string) {
     return {
-        type: TIME_TO_SHOP_EVENT,
+        type: SHOP_BUTTON_EVENT,
         navigationTarget
     };
 }
