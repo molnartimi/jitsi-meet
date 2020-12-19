@@ -62,3 +62,30 @@ export const NO_MEDIA_COMMAND = 'nomedia';
  * from the outside is not cool but it should suffice for now.
  */
 export const JITSI_CONFERENCE_URL_KEY = Symbol('url');
+
+const RoleTypeId = Object.freeze({
+    CABI_STYLIST: 'CABI_STYLIST',
+    CABI_GUEST: 'CABI_GUEST',
+    CABI_HOSTESS: 'CABI_HOSTESS',
+    CABI_COHOSTESS: 'CABI_COHOSTESS',
+    CABI_REFHOSTESS: 'CABI_REFHOSTESS'
+});
+
+export { RoleTypeId };
+
+export function generateNamePrefix(fromRoleTypeId: RoleTypeId) {
+    switch (fromRoleTypeId) {
+    case RoleTypeId.CABI_COHOSTESS:
+        return 'Co-Hostess';
+    case RoleTypeId.CABI_GUEST:
+        return '';
+    case RoleTypeId.CABI_HOSTESS:
+        return 'Hostess';
+    case RoleTypeId.CABI_REFHOSTESS:
+        return '';
+    case RoleTypeId.CABI_STYLIST:
+        return 'Stylist';
+    default:
+        return '';
+    }
+}
