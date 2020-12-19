@@ -10,6 +10,7 @@ import { shopButtonEvent } from '../../actions.native';
 import PreShowCountdown from './PreShowCountdown';
 import Thumbnail from './Thumbnail';
 import styles from './styles';
+import {generateNamePrefix} from "../../../base/conference";
 
 type Props = {
     inFocusUser: Object,
@@ -126,10 +127,10 @@ class InFocusView extends Component<Props> {
 
     _createTopNameComponent() {
         return (<Text style = { styles.nameComponent }>{
-            _.isNil(this.props.inFocusUser?.name)
-                ? UNKNOWN_NAME
-                : this.props.inFocusUser.name
-        }</Text>);
+            _.isEmpty(generateNamePrefix(this.props.inFocusUser?.vipType))
+                ? this.props.inFocusUser?.name
+                : `${generateNamePrefix(this.props.inFocusUser?.vipType)} : ${this.props.inFocusUser?.name}`}
+        </Text>);
     }
 
     /**
