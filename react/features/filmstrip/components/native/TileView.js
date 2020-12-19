@@ -241,6 +241,9 @@ class TileView extends Component<Props> {
             .map(participant => (
                 <Thumbnail
                     isAvatarCircled = { false }
+                    isDominantSpeaker = { participant.dominantSpeaker }
+                    isGradientRequired = { !participant.local }
+                    isNameRequired = { !participant.local }
                     key = { participant.id }
                     participant = { participant }
                     renderDisplayName = { true }

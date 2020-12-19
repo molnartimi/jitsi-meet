@@ -14,7 +14,7 @@ import styles from './styles';
 type Props = {
     inFocusUser: Object,
     localUser: Object,
-    isSideUserAudioMuted: boolean,
+    isLocalUserAudioMuted: boolean,
     isWrapUpVisible: boolean,
     placeholderData: Object,
     countdownStartDatetime: string,
@@ -111,7 +111,7 @@ class InFocusView extends Component<Props> {
                         : { paddingBottom: 0 } ] }>
                 <Thumbnail
                     isAvatarCircled = { true }
-                    isDominantSpeaker= { false }
+                    isDominantSpeaker = { false }
                     isGradientRequired = { true }
                     isNameRequired = { false }
                     participant = { this.props.inFocusUser }
@@ -189,7 +189,7 @@ class InFocusView extends Component<Props> {
                 <Thumbnail
                     isAvatarCircled = { false }
                     isDominantSpeaker = { false }
-                    isGradientRequired = { true }
+                    isGradientRequired = { this.props.isLocalUserAudioMuted }
                     isNameRequired = { false }
                     participant = { this.props.localUser }
                     styleOverrides = {{
@@ -198,7 +198,7 @@ class InFocusView extends Component<Props> {
                     }}
                     tileView = { true }
                     zOrder = { 1 } />
-                {this.props.isSideUserAudioMuted
+                {this.props.isLocalUserAudioMuted
                 && <View style = { styles.microphoneViewStyle }>
                     <Image
                         source = { require('../../../../../resources/img/muted_microphone.png') }
@@ -255,8 +255,8 @@ function _mapStateToProps(state, ownProps) {
 
     return {
         inFocusUser,
-        sideUser: _.isNil(localUser) ? placeholderUser : localUser,
-        isSideUserAudioMuted: audioTrack?.muted ?? true,
+        localUser: _.isNil(localUser) ? placeholderUser : localUser,
+        isLocalUserAudioMuted: audioTrack?.muted ?? true,
         placeholderData,
         isWrapUpVisible,
         countdownStartDatetime,

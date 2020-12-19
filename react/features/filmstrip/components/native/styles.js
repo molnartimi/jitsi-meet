@@ -252,7 +252,7 @@ export default {
         height: '100%',
         width: '100%',
         borderStyle: 'solid',
-        borderColor: schemeColor('cabiPink'),
+        borderColor: ColorPalette.cabiPink,
         borderWidth: 10,
         zIndex: 10
     }

@@ -6,6 +6,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import type { Dispatch } from 'redux';
 
 import { ColorSchemeRegistry } from '../../../base/color-scheme';
+import { generateNamePrefix } from '../../../base/conference';
 import { MEDIA_TYPE } from '../../../base/media';
 import {
     isEveryoneModerator,
@@ -88,9 +89,9 @@ type Props = {
      * {@code zOrder} property of the {@code Video} class for React Native.
      */
     zOrder?: number,
-    isNameRequired: ?boolean,
-    isGradientRequired: ?boolean,
-    isDominantSpeaker: ?boolean
+    isNameRequired: boolean,
+    isGradientRequired: boolean,
+    isDominantSpeaker: boolean
 }
 
 /**
@@ -206,9 +207,9 @@ function _mapStateToProps(state, ownProps) {
         _styles: ColorSchemeRegistry.get(state, 'Thumbnail'),
         _videoTrack: videoTrack,
         isAvatarCircled,
-        isDominantSpeaker: _.isEmpty(isDominantSpeaker) ? false : isDominantSpeaker,
-        isNameRequired: _.isEmpty(isNameRequired) ? false : isNameRequired,
-        isGradientRequired: _.isEmpty(isGradientRequired) ? false : isGradientRequired
+        isDominantSpeaker: isDominantSpeaker ?? false,
+        isNameRequired: isNameRequired ?? false,
+        isGradientRequired: isGradientRequired ?? false
     };
 }
 
