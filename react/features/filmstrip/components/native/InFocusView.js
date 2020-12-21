@@ -14,7 +14,7 @@ import styles from './styles';
 type Props = {
     inFocusUser: Object,
     localUser: Object,
-    isSideUserAudioMuted: boolean,
+    isLocalUserAudioMuted: boolean,
     isWrapUpVisible: boolean,
     placeholderData: Object,
     countdownStartDatetime: string,
@@ -111,8 +111,10 @@ class InFocusView extends Component<Props> {
                         : { paddingBottom: 0 } ] }>
                 <Thumbnail
                     isAvatarCircled = { true }
+                    isDominantSpeaker = { false }
+                    isGradientRequired = { true }
+                    isNameRequired = { false }
                     participant = { this.props.inFocusUser }
-                    renderDisplayName = { true }
                     styleOverrides = { styles.fillView }
                     tileView = { true }
                     zOrder = { 0 } />
@@ -186,15 +188,17 @@ class InFocusView extends Component<Props> {
                 style = { styles.bottomVideoPlaceholder }>
                 <Thumbnail
                     isAvatarCircled = { false }
+                    isDominantSpeaker = { false }
+                    isGradientRequired = { this.props.isLocalUserAudioMuted }
+                    isNameRequired = { false }
                     participant = { this.props.localUser }
-                    renderDisplayName = { true }
                     styleOverrides = {{
                         ...styles.fillView,
                         borderRadius: 15
                     }}
                     tileView = { true }
                     zOrder = { 1 } />
-                {this.props.isSideUserAudioMuted
+                {this.props.isLocalUserAudioMuted
                 && <View style = { styles.microphoneViewStyle }>
                     <Image
                         source = { require('../../../../../resources/img/muted_microphone.png') }
@@ -251,8 +255,8 @@ function _mapStateToProps(state, ownProps) {
 
     return {
         inFocusUser,
-        sideUser: _.isNil(localUser) ? placeholderUser : localUser,
-        isSideUserAudioMuted: audioTrack?.muted ?? true,
+        localUser: _.isNil(localUser) ? placeholderUser : localUser,
+        isLocalUserAudioMuted: audioTrack?.muted ?? true,
         placeholderData,
         isWrapUpVisible,
         countdownStartDatetime,

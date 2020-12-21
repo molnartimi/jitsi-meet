@@ -1,8 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import {
-    TouchableWithoutFeedback,
-    View
+    TouchableWithoutFeedback, View
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 import type { Dispatch } from 'redux';
@@ -61,7 +60,8 @@ type Props = {
     /**
      * Callback to invoke when tile view is tapped.
      */
-    onClick: Function
+    onClick: Function,
+    inFocusUser: Object
 };
 
 /**
@@ -130,13 +130,11 @@ class TileView extends Component<Props> {
     render() {
         const { _height, _width, onClick } = this.props;
         const rowElements = this._groupIntoRows(this._renderThumbnails(), COLUMN_COUNT);
-        const inFocusUser = this.props._inFocusUser;
-        const localUser = this.props._participants[0];
 
         const pages = [ <InFocusView
-            inFocusUser = { inFocusUser }
+            inFocusUser = { this.props?.inFocusUser }
             isWrapUpVisible = { this.props._showWrapUpButtons }
-            localUser = { localUser } /> ];
+            localUser = { this.props._participants[0] } /> ];
 
         pages.push(...this._getUserPages(this._groupThumbnailsByPages(rowElements)));
         pages.push(<TapView />);
@@ -226,6 +224,34 @@ class TileView extends Component<Props> {
     }
 
     /**
+     * Creates React Elements to display each participant in a thumbnail. Each
+     * tile will be.
+     *
+     * @private
+     * @returns {ReactElement[]}
+     */
+    _renderThumbnails() {
+        const styleOverrides = {
+            aspectRatio: TILE_ASPECT_RATIO,
+            minHeight: this._getTileDimensions().height,
+            maxWidth: this._getTileDimensions().width * 1.05
+        };
+
+        return this._getSortedParticipants()
+            .map(participant => (
+                <Thumbnail
+                    isAvatarCircled = { false }
+                    isDominantSpeaker = { participant.dominantSpeaker }
+                    isGradientRequired = { !participant.local }
+                    isNameRequired = { !participant.local }
+                    key = { participant.id }
+                    participant = { participant }
+                    renderDisplayName = { true }
+                    styleOverrides = { styleOverrides }
+                    tileView = { true } />));
+    }
+
+    /**
      * Returns all participants with the local participant at the end.
      *
      * @private
@@ -297,31 +323,6 @@ class TileView extends Component<Props> {
     }
 
     /**
-     * Creates React Elements to display each participant in a thumbnail. Each
-     * tile will be.
-     *
-     * @private
-     * @returns {ReactElement[]}
-     */
-    _renderThumbnails() {
-        const styleOverrides = {
-            aspectRatio: TILE_ASPECT_RATIO,
-            minHeight: this._getTileDimensions().height,
-            maxWidth: this._getTileDimensions().width * 1.05
-        };
-
-        return this._getSortedParticipants()
-            .map(participant => (
-                <Thumbnail
-                    isAvatarCircled = { false }
-                    key = { participant.id }
-                    participant = { participant }
-                    renderDisplayName = { true }
-                    styleOverrides = { styleOverrides }
-                    tileView = { true } />));
-    }
-
-    /**
      * Sets the receiver video quality based on the dimensions of the thumbnails
      * that are displayed.
      *
@@ -359,7 +360,7 @@ function _mapStateToProps(state) {
         _currentIndex: responsiveUi.currentSwiperIndex,
         _showWrapUpButtons: responsiveUi.showWrapUpButtons,
         _participants: participants,
-        _inFocusUser: inFocusUser
+        inFocusUser
     };
 }
 

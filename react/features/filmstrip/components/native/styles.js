@@ -15,25 +15,6 @@ export const AVATAR_SIZE = 50;
 export default {
 
     /**
-     * The display name container.
-     */
-    displayNameContainer: {
-        bottom: 0,
-        margin: 0,
-        position: 'absolute',
-        width: '100%',
-        textAlign: 'center'
-    },
-
-    notDominantSpeaker: {
-        paddingBottom: 4
-    },
-
-    dominantSpeaker: {
-        paddingBottom: 0
-    },
-
-    /**
      * The style of the narrow {@link Filmstrip} version which displays
      * thumbnails in a row at the bottom of the screen.
      */
@@ -89,22 +70,19 @@ export default {
      * the avatar of the associated participant.
      */
     thumbnail: {
-        alignItems: 'stretch',
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
         backgroundColor: ColorPalette.appBackground,
         borderColor: '#424242',
         borderStyle: 'solid',
-        borderWidth: 1,
-        flex: 1,
-        justifyContent: 'center',
-        overflow: 'hidden',
-        position: 'relative'
+        borderWidth: 1
     },
 
     /**
      * The thumbnails indicator container.
      */
     thumbnailIndicatorContainer: {
-        alignSelf: 'stretch',
         bottom: 4,
         flex: 1,
         flexDirection: 'row',
@@ -133,14 +111,17 @@ export default {
 
     tileRows: {
         flexDirection: 'row',
-        alignSelf: 'stretch',
-        alignContent: 'stretch'
+        alignSelf: 'flex-start',
+        alignContent: 'flex-start',
+        justifyContent: 'flex-start',
+        zIndex: 1
     },
 
     tileColumns: {
         flexDirection: 'column',
         alignSelf: 'stretch',
-        alignContent: 'stretch'
+        alignContent: 'stretch',
+        zIndex: 1
     },
 
     normalText: {
@@ -235,6 +216,16 @@ export default {
         height: '100%'
     },
 
+    participantName: {
+        position: 'absolute',
+        height: '100%',
+        color: 'white',
+        fontFamily: 'Montserrat Regular',
+        fontSize: 13,
+        paddingBottom: 12,
+        textAlignVertical: 'bottom'
+    },
+
     preShowCountdownContainer: {
         alignItems: 'center',
         backgroundColor: ColorPalette.black,
@@ -253,6 +244,17 @@ export default {
         fontSize: 26,
         color: ColorPalette.white,
         fontFamily: 'Archer-Book'
+    },
+
+    dominantSpeakerFrame: {
+        position: 'absolute',
+        alignSelf: 'center',
+        height: '100%',
+        width: '100%',
+        borderStyle: 'solid',
+        borderColor: ColorPalette.cabiPink,
+        borderWidth: 10,
+        zIndex: 10
     }
 };
 

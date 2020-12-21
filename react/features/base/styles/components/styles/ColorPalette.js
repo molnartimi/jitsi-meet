@@ -30,6 +30,7 @@ export const ColorPalette = {
     transparent: 'rgba(0, 0, 0, 0)',
     warning: 'rgb(215, 121, 118)',
     white: '#FFFFFF',
+    cabiPink: 'rgb(243,146,160)',
 
     /**
      * These are colors from the atlaskit to be used on mobile, when needed.
