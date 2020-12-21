@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { Text, View, Image, TouchableOpacity } from 'react-native';
 
+import { generateNamePrefix } from '../../../base/conference';
 import { MEDIA_TYPE } from '../../../base/media';
 import { connect } from '../../../base/redux';
 import { getTrackByMediaTypeAndParticipant } from '../../../base/tracks';
@@ -10,7 +11,6 @@ import { shopButtonEvent } from '../../actions.native';
 import PreShowCountdown from './PreShowCountdown';
 import Thumbnail from './Thumbnail';
 import styles from './styles';
-import {generateNamePrefix} from "../../../base/conference";
 
 type Props = {
     inFocusUser: Object,
@@ -129,7 +129,7 @@ class InFocusView extends Component<Props> {
         return (<Text style = { styles.nameComponent }>{
             _.isEmpty(generateNamePrefix(this.props.inFocusUser?.vipType))
                 ? this.props.inFocusUser?.name
-                : `${generateNamePrefix(this.props.inFocusUser?.vipType)} : ${this.props.inFocusUser?.name}`}
+                : `${generateNamePrefix(this.props.inFocusUser?.vipType)}: ${this.props.inFocusUser?.name}`}
         </Text>);
     }
 
