@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { Text, View, Image, TouchableOpacity } from 'react-native';
 
+import { generateNamePrefix } from '../../../base/conference';
 import { MEDIA_TYPE } from '../../../base/media';
 import { connect } from '../../../base/redux';
 import { getTrackByMediaTypeAndParticipant } from '../../../base/tracks';
@@ -126,10 +127,10 @@ class InFocusView extends Component<Props> {
 
     _createTopNameComponent() {
         return (<Text style = { styles.nameComponent }>{
-            _.isNil(this.props.inFocusUser?.name)
-                ? UNKNOWN_NAME
-                : this.props.inFocusUser.name
-        }</Text>);
+            _.isEmpty(generateNamePrefix(this.props.inFocusUser?.vipType))
+                ? this.props.inFocusUser?.name
+                : `${generateNamePrefix(this.props.inFocusUser?.vipType)}: ${this.props.inFocusUser?.name}`}
+        </Text>);
     }
 
     /**
