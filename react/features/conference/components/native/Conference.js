@@ -297,7 +297,7 @@ function _mapStateToProps(state) {
         = connecting || (connection && (!membersOnly && (joining || (!conference && !leaving))));
 
     const participants = state['features/base/participants'];
-    const localParticipant = participants.find(p => p.currentfocus);
+    const largeVideoParticipant = participants.find(p => isSpeakerViewShowed ? p.dominantSpeaker : p.currentfocus);
 
     return {
         ...abstractMapStateToProps(state),
@@ -305,7 +305,7 @@ function _mapStateToProps(state) {
         _calendarEnabled: isCalendarEnabled(state),
         _connecting: Boolean(connecting_),
         _filmstripVisible: isFilmstripVisible(state),
-        _largeVideoParticipant: localParticipant,
+        _largeVideoParticipant: largeVideoParticipant,
         _pictureInPictureEnabled: getFeatureFlag(state, PIP_ENABLED),
         _toolboxVisible: isToolboxVisible(state),
         _isSpeakerViewShowed: isSpeakerViewShowed
