@@ -60,7 +60,8 @@ import {
     EMAIL_COMMAND,
     DISABLE_COMMAND,
     IN_FOCUS_COMMAND,
-    JITSI_CONFERENCE_URL_KEY
+    JITSI_CONFERENCE_URL_KEY,
+    VIP_COMMAND
 } from './constants';
 import {
     _addLocalTracksToConference,
@@ -225,6 +226,13 @@ function _addConferenceListeners(conference, dispatch) {
             conference,
             id,
             email: data.value
+        })));
+    conference.addCommandListener(
+        VIP_COMMAND,
+        (data, id) => dispatch(participantUpdated({
+            conference,
+            id,
+            vipType: data.value
         })));
 }
 

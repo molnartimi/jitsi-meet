@@ -1,4 +1,5 @@
 // @flow
+import _ from 'lodash';
 import React, { Component } from 'react';
 import {
     TouchableWithoutFeedback, View
@@ -6,6 +7,7 @@ import {
 import Swiper from 'react-native-swiper';
 import type { Dispatch } from 'redux';
 
+import { RoleTypeId } from '../../../base/conference';
 import { connect } from '../../../base/redux';
 import {
     swipeEvent,
@@ -134,7 +136,7 @@ class TileView extends Component<Props> {
         const pages = [ <InFocusView
             inFocusUser = { this.props?.inFocusUser }
             isWrapUpVisible = { this.props._showWrapUpButtons }
-            localUser = { this.props._participants[0] } /> ];
+            localUser = { this.props._participants.find(participant => participant.local) } /> ];
 
         pages.push(...this._getUserPages(this._groupThumbnailsByPages(rowElements)));
         pages.push(<TapView />);
@@ -237,6 +239,7 @@ class TileView extends Component<Props> {
             maxWidth: this._getTileDimensions().width * 1.05
         };
 
+
         return this._getSortedParticipants()
             .map(participant => (
                 <Thumbnail
@@ -258,18 +261,40 @@ class TileView extends Component<Props> {
      * @returns {Participant[]}
      */
     _getSortedParticipants() {
-        const participants = [];
-        let localParticipant;
+        const stylist = this.props._participants
+            .find(participant => participant.vipType === RoleTypeId.CABI_STYLIST);
+        const localUser = this.props._participants
+            .find(participant => participant.local);
+        const hostess = this.props._participants
+            .find(participant => participant.vipType === RoleTypeId.CABI_HOSTESS);
+        const cohostess = this.props._participants
+            .find(participant => participant.vipType === RoleTypeId.CABI_COHOSTESS);
+        const otherParticipants = this.props._participants
+            .filter(
+                participant =>
+                    !participant.local
+                    && participant.vipType !== RoleTypeId.CABI_STYLIST
+                    && participant.vipType !== RoleTypeId.CABI_HOSTESS
+                    && participant.vipType !== RoleTypeId.CABI_COHOSTESS)
+            .sort((a, b) => a.name > b.name ? 1 : -1);
 
-        for (const participant of this.props._participants) {
-            if (participant.local) {
-                localParticipant = participant;
-            } else {
-                participants.push(participant);
-            }
+        const participants = [];
+
+        if (!_.isEmpty(stylist)) {
+            participants.push(stylist);
         }
 
-        localParticipant && participants.push(localParticipant);
+        participants.push(localUser);
+
+        if (!_.isEmpty(hostess)) {
+            participants.push(hostess);
+        }
+
+        if (!_.isEmpty(cohostess)) {
+            participants.push(cohostess);
+        }
+
+        participants.push(...otherParticipants);
 
         return participants;
     }
