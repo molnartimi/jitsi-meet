@@ -132,9 +132,12 @@ class Thumbnail extends Component<Props> {
                     : null}
 
                 {this.props.isNameRequired
-                    ? <Text
+                    ? (<Text
                         style = { styles.participantName }>
-                        {this.props.participant?.name}</Text>
+                        { _.isEmpty(generateNamePrefix(this.props.participant?.vipType))
+                            ? this.props.participant?.name
+                            : `${generateNamePrefix(this.props.participant?.vipType)}: ${this.props.participant?.name}`}
+                    </Text>)
                     : null}
 
                 {this.props.isDominantSpeaker
