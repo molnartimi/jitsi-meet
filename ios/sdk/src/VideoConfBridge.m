@@ -23,7 +23,6 @@ static NSString *const SWIPE_TO_PAGE_EVENT = @"org.jitsi.meet:features/videoconf
 static NSString *const SHOW_WRAP_UP_BUTTONS = @"org.jitsi.meet:features/videoconf-bridge#show-wrap-up-buttons";
 static NSString *const PLACEHOLDER_DATA_EVENT = @"org.jitsi.meet:features/videoconf-bridge#placeholder-data";
 static NSString *const SET_COUNTDOWN_EVENT = @"org.jitsi.meet:features/videoconf-bridge#set-countdown";
-static NSString *const ADD_COMMAND_LISTENER_EVENT = @"org.jitsi.meet:features/videoconf-bridge#add-command-listener";
 static NSString *const SHOW_SPEAKER_VIEW_EVENT = @"org.jitsi.meet:features/videoconf-bridge#show-speaker-view";
 
 RCT_EXPORT_MODULE();
@@ -43,7 +42,6 @@ RCT_EXPORT_MODULE();
         PLACEHOLDER_DATA_EVENT,
         SWIPE_TO_PAGE_EVENT,
         SET_COUNTDOWN_EVENT,
-        ADD_COMMAND_LISTENER_EVENT,
         SHOW_SPEAKER_VIEW_EVENT];
 }
 
