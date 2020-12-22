@@ -262,3 +262,13 @@ export const SWIPE_EVENT = 'SWIPE_EVENT';
  * }
  */
 export const SHOP_BUTTON_EVENT = 'SHOP_BUTTON_EVENT';
+
+/**
+ * The type of (redux) action which edit meeting UI style.
+ *
+ * {
+ *     type: SET_SPEAKER_VIEW_VISIBILITY,
+ *     isSpeakerViewShowed: boolean
+ * }
+ */
+export const SET_SPEAKER_VIEW_VISIBILITY = 'SET_SPEAKER_VIEW_VISIBILITY';

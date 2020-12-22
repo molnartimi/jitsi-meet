@@ -23,6 +23,7 @@ static NSString *const SWIPE_TO_PAGE_EVENT = @"org.jitsi.meet:features/videoconf
 static NSString *const SHOW_WRAP_UP_BUTTONS = @"org.jitsi.meet:features/videoconf-bridge#show-wrap-up-buttons";
 static NSString *const PLACEHOLDER_DATA_EVENT = @"org.jitsi.meet:features/videoconf-bridge#placeholder-data";
 static NSString *const SET_COUNTDOWN_EVENT = @"org.jitsi.meet:features/videoconf-bridge#set-countdown";
+static NSString *const SHOW_SPEAKER_VIEW_EVENT = @"org.jitsi.meet:features/videoconf-bridge#show-speaker-view";
 
 RCT_EXPORT_MODULE();
 
@@ -32,9 +33,16 @@ RCT_EXPORT_MODULE();
 
 
 - (NSArray<NSString *> *)supportedEvents {
-  return @[JOIN_EVENT, LEAVE_EVENT, MUTE_EVENT, SWITCH_CAM_EVENT,
-           SEND_COMMAND_EVENT, REMOVE_COMMAND_EVENT, SWIPE_TO_PAGE_EVENT,
-           PLACEHOLDER_DATA_EVENT, SET_COUNTDOWN_EVENT];
+  return @[JOIN_EVENT,
+        LEAVE_EVENT,
+        MUTE_EVENT,
+        SWITCH_CAM_EVENT,
+        SEND_COMMAND_EVENT,
+        REMOVE_COMMAND_EVENT,
+        PLACEHOLDER_DATA_EVENT,
+        SWIPE_TO_PAGE_EVENT,
+        SET_COUNTDOWN_EVENT,
+        SHOW_SPEAKER_VIEW_EVENT];
 }
 
 - (void)join:(NSString *)dataJsonString {
@@ -75,6 +83,10 @@ RCT_EXPORT_MODULE();
 
 - (void)setCountdown:(NSString *_Nonnull)jsonString {
     [self sendEvent:SET_COUNTDOWN_EVENT body:jsonString];
+}
+
+- (void)showSpeakerView:(NSNumber *_Nonnull)show {
+    [self sendEvent:SHOW_SPEAKER_VIEW_EVENT body:show];
 }
 
 @end

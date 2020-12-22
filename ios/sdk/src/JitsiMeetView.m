@@ -180,6 +180,10 @@ static void initializeViewsMap() {
     [eventEmitter setCountdown:jsonString];
 }
 
+- (void)showSpeakerView:(NSNumber *_Nonnull)show {
+    [eventEmitter showSpeakerView:show];
+}
+
 #pragma mark Private methods
 
 /**
