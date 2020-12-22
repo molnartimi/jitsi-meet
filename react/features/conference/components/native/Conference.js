@@ -297,7 +297,12 @@ function _mapStateToProps(state) {
         = connecting || (connection && (!membersOnly && (joining || (!conference && !leaving))));
 
     const participants = state['features/base/participants'];
-    const largeVideoParticipant = participants.find(p => isSpeakerViewShowed ? p.dominantSpeaker : p.currentfocus);
+    const dominantSpeaker = participants.find(p => p.dominantSpeaker);
+    const focusedUser = participants.find(p => p.currentfocus);
+    const localUser = participants[0];
+    const largeVideoParticipant = isSpeakerViewShowed
+        ? (dominantSpeaker ?? focusedUser ?? localUser)
+        : focusedUser;
 
     return {
         ...abstractMapStateToProps(state),
