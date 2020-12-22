@@ -22,7 +22,8 @@ import {
     SET_PENDING_SUBJECT_CHANGE,
     SET_ROOM,
     SET_SIP_GATEWAY_ENABLED,
-    SET_START_MUTED_POLICY
+    SET_START_MUTED_POLICY,
+    SET_SPEAKER_VIEW_VISIBILITY
 } from './actionTypes';
 import { isRoomValid } from './functions';
 
@@ -34,7 +35,8 @@ const DEFAULT_STATE = {
     locked: undefined,
     membersOnly: undefined,
     password: undefined,
-    passwordRequired: undefined
+    passwordRequired: undefined,
+    isSpeakerViewShowed: false
 };
 
 /**
@@ -103,6 +105,13 @@ ReducerRegistry.register(
                 startAudioMutedPolicy: action.startAudioMutedPolicy,
                 startVideoMutedPolicy: action.startVideoMutedPolicy
             };
+
+        case SET_SPEAKER_VIEW_VISIBILITY: {
+            return {
+                ...state,
+                isSpeakerViewShowed: action.isSpeakerViewShowed
+            };
+        }
         }
 
         return state;

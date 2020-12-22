@@ -34,14 +34,17 @@ RCT_EXPORT_MODULE();
 
 
 - (NSArray<NSString *> *)supportedEvents {
-  return @[JOIN_EVENT, LEAVE_EVENT, MUTE_EVENT, SWITCH_CAM_EVENT,
-           SEND_COMMAND_EVENT, 
-           REMOVE_COMMAND_EVENT, 
-           SWIPE_TO_PAGE_EVENT,
-           PLACEHOLDER_DATA_EVENT, 
-           SET_COUNTDOWN_EVENT,
-           ADD_COMMAND_LISTENER_EVENT,
-           SHOW_SPEAKER_VIEW_EVENT];
+  return @[JOIN_EVENT,
+        LEAVE_EVENT,
+        MUTE_EVENT,
+        SWITCH_CAM_EVENT,
+        SEND_COMMAND_EVENT,
+        REMOVE_COMMAND_EVENT,
+        PLACEHOLDER_DATA_EVENT,
+        SWIPE_TO_PAGE_EVENT,
+        SET_COUNTDOWN_EVENT,
+        ADD_COMMAND_LISTENER_EVENT,
+        SHOW_SPEAKER_VIEW_EVENT];
 }
 
 - (void)join:(NSString *)dataJsonString {

@@ -4,7 +4,7 @@ import React, { Fragment } from 'react';
 import { NativeEventEmitter, NativeModules } from 'react-native';
 
 import { BaseApp } from '../../base/app';
-import { sendCommand, removeCommand, addCommandListener } from '../../base/conference';
+import { sendCommand, removeCommand, addCommandListener, editSpeakerViewVisibility } from '../../base/conference';
 import { storeConfig } from '../../base/config';
 import { NativeEvents } from '../../base/constants';
 import { muteMedia, toggleCameraFacingMode } from '../../base/media';
@@ -241,7 +241,6 @@ export class AbstractApp extends BaseApp<Props, *> {
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.PLACEHOLDER_DATA,
             (dataJsonString: string) => {
                 const { title, imageUrl } = JSON.parse(dataJsonString);
-
                 dispatch(setPlaceholderData(title, imageUrl));
             }));
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.SET_COUNTDOWN,
@@ -252,10 +251,8 @@ export class AbstractApp extends BaseApp<Props, *> {
             }));
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.ADD_COMMAND_LISTENER,
             (commandName: string) => dispatch(addCommandListener(commandName))));
-
-        // TODO replace with appropriate logic. Received value can be a boolean, or number 0 or 1.
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.SHOW_SPEAKER_VIEW,
-            (showSpeakerView: boolean | number) => logger.info('Show speaker view value received: ', showSpeakerView)));
+            (showSpeakerView: boolean | number) => dispatch(editSpeakerViewVisibility(Boolean(showSpeakerView)))));
     }
 
 }
