@@ -266,9 +266,9 @@ class TileView extends Component<Props> {
         const localUser = this.props._participants
             .find(participant => participant.local);
         const hostess = this.props._participants
-            .find(participant => participant.vipType === RoleTypeId.CABI_HOSTESS);
+            .find(participant => participant.vipType === RoleTypeId.CABI_HOSTESS && !participant.local);
         const cohostess = this.props._participants
-            .find(participant => participant.vipType === RoleTypeId.CABI_COHOSTESS);
+            .find(participant => participant.vipType === RoleTypeId.CABI_COHOSTESS && !participant.local);
         const otherParticipants = this.props._participants
             .filter(
                 participant =>
