@@ -22,7 +22,8 @@ import {
     participantPresenceChanged,
     participantRoleChanged,
     participantUpdated,
-    setCurrentFocus
+    setCurrentFocus,
+    setLoadableAvatarUrl
 } from '../participants';
 import { getLocalTracks, trackAdded, trackRemoved } from '../tracks';
 import {
@@ -827,10 +828,7 @@ export function removeCommand(commandName: string) {
 export function updateAvatar(dataJsonString: string) {
     return (dispatch: Dispatch<any>, getState: Function) => {
         const params = JSON.parse(dataJsonString);
-
-        console.log('function updateAvatar', params);
-
-        // TODO.
+        //setLoadableAvatarUrl(participantId, url);
     };
 }
 
