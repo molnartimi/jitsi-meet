@@ -1,4 +1,5 @@
 import { NOTIFICATION_TIMEOUT, showNotification } from '../../notifications';
+import { RoleTypeId } from '../conference';
 import { set } from '../redux';
 
 import {
@@ -511,4 +512,16 @@ export function setCurrentFocus(participantId) {
         type: SET_CURRENT_FOCUS,
         participantId
     };
+}
+
+/**
+ * Update avatar url in thumbnails.
+ *
+ * @param {string} dataJsonString - Stringified params with image data.
+ * @returns {Function}
+ */
+export function updateAvatar(dataJsonString) {
+    const { xmppLoginId, newUrl } = JSON.parse(dataJsonString);
+
+    return setLoadableAvatarUrl(xmppLoginId, newUrl);
 }

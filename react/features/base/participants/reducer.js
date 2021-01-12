@@ -10,8 +10,8 @@ import {
     PARTICIPANT_LEFT,
     PARTICIPANT_UPDATED,
     PIN_PARTICIPANT,
-    SET_LOADABLE_AVATAR_URL,
-    SET_CURRENT_FOCUS
+    SET_CURRENT_FOCUS,
+    SET_LOADABLE_AVATAR_URL
 } from './actionTypes';
 import { LOCAL_PARTICIPANT_DEFAULT_ID, PARTICIPANT_ROLE } from './constants';
 
@@ -66,7 +66,15 @@ const PARTICIPANT_PROPS_TO_OMIT_WHEN_UPDATE = [
  */
 ReducerRegistry.register('features/base/participants', (state = [], action) => {
     switch (action.type) {
-    case SET_LOADABLE_AVATAR_URL:
+    case SET_LOADABLE_AVATAR_URL: {
+        return state.map(user => {
+            if (user.id === action.participant.id) {
+                user.loadableAvatarUrl = action.participant.loadableAvatarUrl;
+            }
+
+            return user;
+        });
+    }
     case SET_CURRENT_FOCUS:
     case DOMINANT_SPEAKER_CHANGED:
     case PARTICIPANT_ID_CHANGED:

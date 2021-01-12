@@ -8,12 +8,12 @@ import {
     sendCommand,
     removeCommand,
     editSpeakerViewVisibility,
-    addCommandListener,
-    updateAvatar
+    addCommandListener
 } from '../../base/conference';
 import { storeConfig } from '../../base/config';
 import { NativeEvents } from '../../base/constants';
 import { muteMedia, toggleCameraFacingMode } from '../../base/media';
+import { updateAvatar } from '../../base/participants';
 import { showWrapUpButtons, updateSwiperIndex } from '../../base/responsive-ui';
 import { toURLString } from '../../base/util';
 import { setPlaceholderData, setCountdown } from '../../filmstrip';
@@ -258,7 +258,7 @@ export class AbstractApp extends BaseApp<Props, *> {
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.SHOW_SPEAKER_VIEW,
             (showSpeakerView: boolean | number) => dispatch(editSpeakerViewVisibility(Boolean(showSpeakerView)))));
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.UPDATE_AVATAR,
-            (commandName: string) => dispatch(updateAvatar(commandName))));
+            (dataJsonString: string) => dispatch(updateAvatar(dataJsonString))));
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.ADD_COMMAND_LISTENER,
             (commandName: string) => dispatch(addCommandListener(commandName))));
     }

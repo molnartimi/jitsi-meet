@@ -45,7 +45,8 @@ RCT_EXPORT_MODULE();
         PLACEHOLDER_DATA_EVENT,
         SWIPE_TO_PAGE_EVENT,
         SET_COUNTDOWN_EVENT,
-        SHOW_SPEAKER_VIEW_EVENT];
+        SHOW_SPEAKER_VIEW_EVENT,
+        UPDATE_AVATAR_EVENT];
 }
 
 - (void)join:(NSString *)dataJsonString {
