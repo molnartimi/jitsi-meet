@@ -96,6 +96,8 @@
 
 - (void)showSpeakerView:(NSNumber *_Nonnull)show {
     [_videoConfBridge showSpeakerView:show];
+}
+
 - (void)updateAvatar:(NSString *_Nonnull)dataJsonString {
     [_videoConfBridge updateAvatar:dataJsonString];
 }
