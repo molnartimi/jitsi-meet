@@ -2,13 +2,25 @@
 
 import Platform from '../react/Platform';
 
+const ANDROID = 'android';
+const IOS = 'ios';
+
 /**
  * Returns whether or not the current environment is a mobile device.
  *
  * @returns {boolean}
  */
 export function isMobileBrowser() {
-    return Platform.OS === 'android' || Platform.OS === 'ios';
+    return Platform.OS === ANDROID || Platform.OS === IOS;
+}
+
+/**
+ * Returns whether or not the current environment is an Android mobile device.
+ *
+ * @returns {boolean}
+ */
+export function isAndroidDevice() {
+    return Platform.OS === ANDROID;
 }
 
 /**

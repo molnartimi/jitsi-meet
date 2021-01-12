@@ -23,6 +23,7 @@ import {
     XMPP_RESULT,
     getURLWithoutParams
 } from '../../base/connection';
+import { isAndroidDevice } from '../../base/environment/utils';
 import { getLogger } from '../../base/logging';
 import { MiddlewareRegistry } from '../../base/redux';
 import { ENTER_PICTURE_IN_PICTURE } from '../picture-in-picture';
@@ -154,8 +155,8 @@ MiddlewareRegistry.register(store => next => action => {
 
             sendEvent(store, COMMAND_VALUE, {
                 value: flatted.stringify(response,
-                        // replace '\' characters with '\\', so flatted.parse won't raise an error later on
-                        (_, val) => typeof val === 'string' ? val.replace(/\\/g, '\\\\') : val)
+                        // replace '\' characters with '\\' on Android, so flatted.parse won't raise an error later on
+                        (_, val) => isAndroidDevice() && typeof val === 'string' ? val.replace(/\\/g, '\\\\') : val)
             });
         } catch (e) {
             logger.error('Some error occurred at sending command value to native app', e);
