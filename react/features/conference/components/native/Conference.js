@@ -4,6 +4,7 @@ import React from 'react';
 import { NativeModules, SafeAreaView } from 'react-native';
 
 import { appNavigate } from '../../../app/actions';
+import { IN_FOCUS_COMMAND } from '../../../base/conference';
 import { PIP_ENABLED, getFeatureFlag } from '../../../base/flags';
 import { Container } from '../../../base/react';
 import { connect } from '../../../base/redux';
@@ -298,7 +299,7 @@ function _mapStateToProps(state) {
 
     const participants = state['features/base/participants'];
     const dominantSpeaker = participants.find(p => p.dominantSpeaker);
-    const focusedUser = participants.find(p => p.currentfocus);
+    const focusedUser = participants.find(p => p[IN_FOCUS_COMMAND]);
     const localUser = participants[0];
     const largeVideoParticipant = isSpeakerViewShowed
         ? (dominantSpeaker ?? focusedUser ?? localUser)

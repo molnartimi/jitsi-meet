@@ -1,5 +1,6 @@
 // @flow
 
+import { IN_FOCUS_COMMAND } from '../conference';
 import { ReducerRegistry, set } from '../redux';
 
 import {
@@ -166,7 +167,7 @@ function _participant(state: Object = {}, action) {
         return set(state, 'pinned', state.id === action.participant.id);
 
     case SET_CURRENT_FOCUS:
-        return set(state, 'currentfocus', state.id === action.participantId);
+        return set(state, IN_FOCUS_COMMAND, state.id === action.participantId);
     }
 
     return state;
