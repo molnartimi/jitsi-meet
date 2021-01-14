@@ -806,7 +806,14 @@ export function removeCommand(commandName: string) {
             return;
         }
 
-        conference.removeCommand(commandName);
+        let parsedCommandName;
+
+        try {
+            parsedCommandName = JSON.parse(commandName);
+        } catch (e) {
+            parsedCommandName = commandName;
+        }
+        conference.removeCommand(parsedCommandName);
         conference.room.sendPresence();
     };
 }

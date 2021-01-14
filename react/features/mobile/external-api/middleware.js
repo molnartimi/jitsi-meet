@@ -267,8 +267,10 @@ function _sendConferenceEvent(
     // transport an "equivalent".
     if (conference) {
         data.url = _normalizeUrl(conference[JITSI_CONFERENCE_URL_KEY]);
-        // replace '\' characters with '\\', so client side command handlers won't raise an error
-        data.userId = conference.myUserId().replace(/\\/g, '\\\\');
+        // replace '\' characters with '\\' on Android, so client side command handlers won't raise an error
+        data.userId = isAndroidDevice()
+            ? conference.myUserId().replace(/\\/g, '\\\\')
+            : conference.myUserId();
     }
 
     if (_swallowEvent(store, action, data)) {
