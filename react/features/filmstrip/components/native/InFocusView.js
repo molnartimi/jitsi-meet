@@ -162,7 +162,7 @@ class InFocusView extends Component<Props> {
                         ...styles.wrapUpButtonStyle,
                         marginRight: 3
                     }}>
-                    <Text style = { styles.normalText }>{LOOKBOOK_BUTTON}</Text>
+                    <Text style = { styles.buttonText }>{LOOKBOOK_BUTTON}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress = { this._onTimeToShopCollection }
@@ -170,14 +170,14 @@ class InFocusView extends Component<Props> {
                         ...styles.wrapUpButtonStyle,
                         marginLeft: 3
                     }}>
-                    <Text style = { styles.normalText }>{COLLECTION_BUTTON}</Text>
+                    <Text style = { styles.buttonText }>{COLLECTION_BUTTON}</Text>
                 </TouchableOpacity>
             </View>
             <View style = {{ flexDirection: 'row' }}>
                 <TouchableOpacity
                     onPress = { this._onTimeToShopFavs }
                     style = { styles.wrapUpButtonStyle }>
-                    <Text style = { styles.normalText }>{FAVORITES_BUTTON}</Text>
+                    <Text style = { styles.buttonText }>{FAVORITES_BUTTON}</Text>
                 </TouchableOpacity>
             </View>
         </View>);

@@ -124,8 +124,9 @@ export default {
         zIndex: 1
     },
 
-    normalText: {
-        color: 'black'
+    buttonText: {
+        color: 'black',
+        fontFamily: 'Montserrat-SemiBold'
     },
 
     fillView: {
@@ -141,7 +142,7 @@ export default {
     },
 
     wrapUpText: {
-        fontFamily: 'Montserrat Light',
+        fontFamily: 'JustLovelySlantedWide',
         color: 'white',
         fontSize: 45,
         marginBottom: '3%'
@@ -191,7 +192,7 @@ export default {
         fontSize: 30,
         textAlign: 'center',
         paddingVertical: 15,
-        fontFamily: 'Montserrat Light'
+        fontFamily: 'Montserrat-SemiBold'
     },
 
     cabiName: {
@@ -220,7 +221,7 @@ export default {
         position: 'absolute',
         height: '100%',
         color: 'white',
-        fontFamily: 'Montserrat Regular',
+        fontFamily: 'Montserrat-SemiBold',
         fontSize: 13,
         paddingBottom: 12,
         textAlignVertical: 'bottom'
@@ -235,7 +236,7 @@ export default {
 
     preShowCountdownStartingIn: {
         textTransform: 'uppercase',
-        fontFamily: 'Montserrat Regular',
+        fontFamily: 'Montserrat-SemiBold',
         fontSize: 14,
         color: ColorPalette.white
     },
@@ -243,7 +244,7 @@ export default {
     preShowCountdownTimer: {
         fontSize: 26,
         color: ColorPalette.white,
-        fontFamily: 'Archer-Book'
+        fontFamily: 'Archer-Light'
     },
 
     dominantSpeakerFrame: {
