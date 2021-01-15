@@ -18,7 +18,7 @@ export type Props = {
     /**
      * An URL that we validated that it can be loaded.
      */
-    _loadableAvatarUrl: ?string,
+    _avatarURL: ?string,
 
     /**
      * A prop to maintain compatibility with web.
@@ -120,7 +120,7 @@ class Avatar<P: Props> extends PureComponent<P, State> {
     render() {
         const {
             _initialsBase,
-            _loadableAvatarUrl,
+            _avatarURL,
             className,
             colorBase,
             id,
@@ -143,10 +143,10 @@ class Avatar<P: Props> extends PureComponent<P, State> {
             url: undefined
         };
 
-        // _loadableAvatarUrl is validated that it can be loaded, but uri (if present) is not, so
+        // _avatarURL is validated that it can be loaded, but uri (if present) is not, so
         // we still need to do a check for that. And an explicitly provided URI is higher priority than
         // an avatar URL anyhow.
-        const effectiveURL = (!avatarFailed && url) || _loadableAvatarUrl;
+        const effectiveURL = (!avatarFailed && url) || _avatarURL;
 
         if (effectiveURL) {
             avatarProps.onAvatarLoadError = this._onAvatarLoadError;
@@ -187,7 +187,7 @@ export function _mapStateToProps(state: Object, ownProps: Props) {
 
     return {
         _initialsBase,
-        _loadableAvatarUrl: _participant?.loadableAvatarUrl,
+        _avatarURL: _participant?.avatarURL,
         colorBase: !colorBase && _participant ? _participant.id : colorBase
     };
 }

@@ -236,11 +236,11 @@ function _undoOverwriteLocalParticipant(
  *     name: ?string
  * }}
  */
-function _user2participant({ avatar, avatarUrl, email, id, name }) {
+function _user2participant({ avatar, avatarURL, email, id, name }) {
     const participant = {};
 
-    if (typeof avatarUrl === 'string') {
-        participant.avatarURL = avatarUrl.trim();
+    if (typeof avatarURL === 'string') {
+        participant.avatarURL = avatarURL.trim();
     } else if (typeof avatar === 'string') {
         participant.avatarURL = avatar.trim();
     }

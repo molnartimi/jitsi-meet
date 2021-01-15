@@ -49,7 +49,7 @@ class KnockingParticipantList extends AbstractKnockingParticipantList<Props> {
                                 displayName = { p.name }
                                 size = { 48 }
                                 testId = 'knockingParticipant.avatar'
-                                url = { p.loadableAvatarUrl } />
+                                url = { p.avatarURL } />
                             <div className = 'details'>
                                 <span data-testid = 'knockingParticipant.name'>
                                     { p.name }

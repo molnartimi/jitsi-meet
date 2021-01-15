@@ -39,7 +39,7 @@ class KnockingParticipantList extends AbstractKnockingParticipantList {
                         <Avatar
                             displayName = { p.name }
                             size = { 48 }
-                            url = { p.loadableAvatarUrl } />
+                            url = { p.avatarURL } />
                         <View style = { styles.knockingParticipantListDetails }>
                             <Text style = { styles.knockingParticipantListText }>
                                 { p.name }

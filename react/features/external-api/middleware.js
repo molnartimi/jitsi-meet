@@ -37,7 +37,7 @@ MiddlewareRegistry.register(store => next => action => {
     // We need to do these before executing the rest of the middelware chain
     switch (action.type) {
     case SET_LOADABLE_AVATAR_URL: {
-        const { id, loadableAvatarUrl } = action.participant;
+        const { id, avatarURL } = action.participant;
         const participant = getParticipantById(
             store.getState(),
             id
@@ -46,10 +46,10 @@ MiddlewareRegistry.register(store => next => action => {
         const result = next(action);
 
         if (participant) {
-            if (loadableAvatarUrl) {
-                participant.loadableAvatarUrl !== loadableAvatarUrl && APP.API.notifyAvatarChanged(
+            if (avatarURL) {
+                participant.avatarURL !== avatarURL && APP.API.notifyAvatarChanged(
                     id,
-                    loadableAvatarUrl
+                    avatarURL
                 );
             } else {
                 // There is no loadable explicit URL. In this case the Avatar component would
@@ -86,7 +86,7 @@ MiddlewareRegistry.register(store => next => action => {
     case CONFERENCE_JOINED: {
         const state = store.getState();
         const { room } = state['features/base/conference'];
-        const { loadableAvatarUrl, name, id } = getLocalParticipant(state);
+        const { avatarURL, name, id } = getLocalParticipant(state);
 
         APP.API.notifyConferenceJoined(
             room,
@@ -97,7 +97,7 @@ MiddlewareRegistry.register(store => next => action => {
                     name,
                     interfaceConfig.DEFAULT_LOCAL_DISPLAY_NAME
                 ),
-                avatarURL: loadableAvatarUrl
+                avatarURL: avatarURL
             }
         );
         break;

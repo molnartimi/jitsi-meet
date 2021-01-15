@@ -21,7 +21,7 @@ import {
     PARTICIPANT_DISPLAY_NAME_CHANGED,
     PARTICIPANT_JOINED,
     PARTICIPANT_LEFT,
-    PARTICIPANT_UPDATED
+    PARTICIPANT_UPDATED, SET_LOADABLE_AVATAR_URL
 } from './actionTypes';
 import {
     localParticipantIdChanged,
@@ -29,7 +29,7 @@ import {
     localParticipantLeft,
     participantLeft,
     participantUpdated,
-    setLoadableAvatarUrl
+    setAvatarURL
 } from './actions';
 import {
     LOCAL_PARTICIPANT_DEFAULT_ID,
@@ -134,6 +134,9 @@ MiddlewareRegistry.register(store => next => action => {
 
     case PARTICIPANT_UPDATED:
         return _participantJoinedOrUpdated(store, next, action);
+
+    case SET_LOADABLE_AVATAR_URL:
+        break;
     }
 
     return next(action);
@@ -397,7 +400,7 @@ function _participantJoinedOrUpdated({ dispatch, getState }, next, action) {
 
         getFirstLoadableAvatarUrl(updatedParticipant)
             .then(url => {
-                dispatch(setLoadableAvatarUrl(participantId, url));
+                dispatch(setAvatarURL(participantId, url));
             });
     }
 

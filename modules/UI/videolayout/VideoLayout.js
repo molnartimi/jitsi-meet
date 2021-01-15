@@ -516,7 +516,7 @@ const VideoLayout = {
 
     },
 
-    changeUserAvatar(id, avatarUrl) {
+    changeUserAvatar(id, avatarURL) {
         const smallVideo = VideoLayout.getSmallVideo(id);
 
         if (smallVideo) {
@@ -527,7 +527,7 @@ const VideoLayout = {
             );
         }
         if (this.isCurrentlyOnLarge(id)) {
-            largeVideo.updateAvatar(avatarUrl);
+            largeVideo.updateAvatar(avatarURL);
         }
     },
 

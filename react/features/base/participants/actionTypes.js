@@ -165,7 +165,7 @@ export const HIDDEN_PARTICIPANT_LEFT = 'HIDDEN_PARTICIPANT_LEFT';
  *     type: SET_LOADABLE_AVATAR_URL,
  *     participant: {
  *         id: string,
-           loadableAvatarUrl: string
+           avatarURL: string
  *     }
  * }
  */

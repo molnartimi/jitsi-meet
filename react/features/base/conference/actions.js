@@ -22,8 +22,7 @@ import {
     participantPresenceChanged,
     participantRoleChanged,
     participantUpdated,
-    setCurrentFocus,
-    setLoadableAvatarUrl
+    setCurrentFocus
 } from '../participants';
 import { getLocalTracks, trackAdded, trackRemoved } from '../tracks';
 import {

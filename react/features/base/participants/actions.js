@@ -1,5 +1,4 @@
 import { NOTIFICATION_TIMEOUT, showNotification } from '../../notifications';
-import { RoleTypeId } from '../conference';
 import { set } from '../redux';
 
 import {
@@ -484,16 +483,16 @@ export function pinParticipant(id) {
  *     type: SET_LOADABLE_AVATAR_URL,
  *     participant: {
  *         id: string,
- *         loadableAvatarUrl: string
+ *         avatarURL: string
  *     }
  * }}
 */
-export function setLoadableAvatarUrl(participantId, url) {
+export function setAvatarURL(participantId, url) {
     return {
         type: SET_LOADABLE_AVATAR_URL,
         participant: {
             id: participantId,
-            loadableAvatarUrl: url
+            avatarURL: url
         }
     };
 }
@@ -523,5 +522,5 @@ export function setCurrentFocus(participantId) {
 export function updateAvatar(dataJsonString) {
     const { xmppLoginId, newUrl } = JSON.parse(dataJsonString);
 
-    return setLoadableAvatarUrl(xmppLoginId, newUrl);
+    return setAvatarURL(xmppLoginId, newUrl);
 }

@@ -27,7 +27,7 @@ const ALWAYS_ON_TOP_FILENAMES = [
  * commands expected by jitsi-meet
  */
 const commands = {
-    avatarUrl: 'avatar-url',
+    avatarURL: 'avatar-url',
     displayName: 'display-name',
     e2eeKey: 'e2ee-key',
     email: 'email',

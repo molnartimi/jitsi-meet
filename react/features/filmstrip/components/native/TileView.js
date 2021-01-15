@@ -246,7 +246,7 @@ class TileView extends Component<Props> {
                     isAvatarCircled = { false }
                     isDominantSpeaker = { participant.dominantSpeaker }
                     isGradientRequired = { !participant.local }
-                    isNameRequired = { !participant.local }
+                    isNameRequired = { true }
                     key = { participant.id }
                     participant = { participant }
                     renderDisplayName = { true }

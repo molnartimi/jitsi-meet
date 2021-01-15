@@ -264,7 +264,7 @@ function _mapStateToProps(state, ownProps) {
                 MEDIA_TYPE.VIDEO,
                 participantId),
         isAvatarCircled,
-        profileImageUrl: participant?.loadableAvatarUrl
+        profileImageUrl: participant?.avatarURL
     };
 }
 

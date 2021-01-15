@@ -66,21 +66,37 @@ const PARTICIPANT_PROPS_TO_OMIT_WHEN_UPDATE = [
  */
 ReducerRegistry.register('features/base/participants', (state = [], action) => {
     switch (action.type) {
-    case SET_LOADABLE_AVATAR_URL: {
-        return state.map(user => {
-            if (user.id === action.participant.id) {
-                user.loadableAvatarUrl = action.participant.loadableAvatarUrl;
-            }
-
-            return user;
-        });
-    }
     case SET_CURRENT_FOCUS:
+        return state.map(user => set(user, IN_FOCUS_COMMAND, user.id === action.participantId));
+
     case DOMINANT_SPEAKER_CHANGED:
+        return state.map(user => set(user, 'dominantSpeaker', user.id === action.participant.id));
+
     case PARTICIPANT_ID_CHANGED:
+        return state.map(user => {
+            return user.id === action.oldValue
+            && user.conference === action.conference
+            && (action.conference || user.local)
+                ? { ...user,
+                    id: action.newValue }
+                : { ...user };
+        });
+
+    case SET_LOADABLE_AVATAR_URL:
+        return state.map(user => {
+            return user.id === action.participant.id
+                ? { ...user,
+                    name: action.avatarURL,
+                    avatarURL: action.avatarURL
+                }
+                : { ...user };
+        });
+
     case PARTICIPANT_UPDATED:
+        return state.map(user => _updateParticipant(user, action.participant));
+
     case PIN_PARTICIPANT:
-        return state.map(p => _participant(p, action));
+        return state.map(user => set(user, 'pinned', user.id === action.participant.id));
 
     case PARTICIPANT_JOINED:
         return [ ...state, _participantJoined(action) ];
@@ -104,6 +120,21 @@ ReducerRegistry.register('features/base/participants', (state = [], action) => {
                     && p.conference === conference
                     && (conference || p.local)));
     }
+
+    /* case SET_LOADABLE_AVATAR_URL: {
+        return state.push({
+            id: 'dummy',
+            local: false,
+            name: action.participant.avatarURL });
+
+        return state.map(user => {
+            if (user.id === action.participant.id) {
+                user.avatarURL = action.participant.avatarURL;
+            }
+
+            return user;
+        });
+    }*/
     }
 
     return state;
@@ -121,61 +152,26 @@ ReducerRegistry.register('features/base/participants', (state = [], action) => {
  * @private
  * @returns {Participant}
  */
-function _participant(state: Object = {}, action) {
-    switch (action.type) {
-    case DOMINANT_SPEAKER_CHANGED:
-        // Only one dominant speaker is allowed.
-        return (
-            set(state, 'dominantSpeaker', state.id === action.participant.id));
+function _updateParticipant(state: Object = {}, participant) {
+    let { id } = participant;
+    const { local } = participant;
 
-    case PARTICIPANT_ID_CHANGED: {
-        // A participant is identified by an id-conference pair. Only the local
-        // participant is with an undefined conference.
-        const { conference } = action;
-
-        if (state.id === action.oldValue
-                && state.conference === conference
-                && (conference || state.local)) {
-            return {
-                ...state,
-                id: action.newValue
-            };
-        }
-        break;
+    if (!id && local) {
+        id = LOCAL_PARTICIPANT_DEFAULT_ID;
     }
 
-    case SET_LOADABLE_AVATAR_URL:
-    case PARTICIPANT_UPDATED: {
-        const { participant } = action; // eslint-disable-line no-shadow
-        let { id } = participant;
-        const { local } = participant;
+    if (state.id === id) {
+        const newUserState = { ...state };
 
-        if (!id && local) {
-            id = LOCAL_PARTICIPANT_DEFAULT_ID;
-        }
-
-        if (state.id === id) {
-            const newState = { ...state };
-
-            for (const key in participant) {
-                if (participant.hasOwnProperty(key)
+        for (const key in participant) {
+            if (participant.hasOwnProperty(key)
                         && PARTICIPANT_PROPS_TO_OMIT_WHEN_UPDATE.indexOf(key)
                             === -1) {
-                    newState[key] = participant[key];
-                }
+                newUserState[key] = participant[key];
             }
-
-            return newState;
         }
-        break;
-    }
 
-    case PIN_PARTICIPANT:
-        // Currently, only one pinned participant is allowed.
-        return set(state, 'pinned', state.id === action.participant.id);
-
-    case SET_CURRENT_FOCUS:
-        return set(state, IN_FOCUS_COMMAND, state.id === action.participantId);
+        return newUserState;
     }
 
     return state;

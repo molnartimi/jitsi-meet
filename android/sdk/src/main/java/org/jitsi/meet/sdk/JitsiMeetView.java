@@ -256,6 +256,7 @@ public class JitsiMeetView extends BaseReactView<JitsiMeetViewListener>
      * Update avatar url in thumbnails.
      */
     public void updateAvatar(String dataJsonString) {
+        JitsiMeetLogger.w(dataJsonString + " ------------------- IMAGE " );
         VideoConfBridge.updateAvatar(dataJsonString);
     }
 

@@ -191,9 +191,9 @@ function initCommands() {
             sendAnalytics(createApiEvent('email.changed'));
             APP.conference.changeLocalEmail(email);
         },
-        'avatar-url': avatarUrl => {
+        'avatar-url': avatarURL => {
             sendAnalytics(createApiEvent('avatar.url.changed'));
-            APP.conference.changeLocalAvatarUrl(avatarUrl);
+            APP.conference.changeLocalAvatarUrl(avatarURL);
         },
         'send-endpoint-text-message': (to, text) => {
             logger.debug('Send endpoint message command received');
