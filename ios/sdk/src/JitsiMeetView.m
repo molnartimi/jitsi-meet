@@ -188,10 +188,6 @@ static void initializeViewsMap() {
     [eventEmitter updateAvatar:dataJsonString];
 }
 
-- (void)addJitsiCommandListener:(NSString *)commandName {
-    [eventEmitter addCommandListener:commandName];
-}
-
 #pragma mark Private methods
 
 /**

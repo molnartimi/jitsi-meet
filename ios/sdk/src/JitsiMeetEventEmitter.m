@@ -102,8 +102,4 @@
     [_videoConfBridge updateAvatar:dataJsonString];
 }
 
-- (void)addCommandListener:(NSString *)commandName {
-    [_videoConfBridge addCommandListener:commandName];
-}
-
 @end

@@ -25,8 +25,6 @@ static NSString *const PLACEHOLDER_DATA_EVENT = @"org.jitsi.meet:features/videoc
 static NSString *const SET_COUNTDOWN_EVENT = @"org.jitsi.meet:features/videoconf-bridge#set-countdown";
 static NSString *const SHOW_SPEAKER_VIEW_EVENT = @"org.jitsi.meet:features/videoconf-bridge#show-speaker-view";
 static NSString *const UPDATE_AVATAR_EVENT = @"org.jitsi.meet:features/videoconf-bridge#update-avatar";
-static NSString *const ADD_COMMAND_LISTENER_EVENT = @"org.jitsi.meet:features/videoconf-bridge#add-command-listener";
-static NSString *const TAP_MENU_EVENT = @"org.jitsi.meet:features/videoconf-bridge#open-tap-menu";
 
 RCT_EXPORT_MODULE();
 
@@ -95,10 +93,6 @@ RCT_EXPORT_MODULE();
 
 - (void)updateAvatar:(NSString *_Nonnull)dataJsonString {
     [self sendEvent:UPDATE_AVATAR_EVENT body:dataJsonString];
-}
-
-- (void)addCommandListener:(NSString *_Nonnull)commandName {
-    [self sendEvent:ADD_COMMAND_LISTENER_EVENT body:commandName];
 }
 
 @end

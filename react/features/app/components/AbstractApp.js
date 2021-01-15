@@ -7,8 +7,7 @@ import { BaseApp } from '../../base/app';
 import {
     sendCommand,
     removeCommand,
-    editSpeakerViewVisibility,
-    addCommandListener
+    editSpeakerViewVisibility
 } from '../../base/conference';
 import { storeConfig } from '../../base/config';
 import { NativeEvents } from '../../base/constants';
@@ -259,8 +258,5 @@ export class AbstractApp extends BaseApp<Props, *> {
             (showSpeakerView: boolean | number) => dispatch(editSpeakerViewVisibility(Boolean(showSpeakerView)))));
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.UPDATE_AVATAR,
             (dataJsonString: string) => dispatch(updateAvatar(dataJsonString))));
-        this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.ADD_COMMAND_LISTENER,
-            (commandName: string) => dispatch(addCommandListener(commandName))));
     }
-
 }
