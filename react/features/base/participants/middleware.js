@@ -149,7 +149,7 @@ MiddlewareRegistry.register(store => next => action => {
                     avatarURL
             );
         }
-        throw new Error(`Jitsi middleware with action ${action.type} and url ${action.participant.avatarURL}`);
+        //throw new Error(`Jitsi middleware with action ${action.type} and url ${action.participant.avatarURL}`);
         return next(action);
     }
     }
