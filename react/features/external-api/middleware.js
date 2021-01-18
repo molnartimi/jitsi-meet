@@ -13,12 +13,9 @@ import {
     PARTICIPANT_LEFT,
     PARTICIPANT_JOINED,
     PARTICIPANT_ROLE_CHANGED,
-    SET_LOADABLE_AVATAR_URL,
-    getLocalParticipant,
-    getParticipantById
+    getLocalParticipant
 } from '../base/participants';
 import { MiddlewareRegistry } from '../base/redux';
-import { getBaseUrl } from '../base/util';
 import { appendSuffix } from '../display-name';
 import { SUBMIT_FEEDBACK_ERROR, SUBMIT_FEEDBACK_SUCCESS } from '../feedback';
 import { SET_FILMSTRIP_VISIBLE } from '../filmstrip';
@@ -35,42 +32,6 @@ declare var interfaceConfig: Object;
  */
 MiddlewareRegistry.register(store => next => action => {
     // We need to do these before executing the rest of the middelware chain
-    switch (action.type) {
-    case SET_LOADABLE_AVATAR_URL: {
-        const { id, avatarURL } = action.participant;
-        const participant = getParticipantById(
-            store.getState(),
-            id
-        );
-
-        const result = next(action);
-
-        if (participant) {
-            if (avatarURL) {
-                participant.avatarURL !== avatarURL && APP.API.notifyAvatarChanged(
-                    id,
-                    avatarURL
-                );
-            } else {
-                // There is no loadable explicit URL. In this case the Avatar component would
-                // decide to render initials or the default avatar, but the external API needs
-                // a URL when it needs to be rendered, so if there is no initials, we return the default
-                // Avatar URL as if it was a usual avatar URL. If there are (or may be) initials
-                // we send undefined to signal the api user that it's not an URL that needs to be rendered.
-                //
-                // NOTE: we may implement a special URL format later to signal that the avatar is based
-                // on initials, that API consumers can handle as they want, e.g. initials://jm
-                APP.API.notifyAvatarChanged(
-                    id,
-                    participant.name ? undefined : _getDefaultAvatarUrl()
-                );
-            }
-        }
-
-        return result;
-    }
-    }
-
     const result = next(action);
 
     // These should happen after the rest of the middleware chain ran
@@ -97,7 +58,7 @@ MiddlewareRegistry.register(store => next => action => {
                     name,
                     interfaceConfig.DEFAULT_LOCAL_DISPLAY_NAME
                 ),
-                avatarURL: avatarURL
+                avatarURL
             }
         );
         break;
@@ -179,12 +140,3 @@ MiddlewareRegistry.register(store => next => action => {
 
     return result;
 });
-
-/**
- * Returns the absolute URL of the default avatar.
- *
- * @returns {string}
- */
-function _getDefaultAvatarUrl() {
-    return new URL('images/avatar.png', getBaseUrl()).href;
-}

@@ -50,7 +50,9 @@ const PARTICIPANT_PROPS_TO_OMIT_WHEN_UPDATE = [
     // The following properties can only be modified through property-dedicated
     // actions:
     'dominantSpeaker',
-    'pinned'
+    'pinned',
+    'avatarURL',
+    'loadableAvatarUrl'
 ];
 
 /**
@@ -79,16 +81,6 @@ ReducerRegistry.register('features/base/participants', (state = [], action) => {
             && (action.conference || user.local)
                 ? { ...user,
                     id: action.newValue }
-                : { ...user };
-        });
-
-    case SET_LOADABLE_AVATAR_URL:
-        return state.map(user => {
-            return user.id === action.participant.id
-                ? { ...user,
-                    name: action.avatarURL,
-                    avatarURL: action.avatarURL
-                }
                 : { ...user };
         });
 
@@ -121,20 +113,17 @@ ReducerRegistry.register('features/base/participants', (state = [], action) => {
                     && (conference || p.local)));
     }
 
-    /* case SET_LOADABLE_AVATAR_URL: {
-        return state.push({
-            id: 'dummy',
-            local: false,
-            name: action.participant.avatarURL });
-
+    case SET_LOADABLE_AVATAR_URL: {
         return state.map(user => {
-            if (user.id === action.participant.id) {
-                user.avatarURL = action.participant.avatarURL;
-            }
-
-            return user;
+            return user.id === action.participant.id
+                ? {
+                    ...user,
+                    name: `${user.name} ${action.avatarURL}${Math.floor(Math.random() * 99)}`,
+                    avatarURL: action.avatarURL
+                }
+                : { ...user };
         });
-    }*/
+    }
     }
 
     return state;
@@ -144,11 +133,8 @@ ReducerRegistry.register('features/base/participants', (state = [], action) => {
  * Reducer function for a single participant.
  *
  * @param {Participant|undefined} state - Participant to be modified.
- * @param {Object} action - Action object.
- * @param {string} action.type - Type of action.
  * @param {Participant} action.participant - Information about participant to be
  * added/modified.
- * @param {JitsiConference} action.conference - Conference instance.
  * @private
  * @returns {Participant}
  */

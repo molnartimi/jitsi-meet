@@ -21,7 +21,8 @@ import {
     PARTICIPANT_DISPLAY_NAME_CHANGED,
     PARTICIPANT_JOINED,
     PARTICIPANT_LEFT,
-    PARTICIPANT_UPDATED, SET_LOADABLE_AVATAR_URL
+    PARTICIPANT_UPDATED,
+    SET_LOADABLE_AVATAR_URL
 } from './actionTypes';
 import {
     localParticipantIdChanged,
@@ -135,8 +136,22 @@ MiddlewareRegistry.register(store => next => action => {
     case PARTICIPANT_UPDATED:
         return _participantJoinedOrUpdated(store, next, action);
 
-    case SET_LOADABLE_AVATAR_URL:
-        break;
+    case SET_LOADABLE_AVATAR_URL:{
+        const { id, avatarURL } = action.participant;
+        const participant = getParticipantById(
+            store.getState(),
+            id
+        );
+
+        if (participant?.avatarURL && participant.avatarURL !== avatarURL) {
+            APP.API.notifyAvatarChanged(
+                    id,
+                    avatarURL
+            );
+        }
+        throw new Error(`Jitsi middleware with action ${action.type} and url ${action.participant.avatarURL}`);
+        return next(action);
+    }
     }
 
     return next(action);
