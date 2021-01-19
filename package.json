@@ -57,7 +57,7 @@
     "jQuery-Impromptu": "github:trentrichardson/jQuery-Impromptu#v6.0.0",
     "js-md5": "0.6.1",
     "jwt-decode": "2.2.0",
-    "lib-jitsi-meet": "github:kecskesk/lib-jitsi-meet#103359c90f7e60c1cc2f77d6acb10acb98f98dc5",
+    "lib-jitsi-meet": "github:kecskesk/lib-jitsi-meet#16682b0af2212966bd8a73d1999cbf9487d01aaa",
     "libflacjs": "github:mmig/libflac.js#93d37e7f811f01cf7d8b6a603e38bd3c3810907d",
     "lodash": "^4.17.19",
     "moment": "2.19.4",
