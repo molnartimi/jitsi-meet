@@ -43,4 +43,8 @@
     }
 }
 
+- (NSArray<NSString *> *)supportedEvents {
+    return @[];
+}
+
 @end

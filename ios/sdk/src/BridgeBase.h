@@ -17,5 +17,6 @@
 - (void)startObserving;
 - (void)stopObserving;
 - (void)sendEvent:(NSString *)eventName body:(id)body;
+- (NSArray<NSString *> *)supportedEvents;
 
 @end
