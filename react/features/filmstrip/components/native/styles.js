@@ -218,12 +218,10 @@ export default {
 
     participantName: {
         position: 'absolute',
-        height: '100%',
         color: 'white',
         fontFamily: 'Montserrat Regular',
         fontSize: 13,
-        paddingBottom: 12,
-        textAlignVertical: 'bottom'
+        bottom: 12
     },
 
     preShowCountdownContainer: {

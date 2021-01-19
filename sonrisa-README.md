@@ -13,7 +13,7 @@
  $ cd ios
  $ pod install
  $ cd ..
- $ ./ios/scripts/release-sdk.sh <absolute_path_to_tap_ios_repo>
+ $ ./ios/scripts/release-sdk.sh <absolute_path_to_tap_ios_repo> <optional false parameter if you would like to skip 'clean' part of the build (a bit faster this way)>
  ```
 
 ### [Android](https://jitsi.github.io/handbook/docs/dev-guide/dev-guide-android-sdk)
