@@ -4,13 +4,17 @@ set -e -u
 
 THIS_DIR=$(cd -P "$(dirname "$(readlink "${BASH_SOURCE[0]}" || echo "${BASH_SOURCE[0]}")")" && pwd)
 PROJECT_REPO=$(realpath ${THIS_DIR}/../..)
-RELEASE_REPO=$(realpath ${THIS_DIR}/../../../jitsi-meet-ios-sdk-releases)
+DEFAULT_RELEASE_REPO=$(realpath ${THIS_DIR}/../../../jitsi-meet-ios-sdk-releases)
+RELEASE_REPO=${1:-$DEFAULT_RELEASE_REPO}
 DEFAULT_SDK_VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" ${THIS_DIR}/../sdk/src/Info.plist)
 SDK_VERSION=${OVERRIDE_SDK_VERSION:-${DEFAULT_SDK_VERSION}}
 DO_GIT_TAG=${GIT_TAG:-0}
 
 
 echo "Releasing Jitsi Meet SDK ${SDK_VERSION}"
+
+# Run patch-package to fix iOS 14 missing images issue
+patch-package
 
 pushd ${RELEASE_REPO}
 

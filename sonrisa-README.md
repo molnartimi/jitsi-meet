@@ -13,7 +13,7 @@
  $ cd ios
  $ pod install
  $ cd ..
- $ ./ios/scripts/sonrisa-release-sdk.sh
+ $ ./ios/scripts/release-sdk.sh <absolute_path_to_tap_ios_repo>
  ```
 
 ### [Android](https://jitsi.github.io/handbook/docs/dev-guide/dev-guide-android-sdk)
