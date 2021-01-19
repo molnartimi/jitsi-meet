@@ -9,12 +9,30 @@ RELEASE_REPO=${1:-$DEFAULT_RELEASE_REPO}
 DEFAULT_SDK_VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" ${THIS_DIR}/../sdk/src/Info.plist)
 SDK_VERSION=${OVERRIDE_SDK_VERSION:-${DEFAULT_SDK_VERSION}}
 DO_GIT_TAG=${GIT_TAG:-0}
+WITH_CLEAN=${2:-true}
 
 
 echo "Releasing Jitsi Meet SDK ${SDK_VERSION}"
 
 # Run patch-package to fix iOS 14 missing images issue
 patch-package
+
+# Build the SDK
+pushd ${PROJECT_REPO}
+rm -rf ios/sdk/JitsiMeet.framework
+
+if [[ $WITH_CLEAN == true ]];
+then
+    xcodebuild -workspace ios/jitsi-meet.xcworkspace -scheme JitsiMeet -destination='generic/platform=iOS' -configuration Release ENABLE_BITCODE=NO clean archive
+else
+    xcodebuild -workspace ios/jitsi-meet.xcworkspace -scheme JitsiMeet -destination='generic/platform=iOS' -configuration Release ENABLE_BITCODE=NO archive
+fi
+
+if [[ $DO_GIT_TAG == 1 ]]; then
+    git tag ios-sdk-${SDK_VERSION}
+fi
+
+popd
 
 pushd ${RELEASE_REPO}
 
@@ -23,19 +41,6 @@ cat JitsiMeetSDK.podspec.tpl | sed -e s/VERSION/${SDK_VERSION}/g > JitsiMeetSDK.
 
 # Cleanup
 rm -rf Frameworks/*
-
-popd
-
-# Build the SDK
-pushd ${PROJECT_REPO}
-rm -rf ios/sdk/JitsiMeet.framework
-xcodebuild -workspace ios/jitsi-meet.xcworkspace -scheme JitsiMeet -destination='generic/platform=iOS' -configuration Release ENABLE_BITCODE=NO clean archive
-if [[ $DO_GIT_TAG == 1 ]]; then
-    git tag ios-sdk-${SDK_VERSION}
-fi
-popd
-
-pushd ${RELEASE_REPO}
 
 # Put the new files in the repo
 cp -r ${PROJECT_REPO}/ios/sdk/JitsiMeet.framework Frameworks/
