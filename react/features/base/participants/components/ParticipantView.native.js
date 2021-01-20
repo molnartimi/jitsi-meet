@@ -14,7 +14,7 @@ import { Container, TintedView } from '../../react';
 import { connect } from '../../redux';
 import type { StyleType } from '../../styles';
 import { getTrackByMediaTypeAndParticipant } from '../../tracks';
-import { shouldRenderParticipantVideo, getParticipantById } from '../functions';
+import { shouldRenderParticipantVideo, getParticipantById, getSavedAvatarForUser } from '../functions';
 
 import styles from './styles';
 
@@ -251,6 +251,7 @@ class ParticipantView extends Component<Props> {
 function _mapStateToProps(state, ownProps) {
     const { disableVideo, participantId, isAvatarCircled } = ownProps;
     const participant = getParticipantById(state, participantId);
+    const profileImageUrl = getSavedAvatarForUser(state, participantId) || participant?.loadableAvatarUrl;
     let connectionStatus;
 
     return {
@@ -264,7 +265,7 @@ function _mapStateToProps(state, ownProps) {
                 MEDIA_TYPE.VIDEO,
                 participantId),
         isAvatarCircled,
-        profileImageUrl: participant?.loadableAvatarUrl
+        profileImageUrl
     };
 }
 

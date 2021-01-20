@@ -65,3 +65,14 @@ export const SET_LOCATION_URL = 'SET_LOCATION_URL';
  * }
  */
 export const XMPP_RESULT = 'XMPP_RESULT';
+
+/**
+ * The type of (redux) action which save a new image url as a user's avatar.
+ *
+ * {
+ *     type: UPDATE_USER_AVATAR,
+ *     userXmppLoginId: string,
+ *     imageUrl: string
+ * }
+ */
+export const UPDATE_USER_AVATAR = 'UPDATE_USER_AVATAR';

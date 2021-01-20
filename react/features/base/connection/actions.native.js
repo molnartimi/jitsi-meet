@@ -6,6 +6,7 @@ import type { Dispatch } from 'redux';
 
 import { conferenceLeft, conferenceWillLeave } from '../conference/actions';
 import { getCurrentConference } from '../conference/functions';
+import { NativeEvents, ResponseEventsToNative } from '../constants';
 import JitsiMeetJS, { JitsiConnectionEvents } from '../lib-jitsi-meet';
 import {
     getBackendSafeRoomName,
@@ -17,10 +18,10 @@ import {
     CONNECTION_ESTABLISHED,
     CONNECTION_FAILED,
     CONNECTION_WILL_CONNECT,
-    SET_LOCATION_URL
+    SET_LOCATION_URL,
+    UPDATE_USER_AVATAR
 } from './actionTypes';
 import { JITSI_CONNECTION_URL_KEY } from './constants';
-import { NativeEvents, ResponseEventsToNative } from '../constants';
 import { convertXmppPostMethodParam, getStropheConnection, sendXmppResult } from './functions';
 import logger from './logger';
 
@@ -197,6 +198,13 @@ export function connect(id: ?string, password: ?string) {
                 (data: NativeXmppPostMethodEventData) => handlePostMethodEvent(data, stropheConn, dispatch)));
             nativeEventListeners.push(xmppBridgeEmitter.addListener(NativeEvents.XMPP_GET_METHOD,
                 (data: NativeXmppPostMethodEventData) => handleGetMethodEvent(data, stropheConn, dispatch)));
+            nativeEventListeners.push(xmppBridgeEmitter.addListener(NativeEvents.UPDATE_USER_AVATAR,
+                (jsonString: string) => {
+                    const { userXmppLoginId, imageUrl } = JSON.parse(jsonString);
+
+                    dispatch(updateUserAvatar(userXmppLoginId, imageUrl));
+                })
+            );
         }
 
         /**
@@ -476,5 +484,24 @@ export function setLocationURL(locationURL: ?URL) {
     return {
         type: SET_LOCATION_URL,
         locationURL
+    };
+}
+
+/**
+ * Create an action to update user avatar of a user in video conference.
+ *
+ * @param {string} userXmppLoginId - Xmpp login id of the user whose avatar should be updated.
+ * @param {string} imageUrl - Url of the new avatar image.
+ * @returns {{
+ *     type: UPDATE_USER_AVATAR,
+ *     userXmppLoginId: string,
+ *     imageUrl: string
+ * }}
+ */
+function updateUserAvatar(userXmppLoginId: string, imageUrl: string) {
+    return {
+        type: UPDATE_USER_AVATAR,
+        userXmppLoginId,
+        imageUrl
     };
 }

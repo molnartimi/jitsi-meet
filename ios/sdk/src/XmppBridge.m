@@ -14,12 +14,13 @@
 
 static NSString *const POST_EVENT = @"org.jitsi.meet:features/xmpp-bridge#xmpp-post-method";
 static NSString *const GET_EVENT = @"org.jitsi.meet:features/xmpp-bridge#xmpp-get-method";
+static NSString *const UPDATE_USER_AVATAR = @"org.jitsi.meet:features/xmpp-bridge#update-user-avatar";
 
 RCT_EXPORT_MODULE();
 
 - (NSArray<NSString *> *)supportedEvents
 {
-  return @[POST_EVENT, GET_EVENT];
+  return @[POST_EVENT, GET_EVENT, UPDATE_USER_AVATAR];
 }
 
 - (void)registerSelfToEventEmitter {
@@ -44,6 +45,10 @@ RCT_EXPORT_MODULE();
         @"stringifiedParams": params,
         @"plugin": plugin == nil ? @"" : plugin
     }];
+}
+
+- (void)updateUserAvatar:(NSString *_Nonnull) jsonString {
+    [self sendEvent:UPDATE_USER_AVATAR body:jsonString];
 }
 
 @end

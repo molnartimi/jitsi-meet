@@ -20,4 +20,6 @@
  withStringifiedParams:(NSString *_Nonnull) params
             withPlugin:(NSString *_Nullable) plugin;
 
+- (void)updateUserAvatar:(NSString *_Nonnull) jsonString;
+
 @end

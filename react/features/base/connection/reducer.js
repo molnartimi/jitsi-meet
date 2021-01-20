@@ -9,7 +9,8 @@ import {
     CONNECTION_ESTABLISHED,
     CONNECTION_FAILED,
     CONNECTION_WILL_CONNECT,
-    SET_LOCATION_URL
+    SET_LOCATION_URL,
+    UPDATE_USER_AVATAR
 } from './actionTypes';
 import type { ConnectionFailedError } from './actions.native';
 
@@ -37,6 +38,9 @@ ReducerRegistry.register(
 
         case SET_ROOM:
             return _setRoom(state);
+
+        case UPDATE_USER_AVATAR:
+            return _setUserAvatar(state, action);
         }
 
         return state;
@@ -195,3 +199,24 @@ function _setRoom(state: Object) {
         passwordRequired: undefined
     });
 }
+
+/**
+ * Reduces a specific redux action {@link UPDATE_USER_AVATAR} of the feature
+ * base/connection.
+ *
+ * @param {Object} state - The redux state of the feature base/connection.
+ * @param {Object} action - The redux action {@code UPDATE_USER_AVATAR} to reduce.
+ * @private
+ * @returns {Object} The new state of the feature base/connection after the
+ * reduction of the specified action.
+ */
+function _setUserAvatar(state: Object, { userXmppLoginId, imageUrl }) {
+    const userAvatars = state.userAvatars ? { ...state.userAvatars } : {};
+
+    userAvatars[userXmppLoginId] = imageUrl;
+
+    return assign(state, {
+        userAvatars
+    });
+}
+

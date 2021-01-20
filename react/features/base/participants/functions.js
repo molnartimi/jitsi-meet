@@ -116,6 +116,25 @@ export function getParticipantById(
 }
 
 /**
+ * Returns avatar url saved by Native app for user from Redux state.
+ *
+ * @param {(Function|Object|Participant[])} stateful - The redux state
+ * features/base/participants, the (whole) redux state, or redux's
+ * {@code getState} function to be used to retrieve the state
+ * features/base/participants.
+ * @param {string} id - The ID of the participant whose avatar is needed to retrieve.
+ * @private
+ * @returns {string} - Avatar image url.
+ */
+export function getSavedAvatarForUser(stateful: Object | Function, id: string): ?string {
+    const userId = getXmppLoginIdFromUserId(id);
+    const connectionState = toState(stateful)['features/base/connection'];
+    const userAvatars = connectionState ? connectionState.userAvatars : {};
+
+    return userAvatars ? userAvatars[userId] : undefined;
+}
+
+/**
  * Returns a count of the known participants in the passed in redux state,
  * excluding any fake participants.
  *
@@ -396,4 +415,20 @@ async function _getFirstLoadableAvatarUrl(participant) {
     }
 
     return undefined;
+}
+
+/**
+ * Cut off the hash from video user id to get the xmpp login id.
+ *
+ * @param {string} videoUserId - User id containing hash at the end.
+ * @returns {string}
+ */
+function getXmppLoginIdFromUserId(videoUserId: string): string {
+    const dashIndex = videoUserId.lastIndexOf('-');
+
+    if (dashIndex !== -1) {
+        return videoUserId.substr(0, dashIndex);
+    }
+
+    return videoUserId;
 }

@@ -98,4 +98,8 @@
     [_videoConfBridge showSpeakerView:show];
 }
 
+- (void)updateUserAvatar:(NSString *_Nonnull) jsonString {
+    [_xmppBridge updateUserAvatar:jsonString];
+}
+
 @end

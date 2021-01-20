@@ -32,5 +32,6 @@ withStringifiedParams:(NSString *_Nonnull)params
 - (void)sendPlaceholderData:(NSString *_Nonnull)data;
 - (void)setCountdown:(NSString *_Nonnull)jsonString;
 - (void)showSpeakerView:(NSNumber *_Nonnull)show;
+- (void)updateUserAvatar:(NSString *_Nonnull) jsonString;
 
 @end
