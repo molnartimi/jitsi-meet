@@ -94,6 +94,8 @@ const COLUMN_COUNT = 2;
 class TileView extends Component<Props> {
     swiperRef: Swiper;
     totalPages: number;
+    lastHandledForceIndex = -1;
+    firstIndexSlide = 0;
 
     /**
      * TileView constructor.
@@ -136,13 +138,16 @@ class TileView extends Component<Props> {
         const pages = [ <InFocusView
             inFocusUser = { this.props?.inFocusUser }
             isWrapUpVisible = { this.props._showWrapUpButtons }
+            key = 'in-focus-view'
             localUser = { this.props._participants.find(participant => participant.local) } /> ];
 
         pages.push(...this._getUserPages(this._groupThumbnailsByPages(rowElements)));
         pages.push(<TapView />);
         this.totalPages = pages.length;
-        if (this.props._currentIndex >= 0 && this.swiperRef && this.swiperRef.current) {
-            this.swiperRef.current.scrollTo(this.props._currentIndex, false);
+        if (this.props._currentIndex >= 0 && this.swiperRef && this.swiperRef.current
+            && this.lastHandledForceIndex !== this.props._currentIndex) {
+            this.firstIndexSlide = this.props._currentIndex;
+            this.lastHandledForceIndex = this.props._currentIndex;
         }
 
         return (
@@ -154,6 +159,7 @@ class TileView extends Component<Props> {
                     width: _width
                 }}>
                 <Swiper
+                    index = { this.firstIndexSlide }
                     loop = { false }
                     onIndexChanged = { this._onSwipe }
                     ref = { this.swiperRef }
