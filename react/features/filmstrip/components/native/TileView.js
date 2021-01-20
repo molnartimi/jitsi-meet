@@ -144,11 +144,10 @@ class TileView extends Component<Props> {
         pages.push(...this._getUserPages(this._groupThumbnailsByPages(rowElements)));
         pages.push(<TapView />);
         this.totalPages = pages.length;
-        if (this.props._currentIndex >= 0 && this.swiperRef && this.swiperRef.current) {
-            if (this.lastHandledForceIndex !== this.props._currentIndex) {
-                this.firstIndexSlide = this.props._currentIndex;
-                this.lastHandledForceIndex = this.props._currentIndex;
-            }
+        if (this.props._currentIndex >= 0 && this.swiperRef && this.swiperRef.current
+            && this.lastHandledForceIndex !== this.props._currentIndex) {
+            this.firstIndexSlide = this.props._currentIndex;
+            this.lastHandledForceIndex = this.props._currentIndex;
         }
 
         return (
