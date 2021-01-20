@@ -50,9 +50,7 @@ const PARTICIPANT_PROPS_TO_OMIT_WHEN_UPDATE = [
     // The following properties can only be modified through property-dedicated
     // actions:
     'dominantSpeaker',
-    'pinned',
-    'avatarURL',
-    'loadableAvatarUrl'
+    'pinned'
 ];
 
 /**
@@ -75,14 +73,14 @@ ReducerRegistry.register('features/base/participants', (state = [], action) => {
         return state.map(user => set(user, 'dominantSpeaker', user.id === action.participant.id));
 
     case PARTICIPANT_ID_CHANGED:
-        return state.map(user => {
-            return user.id === action.oldValue
+        return state.map(user =>
+            user.id === action.oldValue
             && user.conference === action.conference
             && (action.conference || user.local)
                 ? { ...user,
                     id: action.newValue }
-                : { ...user };
-        });
+                : user
+        );
 
     case PARTICIPANT_UPDATED:
         return state.map(user => _updateParticipant(user, action.participant));
@@ -114,15 +112,23 @@ ReducerRegistry.register('features/base/participants', (state = [], action) => {
     }
 
     case SET_LOADABLE_AVATAR_URL: {
-        return state.map(user => {
-            return user.id === action.participant.id
-                ? {
-                    ...user,
-                    name: `${user.name} ${action.avatarURL}${Math.floor(Math.random() * 99)}`,
-                    avatarURL: action.avatarURL
-                }
-                : { ...user };
-        });
+        console.log(`gigantikus reducer -------------- ${action?.participant?.avatarURL} ----  ${action?.participant?.id}`);
+
+        try {
+            let updatedUser = state.find(user => user?.id === action?.participant?.id);
+            console.log(`oldstate -------------: ${updatedUser?.id} ${updatedUser?.id === action?.participant?.id} ${updatedUser?.avatarURL}`);
+
+            if (updatedUser === undefined) {
+                return state;
+            }
+
+            updatedUser.avatarURL = action?.participant?.avatarURL;
+            console.log(`newstate -------------: ${updatedUser?.id} ${updatedUser?.id === action?.participant?.id} ${updatedUser?.avatarURL}`);
+
+            return { ...state, updatedUser };
+        } catch (e) {
+            console.log(`reducer exception -------------------- ${e.message}`);
+        }
     }
     }
 
