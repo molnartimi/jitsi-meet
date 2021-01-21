@@ -212,7 +212,8 @@ class Conference extends AbstractConference<Props, *> {
                 renderDisplayName = { true }
                 styleOverrides = {{
                     ...styles.fillView,
-                    borderRadius: 15
+                    borderRadius: 15,
+                    overflow: 'hidden'
                 }}
                 tileView = { true }
                 zOrder = { 1 } />
