@@ -31,10 +31,6 @@
 		DE4C456121DE1E4E00EA0709 /* FIRUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = DE4C455F21DE1E4E00EA0709 /* FIRUtilities.m */; };
 		E588011722789D43008B0561 /* JitsiMeetContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = E58801132278944E008B0561 /* JitsiMeetContext.swift */; };
 		E5C97B63227A1EB400199214 /* JitsiMeetCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C97B62227A1EB400199214 /* JitsiMeetCommands.swift */; };
-		4F3A102161ED46F8B153CD22 /* Archer-Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5B5EEB6903CF46BA946D278E /* Archer-Book.otf */; };
-		8712B6051CA04327B529E037 /* Archer-BookItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3EF7DE5B8CE040CEAA4870E4 /* Archer-BookItalic.otf */; };
-		6BDBD5F67E03403CB4ECDFA7 /* Montserrat Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = C537462BFD7C4BB38F3C494E /* Montserrat Light.otf */; };
-		ADEBCB1BE7A9406EA884BEC5 /* Montserrat Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 14B10734640A497EA3A135BD /* Montserrat Regular.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,10 +121,6 @@
 		DE4C456021DE1E4E00EA0709 /* FIRUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FIRUtilities.h; sourceTree = "<group>"; };
 		E58801132278944E008B0561 /* JitsiMeetContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsiMeetContext.swift; sourceTree = "<group>"; };
 		E5C97B62227A1EB400199214 /* JitsiMeetCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsiMeetCommands.swift; sourceTree = "<group>"; };
-		5B5EEB6903CF46BA946D278E /* Archer-Book.otf */ = {isa = PBXFileReference; name = "Archer-Book.otf"; path = "../../assets/fonts/Archer-Book.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		3EF7DE5B8CE040CEAA4870E4 /* Archer-BookItalic.otf */ = {isa = PBXFileReference; name = "Archer-BookItalic.otf"; path = "../../assets/fonts/Archer-BookItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		C537462BFD7C4BB38F3C494E /* Montserrat Light.otf */ = {isa = PBXFileReference; name = "Montserrat Light.otf"; path = "../../assets/fonts/Montserrat Light.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		14B10734640A497EA3A135BD /* Montserrat Regular.otf */ = {isa = PBXFileReference; name = "Montserrat Regular.otf"; path = "../../assets/fonts/Montserrat Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -235,7 +227,6 @@
 				5E96ADD5E49F3B3822EF9A52 /* Pods */,
 				0BEA5C261F7B8F73000D0AB4 /* Watch app */,
 				0BEA5C351F7B8F73000D0AB4 /* WatchKit extension */,
-				31E0C69CF9D54F8D80866DF5 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -250,18 +241,6 @@
 			);
 			name = Products;
 			sourceTree = "<group>";
-		};
-		31E0C69CF9D54F8D80866DF5 /* Resources */ = {
-			isa = "PBXGroup";
-			children = (
-				5B5EEB6903CF46BA946D278E /* Archer-Book.otf */,
-				3EF7DE5B8CE040CEAA4870E4 /* Archer-BookItalic.otf */,
-				C537462BFD7C4BB38F3C494E /* Montserrat Light.otf */,
-				14B10734640A497EA3A135BD /* Montserrat Regular.otf */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-			path = "";
 		};
 /* End PBXGroup section */
 
@@ -407,10 +386,6 @@
 				0B412F211EDEE95300B1A0A6 /* Main.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				4F3A102161ED46F8B153CD22 /* Archer-Book.otf in Resources */,
-				8712B6051CA04327B529E037 /* Archer-BookItalic.otf in Resources */,
-				6BDBD5F67E03403CB4ECDFA7 /* Montserrat Light.otf in Resources */,
-				ADEBCB1BE7A9406EA884BEC5 /* Montserrat Regular.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
