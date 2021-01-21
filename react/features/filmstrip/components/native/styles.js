@@ -9,10 +9,17 @@ import { FILMSTRIP_SIZE } from '../../constants';
  */
 export const AVATAR_SIZE = 50;
 
+const fillView = {
+    flex: 1,
+};
+
+
 /**
  * The styles of the feature filmstrip.
  */
 export default {
+
+    fillView,
 
     /**
      * The style of the narrow {@link Filmstrip} version which displays
@@ -128,10 +135,6 @@ export default {
         color: 'black'
     },
 
-    fillView: {
-        flex: 1
-    },
-
     wrapUpPlaceholder: {
         flex: 1,
         justifyContent: 'flex-end',
@@ -194,11 +197,13 @@ export default {
         fontFamily: 'Montserrat Light'
     },
 
-    cabiName: {
-        justifyContent: 'center'
+    imageContainer: {
+        ...fillView,
+        justifyContent: 'center',
     },
 
-    inFocusUserName: {
+    inFocusContainer: {
+        ...fillView,
         justifyContent: 'flex-start'
     },
 

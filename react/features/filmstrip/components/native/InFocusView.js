@@ -68,12 +68,8 @@ class InFocusView extends Component<Props> {
     _createTemplateImageComponent() {
         return (
             <View
-                style = { [
-                    styles.fillView,
-                    styles.cabiName,
-                    this.props.isWrapUpVisible
-                        ? { paddingBottom: '23%' }
-                        : { paddingBottom: 0 } ] }>
+                style = { styles.imageContainer }
+            >
                 <Image
                     source = {{
                         uri: this.props.placeholderData.imageUrl
@@ -104,12 +100,8 @@ class InFocusView extends Component<Props> {
     _createInFocusVideoComponent() {
         return (
             <View
-                style = { [
-                    styles.fillView,
-                    styles.inFocusUserName,
-                    this.props.isWrapUpVisible
-                        ? { paddingBottom: '23%' }
-                        : { paddingBottom: 0 } ] }>
+                style = { styles.inFocusContainer }
+            >
                 <Thumbnail
                     isAvatarCircled = { true }
                     isDominantSpeaker = { false }
