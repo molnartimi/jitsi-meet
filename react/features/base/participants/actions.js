@@ -519,18 +519,19 @@ export function setCurrentFocus(participantId) {
 /**
  * Create an action to update avatar of a user in video conference.
  *
- * @param {string} userXmppLoginId - Xmpp login id of the user whose avatar should be updated.
- * @param {string} imageUrl - Url of the new avatar image.
+ * @param {string} jsonString - Stringified json object with xmpp user id and avatar url.
  * @returns {{
  *     type: UPDATE_USER_AVATAR,
  *     userXmppLoginId: string,
  *     imageUrl: string
  * }}
  */
-export function updateUserAvatar(userXmppLoginId: string, imageUrl: string) {
+export function updateUserAvatar(jsonString: string) {
+    const { xmppLoginId, info } = JSON.parse(jsonString);
+
     return {
         type: UPDATE_USER_AVATAR,
-        userXmppLoginId,
-        imageUrl
+        userXmppLoginId: xmppLoginId,
+        imageUrl: info
     };
 }

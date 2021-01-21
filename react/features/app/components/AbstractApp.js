@@ -254,12 +254,7 @@ export class AbstractApp extends BaseApp<Props, *> {
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.SHOW_SPEAKER_VIEW,
             (showSpeakerView: boolean | number) => dispatch(editSpeakerViewVisibility(Boolean(showSpeakerView)))));
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.UPDATE_USER_AVATAR,
-            (jsonString: string) => {
-                const { xmppLoginId, info } = JSON.parse(jsonString);
-
-                dispatch(updateUserAvatar(xmppLoginId, info));
-            })
-        );
+            (jsonString: string) => dispatch(updateUserAvatar(jsonString))));
     }
 
 }

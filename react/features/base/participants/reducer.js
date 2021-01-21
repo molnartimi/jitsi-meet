@@ -15,7 +15,6 @@ import {
     UPDATE_USER_AVATAR
 } from './actionTypes';
 import { LOCAL_PARTICIPANT_DEFAULT_ID, PARTICIPANT_ROLE } from './constants';
-import { getXmppLoginIdFromUserId } from './functions';
 
 /**
  * Participant object.
@@ -70,21 +69,13 @@ const PARTICIPANT_PROPS_TO_OMIT_WHEN_UPDATE = [
 ReducerRegistry.register('features/base/participants', (state = [], action) => {
     switch (action.type) {
     case SET_LOADABLE_AVATAR_URL:
+    case UPDATE_USER_AVATAR:
     case SET_CURRENT_FOCUS:
     case DOMINANT_SPEAKER_CHANGED:
     case PARTICIPANT_ID_CHANGED:
     case PARTICIPANT_UPDATED:
     case PIN_PARTICIPANT:
         return state.map(p => _participant(p, action));
-
-    case UPDATE_USER_AVATAR:
-        return state.map(user => {
-            if (getXmppLoginIdFromUserId(user.id) === action.userXmppLoginId) {
-                user.loadableAvatarUrl = action.imageUrl;
-            }
-
-            return user;
-        });
 
     case PARTICIPANT_JOINED:
         return [ ...state, _participantJoined(action) ];
@@ -170,6 +161,15 @@ function _participant(state: Object = {}, action) {
             }
 
             return newState;
+        }
+        break;
+    }
+
+    case UPDATE_USER_AVATAR: {
+        const { userId, imageUrl } = action;
+
+        if (state.id === userId) {
+            return set(state, 'loadableAvatarUrl', imageUrl);
         }
         break;
     }
