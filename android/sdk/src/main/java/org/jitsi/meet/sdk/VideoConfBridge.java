@@ -64,6 +64,11 @@ public class VideoConfBridge {
     private static final String SHOW_SPEAKER_VIEW = "org.jitsi.meet:features/videoconf-bridge#show-speaker-view";
 
     /**
+     * Update video conference user avatar event.
+     */
+    private static final String UPDATE_USER_AVATAR_EVENT = "org.jitsi.meet:features/videoconf-bridge#update-user-avatar";
+
+    /**
      * Sends a videoconf join event to React Native.
      */
     public static void joinConference(String dataJsonString) {
@@ -135,6 +140,13 @@ public class VideoConfBridge {
      */
     public static void setCountdown(String datetime) {
         ReactInstanceManagerHolder.emitEvent(SET_COUNTDOWN, datetime);
+    }
+
+    /**
+     * Update video conference user profile image.
+     */
+    public static void updateUserAvatar(String data) {
+        ReactInstanceManagerHolder.emitEvent(UPDATE_USER_AVATAR_EVENT, data);
     }
 
     /**

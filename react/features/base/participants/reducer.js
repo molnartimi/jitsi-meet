@@ -11,9 +11,11 @@ import {
     PARTICIPANT_UPDATED,
     PIN_PARTICIPANT,
     SET_LOADABLE_AVATAR_URL,
-    SET_CURRENT_FOCUS
+    SET_CURRENT_FOCUS,
+    UPDATE_USER_AVATAR
 } from './actionTypes';
 import { LOCAL_PARTICIPANT_DEFAULT_ID, PARTICIPANT_ROLE } from './constants';
+import { getXmppLoginIdFromUserId } from './functions';
 
 /**
  * Participant object.
@@ -50,7 +52,8 @@ const PARTICIPANT_PROPS_TO_OMIT_WHEN_UPDATE = [
     // The following properties can only be modified through property-dedicated
     // actions:
     'dominantSpeaker',
-    'pinned'
+    'pinned',
+    'loadableAvatarUrl'
 ];
 
 /**
@@ -73,6 +76,15 @@ ReducerRegistry.register('features/base/participants', (state = [], action) => {
     case PARTICIPANT_UPDATED:
     case PIN_PARTICIPANT:
         return state.map(p => _participant(p, action));
+
+    case UPDATE_USER_AVATAR:
+        return state.map(user => {
+            if (getXmppLoginIdFromUserId(user.id) === action.userXmppLoginId) {
+                user.loadableAvatarUrl = action.imageUrl;
+            }
+
+            return user;
+        });
 
     case PARTICIPANT_JOINED:
         return [ ...state, _participantJoined(action) ];

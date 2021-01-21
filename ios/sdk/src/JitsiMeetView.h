@@ -117,4 +117,8 @@
  */
 - (void)showSpeakerView:(NSNumber *_Nonnull)show;
 
+/**
+ * Update user avatar in video conference.
+ */
+- (void)updateUserAvatar:(NSString *_Nonnull) jsonString;
 @end

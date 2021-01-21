@@ -98,4 +98,8 @@
     [_videoConfBridge showSpeakerView:show];
 }
 
+- (void)updateUserAvatar:(NSString *_Nonnull) jsonString {
+    [_videoConfBridge updateUserAvatar:jsonString];
+}
+
 @end

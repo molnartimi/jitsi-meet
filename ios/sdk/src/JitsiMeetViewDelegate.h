@@ -70,21 +70,29 @@
 -(void)undefinedJitsiError:(NSDictionary *)data;
 
 /**
-  * Called whenever swipe happens between conference pages.
-  *
-  * The `data` dictionary contains:
-  * - index: actual page index
-  * - total: total number of native pages
+ * Called whenever swipe happens between conference pages.
+ *
+ * The `data` dictionary contains:
+ * - index: actual page index
+ * - total: total number of native pages
 */
 - (void)swipeEvent:(NSDictionary *)data;
 
 /**
-  * Called whenever wrap up buttons are pressed.
-  *
-  * The `data` dictionary contains:
-  * - navigationTarget: page to navigate to
+ * Called whenever wrap up buttons are pressed.
+ *
+ * The `data` dictionary contains:
+ * - navigationTarget: page to navigate to
 */
 - (void)shopButtonEvent:(NSDictionary *)data;
+
+/**
+ * Called whenever new user joins to the video conference.
+ *
+ * The `data` dictionary contains:
+ * - userId: video conference id of new user
+*/
+- (void)participantJoined:(NSDictionary *)data;
 
 /**
  * Called when entering Picture-in-Picture is requested by the user. The app

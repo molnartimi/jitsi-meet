@@ -182,3 +182,13 @@ export const SET_LOADABLE_AVATAR_URL = 'SET_LOADABLE_AVATAR_URL';
  */
 export const SET_CURRENT_FOCUS = 'SET_CURRENT_FOCUS';
 
+/**
+ * The type of (redux) action which save a new image url as a user's avatar.
+ *
+ * {
+ *     type: UPDATE_USER_AVATAR,
+ *     userXmppLoginId: string,
+ *     imageUrl: string
+ * }
+ */
+export const UPDATE_USER_AVATAR = 'UPDATE_USER_AVATAR';

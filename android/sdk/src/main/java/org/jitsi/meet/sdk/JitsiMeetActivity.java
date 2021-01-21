@@ -252,4 +252,9 @@ public class JitsiMeetActivity extends FragmentActivity
     public void onShopButtonEvent(Map<String, Object> data) {
         JitsiMeetLogger.i("Shop button event: " + data);
     }
+
+    @Override
+    public void onParticipantJoined(Map<String, Object> data) {
+        JitsiMeetLogger.i("Participant joined event: " + data);
+    }
 }
