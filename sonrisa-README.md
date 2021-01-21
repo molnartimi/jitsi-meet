@@ -13,13 +13,9 @@
  $ cd ios
  $ pod install
  $ cd ..
- $ xcodebuild -workspace ios/jitsi-meet.xcworkspace -scheme JitsiMeet -destination='generic/platform=iOS' -configuration Release archive
+ $ ./ios/scripts/release-sdk.sh <absolute_path_to_tap_ios_repo> <optional false parameter if you would like to skip 'clean' part of the build (a bit faster this way)>
  ```
- It will create a symlink `JitsiMeet.framework` in `jitsi-meet/ios/sdk`. Follow the symlink and copy the `JitsiMeet.framework` folder into the project where you need it. In Tabletparty iOS project, it is in `Frameworks` folder.
- ```
- $ rm -R <TARGET FOLDER>/JitsiMeet.framework
- $ cp -R <REAL PATH OF BUILT 'JitsiMeet.framework' FOLDER> <TARGET FOLDER>
-```
+
 ### [Android](https://jitsi.github.io/handbook/docs/dev-guide/dev-guide-android-sdk)
 ##### Build in Windows
 Currently building the application is not supported on Windows. 
