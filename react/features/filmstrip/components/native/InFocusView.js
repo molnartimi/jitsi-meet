@@ -187,7 +187,8 @@ class InFocusView extends Component<Props> {
                     participant = { this.props.localUser }
                     styleOverrides = {{
                         ...styles.fillView,
-                        borderRadius: 15
+                        borderRadius: 15,
+                        overflow: 'hidden'
                     }}
                     tileView = { true }
                     zOrder = { 1 } />
