@@ -25,6 +25,7 @@ import {
 } from '../../base/connection';
 import { isAndroidDevice } from '../../base/environment/utils';
 import { getLogger } from '../../base/logging';
+import { PARTICIPANT_JOINED } from '../../base/participants';
 import { MiddlewareRegistry } from '../../base/redux';
 import { ENTER_PICTURE_IN_PICTURE } from '../picture-in-picture';
 
@@ -154,9 +155,7 @@ MiddlewareRegistry.register(store => next => action => {
             };
 
             sendEvent(store, COMMAND_VALUE, {
-                value: flatted.stringify(response,
-                        // replace '\' characters with '\\' on Android, so flatted.parse won't raise an error later on
-                        (_, val) => isAndroidDevice() && typeof val === 'string' ? val.replace(/\\/g, '\\\\') : val)
+                value: flatted.stringify(response, (_, val) => escapeBackslashes(val))
             });
         } catch (e) {
             logger.error('Some error occurred at sending command value to native app', e);
@@ -182,6 +181,13 @@ MiddlewareRegistry.register(store => next => action => {
 
     case UNDEFINED_JITSI_ERROR: {
         _sendErrorToNativeApp(store, action.error);
+        break;
+    }
+
+    case PARTICIPANT_JOINED: {
+        if (action.participant.id) {
+            sendEvent(store, PARTICIPANT_JOINED, { userId: escapeBackslashes(action.participant.id, true) });
+        }
         break;
     }
     }
@@ -267,10 +273,7 @@ function _sendConferenceEvent(
     // transport an "equivalent".
     if (conference) {
         data.url = _normalizeUrl(conference[JITSI_CONFERENCE_URL_KEY]);
-        // replace '\' characters with '\\' on Android, so client side command handlers won't raise an error
-        data.userId = isAndroidDevice()
-            ? conference.myUserId().replace(/\\/g, '\\\\')
-            : conference.myUserId();
+        data.userId = escapeBackslashes(conference.myUserId());
     }
 
     if (_swallowEvent(store, action, data)) {
@@ -396,4 +399,17 @@ function _sendErrorToNativeApp(store, errorMsg) {
         {
             errorMessage: errorMsg
         });
+}
+
+/**
+ * Replace '\' characters with '\\' on Android, so client side handlers won't raise an error.
+ *
+ * @param {string} value - String in which backlashes are needed to replace.
+ * @param {boolean?} alsoOnIos - Optional boolean value if escaping is needed also on iOS.
+ * @returns {string}
+ */
+function escapeBackslashes(value: string, alsoOnIos?: boolean) {
+    return value && typeof value === 'string' && (isAndroidDevice() || alsoOnIos)
+        ? value.replace(/\\/g, '\\\\')
+        : value;
 }

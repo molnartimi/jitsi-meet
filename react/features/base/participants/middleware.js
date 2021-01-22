@@ -21,7 +21,8 @@ import {
     PARTICIPANT_DISPLAY_NAME_CHANGED,
     PARTICIPANT_JOINED,
     PARTICIPANT_LEFT,
-    PARTICIPANT_UPDATED
+    PARTICIPANT_UPDATED,
+    UPDATE_USER_AVATAR
 } from './actionTypes';
 import {
     localParticipantIdChanged,
@@ -41,7 +42,9 @@ import {
     getLocalParticipant,
     getParticipantById,
     getParticipantCount,
-    getParticipantDisplayName
+    getParticipantDisplayName,
+    getParticipants,
+    getXmppLoginIdFromUserId
 } from './functions';
 import { PARTICIPANT_JOINED_FILE, PARTICIPANT_LEFT_FILE } from './sounds';
 
@@ -134,6 +137,9 @@ MiddlewareRegistry.register(store => next => action => {
 
     case PARTICIPANT_UPDATED:
         return _participantJoinedOrUpdated(store, next, action);
+
+    case UPDATE_USER_AVATAR:
+        return _updateUserAvatar(store, next, action);
     }
 
     return next(action);
@@ -410,6 +416,30 @@ function _participantJoinedOrUpdated({ dispatch, getState }, next, action) {
     }
 
     return result;
+}
+
+/**
+ * Notifies the feature base/participants that the action {@code UPDATE_USER_AVATAR}
+ * is being dispatched within a specific redux store.
+ *
+ * @param {Store} store - The redux store in which the specified {@code action}
+ * is being dispatched.
+ * @param {Dispatch} next - The redux {@code dispatch} function to dispatch the
+ * specified {@code action} in the specified {@code store}.
+ * @param {Action} action - The redux action {@code UPDATE_USER_AVATAR} which is
+ * being dispatched in the specified {@code store}.
+ * @private
+ * @returns {Object} The value returned by {@code next(action)}.
+ */
+function _updateUserAvatar({ getState }, next, action) {
+    const { userXmppLoginId } = action;
+    const participants = getParticipants(getState());
+    const participantToUpdate = participants.find(participant =>
+        getXmppLoginIdFromUserId(participant.id) === userXmppLoginId);
+
+    action.userId = participantToUpdate ? participantToUpdate.id : '';
+
+    return next(action);
 }
 
 /**

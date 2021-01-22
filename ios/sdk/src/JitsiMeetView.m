@@ -184,6 +184,10 @@ static void initializeViewsMap() {
     [eventEmitter showSpeakerView:show];
 }
 
+- (void)updateUserAvatar:(NSString *_Nonnull) jsonString {
+    [eventEmitter updateUserAvatar:jsonString];
+}
+
 #pragma mark Private methods
 
 /**

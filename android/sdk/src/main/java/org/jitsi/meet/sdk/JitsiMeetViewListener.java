@@ -76,6 +76,12 @@ public interface JitsiMeetViewListener {
     void onShopButtonEvent(Map<String, Object> data);
 
     /**
+     * Called whenever new participant joins to video conference.
+     * @param data Map with 'userID' value.
+     */
+    void onParticipantJoined(Map<String, Object> data);
+
+    /**
      * Called whenever we catch an error which has no exact error handling
      * use-case in business logic.
      * @param data Map with an "errorMessage" key stating the message

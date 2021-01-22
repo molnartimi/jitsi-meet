@@ -8,6 +8,7 @@ import { sendCommand, removeCommand, editSpeakerViewVisibility } from '../../bas
 import { storeConfig } from '../../base/config';
 import { NativeEvents } from '../../base/constants';
 import { muteMedia, toggleCameraFacingMode } from '../../base/media';
+import { updateUserAvatar } from '../../base/participants';
 import { showWrapUpButtons, updateSwiperIndex } from '../../base/responsive-ui';
 import { toURLString } from '../../base/util';
 import { setPlaceholderData, setCountdown } from '../../filmstrip';
@@ -241,6 +242,7 @@ export class AbstractApp extends BaseApp<Props, *> {
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.PLACEHOLDER_DATA,
             (dataJsonString: string) => {
                 const { title, imageUrl } = JSON.parse(dataJsonString);
+
                 dispatch(setPlaceholderData(title, imageUrl));
             }));
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.SET_COUNTDOWN,
@@ -251,6 +253,8 @@ export class AbstractApp extends BaseApp<Props, *> {
             }));
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.SHOW_SPEAKER_VIEW,
             (showSpeakerView: boolean | number) => dispatch(editSpeakerViewVisibility(Boolean(showSpeakerView)))));
+        this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.UPDATE_USER_AVATAR,
+            (jsonString: string) => dispatch(updateUserAvatar(jsonString))));
     }
 
 }

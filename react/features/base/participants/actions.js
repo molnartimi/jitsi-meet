@@ -1,3 +1,5 @@
+// @flow
+
 import { NOTIFICATION_TIMEOUT, showNotification } from '../../notifications';
 import { set } from '../redux';
 
@@ -15,7 +17,8 @@ import {
     PARTICIPANT_UPDATED,
     PIN_PARTICIPANT,
     SET_LOADABLE_AVATAR_URL,
-    SET_CURRENT_FOCUS
+    SET_CURRENT_FOCUS,
+    UPDATE_USER_AVATAR
 } from './actionTypes';
 import {
     getLocalParticipant,
@@ -510,5 +513,25 @@ export function setCurrentFocus(participantId) {
     return {
         type: SET_CURRENT_FOCUS,
         participantId
+    };
+}
+
+/**
+ * Create an action to update avatar of a user in video conference.
+ *
+ * @param {string} jsonString - Stringified json object with xmpp user id and avatar url.
+ * @returns {{
+ *     type: UPDATE_USER_AVATAR,
+ *     userXmppLoginId: string,
+ *     imageUrl: string
+ * }}
+ */
+export function updateUserAvatar(jsonString: string) {
+    const { xmppLoginId, info } = JSON.parse(jsonString);
+
+    return {
+        type: UPDATE_USER_AVATAR,
+        userXmppLoginId: xmppLoginId,
+        imageUrl: info
     };
 }

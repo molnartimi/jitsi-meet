@@ -11,7 +11,8 @@ import {
     PARTICIPANT_UPDATED,
     PIN_PARTICIPANT,
     SET_LOADABLE_AVATAR_URL,
-    SET_CURRENT_FOCUS
+    SET_CURRENT_FOCUS,
+    UPDATE_USER_AVATAR
 } from './actionTypes';
 import { LOCAL_PARTICIPANT_DEFAULT_ID, PARTICIPANT_ROLE } from './constants';
 
@@ -50,7 +51,8 @@ const PARTICIPANT_PROPS_TO_OMIT_WHEN_UPDATE = [
     // The following properties can only be modified through property-dedicated
     // actions:
     'dominantSpeaker',
-    'pinned'
+    'pinned',
+    'loadableAvatarUrl'
 ];
 
 /**
@@ -67,6 +69,7 @@ const PARTICIPANT_PROPS_TO_OMIT_WHEN_UPDATE = [
 ReducerRegistry.register('features/base/participants', (state = [], action) => {
     switch (action.type) {
     case SET_LOADABLE_AVATAR_URL:
+    case UPDATE_USER_AVATAR:
     case SET_CURRENT_FOCUS:
     case DOMINANT_SPEAKER_CHANGED:
     case PARTICIPANT_ID_CHANGED:
@@ -158,6 +161,15 @@ function _participant(state: Object = {}, action) {
             }
 
             return newState;
+        }
+        break;
+    }
+
+    case UPDATE_USER_AVATAR: {
+        const { userId, imageUrl } = action;
+
+        if (state.id === userId) {
+            return set(state, 'loadableAvatarUrl', imageUrl);
         }
         break;
     }

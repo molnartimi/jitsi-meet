@@ -260,6 +260,13 @@ public class JitsiMeetView extends BaseReactView<JitsiMeetViewListener>
     }
 
     /**
+     * Update video conference user profile image.
+     */
+    public static void updateUserAvatar(String jsonString) {
+        VideoConfBridge.updateUserAvatar(jsonString);
+    }
+
+    /**
      * Helper method to set the React Native props.
      * @param newProps - New props to be set on the React Native view.
      */

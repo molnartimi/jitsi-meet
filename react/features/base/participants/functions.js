@@ -397,3 +397,19 @@ async function _getFirstLoadableAvatarUrl(participant) {
 
     return undefined;
 }
+
+/**
+ * Cut off the hash from video user id to get the xmpp login id.
+ *
+ * @param {string} videoUserId - User id containing hash at the end.
+ * @returns {string}
+ */
+export function getXmppLoginIdFromUserId(videoUserId: string): string {
+    const dashIndex = videoUserId.lastIndexOf('-');
+
+    if (dashIndex !== -1) {
+        return videoUserId.substr(0, dashIndex);
+    }
+
+    return videoUserId;
+}

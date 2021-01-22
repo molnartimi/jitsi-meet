@@ -24,6 +24,8 @@ static NSString *const SHOW_WRAP_UP_BUTTONS = @"org.jitsi.meet:features/videocon
 static NSString *const PLACEHOLDER_DATA_EVENT = @"org.jitsi.meet:features/videoconf-bridge#placeholder-data";
 static NSString *const SET_COUNTDOWN_EVENT = @"org.jitsi.meet:features/videoconf-bridge#set-countdown";
 static NSString *const SHOW_SPEAKER_VIEW_EVENT = @"org.jitsi.meet:features/videoconf-bridge#show-speaker-view";
+static NSString *const UPDATE_USER_AVATAR_EVENT = @"org.jitsi.meet:features/videoconf-bridge#update-user-avatar";
+
 
 RCT_EXPORT_MODULE();
 
@@ -42,7 +44,8 @@ RCT_EXPORT_MODULE();
         PLACEHOLDER_DATA_EVENT,
         SWIPE_TO_PAGE_EVENT,
         SET_COUNTDOWN_EVENT,
-        SHOW_SPEAKER_VIEW_EVENT];
+        SHOW_SPEAKER_VIEW_EVENT,
+        UPDATE_USER_AVATAR_EVENT];
 }
 
 - (void)join:(NSString *)dataJsonString {
@@ -87,6 +90,10 @@ RCT_EXPORT_MODULE();
 
 - (void)showSpeakerView:(NSNumber *_Nonnull)show {
     [self sendEvent:SHOW_SPEAKER_VIEW_EVENT body:show];
+}
+
+- (void)updateUserAvatar:(NSString *_Nonnull) jsonString {
+    [self sendEvent:UPDATE_USER_AVATAR_EVENT body:jsonString];
 }
 
 @end
