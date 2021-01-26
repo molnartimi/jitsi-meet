@@ -219,15 +219,16 @@ export default {
     gradientOverlay: {
         position: 'absolute',
         width: '100%',
-        height: '100%'
+        height: '100%',
+        opacity: 0.6,
     },
 
     participantName: {
         position: 'absolute',
         color: 'white',
-        fontFamily: 'Montserrat-SemiBold',
-        fontSize: 13,
-        bottom: 12
+        fontFamily: 'Montserrat-ExtraBold',
+        fontSize: 10,
+        bottom: 5
     },
 
     preShowCountdownContainer: {
