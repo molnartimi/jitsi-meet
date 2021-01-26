@@ -127,7 +127,7 @@ class Thumbnail extends Component<Props> {
                         start = {{ x: 0,
                             y: 1 }}
                         end = {{ x: 0,
-                            y: 0.6 }}
+                            y: 0.8 }}
                         style = { styles.gradientOverlay } />
                     : null}
 
