@@ -117,6 +117,7 @@ class Thumbnail extends Component<Props> {
                     avatarSize = { this.props.tileView ? AVATAR_SIZE * 2.3 : AVATAR_SIZE }
                     isAvatarCircled = { this.props.isAvatarCircled }
                     participantId = { this.props.participant?.id }
+                    style = { this.props.styleOverrides }
                     tintEnabled = { false }
                     tintStyle = { styles.activeThumbnailTint }
                     zOrder = { this.props.zOrder } />

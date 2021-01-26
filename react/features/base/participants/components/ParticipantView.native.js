@@ -3,12 +3,12 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { Image, Text, View } from 'react-native';
+import { RTCView } from 'react-native-webrtc';
 
 import { translate } from '../../i18n';
 import { JitsiParticipantConnectionStatus } from '../../lib-jitsi-meet';
 import {
-    MEDIA_TYPE,
-    VideoTrack
+    MEDIA_TYPE
 } from '../../media';
 import { Container, TintedView } from '../../react';
 import { connect } from '../../redux';
@@ -205,12 +205,14 @@ class ParticipantView extends Component<Props> {
                 touchFeedback = { false }>
 
                 { renderVideo
-                    && <VideoTrack
-                        onPress = { onPress }
-                        videoTrack = { videoTrack }
-                        waitForVideoStarted = { false }
-                        zOrder = { this.props.zOrder }
-                        zoomEnabled = { this.props.zoomEnabled } /> }
+                    && <RTCView
+                        mirror = { videoTrack?.mirror }
+                        objectFit = 'cover'
+                        streamURL = { videoTrack.jitsiTrack.getOriginalStream().toURL() }
+                        style = {{ ...styles.participantView,
+                            ...this.props.style }}
+                        zOrder = { this.props.zOrder } />
+                }
 
                 { !renderVideo
                     && <View style = { styles.avatarContainer }>
