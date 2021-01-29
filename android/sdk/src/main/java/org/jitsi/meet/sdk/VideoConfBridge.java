@@ -69,6 +69,11 @@ public class VideoConfBridge {
     private static final String UPDATE_USER_AVATAR_EVENT = "org.jitsi.meet:features/videoconf-bridge#update-user-avatar";
 
     /**
+     * Event for muting/unmuting remote audio tracks in video conference locally.
+     */
+    private static final String MUTE_CONFERENCE_AUDIO = "org.jitsi.meet:features/videoconf-bridge#mute-conference-audio";
+
+    /**
      * Sends a videoconf join event to React Native.
      */
     public static void joinConference(String dataJsonString) {
@@ -154,5 +159,12 @@ public class VideoConfBridge {
      */
     public static void showSpeakerView(boolean shouldShow) {
         ReactInstanceManagerHolder.emitEvent(SHOW_SPEAKER_VIEW, shouldShow);
+    }
+
+    /**
+     * Mute/unmute remote audio tracks in video conference locally.
+     */
+    public static void muteVideoConferenceAudio(boolean mute) {
+        ReactInstanceManagerHolder.emitEvent(MUTE_CONFERENCE_AUDIO, mute);
     }
 }

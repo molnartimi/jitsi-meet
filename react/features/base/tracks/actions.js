@@ -1,3 +1,5 @@
+// @flow
+
 import {
     createTrackMutedEvent,
     sendAnalytics
@@ -14,6 +16,7 @@ import {
 import { getLocalParticipant } from '../participants';
 
 import {
+    MUTE_CONFERENCE_AUDIO,
     SET_NO_SRC_DATA_NOTIFICATION_UID,
     TOGGLE_SCREENSHARING,
     TRACK_ADDED,
@@ -676,5 +679,21 @@ export function setNoSrcDataNotificationUid(uid) {
     return {
         type: SET_NO_SRC_DATA_NOTIFICATION_UID,
         uid
+    };
+}
+
+/**
+ * Mute/unmute remote audio tracks locally.
+ *
+ * @param {boolean} mute - Target state of remote tracks.
+ * @returns {{
+ *      type: MUTE_CONFERENCE_AUDIO,
+ *      mute: boolean
+ * }}
+ */
+export function muteConferenceAudio(mute: boolean) {
+    return {
+        type: MUTE_CONFERENCE_AUDIO,
+        mute
     };
 }

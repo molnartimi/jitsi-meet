@@ -104,3 +104,13 @@ export const TRACK_UPDATED = 'TRACK_UPDATED';
  * }
  */
 export const TRACK_WILL_CREATE = 'TRACK_WILL_CREATE';
+
+/**
+ * The type of redux action dispatched when remote audio tracks should be muted/unmuted locally.
+ *
+ * {
+ *     type: MUTE_CONFERENCE_AUDIO,
+ *     mute: boolean
+ * }
+ */
+export const MUTE_CONFERENCE_AUDIO = 'MUTE_CONFERENCE_AUDIO';

@@ -14,7 +14,8 @@ export const NativeEvents = {
     PLACEHOLDER_DATA: 'org.jitsi.meet:features/videoconf-bridge#placeholder-data',
     SET_COUNTDOWN: 'org.jitsi.meet:features/videoconf-bridge#set-countdown',
     SHOW_SPEAKER_VIEW: 'org.jitsi.meet:features/videoconf-bridge#show-speaker-view',
-    UPDATE_USER_AVATAR: 'org.jitsi.meet:features/videoconf-bridge#update-user-avatar'
+    UPDATE_USER_AVATAR: 'org.jitsi.meet:features/videoconf-bridge#update-user-avatar',
+    MUTE_CONFERENCE_AUDIO: 'org.jitsi.meet:features/videoconf-bridge#mute-conference-audio'
 };
 
 export const ResponseEventsToNative = {

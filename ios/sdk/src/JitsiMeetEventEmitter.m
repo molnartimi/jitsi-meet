@@ -102,4 +102,8 @@
     [_videoConfBridge updateUserAvatar:jsonString];
 }
 
+- (void)muteVideoConferenceAudio:(NSNumber *_Nonnull)mute {
+    [_videoConfBridge muteVideoConferenceAudio:mute];
+}
+
 @end
