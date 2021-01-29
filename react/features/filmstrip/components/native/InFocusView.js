@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { Text, View, Image, TouchableOpacity } from 'react-native';
+import { Dispatch } from 'redux';
 
 import { generateNamePrefix } from '../../../base/conference';
 import { MEDIA_TYPE } from '../../../base/media';
@@ -19,7 +20,8 @@ type Props = {
     isWrapUpVisible: boolean,
     placeholderData: Object,
     countdownStartDatetime: string,
-    countdownTargetDatetime: string
+    countdownTargetDatetime: string,
+    dispatch: Dispatch<any>
 }
 
 const UNKNOWN_NAME = '';
@@ -68,8 +70,7 @@ class InFocusView extends Component<Props> {
     _createTemplateImageComponent() {
         return (
             <View
-                style = { styles.imageContainer }
-            >
+                style = { styles.imageContainer }>
                 <Image
                     source = {{
                         uri: this.props.placeholderData.imageUrl
@@ -100,8 +101,7 @@ class InFocusView extends Component<Props> {
     _createInFocusVideoComponent() {
         return (
             <View
-                style = { styles.inFocusContainer }
-            >
+                style = { styles.inFocusContainer }>
                 <Thumbnail
                     isAvatarCircled = { true }
                     isDominantSpeaker = { false }
@@ -187,7 +187,6 @@ class InFocusView extends Component<Props> {
                     participant = { this.props.localUser }
                     styleOverrides = {{
                         ...styles.fillView,
-                        borderRadius: 15,
                         overflow: 'hidden'
                     }}
                     tileView = { true }
