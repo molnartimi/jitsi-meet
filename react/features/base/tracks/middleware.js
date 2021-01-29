@@ -21,7 +21,8 @@ import {
     TOGGLE_SCREENSHARING,
     TRACK_NO_DATA_FROM_SOURCE,
     TRACK_REMOVED,
-    TRACK_UPDATED
+    TRACK_UPDATED,
+    MUTE_CONFERENCE_AUDIO
 } from './actionTypes';
 import {
     createLocalTracksA,
@@ -52,6 +53,13 @@ MiddlewareRegistry.register(store => next => action => {
         // were granted and a local video track is added by umuting the video.
         if (action.track.local) {
             store.dispatch(getAvailableDevices());
+        } else if (action.track.mediaType === MEDIA_TYPE.AUDIO) {
+            // Check if new audio track is needed to be disabled
+            const { conferenceAudioIsMuted } = store.getState()['features/base/conference'];
+
+            if (conferenceAudioIsMuted) {
+                action.track.jitsiTrack.getTrack().enabled = false;
+            }
         }
 
         break;
@@ -75,6 +83,18 @@ MiddlewareRegistry.register(store => next => action => {
 
         _setMuted(store, action, MEDIA_TYPE.AUDIO);
         break;
+
+    case MUTE_CONFERENCE_AUDIO: {
+        const tracks = store.getState()['features/base/tracks'];
+
+        tracks.filter(track => track.jitsiTrack && !track.jitsiTrack.isLocal() && track.jitsiTrack.isAudioTrack())
+            .forEach(track => {
+                const mediaStreamTrack = track.jitsiTrack.getTrack();
+
+                mediaStreamTrack.enabled = !action.mute;
+            });
+        break;
+    }
 
     case SET_CAMERA_FACING_MODE: {
         // XXX The camera facing mode of a MediaStreamTrack can be specified

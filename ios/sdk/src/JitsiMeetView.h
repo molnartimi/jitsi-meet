@@ -121,4 +121,9 @@
  * Update user avatar in video conference.
  */
 - (void)updateUserAvatar:(NSString *_Nonnull) jsonString;
+
+/**
+ * Mute/unmute remote audio tracks in video conference locally.
+ */
+- (void)muteVideoConferenceAudio:(NSNumber *_Nonnull)mute;
 @end

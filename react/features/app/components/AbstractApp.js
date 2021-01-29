@@ -10,6 +10,7 @@ import { NativeEvents } from '../../base/constants';
 import { muteMedia, toggleCameraFacingMode } from '../../base/media';
 import { updateUserAvatar } from '../../base/participants';
 import { showWrapUpButtons, updateSwiperIndex } from '../../base/responsive-ui';
+import { muteConferenceAudio } from '../../base/tracks';
 import { toURLString } from '../../base/util';
 import { setPlaceholderData, setCountdown } from '../../filmstrip';
 import { UNDEFINED_JITSI_ERROR } from '../../mobile/external-api/actions';
@@ -255,6 +256,8 @@ export class AbstractApp extends BaseApp<Props, *> {
             (showSpeakerView: boolean | number) => dispatch(editSpeakerViewVisibility(Boolean(showSpeakerView)))));
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.UPDATE_USER_AVATAR,
             (jsonString: string) => dispatch(updateUserAvatar(jsonString))));
+        this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.MUTE_CONFERENCE_AUDIO,
+            (mute: boolean) => dispatch(muteConferenceAudio(mute))));
     }
 
 }

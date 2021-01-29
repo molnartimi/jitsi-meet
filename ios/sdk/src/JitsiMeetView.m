@@ -188,6 +188,10 @@ static void initializeViewsMap() {
     [eventEmitter updateUserAvatar:jsonString];
 }
 
+- (void)muteVideoConferenceAudio:(NSNumber *_Nonnull)mute {
+    [eventEmitter muteVideoConferenceAudio:mute];
+}
+
 #pragma mark Private methods
 
 /**
