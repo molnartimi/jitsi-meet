@@ -10,7 +10,7 @@ import { FILMSTRIP_SIZE } from '../../constants';
 export const AVATAR_SIZE = 50;
 
 const fillView = {
-    flex: 1,
+    flex: 1
 };
 
 
@@ -200,7 +200,7 @@ export default {
 
     imageContainer: {
         ...fillView,
-        justifyContent: 'center',
+        justifyContent: 'center'
     },
 
     inFocusContainer: {
@@ -220,7 +220,7 @@ export default {
         position: 'absolute',
         width: '100%',
         height: '100%',
-        opacity: 0.6,
+        opacity: 0.6
     },
 
     participantName: {
@@ -228,7 +228,14 @@ export default {
         color: 'white',
         fontFamily: 'Montserrat-ExtraBold',
         fontSize: 10,
+    },
+
+    participantNamePadding: {
         bottom: 5
+    },
+
+    activeParticipantNamePadding: {
+        bottom: 15
     },
 
     preShowCountdownContainer: {
