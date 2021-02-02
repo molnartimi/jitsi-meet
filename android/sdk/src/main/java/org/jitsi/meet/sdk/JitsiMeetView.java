@@ -253,6 +253,13 @@ public class JitsiMeetView extends BaseReactView<JitsiMeetViewListener>
     }
 
     /**
+     * Sets whether video conference is simplified.
+     */
+    public void setIsSimplifiedConference(final boolean isSimplifiedConference) {
+        VideoConfBridge.setIsSimplifiedConference(isSimplifiedConference);
+    }
+
+    /**
      * Set pre show countdown date time.
      */
     public static void setCountdown(String jsonString) {

@@ -84,3 +84,13 @@ export const SET_PLACEHOLDER_DATA = 'SET_PLACEHOLDER_DATA';
  * }
  */
 export const SET_COUNTDOWN = 'SET_COUNTDOWN';
+
+/**
+ * The type of (redux) action which updates whether we're in a simplified conference.
+ *
+ * {
+ *     type: IS_SIMPLIFIED_CONFERENCE_CHANGE,
+ *     state: boolean
+ * }
+ */
+export const IS_SIMPLIFIED_CONFERENCE_CHANGE = 'IS_SIMPLIFIED_CONFERENCE_CHANGE';
