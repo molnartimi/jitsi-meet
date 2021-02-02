@@ -82,6 +82,10 @@ class ReactInstanceManagerHolder {
         WebRTCModule.Options options = new WebRTCModule.Options();
 
         AudioDeviceModule adm = JavaAudioDeviceModule.builder(reactContext)
+            // Disable hardware based acoustic echo cancellation
+            .setUseHardwareAcousticEchoCanceler(false)
+            // Disable hardware based noise suppressor
+            .setUseHardwareNoiseSuppressor(false)
             .createAudioDeviceModule();
         options.setAudioDeviceModule(adm);
 
