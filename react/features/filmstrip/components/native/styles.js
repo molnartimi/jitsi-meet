@@ -147,7 +147,7 @@ export default {
     wrapUpText: {
         fontFamily: 'JustLovelySlantedWide',
         color: 'white',
-        fontSize: 45,
+        fontSize: 48,
         marginBottom: '3%'
     },
 
@@ -227,7 +227,7 @@ export default {
         position: 'absolute',
         color: 'white',
         fontFamily: 'Montserrat-ExtraBold',
-        fontSize: 10,
+        fontSize: 11
     },
 
     participantNamePadding: {
