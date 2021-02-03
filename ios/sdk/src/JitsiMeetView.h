@@ -126,4 +126,9 @@
  * Mute/unmute remote audio tracks in video conference locally.
  */
 - (void)muteVideoConferenceAudio:(NSNumber *_Nonnull)mute;
+
+/**
+ * Sets whether video conference is simplified.
+ */
+- (void)setIsSimplifiedConference:(NSNumber *_Nonnull)isSimplifiedConference;
 @end

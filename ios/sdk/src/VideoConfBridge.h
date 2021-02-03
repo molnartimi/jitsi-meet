@@ -25,5 +25,6 @@
 - (void)showSpeakerView:(NSNumber *_Nonnull)show;
 - (void)updateUserAvatar:(NSString *_Nonnull) jsonString;
 - (void)muteVideoConferenceAudio:(NSNumber *_Nonnull)mute;
+- (void)setIsSimplifiedConference:(NSNumber *_Nonnull)isSimplifiedConference;
 
 @end
