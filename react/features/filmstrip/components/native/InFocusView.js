@@ -138,7 +138,8 @@ class InFocusView extends Component<Props> {
             style = { styles.inFrontTopView }>
             {this.props.isWrapUpVisible
                 && this._createWrapUpButtonsPlaceholder()}
-            {this._createSelfFrameVideoComponent()}
+            {!this.props.isSimplifiedConference
+                && this._createSelfFrameVideoComponent()}
         </View>);
     }
 
@@ -176,10 +177,6 @@ class InFocusView extends Component<Props> {
     }
 
     _createSelfFrameVideoComponent() {
-        if (this.props.isSimplifiedConference) {
-            return null;
-        }
-
         return (
             <View
                 style = { styles.bottomVideoPlaceholder }>
@@ -248,12 +245,8 @@ function _mapStateToProps(state, ownProps) {
     const audioTrack
         = getTrackByMediaTypeAndParticipant(tracks, MEDIA_TYPE.AUDIO, id);
 
-    const {
-        placeholderData,
-        countdownStartDatetime,
-        countdownTargetDatetime,
-        isSimplifiedConference,
-    } = state['features/filmstrip'];
+    const { isSimplifiedConference } = state['features/base/conference'];
+    const { placeholderData, countdownStartDatetime, countdownTargetDatetime } = state['features/filmstrip'];
 
     return {
         inFocusUser,

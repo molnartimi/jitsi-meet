@@ -4,7 +4,7 @@ import React, { Fragment } from 'react';
 import { NativeEventEmitter, NativeModules } from 'react-native';
 
 import { BaseApp } from '../../base/app';
-import { sendCommand, removeCommand, editSpeakerViewVisibility } from '../../base/conference';
+import { sendCommand, removeCommand, editSpeakerViewVisibility, isSimplifiedConferenceChange  } from '../../base/conference';
 import { storeConfig } from '../../base/config';
 import { NativeEvents } from '../../base/constants';
 import { muteMedia, toggleCameraFacingMode } from '../../base/media';
@@ -12,7 +12,7 @@ import { updateUserAvatar } from '../../base/participants';
 import { showWrapUpButtons, updateSwiperIndex } from '../../base/responsive-ui';
 import { muteConferenceAudio } from '../../base/tracks';
 import { toURLString } from '../../base/util';
-import { setPlaceholderData, setCountdown, isSimplifiedConferenceChange } from '../../filmstrip';
+import { setPlaceholderData, setCountdown } from '../../filmstrip';
 import { UNDEFINED_JITSI_ERROR } from '../../mobile/external-api/actions';
 import { OverlayContainer } from '../../overlay';
 import { appNavigate, appConnect, appJoinRoom, appLeaveRoom } from '../actions';

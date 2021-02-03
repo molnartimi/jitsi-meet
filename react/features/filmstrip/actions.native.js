@@ -8,8 +8,7 @@ import {
     SET_FILMSTRIP_HOVERED,
     SET_FILMSTRIP_VISIBLE,
     SET_TILE_VIEW_DIMENSIONS,
-    SET_PLACEHOLDER_DATA,
-    IS_SIMPLIFIED_CONFERENCE_CHANGE,
+    SET_PLACEHOLDER_DATA
 } from './actionTypes';
 
 /**
@@ -152,21 +151,5 @@ export function setCountdown(fromDate: string, toDate: string) {
         type: SET_COUNTDOWN,
         fromDate,
         toDate
-    };
-}
-
-/**
- * Updates whether we're in a simplified conference.
- *
- * @param {?Object} state - The current state.
- * @returns {{
- *     type: IS_SIMPLIFIED_CONFERENCE_CHANGE,
- *     isSimplifiedConference: boolean
- * }}
- */
-export function isSimplifiedConferenceChange(isSimplifiedConference: ?boolean) {
-    return {
-        type: IS_SIMPLIFIED_CONFERENCE_CHANGE,
-        isSimplifiedConference
     };
 }

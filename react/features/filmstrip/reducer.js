@@ -9,8 +9,7 @@ import {
     SET_FILMSTRIP_VISIBLE,
     SET_HORIZONTAL_VIEW_DIMENSIONS,
     SET_TILE_VIEW_DIMENSIONS,
-    SET_PLACEHOLDER_DATA,
-    IS_SIMPLIFIED_CONFERENCE_CHANGE,
+    SET_PLACEHOLDER_DATA
 } from './actionTypes';
 
 const DEFAULT_STATE = {
@@ -106,12 +105,6 @@ ReducerRegistry.register(
                 ...state,
                 countdownStartDatetime: action.fromDate,
                 countdownTargetDatetime: action.toDate
-            };
-
-        case IS_SIMPLIFIED_CONFERENCE_CHANGE:
-            return {
-                ...state,
-                isSimplifiedConference: action.isSimplifiedConference,
             };
         }
 
