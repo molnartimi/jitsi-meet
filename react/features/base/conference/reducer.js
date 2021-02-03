@@ -24,7 +24,8 @@ import {
     SET_ROOM,
     SET_SIP_GATEWAY_ENABLED,
     SET_START_MUTED_POLICY,
-    SET_SPEAKER_VIEW_VISIBILITY
+    SET_SPEAKER_VIEW_VISIBILITY,
+    IS_SIMPLIFIED_CONFERENCE_CHANGE,
 } from './actionTypes';
 import { isRoomValid } from './functions';
 
@@ -118,6 +119,13 @@ ReducerRegistry.register(
             return {
                 ...state,
                 conferenceAudioIsMuted: action.mute
+            };
+        }
+
+        case IS_SIMPLIFIED_CONFERENCE_CHANGE: {
+            return {
+                ...state,
+                isSimplifiedConference: action.isSimplifiedConference,
             };
         }
         }

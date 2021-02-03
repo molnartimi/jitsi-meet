@@ -74,6 +74,11 @@ public class VideoConfBridge {
     private static final String MUTE_CONFERENCE_AUDIO = "org.jitsi.meet:features/videoconf-bridge#mute-conference-audio";
 
     /**
+     * Sets whether video conference is simplified.
+     */
+    private static final String SET_IS_SIMPLIFIED_CONFERENCE = "org.jitsi.meet:features/videoconf-bridge#set-is-simplified-conference";
+
+    /**
      * Sends a videoconf join event to React Native.
      */
     public static void joinConference(String dataJsonString) {
@@ -166,5 +171,12 @@ public class VideoConfBridge {
      */
     public static void muteVideoConferenceAudio(boolean mute) {
         ReactInstanceManagerHolder.emitEvent(MUTE_CONFERENCE_AUDIO, mute);
+    }
+
+    /**
+     * Sets whether video conference is simplified.
+     */
+    public static void setIsSimplifiedConference(final boolean isSimplifiedConference) {
+        ReactInstanceManagerHolder.emitEvent(SET_IS_SIMPLIFIED_CONFERENCE, isSimplifiedConference);
     }
 }

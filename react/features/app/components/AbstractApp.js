@@ -4,7 +4,7 @@ import React, { Fragment } from 'react';
 import { NativeEventEmitter, NativeModules } from 'react-native';
 
 import { BaseApp } from '../../base/app';
-import { sendCommand, removeCommand, editSpeakerViewVisibility } from '../../base/conference';
+import { sendCommand, removeCommand, editSpeakerViewVisibility, isSimplifiedConferenceChange  } from '../../base/conference';
 import { storeConfig } from '../../base/config';
 import { NativeEvents } from '../../base/constants';
 import { muteMedia, toggleCameraFacingMode } from '../../base/media';
@@ -258,6 +258,8 @@ export class AbstractApp extends BaseApp<Props, *> {
             (jsonString: string) => dispatch(updateUserAvatar(jsonString))));
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.MUTE_CONFERENCE_AUDIO,
             (mute: boolean) => dispatch(muteConferenceAudio(mute))));
+        this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.SET_IS_SIMPLIFIED_CONFERENCE,
+            (isSimplifiedConference: boolean) => dispatch(isSimplifiedConferenceChange(isSimplifiedConference))));
     }
 
 }

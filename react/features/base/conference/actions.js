@@ -53,7 +53,8 @@ import {
     SET_PENDING_SUBJECT_CHANGE,
     SET_START_MUTED_POLICY,
     COMMAND_VALUE,
-    SET_SPEAKER_VIEW_VISIBILITY
+    SET_SPEAKER_VIEW_VISIBILITY,
+    IS_SIMPLIFIED_CONFERENCE_CHANGE,
 } from './actionTypes';
 import {
     AVATAR_ID_COMMAND,
@@ -906,5 +907,21 @@ export function editSpeakerViewVisibility(isSpeakerViewShowed: boolean) {
     return {
         type: SET_SPEAKER_VIEW_VISIBILITY,
         isSpeakerViewShowed
+    };
+}
+
+/**
+ * Updates whether we're in a simplified conference.
+ *
+ * @param {?Object} state - The current state.
+ * @returns {{
+ *     type: IS_SIMPLIFIED_CONFERENCE_CHANGE,
+ *     isSimplifiedConference: boolean
+ * }}
+ */
+export function isSimplifiedConferenceChange(isSimplifiedConference: ?boolean) {
+    return {
+        type: IS_SIMPLIFIED_CONFERENCE_CHANGE,
+        isSimplifiedConference
     };
 }

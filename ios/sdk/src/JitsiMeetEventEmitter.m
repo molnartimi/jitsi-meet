@@ -106,4 +106,8 @@
     [_videoConfBridge muteVideoConferenceAudio:mute];
 }
 
+- (void)setIsSimplifiedConference:(NSNumber *_Nonnull)isSimplifiedConference {
+    [_videoConfBridge setIsSimplifiedConference:isSimplifiedConference];
+}
+
 @end

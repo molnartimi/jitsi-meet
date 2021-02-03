@@ -272,3 +272,13 @@ export const SHOP_BUTTON_EVENT = 'SHOP_BUTTON_EVENT';
  * }
  */
 export const SET_SPEAKER_VIEW_VISIBILITY = 'SET_SPEAKER_VIEW_VISIBILITY';
+
+/**
+ * The type of (redux) action which updates whether we're in a simplified conference.
+ *
+ * {
+ *     type: IS_SIMPLIFIED_CONFERENCE_CHANGE,
+ *     state: boolean
+ * }
+ */
+export const IS_SIMPLIFIED_CONFERENCE_CHANGE = 'IS_SIMPLIFIED_CONFERENCE_CHANGE';

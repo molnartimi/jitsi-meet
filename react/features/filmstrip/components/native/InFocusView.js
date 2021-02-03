@@ -138,7 +138,8 @@ class InFocusView extends Component<Props> {
             style = { styles.inFocusTopView }>
             {this.props.isWrapUpVisible
                 && this._createWrapUpButtonsPlaceholder()}
-            {this._createSelfFrameVideoComponent()}
+            {!this.props.isSimplifiedConference
+                && this._createSelfFrameVideoComponent()}
         </View>);
     }
 
@@ -244,6 +245,7 @@ function _mapStateToProps(state, ownProps) {
     const audioTrack
         = getTrackByMediaTypeAndParticipant(tracks, MEDIA_TYPE.AUDIO, id);
 
+    const { isSimplifiedConference } = state['features/base/conference'];
     const { placeholderData, countdownStartDatetime, countdownTargetDatetime } = state['features/filmstrip'];
 
     return {
@@ -253,7 +255,8 @@ function _mapStateToProps(state, ownProps) {
         placeholderData,
         isWrapUpVisible,
         countdownStartDatetime,
-        countdownTargetDatetime
+        countdownTargetDatetime,
+        isSimplifiedConference,
     };
 }
 export default connect(_mapStateToProps)(InFocusView);
