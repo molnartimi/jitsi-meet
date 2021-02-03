@@ -135,7 +135,7 @@ class InFocusView extends Component<Props> {
      */
     _createInFocusTopView() {
         return (<View
-            style = { styles.inFrontTopView }>
+            style = { styles.inFocusTopView }>
             {this.props.isWrapUpVisible
                 && this._createWrapUpButtonsPlaceholder()}
             {this._createSelfFrameVideoComponent()}
