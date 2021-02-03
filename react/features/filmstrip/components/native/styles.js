@@ -1,5 +1,7 @@
 // @flow
 
+import { Platform } from 'react-native';
+
 import { ColorSchemeRegistry, schemeColor } from '../../../base/color-scheme';
 import { ColorPalette } from '../../../base/styles';
 import { FILMSTRIP_SIZE } from '../../constants';
@@ -167,6 +169,14 @@ export default {
         alignSelf: 'flex-end',
         marginHorizontal: '3%',
         marginBottom: '3%'
+    },
+
+    osSpecificRoundedBorderedView: {
+        overflow: 'hidden',
+        ...Platform.select({
+            ios: { borderRadius: 15 },
+            android: { borderRadius: 0 }
+        })
     },
 
     microphoneViewStyle: {
