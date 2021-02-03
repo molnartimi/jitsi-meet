@@ -81,9 +81,6 @@ export default {
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: ColorPalette.appBackground,
-        borderColor: '#424242',
-        borderStyle: 'solid',
-        borderWidth: 1
     },
 
     /**
@@ -192,7 +189,7 @@ export default {
         alignSelf: 'center',
         fontWeight: 'bold',
         color: 'white',
-        fontSize: 30,
+        fontSize: 17,
         textAlign: 'center',
         paddingVertical: 15,
         fontFamily: 'Montserrat-SemiBold'
@@ -208,7 +205,7 @@ export default {
         justifyContent: 'flex-start'
     },
 
-    inFrontTopView: {
+    inFocusTopView: {
         position: 'absolute',
         justifyContent: 'flex-end',
         alignItems: 'center',
