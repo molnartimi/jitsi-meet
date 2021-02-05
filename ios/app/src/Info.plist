@@ -62,8 +62,6 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSCalendarsUsageDescription</key>
-	<string>See your scheduled meetings in the app.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Participate in meetings with video.</string>
 	<key>NSMicrophoneUsageDescription</key>

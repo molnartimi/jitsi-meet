@@ -9,6 +9,7 @@ import {
 import { getName } from '../../app/functions';
 import { UNDEFINED_JITSI_ERROR } from '../../mobile/external-api/actions';
 import { endpointMessageReceived } from '../../subtitles';
+import { GLOBAL_ERROR_OCCURRED } from '../config';
 import { JITSI_CONNECTION_CONFERENCE_KEY } from '../connection';
 import { JitsiConferenceEvents } from '../lib-jitsi-meet';
 import { setAudioMuted, setVideoMuted } from '../media';
@@ -54,7 +55,7 @@ import {
     SET_START_MUTED_POLICY,
     COMMAND_VALUE,
     SET_SPEAKER_VIEW_VISIBILITY,
-    IS_SIMPLIFIED_CONFERENCE_CHANGE,
+    IS_SIMPLIFIED_CONFERENCE_CHANGE
 } from './actionTypes';
 import {
     AVATAR_ID_COMMAND,
@@ -923,5 +924,12 @@ export function isSimplifiedConferenceChange(isSimplifiedConference: ?boolean) {
     return {
         type: IS_SIMPLIFIED_CONFERENCE_CHANGE,
         isSimplifiedConference
+    };
+}
+
+export function catchGlobalError(error: Error) {
+    return {
+        type: GLOBAL_ERROR_OCCURRED,
+        errorMessage: error.message
     };
 }

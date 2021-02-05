@@ -1,6 +1,7 @@
 // @flow
 
 import { LOCKED_LOCALLY, LOCKED_REMOTELY } from '../../room-lock';
+import { GLOBAL_ERROR_OCCURRED } from '../config/actionTypes';
 import { CONNECTION_WILL_CONNECT, SET_LOCATION_URL } from '../connection';
 import { JitsiConferenceErrors } from '../lib-jitsi-meet';
 import { assign, ReducerRegistry, set } from '../redux';
@@ -25,7 +26,7 @@ import {
     SET_SIP_GATEWAY_ENABLED,
     SET_START_MUTED_POLICY,
     SET_SPEAKER_VIEW_VISIBILITY,
-    IS_SIMPLIFIED_CONFERENCE_CHANGE,
+    IS_SIMPLIFIED_CONFERENCE_CHANGE
 } from './actionTypes';
 import { isRoomValid } from './functions';
 
@@ -38,7 +39,9 @@ const DEFAULT_STATE = {
     membersOnly: undefined,
     password: undefined,
     passwordRequired: undefined,
-    isSpeakerViewShowed: false
+    isSpeakerViewShowed: false,
+    isGlobalErrorOccurred: false,
+    globalErrorMessage: ''
 };
 
 /**
@@ -125,9 +128,14 @@ ReducerRegistry.register(
         case IS_SIMPLIFIED_CONFERENCE_CHANGE: {
             return {
                 ...state,
-                isSimplifiedConference: action.isSimplifiedConference,
+                isSimplifiedConference: action.isSimplifiedConference
             };
         }
+
+        case GLOBAL_ERROR_OCCURRED:
+            return { ...state,
+                isGlobalErrorOccurred: true,
+                globalErrorMessage: action.errorMessage };
         }
 
         return state;

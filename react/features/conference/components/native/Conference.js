@@ -4,6 +4,7 @@ import React from 'react';
 import { NativeModules, SafeAreaView } from 'react-native';
 
 import { appNavigate } from '../../../app/actions';
+import ErrorBoundary from '../../../app/components/ErrorBoundary';
 import { IN_FOCUS_COMMAND } from '../../../base/conference';
 import { PIP_ENABLED, getFeatureFlag } from '../../../base/flags';
 import { Container } from '../../../base/react';
@@ -18,7 +19,6 @@ import Thumbnail from '../../../filmstrip/components/native/Thumbnail';
 import { KnockingParticipantList } from '../../../lobby';
 import { BackButtonRegistry } from '../../../mobile/back-button';
 import { setToolboxVisible } from '../../../toolbox/actions';
-import { Toolbox } from '../../../toolbox/components/native';
 import { isToolboxVisible } from '../../../toolbox/functions';
 import {
     AbstractConference,
@@ -127,9 +127,11 @@ class Conference extends AbstractConference<Props, *> {
      */
     render() {
         return (
-            <Container style = { styles.conference }>
-                { this._renderContent() }
-            </Container>
+            <ErrorBoundary>
+                <Container style = { styles.conference }>
+                    { this._renderContent() }
+                </Container>
+            </ErrorBoundary>
         );
     }
 
