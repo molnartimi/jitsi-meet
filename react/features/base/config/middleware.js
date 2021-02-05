@@ -50,12 +50,6 @@ function _appWillMount(store, next, action) {
     // It's an opportune time to transfer the feature base/config's knowledge
     // about "known domains" (which is local to the feature) to the feature
     // base/known-domains (which is global to the app).
-    //
-    // XXX Since the feature base/config predates the feature calendar-sync and,
-    // consequently, the feature known-domains, it's possible for the feature
-    // base/config to know of domains which the feature known-domains is yet to
-    // discover.
-
     const prefix = `${_CONFIG_STORE_PREFIX}/`;
     const knownDomains = [];
 

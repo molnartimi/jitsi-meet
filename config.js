@@ -381,10 +381,6 @@ var config = {
     // maintenance at 01:00 AM GMT,
     // noticeMessage: '',
 
-    // Enables calendar integration, depends on googleApiApplicationClientID
-    // and microsoftApiApplicationClientID
-    // enableCalendarIntegration: false,
-
     // When 'true', it shows an intermediate page before joining, where the user can configure their devices.
     // prejoinPageEnabled: false,
 
@@ -604,8 +600,8 @@ var config = {
     // },
 
     // Options related to the remote participant menu.
-     remoteVideoMenu: {
-         // If set to true the 'Kick out' button will be disabled.
+    remoteVideoMenu: {
+        // If set to true the 'Kick out' button will be disabled.
         disableKick: true
     },
 

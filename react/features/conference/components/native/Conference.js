@@ -9,7 +9,6 @@ import { PIP_ENABLED, getFeatureFlag } from '../../../base/flags';
 import { Container } from '../../../base/react';
 import { connect } from '../../../base/redux';
 import { ASPECT_RATIO_NARROW } from '../../../base/responsive-ui/constants';
-import { isCalendarEnabled } from '../../../calendar-sync';
 import {
     FILMSTRIP_SIZE,
     isFilmstripVisible,
@@ -40,11 +39,6 @@ type Props = AbstractProps & {
      * Application's aspect ratio.
      */
     _aspectRatio: Symbol,
-
-    /**
-     * Wherther the calendar feature is enabled or not.
-     */
-    _calendarEnabled: boolean,
 
     /**
      * The indicator which determines that we are still connecting to the
@@ -303,13 +297,12 @@ function _mapStateToProps(state) {
     const focusedUser = participants.find(p => p[IN_FOCUS_COMMAND]);
     const localUser = participants[0];
     const largeVideoParticipant = isSpeakerViewShowed
-        ? (dominantSpeaker ?? focusedUser ?? localUser)
+        ? dominantSpeaker ?? focusedUser ?? localUser
         : focusedUser;
 
     return {
         ...abstractMapStateToProps(state),
         _aspectRatio: aspectRatio,
-        _calendarEnabled: isCalendarEnabled(state),
         _connecting: Boolean(connecting_),
         _filmstripVisible: isFilmstripVisible(state),
         _largeVideoParticipant: largeVideoParticipant,
