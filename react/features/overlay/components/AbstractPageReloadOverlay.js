@@ -15,7 +15,7 @@ import {
 } from '../../base/lib-jitsi-meet';
 import logger from '../logger';
 
-import ReloadButton from './web/ReloadButton';
+import ReloadButton from './native/ReloadButton';
 
 declare var APP: Object;
 

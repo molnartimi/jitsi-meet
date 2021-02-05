@@ -34,7 +34,6 @@ import '../lobby/middleware';
 import '../notifications/middleware';
 import '../overlay/middleware';
 import '../recent-list/middleware';
-import '../recording/middleware';
 import '../rejoin/middleware';
 import '../room-lock/middleware';
 import '../rtcstats/middleware';
