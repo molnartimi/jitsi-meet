@@ -1,10 +1,9 @@
 // @flow
 
 import React from 'react';
-import { NativeModules, SafeAreaView } from 'react-native';
+import { SafeAreaView } from 'react-native';
 
 import { appNavigate } from '../../../app/actions';
-import ErrorBoundary from '../../../app/components/ErrorBoundary';
 import { IN_FOCUS_COMMAND } from '../../../base/conference';
 import { PIP_ENABLED, getFeatureFlag } from '../../../base/flags';
 import { Container } from '../../../base/react';
@@ -26,6 +25,7 @@ import {
 } from '../AbstractConference';
 import type { AbstractProps } from '../AbstractConference';
 
+import { ErrorHandler } from './ErrorHandler';
 import Labels from './Labels';
 import styles from './styles';
 
@@ -127,11 +127,11 @@ class Conference extends AbstractConference<Props, *> {
      */
     render() {
         return (
-            <ErrorBoundary>
+            <ErrorHandler>
                 <Container style = { styles.conference }>
                     { this._renderContent() }
                 </Container>
-            </ErrorBoundary>
+            </ErrorHandler>
         );
     }
 

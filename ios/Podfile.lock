@@ -306,6 +306,8 @@ PODS:
     - React-jsi (= 0.61.5-jitsi.1)
     - ReactCommon/jscallinvoker (= 0.61.5-jitsi.1)
     - ReactCommon/turbomodule/core (= 0.61.5-jitsi.1)
+  - ReactNativeExceptionHandler (2.10.9):
+    - React-Core
   - RNCAsyncStorage (1.3.4):
     - React
   - RNDefaultPreference (1.4.2):
@@ -359,6 +361,7 @@ DEPENDENCIES:
   - React-RCTText (from `../node_modules/react-native/Libraries/Text`)
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/turbomodule (from `../node_modules/react-native/ReactCommon`)
+  - ReactNativeExceptionHandler (from `../node_modules/react-native-exception-handler/ReactNativeExceptionHandler.podspec`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - RNDefaultPreference (from `../node_modules/react-native-default-preference`)
   - RNSound (from `../node_modules/react-native-sound`)
@@ -447,6 +450,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/Vibration"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  ReactNativeExceptionHandler:
+    :podspec: "../node_modules/react-native-exception-handler/ReactNativeExceptionHandler.podspec"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
   RNDefaultPreference:
@@ -508,6 +513,7 @@ SPEC CHECKSUMS:
   React-RCTText: b4c29897c3df0c9f112e29aa3167fa6caf40b690
   React-RCTVibration: a1bcfcdc0b5a73a1b0829a34cee22bd0e95bacba
   ReactCommon: 675681aba4fecff5acbc0e440530cc422103c610
+  ReactNativeExceptionHandler: f1638ffd507ef1b1794af25884fa0eb30dd5c551
   RNCAsyncStorage: d1776f44eff0766252048e7fcd05f5c0dab9b6e8
   RNDefaultPreference: 1f8133ec0bc0f9453cdada578564ba1ef551fb44
   RNSound: da030221e6ac7e8290c6b43f2b5f2133a8e225b0
@@ -515,6 +521,6 @@ SPEC CHECKSUMS:
   RNWatch: a5320c959c75e72845c07985f3e935e58998f1d3
   Yoga: 7b4209fda2441f99d54dd6cf4c82b094409bb68f
 
-PODFILE CHECKSUM: 4809091c3e4194760e2e7d31c8044b326dae3972
+PODFILE CHECKSUM: 03f57686e900b803e3fa766e2cca3f8208fbff7d
 
 COCOAPODS: 1.10.0

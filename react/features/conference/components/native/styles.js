@@ -45,6 +45,15 @@ export default {
         flex: 1
     },
 
+    errorContainer: {
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'stretch',
+        justifyContent: 'center',
+        alignContent: 'center',
+        backgroundColor: 'white'
+    },
+
     gradientStretchBottom: {
         height: BOTTOM_GRADIENT_HEIGHT
     },

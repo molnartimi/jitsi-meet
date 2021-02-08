@@ -6,7 +6,11 @@ import './features/mobile/polyfills';
 import 'react-native-url-polyfill/auto';
 
 import React, { PureComponent } from 'react';
-import { AppRegistry } from 'react-native';
+import { AppRegistry, Alert } from 'react-native';
+import {
+    setJSExceptionHandler,
+    setNativeExceptionHandler
+} from 'react-native-exception-handler';
 
 import { App } from './features/app/components';
 import { _initLogging } from './features/base/logging/functions';
@@ -75,3 +79,22 @@ AppRegistry.registerComponent('App', () => Root);
 
 // Register the main/root Component of IncomingCallView.
 AppRegistry.registerComponent('IncomingCallApp', () => IncomingCallApp);
+
+
+const errorHandler = (e, isFatal) => {
+    console.log(`Jitsi global JS error occurred: ${e.message}`);
+    if (isFatal) {
+        Alert.alert(
+            'Unexpected error occurred',
+            `Error: ${isFatal ? 'Fatal:' : ''} ${e.name} ${e.message}`
+        );
+    }
+};
+
+const nativeHandler = exceptionString => {
+    console.log(`Jitsi global NATIVE error occurred: ${exceptionString}`);
+    console.log(exceptionString);
+};
+
+setJSExceptionHandler(errorHandler);
+setNativeExceptionHandler(nativeHandler, false);
