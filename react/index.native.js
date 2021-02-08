@@ -8,8 +8,7 @@ import 'react-native-url-polyfill/auto';
 import React, { PureComponent } from 'react';
 import { AppRegistry, Alert } from 'react-native';
 import {
-    setJSExceptionHandler,
-    setNativeExceptionHandler
+    setJSExceptionHandler
 } from 'react-native-exception-handler';
 
 import { App } from './features/app/components';
@@ -93,8 +92,8 @@ const errorHandler = (e, isFatal) => {
 
 const nativeHandler = exceptionString => {
     console.log(`Jitsi global NATIVE error occurred: ${exceptionString}`);
-    console.log(exceptionString);
 };
 
 setJSExceptionHandler(errorHandler);
-setNativeExceptionHandler(nativeHandler, false);
+
+// setNativeExceptionHandler(nativeHandler);
