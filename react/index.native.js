@@ -8,7 +8,7 @@ import 'react-native-url-polyfill/auto';
 import React, { PureComponent } from 'react';
 import { AppRegistry, Alert } from 'react-native';
 import {
-    setJSExceptionHandler
+    setJSExceptionHandler, setNativeExceptionHandler
 } from 'react-native-exception-handler';
 
 import { App } from './features/app/components';
@@ -96,4 +96,4 @@ const nativeHandler = exceptionString => {
 
 setJSExceptionHandler(errorHandler);
 
-// setNativeExceptionHandler(nativeHandler);
+setNativeExceptionHandler(nativeHandler);
