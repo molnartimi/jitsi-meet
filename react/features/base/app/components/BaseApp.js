@@ -8,7 +8,7 @@ import { Provider } from 'react-redux';
 import { compose, createStore } from 'redux';
 import Thunk from 'redux-thunk';
 
-import { ErrorHandler } from '../../../conference/components/native/ErrorHandler';
+import CustomErrorBoundary from '../../../conference/components/native/CustomErrorBoundary';
 import { UNDEFINED_JITSI_ERROR } from '../../../mobile/external-api/actions';
 import { i18next } from '../../i18n';
 import {
@@ -134,7 +134,7 @@ export default class BaseApp extends Component<*, State> {
 
         if (store) {
             return (
-                <ErrorHandler>
+                <CustomErrorBoundary>
                     <I18nextProvider i18n = { i18next }>
                         <Provider store = { store }>
                             <Fragment>
@@ -145,7 +145,7 @@ export default class BaseApp extends Component<*, State> {
                             </Fragment>
                         </Provider>
                     </I18nextProvider>
-                </ErrorHandler>
+                </CustomErrorBoundary>
             );
         }
 

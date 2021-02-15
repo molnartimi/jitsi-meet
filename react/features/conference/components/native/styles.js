@@ -47,11 +47,16 @@ export default {
 
     errorContainer: {
         flex: 1,
-        flexDirection: 'column',
-        alignItems: 'stretch',
+        alignItems: 'center',
         justifyContent: 'center',
-        alignContent: 'center',
-        backgroundColor: 'white'
+        backgroundColor: ColorPalette.black
+    },
+
+    errorMessage: {
+        textTransform: 'uppercase',
+        fontFamily: 'Montserrat-SemiBold',
+        fontSize: 16,
+        color: ColorPalette.white
     },
 
     gradientStretchBottom: {

@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { Button, NativeModules, SafeAreaView, Text, View } from 'react-native';
+import { NativeModules, SafeAreaView } from 'react-native';
 
 import { appNavigate } from '../../../app/actions';
 import { IN_FOCUS_COMMAND } from '../../../base/conference';
@@ -25,7 +25,7 @@ import {
 } from '../AbstractConference';
 import type { AbstractProps } from '../AbstractConference';
 
-import { ErrorHandler } from './ErrorHandler';
+import CustomErrorBoundary from './CustomErrorBoundary';
 import Labels from './Labels';
 import styles from './styles';
 
@@ -93,7 +93,6 @@ class Conference extends AbstractConference<Props, *> {
         this._onClick = this._onClick.bind(this);
         this._onHardwareBackPress = this._onHardwareBackPress.bind(this);
         this._setToolboxVisible = this._setToolboxVisible.bind(this);
-        this.state = { hasError: false };
     }
 
     /**
@@ -105,14 +104,6 @@ class Conference extends AbstractConference<Props, *> {
      */
     componentDidMount() {
         BackButtonRegistry.addListener(this._onHardwareBackPress);
-    }
-
-    static getDerivedStateFromError(error) {
-        return { hasError: true };
-    }
-
-    componentDidCatch(error, errorInfo) {
-        console.log(`Jitsi global component error occurred: ${error.message} and ${errorInfo}`);
     }
 
     /**
@@ -135,24 +126,12 @@ class Conference extends AbstractConference<Props, *> {
      * @returns {ReactElement}
      */
     render() {
-        if (this.state.hasError) {
-            return (<View
-                style = { styles.errorContainer }>
-                <View>
-                    <Text>{'Something went wrong. Please reload the app.'}</Text>
-                    <Button
-                        onPress = { this.setState({ hasError: false }) }
-                        title = 'TRY AGAIN' />
-                </View>
-            </View>);
-        }
-
         return (
-            <ErrorHandler>
+            <CustomErrorBoundary>
                 <Container style = { styles.conference }>
                     { this._renderContent() }
                 </Container>
-            </ErrorHandler>
+            </CustomErrorBoundary>
         );
     }
 
