@@ -146,8 +146,7 @@ export default {
     wrapUpText: {
         fontFamily: 'JustLovelySlantedWide',
         color: 'white',
-        fontSize: 48,
-        marginBottom: '3%'
+        fontSize: 48
     },
 
     wrapUpButtonRow: {
