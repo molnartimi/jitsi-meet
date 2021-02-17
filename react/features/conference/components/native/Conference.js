@@ -8,7 +8,8 @@ import { IN_FOCUS_COMMAND } from '../../../base/conference';
 import { PIP_ENABLED, getFeatureFlag } from '../../../base/flags';
 import { Container } from '../../../base/react';
 import { connect } from '../../../base/redux';
-import { ASPECT_RATIO_NARROW } from '../../../base/responsive-ui/constants';
+import { ASPECT_RATIO_NARROW } from '../../../base/responsive-ui';
+import { TestConnectionInfo } from '../../../base/testing';
 import {
     FILMSTRIP_SIZE,
     isFilmstripVisible,
@@ -26,9 +27,7 @@ import {
 import type { AbstractProps } from '../AbstractConference';
 
 import CustomErrorBoundary from './CustomErrorBoundary';
-import Labels from './Labels';
 import styles from './styles';
-import { TestConnectionInfo } from '../../../base/testing';
 
 
 /**

@@ -1,6 +1,6 @@
 // @flow
 
-import { Component } from 'react';
+import React, { Component } from 'react';
 
 import { statsEmitter } from '../../../connection-indicator';
 import { getLocalParticipant } from '../../participants';
@@ -114,6 +114,12 @@ class TestConnectionInfo extends Component<Props, State> {
      */
     _onStatsUpdated(stats = {}) {
         console.log('stats: ', JSON.stringify(stats));
+
+        /** Toast.show({
+            text1: 'Hello',
+            text2: 'This is some something!'
+        }); */
+
         this.setState({
             stats: {
                 bitrate: {
