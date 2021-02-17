@@ -45,6 +45,20 @@ export default {
         flex: 1
     },
 
+    errorContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: ColorPalette.black
+    },
+
+    errorMessage: {
+        textTransform: 'uppercase',
+        fontFamily: 'Montserrat-SemiBold',
+        fontSize: 16,
+        color: ColorPalette.white
+    },
+
     gradientStretchBottom: {
         height: BOTTOM_GRADIENT_HEIGHT
     },

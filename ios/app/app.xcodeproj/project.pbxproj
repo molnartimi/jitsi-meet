@@ -227,6 +227,8 @@
 				5E96ADD5E49F3B3822EF9A52 /* Pods */,
 				0BEA5C261F7B8F73000D0AB4 /* Watch app */,
 				0BEA5C351F7B8F73000D0AB4 /* WatchKit extension */,
+				3ECC50CC1132463C83832104 /* Libraries */,
+				50965D5A25D6A6F50024B0A0 /* Recovered References */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -742,10 +744,6 @@
 					"$(inherited)",
 					"../../node_modules/react-native-webrtc/ios",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-				);
 				INFOPLIST_FILE = src/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
@@ -775,10 +773,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"../../node_modules/react-native-webrtc/ios",
-				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 				);
 				INFOPLIST_FILE = src/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

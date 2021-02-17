@@ -7,12 +7,6 @@
 export const ADD_PEOPLE_ENABLED = 'add-people.enabled';
 
 /**
- * Flag indicating if calendar integration should be enabled.
- * Default: enabled (true) on Android, auto-detected on iOS.
- */
-export const CALENDAR_ENABLED = 'calendar.enabled';
-
-/**
  * Flag indicating if call integration (CallKit on iOS, ConnectionService on Android)
  * should be enabled.
  * Default: enabled (true).

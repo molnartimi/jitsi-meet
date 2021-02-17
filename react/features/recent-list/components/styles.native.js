@@ -1,8 +1,7 @@
 import { createStyleSheet } from '../../base/styles';
 
 /**
- * The styles of the React {@code Component}s of the feature recent-list i.e.
- * {@code CalendarList}.
+ * The styles of the React {@code Component}s of the feature recent-list
  */
 export default createStyleSheet({
 

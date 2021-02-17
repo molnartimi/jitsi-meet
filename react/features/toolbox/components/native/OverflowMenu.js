@@ -2,28 +2,18 @@
 
 import React, { PureComponent } from 'react';
 import { TouchableOpacity, View } from 'react-native';
-import Collapsible from 'react-native-collapsible';
 
 import { ColorSchemeRegistry } from '../../../base/color-scheme';
 import { BottomSheet, hideDialog, isDialogOpen } from '../../../base/dialog';
 import { IconDragHandle } from '../../../base/icons';
 import { connect } from '../../../base/redux';
 import { StyleType } from '../../../base/styles';
-import { SharedDocumentButton } from '../../../etherpad';
-import { InviteButton } from '../../../invite';
 import { LobbyModeButton } from '../../../lobby/components/native';
 import { AudioRouteButton } from '../../../mobile/audio-mode';
-import { LiveStreamButton, RecordButton } from '../../../recording';
-import { RoomLockButton } from '../../../room-lock';
-import { ClosedCaptionButton } from '../../../subtitles';
-import { TileViewButton } from '../../../video-layout';
-import { VideoShareButton } from '../../../youtube-player/components';
-import HelpButton from '../HelpButton';
 
 import AudioOnlyButton from './AudioOnlyButton';
 import MoreOptionsButton from './MoreOptionsButton';
 import RaiseHandButton from './RaiseHandButton';
-import ToggleCameraButton from './ToggleCameraButton';
 import styles from './styles';
 
 /**
@@ -131,17 +121,6 @@ class OverflowMenu extends PureComponent<Props, State> {
                 <RaiseHandButton { ...buttonProps } />
                 <LobbyModeButton { ...buttonProps } />
                 <MoreOptionsButton { ...moreOptionsButtonProps } />
-                <Collapsible collapsed = { !showMore }>
-                    <ToggleCameraButton { ...buttonProps } />
-                    <TileViewButton { ...buttonProps } />
-                    <RecordButton { ...buttonProps } />
-                    <LiveStreamButton { ...buttonProps } />
-                    <VideoShareButton { ...buttonProps } />
-                    <RoomLockButton { ...buttonProps } />
-                    <ClosedCaptionButton { ...buttonProps } />
-                    <SharedDocumentButton { ...buttonProps } />
-                    <HelpButton { ...buttonProps } />
-                </Collapsible>
             </BottomSheet>
         );
     }

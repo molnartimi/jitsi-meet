@@ -38,13 +38,13 @@ target 'JitsiMeet' do
   pod 'React-RCTSettings', :path => '../node_modules/react-native/Libraries/Settings'
   pod 'React-RCTText', :path => '../node_modules/react-native/Libraries/Text'
   pod 'React-RCTVibration', :path => '../node_modules/react-native/Libraries/Vibration'
-
   pod 'React-cxxreact', :path => '../node_modules/react-native/ReactCommon/cxxreact'
   pod 'React-jsi', :path => '../node_modules/react-native/ReactCommon/jsi'
   pod 'React-jsiexecutor', :path => '../node_modules/react-native/ReactCommon/jsiexecutor'
   pod 'React-jsinspector', :path => '../node_modules/react-native/ReactCommon/jsinspector'
   pod 'Yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
 
+  pod 'ReactNativeExceptionHandler', :podspec => '../node_modules/react-native-exception-handler/ReactNativeExceptionHandler.podspec'
   pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
@@ -53,14 +53,12 @@ target 'JitsiMeet' do
   #
 
   pod 'react-native-background-timer', :path => '../node_modules/react-native-background-timer'
-  pod 'react-native-calendar-events', :path => '../node_modules/react-native-calendar-events'
   pod 'react-native-keep-awake', :path => '../node_modules/react-native-keep-awake'
   pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
   pod 'react-native-webview', :path => '../node_modules/react-native-webview'
   pod 'react-native-webrtc', :path => '../node_modules/react-native-webrtc'
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
-  pod 'RNGoogleSignin', :path => '../node_modules/@react-native-community/google-signin'
   pod 'RNSound', :path => '../node_modules/react-native-sound'
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
   pod 'RNWatch', :path => '../node_modules/react-native-watch-connectivity'

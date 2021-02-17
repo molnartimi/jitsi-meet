@@ -6,9 +6,6 @@ import { TouchableOpacity, View } from 'react-native';
 import { JitsiRecordingConstants } from '../../../base/lib-jitsi-meet';
 import { connect } from '../../../base/redux';
 import { ASPECT_RATIO_WIDE } from '../../../base/responsive-ui/constants';
-import {
-    RecordingExpandedLabel
-} from '../../../recording';
 import { TranscribingExpandedLabel } from '../../../transcribing';
 import { VideoQualityExpandedLabel } from '../../../video-quality';
 import { shouldDisplayNotifications } from '../../functions';
@@ -77,8 +74,6 @@ type State = {
 }
 
 const LABEL_ID_QUALITY = 'quality';
-const LABEL_ID_RECORDING = 'recording';
-const LABEL_ID_STREAMING = 'streaming';
 const LABEL_ID_TRANSCRIBING = 'transcribing';
 const LABEL_ID_INSECURE_ROOM_NAME = 'insecure-room-name';
 
@@ -88,14 +83,7 @@ const LABEL_ID_INSECURE_ROOM_NAME = 'insecure-room-name';
  */
 const EXPANDED_LABELS = {
     quality: VideoQualityExpandedLabel,
-    recording: {
-        component: RecordingExpandedLabel,
-        props: {
-            mode: JitsiRecordingConstants.mode.FILE
-        }
-    },
     streaming: {
-        component: RecordingExpandedLabel,
         props: {
             mode: JitsiRecordingConstants.mode.STREAM
         }
@@ -171,22 +159,6 @@ class Labels extends AbstractLabels<Props, State> {
                         wide && _filmstripVisible
                             && styles.indicatorContainerWide
                     ] }>
-                    <TouchableOpacity
-                        onLayout = { this._createOnLayout(LABEL_ID_RECORDING) }
-                        onPress = { this._createOnPress(LABEL_ID_RECORDING) } >
-                        {
-                            this._renderRecordingLabel(
-                                JitsiRecordingConstants.mode.FILE)
-                        }
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onLayout = { this._createOnLayout(LABEL_ID_STREAMING) }
-                        onPress = { this._createOnPress(LABEL_ID_STREAMING) } >
-                        {
-                            this._renderRecordingLabel(
-                                JitsiRecordingConstants.mode.STREAM)
-                        }
-                    </TouchableOpacity>
                     <TouchableOpacity
                         onLayout = {
                             this._createOnLayout(LABEL_ID_TRANSCRIBING)
@@ -336,8 +308,6 @@ class Labels extends AbstractLabels<Props, State> {
 
         return null;
     }
-
-    _renderRecordingLabel: string => React$Element<any>;
 
     _renderTranscribingLabel: () => React$Element<any>;
 

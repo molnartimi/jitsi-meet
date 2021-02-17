@@ -62,14 +62,9 @@ dependencies {
 
     if (!rootProject.ext.libreBuild) {
         implementation 'com.amplitude:android-sdk:2.14.1'
-        implementation(project(":react-native-google-signin")) {
-            exclude group: 'com.google.android.gms'
-            exclude group: 'androidx'
-        }
     }
 
     implementation project(':react-native-background-timer')
-    implementation project(':react-native-calendar-events')
     implementation project(':react-native-community-async-storage')
     implementation project(':react-native-community_netinfo')
     implementation project(':react-native-default-preference')
@@ -80,6 +75,7 @@ dependencies {
     implementation project(':react-native-svg')
     implementation project(':react-native-webrtc')
     implementation project(':react-native-webview')
+    implementation project(':react-native-exception-handler')
 
     testImplementation 'junit:junit:4.12'
 }
