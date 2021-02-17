@@ -28,6 +28,7 @@ import type { AbstractProps } from '../AbstractConference';
 import CustomErrorBoundary from './CustomErrorBoundary';
 import Labels from './Labels';
 import styles from './styles';
+import { TestConnectionInfo } from '../../../base/testing';
 
 
 /**
@@ -188,7 +189,7 @@ class Conference extends AbstractConference<Props, *> {
                         ? this._createSelfFrameVideoComponent()
                         : <TileView onClick = { this._onClick } />
                 }
-
+                <TestConnectionInfo />
                 <SafeAreaView
                     pointerEvents = 'box-none'
                     style = { styles.navBarSafeView }>
