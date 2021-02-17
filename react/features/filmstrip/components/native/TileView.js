@@ -133,15 +133,16 @@ class TileView extends Component<Props> {
      */
     render() {
         const { _height, _width, onClick } = this.props;
-        const rowElements = this._groupIntoRows(this._renderThumbnails(), COLUMN_COUNT);
 
         const pages = [ <InFocusView
             inFocusUser = { this.props?.inFocusUser }
             isWrapUpVisible = { this.props._showWrapUpButtons }
             key = 'in-focus-view'
             localUser = { this.props._participants.find(participant => participant.local) } /> ];
-
-        pages.push(...this._getUserPages(this._groupThumbnailsByPages(rowElements)));
+        if (!this.props._isSimplifiedConference) {
+            const rowElements = this._groupIntoRows(this._renderThumbnails(), COLUMN_COUNT);
+            pages.push(...this._getUserPages(this._groupThumbnailsByPages(rowElements)));
+        }
         pages.push(<TapView />);
         this.totalPages = pages.length;
         if (this.props._currentIndex >= 0 && this.swiperRef && this.swiperRef.current
@@ -382,6 +383,7 @@ class TileView extends Component<Props> {
 function _mapStateToProps(state) {
     const responsiveUi = state['features/base/responsive-ui'];
     const participants = state['features/base/participants'];
+    const { isSimplifiedConference } = state['features/base/conference'];
     const inFocusUser = participants.find(p => p.currentfocus);
 
     return {
@@ -391,6 +393,7 @@ function _mapStateToProps(state) {
         _currentIndex: responsiveUi.currentSwiperIndex,
         _showWrapUpButtons: responsiveUi.showWrapUpButtons,
         _participants: participants,
+        _isSimplifiedConference: isSimplifiedConference,
         inFocusUser
     };
 }
