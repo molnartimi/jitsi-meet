@@ -1,7 +1,7 @@
 // @flow
 
 import type { AudioElement } from '../media';
-import { assign, ReducerRegistry } from '../redux';
+import { ReducerRegistry } from '../redux';
 
 import {
     _ADD_AUDIO_ELEMENT,
@@ -85,14 +85,14 @@ function _addOrRemoveAudioElement(state, action) {
     if (sound) {
         if (isAddAction) {
             nextState.set(soundId,
-                assign(sound, {
+                { ...sound,
                     audioElement: action.audioElement
-                }));
+                });
         } else {
             nextState.set(soundId,
-                assign(sound, {
+                { ...sound,
                     audioElement: undefined
-                }));
+                });
         }
     } else {
         logger.warn(`${action.type}: no sound for id: ${soundId}`);

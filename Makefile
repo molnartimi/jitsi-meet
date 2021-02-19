@@ -2,7 +2,6 @@ BUILD_DIR = build
 CLEANCSS = ./node_modules/.bin/cleancss
 DEPLOY_DIR = libs
 LIBJITSIMEET_DIR = node_modules/lib-jitsi-meet/
-LIBFLAC_DIR = node_modules/libflacjs/dist/min/
 OLM_DIR = node_modules/olm
 RNNOISE_WASM_DIR = node_modules/rnnoise-wasm/dist/
 NODE_SASS = ./node_modules/.bin/sass
@@ -63,12 +62,6 @@ deploy-lib-jitsi-meet:
 		$(LIBJITSIMEET_DIR)/lib-jitsi-meet.e2ee-worker.js \
 		$(LIBJITSIMEET_DIR)/connection_optimization/external_connect.js \
 		$(LIBJITSIMEET_DIR)/modules/browser/capabilities.json \
-		$(DEPLOY_DIR)
-
-deploy-libflac:
-	cp \
-		$(LIBFLAC_DIR)/libflac4-1.3.2.min.js \
-		$(LIBFLAC_DIR)/libflac4-1.3.2.min.js.mem \
 		$(DEPLOY_DIR)
 
 deploy-olm:

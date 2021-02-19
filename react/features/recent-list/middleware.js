@@ -11,7 +11,6 @@ import { MiddlewareRegistry } from '../base/redux';
 import { parseURIString } from '../base/util';
 
 import { _storeCurrentConference, _updateConferenceDuration } from './actions';
-import { isRecentListEnabled } from './functions';
 
 declare var APP: Object;
 
@@ -23,17 +22,15 @@ declare var APP: Object;
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
-    if (isRecentListEnabled()) {
-        switch (action.type) {
-        case APP_WILL_MOUNT:
-            return _appWillMount(store, next, action);
+    switch (action.type) {
+    case APP_WILL_MOUNT:
+        return _appWillMount(store, next, action);
 
-        case CONFERENCE_WILL_LEAVE:
-            return _conferenceWillLeave(store, next, action);
+    case CONFERENCE_WILL_LEAVE:
+        return _conferenceWillLeave(store, next, action);
 
-        case SET_ROOM:
-            return _setRoom(store, next, action);
-        }
+    case SET_ROOM:
+        return _setRoom(store, next, action);
     }
 
     return next(action);

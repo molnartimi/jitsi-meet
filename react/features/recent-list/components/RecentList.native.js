@@ -1,19 +1,15 @@
 // @flow
 
-import React from 'react';
+import React, { Component } from 'react';
 import type { Dispatch } from 'redux';
 
+import { appNavigate } from '../../app/actions';
 import { getDefaultURL } from '../../app/functions';
 import { translate } from '../../base/i18n';
-import { setActiveModalId } from '../../base/modal';
 import { NavigateSectionList, type Section } from '../../base/react';
 import { connect } from '../../base/redux';
-import { ColorPalette } from '../../base/styles';
-import { DIAL_IN_SUMMARY_VIEW_ID } from '../../invite/constants';
-import { deleteRecentListEntry } from '../actions';
-import { isRecentListEnabled, toDisplayableList } from '../functions';
+import { toDisplayableList } from '../functions.native';
 
-import AbstractRecentList from './AbstractRecentList';
 
 /**
  * The type of the React {@code Component} props of {@link RecentList}
@@ -50,8 +46,7 @@ type Props = {
  * A class that renders the list of the recently joined rooms.
  *
  */
-class RecentList extends AbstractRecentList<Props> {
-    _getRenderListEmptyComponent: () => React$Node;
+class RecentList extends Component<Props> {
     _onPress: string => {};
 
     /**
@@ -62,8 +57,7 @@ class RecentList extends AbstractRecentList<Props> {
     constructor(props: Props) {
         super(props);
 
-        this._onDelete = this._onDelete.bind(this);
-        this._onShowDialInInfo = this._onShowDialInInfo.bind(this);
+        this._onPress = this._onPress.bind(this);
     }
 
     /**
@@ -72,9 +66,6 @@ class RecentList extends AbstractRecentList<Props> {
      * @inheritdoc
      */
     render() {
-        if (!isRecentListEnabled()) {
-            return null;
-        }
         const {
             disabled,
             t,
@@ -82,51 +73,30 @@ class RecentList extends AbstractRecentList<Props> {
             _recentList
         } = this.props;
         const recentList = toDisplayableList(_recentList, t, _defaultServerURL);
-        const slideActions = [ {
-            backgroundColor: ColorPalette.blue,
-            onPress: this._onShowDialInInfo,
-            text: t('welcomepage.info')
-        }, {
-            backgroundColor: 'red',
-            onPress: this._onDelete,
-            text: t('welcomepage.recentListDelete')
-        } ];
 
         return (
             <NavigateSectionList
                 disabled = { disabled }
                 onPress = { this._onPress }
-                renderListEmptyComponent
-                    = { this._getRenderListEmptyComponent() }
-                sections = { recentList }
-                slideActions = { slideActions } />
+                sections = { recentList } />
         );
     }
 
-    _onDelete: Object => void
+    _onPress: string => void;
 
     /**
-     * Callback for the delete action of the list.
+     * Handles the list's navigate action.
      *
-     * @param {Object} itemId - The ID of the entry thats deletion is
-     * requested.
+     * @private
+     * @param {string} url - The url string to navigate to.
      * @returns {void}
      */
-    _onDelete(itemId) {
-        this.props.dispatch(deleteRecentListEntry(itemId));
+    _onPress(url) {
+        const { dispatch } = this.props;
+
+        dispatch(appNavigate(url));
     }
 
-    _onShowDialInInfo: Object => void
-
-    /**
-     * Callback for the dial-in info action of the list.
-     *
-     * @param {Object} itemId - The ID of the entry for which we'd like to show the dial in numbers.
-     * @returns {void}
-     */
-    _onShowDialInInfo(itemId) {
-        this.props.dispatch(setActiveModalId(DIAL_IN_SUMMARY_VIEW_ID, { summaryUrl: itemId.url }));
-    }
 }
 
 /**

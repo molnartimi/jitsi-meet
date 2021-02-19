@@ -1,10 +1,8 @@
 // @flow
 
-import { SET_FILMSTRIP_ENABLED } from '../../filmstrip/actionTypes';
 import { SELECT_LARGE_VIDEO_PARTICIPANT } from '../../large-video/actionTypes';
 import { APP_STATE_CHANGED } from '../../mobile/background/actionTypes';
 import { SCREEN_SHARE_PARTICIPANTS_UPDATED, SET_TILE_VIEW } from '../../video-layout/actionTypes';
-import { shouldDisplayTileView } from '../../video-layout/functions';
 import { SET_AUDIO_ONLY } from '../audio-only/actionTypes';
 import { CONFERENCE_JOINED } from '../conference/actionTypes';
 import {
@@ -36,7 +34,6 @@ MiddlewareRegistry.register(store => next => action => {
     case SCREEN_SHARE_PARTICIPANTS_UPDATED:
     case SELECT_LARGE_VIDEO_PARTICIPANT:
     case SET_AUDIO_ONLY:
-    case SET_FILMSTRIP_ENABLED:
     case SET_TILE_VIEW:
         _updateLastN(store);
         break;
@@ -82,7 +79,7 @@ function _updateLastN({ getState }) {
         lastN = 0;
     } else if (audioOnly) {
         const { screenShares } = state['features/video-layout'];
-        const tileViewEnabled = shouldDisplayTileView(state);
+        const tileViewEnabled = true;
         const largeVideoParticipantId = state['features/large-video'].participantId;
         const largeVideoParticipant
             = largeVideoParticipantId ? getParticipantById(state, largeVideoParticipantId) : undefined;

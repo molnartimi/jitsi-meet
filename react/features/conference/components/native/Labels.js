@@ -1,11 +1,10 @@
 // @flow
 
 import React from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { View } from 'react-native';
 
 import { JitsiRecordingConstants } from '../../../base/lib-jitsi-meet';
 import { connect } from '../../../base/redux';
-import { ASPECT_RATIO_WIDE } from '../../../base/responsive-ui/constants';
 import { TranscribingExpandedLabel } from '../../../transcribing';
 import { VideoQualityExpandedLabel } from '../../../video-quality';
 import { shouldDisplayNotifications } from '../../functions';
@@ -14,7 +13,6 @@ import AbstractLabels, {
     type Props as AbstractLabelsProps
 } from '../AbstractLabels';
 
-import InsecureRoomNameExpandedLabel from './InsecureRoomNameExpandedLabel';
 import styles from './styles';
 
 /**
@@ -73,10 +71,6 @@ type State = {
     visibleExpandedLabel: ?string
 }
 
-const LABEL_ID_QUALITY = 'quality';
-const LABEL_ID_TRANSCRIBING = 'transcribing';
-const LABEL_ID_INSECURE_ROOM_NAME = 'insecure-room-name';
-
 /**
  * The {@code ExpandedLabel} components to be rendered for the individual
  * {@code Label}s.
@@ -88,8 +82,7 @@ const EXPANDED_LABELS = {
             mode: JitsiRecordingConstants.mode.STREAM
         }
     },
-    transcribing: TranscribingExpandedLabel,
-    'insecure-room-name': InsecureRoomNameExpandedLabel
+    transcribing: TranscribingExpandedLabel
 };
 
 /**
@@ -139,67 +132,17 @@ class Labels extends AbstractLabels<Props, State> {
      * @inheritdoc
      */
     render() {
-        const { _aspectRatio, _filmstripVisible, _visible } = this.props;
+        const { _visible } = this.props;
 
         if (!_visible) {
             return null;
         }
 
-        const wide = _aspectRatio === ASPECT_RATIO_WIDE;
 
         return (
             <View
                 pointerEvents = 'box-none'
-                style = { styles.labelWrapper }>
-                <View
-                    onLayout = { this._onTopViewLayout }
-                    pointerEvents = 'box-none'
-                    style = { [
-                        styles.indicatorContainer,
-                        wide && _filmstripVisible
-                            && styles.indicatorContainerWide
-                    ] }>
-                    <TouchableOpacity
-                        onLayout = {
-                            this._createOnLayout(LABEL_ID_TRANSCRIBING)
-                        }
-                        onPress = {
-                            this._createOnPress(LABEL_ID_TRANSCRIBING)
-                        } >
-                        {
-                            this._renderTranscribingLabel()
-                        }
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onLayout = {
-                            this._createOnLayout(LABEL_ID_INSECURE_ROOM_NAME)
-                        }
-                        onPress = {
-                            this._createOnPress(LABEL_ID_INSECURE_ROOM_NAME)
-                        } >
-                        {
-                            this._renderInsecureRoomNameLabel()
-                        }
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onLayout = {
-                            this._createOnLayout(LABEL_ID_QUALITY) }
-                        onPress = {
-                            this._createOnPress(LABEL_ID_QUALITY) } >
-                        { this._renderVideoQualityLabel() }
-                    </TouchableOpacity>
-                </View>
-                <View
-                    style = { [
-                        styles.indicatorContainer,
-                        wide && _filmstripVisible
-                            && styles.indicatorContainerWide
-                    ] }>
-                    {
-                        this._renderExpandedLabel()
-                    }
-                </View>
-            </View>
+                style = { styles.labelWrapper } />
         );
     }
 

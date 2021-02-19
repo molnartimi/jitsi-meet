@@ -5,7 +5,6 @@ import { IconPin } from '../../../base/icons';
 import { pinParticipant } from '../../../base/participants';
 import { connect } from '../../../base/redux';
 import { AbstractButton, type AbstractButtonProps } from '../../../base/toolbox/components';
-import { shouldDisplayTileView } from '../../../video-layout/functions';
 
 export type Props = AbstractButtonProps & {
 
@@ -58,9 +57,10 @@ class PinButton extends AbstractButton<Props, *> {
  * @param {Object} state - The Redux state.
  * @returns {Props}
  */
+// eslint-disable-next-line no-unused-vars
 function _mapStateToProps(state) {
     return {
-        visible: shouldDisplayTileView(state)
+        visible: true
     };
 }
 

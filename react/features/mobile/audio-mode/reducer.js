@@ -1,6 +1,6 @@
 // @flow
 
-import { equals, set, ReducerRegistry } from '../../base/redux';
+import { equals, ReducerRegistry } from '../../base/redux';
 
 import { _SET_AUDIOMODE_DEVICES, _SET_AUDIOMODE_SUBSCRIPTIONS } from './actionTypes';
 
@@ -18,10 +18,12 @@ ReducerRegistry.register('features/mobile/audio-mode', (state = DEFAULT_STATE, a
             return state;
         }
 
-        return set(state, 'devices', devices);
+        return { ...state,
+            devices };
     }
     case _SET_AUDIOMODE_SUBSCRIPTIONS:
-        return set(state, 'subscriptions', action.subscriptions);
+        return { ...state,
+            subscriptions: action.subscriptions };
     }
 
     return state;

@@ -8,8 +8,6 @@ import {
 } from '../../analytics';
 import { getName } from '../../app/functions';
 import { UNDEFINED_JITSI_ERROR } from '../../mobile/external-api/actions';
-import { endpointMessageReceived } from '../../subtitles';
-import { GLOBAL_ERROR_OCCURRED } from '../config';
 import { JITSI_CONNECTION_CONFERENCE_KEY } from '../connection';
 import { JitsiConferenceEvents } from '../lib-jitsi-meet';
 import { setAudioMuted, setVideoMuted } from '../media';
@@ -47,7 +45,6 @@ import {
     P2P_STATUS_CHANGED,
     SEND_TONES,
     SET_DESKTOP_SHARING_ENABLED,
-    SET_FOLLOW_ME,
     SET_PASSWORD,
     SET_PASSWORD_FAILED,
     SET_ROOM,
@@ -179,10 +176,6 @@ function _addConferenceListeners(conference, dispatch) {
     conference.on(
         JitsiConferenceEvents.DOMINANT_SPEAKER_CHANGED,
         id => dispatch(dominantSpeakerChanged(id, conference)));
-
-    conference.on(
-        JitsiConferenceEvents.ENDPOINT_MESSAGE_RECEIVED,
-        (...args) => dispatch(endpointMessageReceived(...args)));
 
     conference.on(
         JitsiConferenceEvents.PARTICIPANT_CONN_STATUS_CHANGED,
@@ -622,22 +615,6 @@ export function setDesktopSharingEnabled(desktopSharingEnabled: boolean) {
 }
 
 /**
- * Enables or disables the Follow Me feature.
- *
- * @param {boolean} enabled - Whether or not Follow Me should be enabled.
- * @returns {{
- *     type: SET_FOLLOW_ME,
- *     enabled: boolean
- * }}
- */
-export function setFollowMe(enabled: boolean) {
-    return {
-        type: SET_FOLLOW_ME,
-        enabled
-    };
-}
-
-/**
  * Sets the password to join or lock a specific JitsiConference.
  *
  * @param {JitsiConference} conference - The JitsiConference which requires a
@@ -960,12 +937,5 @@ export function setIsMicCamEnabled(mic: boolean, cam: boolean) {
         type: SET_IS_MIC_CAM_ENABLED,
         mic,
         cam
-    };
-}
-
-export function catchGlobalError(error: Error) {
-    return {
-        type: GLOBAL_ERROR_OCCURRED,
-        errorMessage: error.message
     };
 }

@@ -7,7 +7,6 @@ import {
     createPinnedEvent,
     sendAnalytics
 } from '../../analytics';
-import { openDisplayNamePrompt } from '../../display-name';
 import { showErrorNotification } from '../../notifications';
 import { isNativeApp } from '../app';
 import { CONNECTION_ESTABLISHED, CONNECTION_FAILED, connectionDisconnected } from '../connection';
@@ -207,7 +206,6 @@ function _conferenceJoined({ dispatch, getState }, next, action) {
     const result = next(action);
     const { conference } = action;
     const { pendingSubjectChange } = getState()['features/base/conference'];
-    const { requireDisplayName } = getState()['features/base/config'];
 
     pendingSubjectChange && dispatch(setSubject(pendingSubjectChange));
 
@@ -220,12 +218,6 @@ function _conferenceJoined({ dispatch, getState }, next, action) {
         dispatch(conferenceWillLeave(conference));
     };
     window.addEventListener('beforeunload', beforeUnloadHandler);
-
-    if (requireDisplayName
-        && !getLocalParticipant(getState)?.name
-        && !conference.isHidden()) {
-        dispatch(openDisplayNamePrompt(undefined));
-    }
 
     _sendPingMessage(conference);
     _clearPingInterval();

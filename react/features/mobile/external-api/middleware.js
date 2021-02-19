@@ -30,7 +30,6 @@ import { getLogger } from '../../base/logging';
 import { PARTICIPANT_JOINED, PARTICIPANT_LEFT } from '../../base/participants';
 import { MiddlewareRegistry } from '../../base/redux';
 import { TRACK_ADDED } from '../../base/tracks';
-import { ENTER_PICTURE_IN_PICTURE } from '../picture-in-picture';
 
 import { UNDEFINED_JITSI_ERROR } from './actions';
 import { sendEvent } from './functions';
@@ -107,20 +106,16 @@ MiddlewareRegistry.register(store => next => action => {
             && _sendConferenceFailedOnConnectionError(store, action);
         break;
 
-    case ENTER_PICTURE_IN_PICTURE:
-        sendEvent(store, type, /* data */ {});
-        break;
-
     case LOAD_CONFIG_ERROR: {
         const { error, locationURL } = action;
 
         sendEvent(
-            store,
-            CONFERENCE_TERMINATED,
-            /* data */ {
-                error: _toErrorString(error),
-                url: _normalizeUrl(locationURL)
-            });
+                store,
+                CONFERENCE_TERMINATED,
+                /* data */ {
+                    error: _toErrorString(error),
+                    url: _normalizeUrl(locationURL)
+                });
         break;
     }
 
@@ -135,12 +130,12 @@ MiddlewareRegistry.register(store => next => action => {
                 : action.value;
 
             sendEvent(
-                store,
-                XMPP_RESULT,
-                {
-                    type: action.resultType,
-                    value
-                }
+                    store,
+                    XMPP_RESULT,
+                    {
+                        type: action.resultType,
+                        value
+                    }
             );
         } catch (e) {
             logger.error('Some error occurred at sending xmpp result event to native app', e);

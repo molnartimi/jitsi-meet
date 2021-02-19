@@ -1,4 +1,4 @@
-import { assign, ReducerRegistry } from '../redux';
+import { ReducerRegistry } from '../redux';
 
 import { SET_CONNECTION_STATE } from './actionTypes';
 
@@ -36,5 +36,6 @@ ReducerRegistry.register(
  * reduction of the specified action.
  */
 function _setConnectionState(state, action) {
-    return assign(state, { connectionState: action.connectionState });
+    return { ...state,
+        connectionState: action.connectionState };
 }

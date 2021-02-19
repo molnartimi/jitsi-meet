@@ -19,11 +19,9 @@ import {
 } from '../base/participants';
 import { MiddlewareRegistry } from '../base/redux';
 import { getBaseUrl } from '../base/util';
-import { appendSuffix } from '../display-name';
-import { SUBMIT_FEEDBACK_ERROR, SUBMIT_FEEDBACK_SUCCESS } from '../feedback';
-import { SET_FILMSTRIP_VISIBLE } from '../filmstrip';
 
 import './subscriber';
+import { appendSuffix } from './functions';
 
 declare var APP: Object;
 declare var interfaceConfig: Object;
@@ -164,17 +162,6 @@ MiddlewareRegistry.register(store => next => action => {
         APP.API.notifyUserRoleChanged(action.participant.id, action.participant.role);
         break;
 
-    case SET_FILMSTRIP_VISIBLE:
-        APP.API.notifyFilmstripDisplayChanged(action.visible);
-        break;
-
-    case SUBMIT_FEEDBACK_ERROR:
-        APP.API.notifyFeedbackSubmitted(action.error || 'Unknown error');
-        break;
-
-    case SUBMIT_FEEDBACK_SUCCESS:
-        APP.API.notifyFeedbackSubmitted();
-        break;
     }
 
     return result;

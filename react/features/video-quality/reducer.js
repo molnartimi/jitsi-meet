@@ -1,5 +1,5 @@
 import { SET_CONFIG } from '../base/config';
-import { PersistenceRegistry, ReducerRegistry, set } from '../base/redux';
+import { PersistenceRegistry, ReducerRegistry } from '../base/redux';
 
 import { SET_MAX_RECEIVER_VIDEO_QUALITY, SET_PREFERRED_VIDEO_QUALITY } from './actionTypes';
 import { VIDEO_QUALITY_LEVELS } from './constants';
@@ -40,10 +40,8 @@ ReducerRegistry.register('features/video-quality', (state = DEFAULT_STATE, actio
     case SET_CONFIG:
         return _setConfig(state, action);
     case SET_MAX_RECEIVER_VIDEO_QUALITY:
-        return set(
-            state,
-            'maxReceiverVideoQuality',
-            action.maxReceiverVideoQuality);
+        return { ...state,
+            maxReceiverVideoQuality: action.maxReceiverVideoQuality };
     case SET_PREFERRED_VIDEO_QUALITY: {
         const { preferredVideoQuality } = action;
 
@@ -73,5 +71,8 @@ function _setConfig(state, { config }) {
         logger.error('Invalid config value videoQuality.minHeightForQualityLvl');
     }
 
-    return convertedMap ? set(state, 'minHeightForQualityLvl', convertedMap) : state;
+    return convertedMap
+        ? { ...state,
+            minHeightForQualityLvl: convertedMap }
+        : state;
 }

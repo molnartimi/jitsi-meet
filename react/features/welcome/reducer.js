@@ -1,6 +1,6 @@
 // @flow
 
-import { PersistenceRegistry, ReducerRegistry, set } from '../base/redux';
+import { PersistenceRegistry, ReducerRegistry } from '../base/redux';
 
 import {
     SET_SIDEBAR_VISIBLE,
@@ -26,10 +26,12 @@ PersistenceRegistry.register(STORE_NAME, {
 ReducerRegistry.register(STORE_NAME, (state = {}, action) => {
     switch (action.type) {
     case SET_SIDEBAR_VISIBLE:
-        return set(state, 'sideBarVisible', action.visible);
+        return { ...state,
+            sideBarVisible: action.visible };
 
     case SET_WELCOME_PAGE_LISTS_DEFAULT_PAGE:
-        return set(state, 'defaultPage', action.pageIndex);
+        return { ...state,
+            defaultPage: action.pageIndex };
     }
 
     return state;

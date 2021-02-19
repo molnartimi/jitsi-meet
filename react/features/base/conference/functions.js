@@ -78,7 +78,8 @@ export function commonUserJoinedHandling(
             id,
             name: displayName,
             presence: user.getStatus(),
-            role: user.getRole()
+            role: user.getRole(),
+            local: false
         }));
     }
 }

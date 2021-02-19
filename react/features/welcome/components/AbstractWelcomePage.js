@@ -7,7 +7,6 @@ import type { Dispatch } from 'redux';
 import { createWelcomePageEvent, sendAnalytics } from '../../analytics';
 import { appNavigate } from '../../app/actions';
 import isInsecureRoomName from '../../base/util/isInsecureRoomName';
-import { isRecentListEnabled } from '../../recent-list/functions';
 
 /**
  * {@code AbstractWelcomePage}'s React {@code Component} prop types.
@@ -222,7 +221,7 @@ export class AbstractWelcomePage extends Component<Props, *> {
         });
     }
 
-    _renderInsecureRoomNameWarning: () => React$Component<any>;;
+    _renderInsecureRoomNameWarning: () => React$Component<any>;
 
     /**
      * Renders the insecure room name warning if needed.
@@ -274,7 +273,7 @@ export function _mapStateToProps(state: Object) {
     return {
         _enableInsecureRoomNameWarning: state['features/base/config'].enableInsecureRoomNameWarning || false,
         _moderatedRoomServiceUrl: state['features/base/config'].moderatedRoomServiceUrl,
-        _recentListEnabled: isRecentListEnabled(),
+        _recentListEnabled: true,
         _room: state['features/base/conference'].room,
         _settings: state['features/base/settings']
     };

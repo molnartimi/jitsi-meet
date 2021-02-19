@@ -1,6 +1,6 @@
 /* @flow */
 
-import { assign, ReducerRegistry } from '../redux';
+import { ReducerRegistry } from '../redux';
 
 import { HIDE_DIALOG, OPEN_DIALOG } from './actionTypes';
 
@@ -19,21 +19,21 @@ ReducerRegistry.register('features/base/dialog', (state = {}, action) => {
         const { component } = action;
 
         if (typeof component === 'undefined' || state.component === component) {
-            return assign(state, {
+            return { ...state,
                 component: undefined,
                 componentProps: undefined,
                 rawDialog: false
-            });
+            };
         }
         break;
     }
 
     case OPEN_DIALOG:
-        return assign(state, {
+        return { ...state,
             component: action.component,
             componentProps: action.componentProps,
             rawDialog: action.rawDialog
-        });
+        };
     }
 
     return state;

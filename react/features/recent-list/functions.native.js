@@ -137,13 +137,3 @@ export function toDisplayableList(recentList, t, defaultServerURL) {
 
     return displayableList;
 }
-
-/**
- * Returns <tt>true</tt> if recent list is enabled and <tt>false</tt> otherwise.
- *
- * @returns {boolean} <tt>true</tt> if recent list is enabled and <tt>false</tt>
- * otherwise.
- */
-export function isRecentListEnabled() {
-    return true;
-}

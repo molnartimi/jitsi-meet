@@ -13,7 +13,6 @@ import { getParticipantCount } from '../../base/participants';
 import { connect } from '../../base/redux';
 import { AbstractButton, type AbstractButtonProps } from '../../base/toolbox/components';
 import { setTileView } from '../actions';
-import { shouldDisplayTileView } from '../functions';
 import logger from '../logger';
 
 /**
@@ -91,7 +90,7 @@ function _mapStateToProps(state, ownProps) {
     const { visible = enabled && !lonelyMeeting } = ownProps;
 
     return {
-        _tileViewEnabled: shouldDisplayTileView(state),
+        _tileViewEnabled: true,
         visible
     };
 }

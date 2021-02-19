@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import { Image, View } from 'react-native';
 
+import { IN_FOCUS_COMMAND } from '../../../base/conference';
 import {
     TABLET_GALLERY_COLUMN_COUNT,
     THUMBNAIL_ASPECT_RATIO
@@ -39,8 +40,8 @@ function constructTabletGalleryView(sortedParticipants, placeholderImageUrl, thu
         maxWidth: thumbnailDimensions?.width * IN_FOCUS_SCALE
     };
 
-    const inFocusUser = sortedParticipants?.find(p => p.currentfocus);
-    const galleryParticipants = sortedParticipants?.filter(p => _.isNil(p.currentfocus) || !p.currentfocus);
+    const inFocusUser = sortedParticipants?.find(p => p[IN_FOCUS_COMMAND]);
+    const galleryParticipants = sortedParticipants?.filter(p => _.isNil(p[IN_FOCUS_COMMAND]) || !p[IN_FOCUS_COMMAND]);
 
     return _getUserPages(
         inFocusUser,
@@ -72,16 +73,12 @@ function _getUserPages(inFocusUser, inFocusStyleOverrides, placeholderImageUrl, 
                             ...inFocusStyleOverrides }} />
                     : <Thumbnail
                         inFocusStyle = { true }
-                        isAvatarCircled = { false }
                         isDominantSpeaker = { inFocusUser.dominantSpeaker }
                         isNameRequired = { true }
                         isTabletDesignEnabled = { true }
-                        isTabletVipDesignEnabled = { true }
-                        key = { inFocusUser.id }
+                        isTileView = { true }
                         participant = { inFocusUser }
-                        renderDisplayName = { true }
-                        styleOverrides = { inFocusStyleOverrides }
-                        tileView = { true } />}
+                        styleOverrides = { inFocusStyleOverrides } />}
                 <View
                     style = {{
                         ...styles.fillView,

@@ -1,6 +1,6 @@
 // @flow
 
-import { ReducerRegistry, set } from '../redux';
+import { ReducerRegistry } from '../redux';
 
 import {
     CLIENT_RESIZED,
@@ -23,7 +23,7 @@ const DEFAULT_STATE = {
     aspectRatio: ASPECT_RATIO_NARROW,
     clientHeight: innerHeight,
     clientWidth: innerWidth,
-    currentSwiperIndex: -1,
+    currentSwiperIndex: 0,
     showWrapUpButtons: false,
     reducedUI: false
 };
@@ -38,13 +38,17 @@ ReducerRegistry.register('features/base/responsive-ui', (state = DEFAULT_STATE, 
         };
     }
     case UPDATE_SWIPER_INDEX:
-        return set(state, 'currentSwiperIndex', action.currentSwiperIndex);
+        return { ...state,
+            currentSwiperIndex: action.currentSwiperIndex };
     case SHOW_WRAP_UP_BUTTONS:
-        return set(state, 'showWrapUpButtons', true);
+        return { ...state,
+            showWrapUpButtons: true };
     case SET_ASPECT_RATIO:
-        return set(state, 'aspectRatio', action.aspectRatio);
+        return { ...state,
+            aspectRatio: action.aspectRatio };
     case SET_REDUCED_UI:
-        return set(state, 'reducedUI', action.reducedUI);
+        return { ...state,
+            reducedUI: action.reducedUI };
     }
 
     return state;

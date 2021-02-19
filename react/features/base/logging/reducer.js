@@ -1,6 +1,6 @@
 // @flow
 
-import { equals, ReducerRegistry, set } from '../redux';
+import { equals, ReducerRegistry } from '../redux';
 
 import { SET_LOG_COLLECTOR, SET_LOGGING_CONFIG } from './actionTypes';
 
@@ -75,5 +75,6 @@ function _setLoggingConfig(state, action) {
  * reduction of the specified action.
  */
 function _setLogCollector(state, action) {
-    return set(state, 'logCollector', action.logCollector);
+    return { ...state,
+        logCollector: action.logCollector };
 }

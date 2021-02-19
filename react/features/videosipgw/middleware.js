@@ -29,8 +29,6 @@ import logger from './logger';
  * @returns {Function}
  */
 MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
-    const result = next(action);
-
     switch (action.type) {
     case CONFERENCE_WILL_JOIN: {
         const conference = getState()['features/base/conference'].joining;
@@ -56,7 +54,7 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
         break;
     }
 
-    return result;
+    return next(action);
 });
 
 /**

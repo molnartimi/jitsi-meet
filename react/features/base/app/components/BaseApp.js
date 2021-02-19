@@ -140,7 +140,6 @@ export default class BaseApp extends Component<*, State> {
                             <Fragment>
                                 { this._createMainElement(component, props) }
                                 <SoundCollection />
-                                { this._createExtraElement() }
                                 { this._renderDialogContainer() }
                             </Fragment>
                         </Provider>
@@ -149,18 +148,6 @@ export default class BaseApp extends Component<*, State> {
             );
         }
 
-        return null;
-    }
-
-    /**
-     * Creates an extra {@link ReactElement}s to be added (unconditionaly)
-     * alongside the main element.
-     *
-     * @returns {ReactElement}
-     * @abstract
-     * @protected
-     */
-    _createExtraElement() {
         return null;
     }
 

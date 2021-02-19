@@ -1,10 +1,9 @@
 // @flow
 
 import { LOCKED_LOCALLY, LOCKED_REMOTELY } from '../../room-lock';
-import { GLOBAL_ERROR_OCCURRED } from '../config/actionTypes';
 import { CONNECTION_WILL_CONNECT, SET_LOCATION_URL } from '../connection';
 import { JitsiConferenceErrors } from '../lib-jitsi-meet';
-import { assign, ReducerRegistry, set } from '../redux';
+import { ReducerRegistry } from '../redux';
 import { MUTE_CONFERENCE_AUDIO } from '../tracks';
 
 import {
@@ -19,7 +18,6 @@ import {
     LOCK_STATE_CHANGED,
     P2P_STATUS_CHANGED,
     SET_DESKTOP_SHARING_ENABLED,
-    SET_FOLLOW_ME,
     SET_PASSWORD,
     SET_PENDING_SUBJECT_CHANGE,
     SET_ROOM,
@@ -66,10 +64,12 @@ ReducerRegistry.register(
             return _conferenceJoined(state, action);
 
         case CONFERENCE_SUBJECT_CHANGED:
-            return set(state, 'subject', action.subject);
+            return { ...state,
+                subject: action.subject };
 
         case CONFERENCE_TIMESTAMP_CHANGED:
-            return set(state, 'conferenceTimestamp', action.conferenceTimestamp);
+            return { ...state,
+                conferenceTimestamp: action.conferenceTimestamp };
 
         case CONFERENCE_LEFT:
         case CONFERENCE_WILL_LEAVE:
@@ -79,7 +79,8 @@ ReducerRegistry.register(
             return _conferenceWillJoin(state, action);
 
         case CONNECTION_WILL_CONNECT:
-            return set(state, 'authRequired', undefined);
+            return { ...state,
+                authRequired: undefined };
 
         case LOCK_STATE_CHANGED:
             return _lockStateChanged(state, action);
@@ -90,17 +91,16 @@ ReducerRegistry.register(
         case SET_DESKTOP_SHARING_ENABLED:
             return _setDesktopSharingEnabled(state, action);
 
-        case SET_FOLLOW_ME:
-            return set(state, 'followMeEnabled', action.enabled);
-
         case SET_LOCATION_URL:
-            return set(state, 'room', undefined);
+            return { ...state,
+                room: undefined };
 
         case SET_PASSWORD:
             return _setPassword(state, action);
 
         case SET_PENDING_SUBJECT_CHANGE:
-            return set(state, 'pendingSubjectChange', action.subject);
+            return { ...state,
+                pendingSubjectChange: action.subject };
 
         case SET_ROOM:
             return _setRoom(state, action);
@@ -150,11 +150,6 @@ ReducerRegistry.register(
                 isCamEnabled: action.cam
             };
         }
-
-        case GLOBAL_ERROR_OCCURRED:
-            return { ...state,
-                isGlobalErrorOccurred: true,
-                globalErrorMessage: action.errorMessage };
         }
 
         return state;
@@ -171,10 +166,9 @@ ReducerRegistry.register(
  * reduction of the specified action.
  */
 function _authStatusChanged(state, { authEnabled, authLogin }) {
-    return assign(state, {
-        authEnabled,
-        authLogin
-    });
+    return { ...state,
+        ...authEnabled,
+        ...authLogin };
 }
 
 /**
@@ -215,7 +209,7 @@ function _conferenceFailed(state, { conference, error }) {
         break;
     }
 
-    return assign(state, {
+    return { ...state,
         authRequired,
         conference: undefined,
         e2eeSupported: undefined,
@@ -240,7 +234,7 @@ function _conferenceFailed(state, { conference, error }) {
          * @type {JitsiConference}
          */
         passwordRequired
-    });
+    };
 }
 
 /**
@@ -261,7 +255,7 @@ function _conferenceJoined(state, { conference }) {
     // FIXME Technically JitsiConference.room is a private field.
     const locked = conference.room && conference.room.locked ? LOCKED_REMOTELY : undefined;
 
-    return assign(state, {
+    return { ...state,
         authRequired: undefined,
 
         /**
@@ -285,7 +279,7 @@ function _conferenceJoined(state, { conference }) {
          */
         locked,
         passwordRequired: undefined
-    });
+    };
 }
 
 /**
@@ -354,10 +348,10 @@ function _conferenceLeftOrWillLeave(state, { conference, type }) {
  * reduction of the specified action.
  */
 function _conferenceWillJoin(state, { conference }) {
-    return assign(state, {
+    return { ...state,
         error: undefined,
         joining: conference
-    });
+    };
 }
 
 /**
@@ -375,10 +369,10 @@ function _lockStateChanged(state, { conference, locked }) {
         return state;
     }
 
-    return assign(state, {
+    return { ...state,
         locked: locked ? state.locked || LOCKED_REMOTELY : undefined,
         password: locked ? state.password : undefined
-    });
+    };
 }
 
 /**
@@ -392,7 +386,8 @@ function _lockStateChanged(state, { conference, locked }) {
  * reduction of the specified action.
  */
 function _p2pStatusChanged(state, action) {
-    return set(state, 'p2p', action.p2p);
+    return { ...state,
+        p2p: action.p2p };
 }
 
 /**
@@ -407,7 +402,8 @@ function _p2pStatusChanged(state, action) {
  * reduction of the specified action.
  */
 function _setDesktopSharingEnabled(state, action) {
-    return set(state, 'desktopSharingEnabled', action.desktopSharingEnabled);
+    return { ...state,
+        desktopSharingEnabled: action.desktopSharingEnabled };
 }
 
 /**
@@ -422,7 +418,7 @@ function _setDesktopSharingEnabled(state, action) {
 function _setPassword(state, { conference, method, password }) {
     switch (method) {
     case conference.join:
-        return assign(state, {
+        return { ...state,
             // 1. The JitsiConference which transitions away from
             // passwordRequired MUST remain in the redux state
             // features/base/conference until it transitions into
@@ -445,13 +441,13 @@ function _setPassword(state, { conference, method, password }) {
              * @type {string}
              */
             password
-        });
+        };
 
     case conference.lock:
-        return assign(state, {
+        return { ...state,
             locked: password ? LOCKED_LOCALLY : undefined,
             password
-        });
+        };
     }
 
     return state;
@@ -481,10 +477,10 @@ function _setRoom(state, action) {
      *
      * @type {string}
      */
-    return assign(state, {
+    return { ...state,
         error: undefined,
         room
-    });
+    };
 }
 
 /**
@@ -498,5 +494,6 @@ function _setRoom(state, action) {
  * reduction of the specified action.
  */
 function _setSIPGatewayEnabled(state, action) {
-    return set(state, 'isSIPGatewayEnabled', action.isSIPGatewayEnabled);
+    return { ...state,
+        isSIPGatewayEnabled: action.isSIPGatewayEnabled };
 }

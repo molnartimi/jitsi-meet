@@ -149,7 +149,7 @@ class PagedList extends Component<Props, State> {
         if (selectedPage && (component = selectedPage.component)) {
             // react-i18n / react-redux wrap components and thus we cannot access
             // the wrapped component's static methods directly.
-            const component_ = component.WrappedComponent || component;
+            const component_ = component;
             const { refresh } = component_;
 
             refresh.call(component, this.props.dispatch, isInteractive);

@@ -2,7 +2,7 @@
 
 import _ from 'lodash';
 
-import { equals, ReducerRegistry, set } from '../redux';
+import { equals, ReducerRegistry } from '../redux';
 
 import { UPDATE_CONFIG, CONFIG_WILL_LOAD, LOAD_CONFIG_ERROR, SET_CONFIG } from './actionTypes';
 import { _cleanupConfig } from './functions';
@@ -172,7 +172,8 @@ function _translateLegacyConfig(oldValue: Object) {
     // Translate the old config properties into the new config properties.
     Object.keys(oldConfigToNewConfig).forEach(section => {
         if (typeof oldValue[section] !== 'object') {
-            newValue = set(newValue, section, {});
+            newValue = { ...newValue,
+                section: {} };
         }
 
         for (const [ oldKey, newKey ] of oldConfigToNewConfig[section]) {

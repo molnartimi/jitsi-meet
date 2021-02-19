@@ -1,7 +1,7 @@
 import {
     SET_CONFIG
 } from '../config';
-import { ReducerRegistry, set } from '../redux';
+import { ReducerRegistry } from '../redux';
 
 import { validateLastNLimits } from './functions';
 
@@ -23,5 +23,6 @@ ReducerRegistry.register('features/base/lastn', (state = { }, action) => {
  * @returns {Object} The new state after the reduction of the specified action.
  */
 function _setConfig(state, { config }) {
-    return set(state, 'lastNLimits', validateLastNLimits(config.lastNLimits));
+    return { ...state,
+        lastNLimits: validateLastNLimits(config.lastNLimits) };
 }

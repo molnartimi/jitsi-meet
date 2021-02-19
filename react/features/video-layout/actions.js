@@ -6,7 +6,6 @@ import {
     SCREEN_SHARE_PARTICIPANTS_UPDATED,
     SET_TILE_VIEW
 } from './actionTypes';
-import { shouldDisplayTileView } from './functions';
 
 /**
  * Creates a (redux) action which signals that the list of known participants
@@ -50,8 +49,8 @@ export function setTileView(enabled: ?boolean) {
  * @returns {Function}
  */
 export function toggleTileView() {
-    return (dispatch: Dispatch<any>, getState: Function) => {
-        const tileViewActive = shouldDisplayTileView(getState());
+    return (dispatch: Dispatch<any>) => {
+        const tileViewActive = true;
 
         dispatch(setTileView(!tileViewActive));
     };

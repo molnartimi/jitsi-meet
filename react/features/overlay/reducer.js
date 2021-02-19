@@ -1,7 +1,7 @@
 // @flow
 
 import { CONFIG_WILL_LOAD, LOAD_CONFIG_ERROR, SET_CONFIG } from '../base/config';
-import { assign, ReducerRegistry, set } from '../base/redux';
+import { ReducerRegistry } from '../base/redux';
 
 import {
     MEDIA_PERMISSION_PROMPT_VISIBILITY_CHANGED,
@@ -46,10 +46,10 @@ ReducerRegistry.register('features/overlay', (state = { }, action) => {
 function _mediaPermissionPromptVisibilityChanged(
         state,
         { browser, isVisible }) {
-    return assign(state, {
+    return { ...state,
         browser,
         isMediaPermissionPromptVisible: isVisible
-    });
+    };
 }
 
 /**
@@ -61,7 +61,8 @@ function _mediaPermissionPromptVisibilityChanged(
  * the specified action.
  */
 function _setShowLoadConfigOverlay(state, show) {
-    return set(state, 'loadConfigOverlayVisible', show);
+    return { ...state,
+        loadConfigOverlayVisible: show };
 }
 
 /**
@@ -75,5 +76,6 @@ function _setShowLoadConfigOverlay(state, show) {
  * @private
  */
 function _setFatalError(state, { fatalError }) {
-    return set(state, 'fatalError', fatalError);
+    return { ...state,
+        fatalError };
 }

@@ -16,12 +16,6 @@ import styles from './styles';
 type Props = {
 
     /**
-     * Rendered when the list is empty. Can be a React Component Class, a render
-     * function, or a rendered element.
-     */
-    ListEmptyComponent: Object,
-
-    /**
     *
     * Used to extract a unique key for a given item at the specified index.
      * Key is used for caching and as the react key to track item re-ordering.
@@ -45,13 +39,6 @@ type Props = {
     * Default renderer for every item in every section.
     */
     renderItem: Function,
-
-    /**
-    *
-    * A component rendered at the top of each section. These stick to the top
-     * of the ScrollView by default on iOS.
-    */
-    renderSectionHeader: Object,
 
     /**
      * An array of sections
@@ -78,12 +65,10 @@ export default class SectionList extends Component<Props> {
             <SafeAreaView
                 style = { styles.container } >
                 <ReactNativeSectionList
-                    ListEmptyComponent = { this.props.ListEmptyComponent }
                     keyExtractor = { this.props.keyExtractor }
                     onRefresh = { this.props.onRefresh }
                     refreshing = { this.props.refreshing }
                     renderItem = { this.props.renderItem }
-                    renderSectionHeader = { this.props.renderSectionHeader }
                     sections = { this.props.sections }
                     style = { styles.list } />
             </SafeAreaView>

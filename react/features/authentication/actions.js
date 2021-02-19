@@ -6,7 +6,6 @@ import { appNavigate } from '../app/actions';
 import { checkIfCanJoin, conferenceLeft } from '../base/conference';
 import { connectionFailed } from '../base/connection';
 import { openDialog } from '../base/dialog';
-import { set } from '../base/redux';
 import { UNDEFINED_JITSI_ERROR } from '../mobile/external-api/actions';
 
 import {
@@ -98,7 +97,10 @@ export function cancelLogin() {
             && dispatch(
                 connectionFailed(
                     passwordRequired,
-                    set(error, 'recoverable', false)));
+                    {
+                        ...error,
+                        'recoverable': false
+                    }));
     };
 }
 

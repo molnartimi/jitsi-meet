@@ -1,7 +1,7 @@
 // @flow
 
 import { IN_FOCUS_COMMAND } from '../conference';
-import { ReducerRegistry, set } from '../redux';
+import { ReducerRegistry } from '../redux';
 
 import {
     DOMINANT_SPEAKER_CHANGED,
@@ -120,8 +120,8 @@ function _participant(state: Object = {}, action) {
     switch (action.type) {
     case DOMINANT_SPEAKER_CHANGED:
         // Only one dominant speaker is allowed.
-        return (
-            set(state, 'dominantSpeaker', state.id === action.participant.id));
+        return { ...state,
+            dominantSpeaker: state.id === action.participant.id };
 
     case PARTICIPANT_ID_CHANGED: {
         // A participant is identified by an id-conference pair. Only the local
@@ -169,17 +169,24 @@ function _participant(state: Object = {}, action) {
         const { userId, imageUrl } = action;
 
         if (state.id === userId) {
-            return set(state, 'loadableAvatarUrl', imageUrl);
+            return { ...state,
+                loadableAvatarUrl: imageUrl };
         }
         break;
     }
 
     case PIN_PARTICIPANT:
         // Currently, only one pinned participant is allowed.
-        return set(state, 'pinned', state.id === action.participant.id);
+        return { ...state,
+            pinned: state.id === action.participant.id };
 
-    case SET_CURRENT_FOCUS:
-        return set(state, IN_FOCUS_COMMAND, state.id === action.participantId);
+    case SET_CURRENT_FOCUS: {
+        const newState = { ...state };
+
+        newState[IN_FOCUS_COMMAND] = state.id === action.participantId;
+
+        return newState;
+    }
     }
 
     return state;

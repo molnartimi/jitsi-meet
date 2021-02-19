@@ -1,6 +1,5 @@
 import { ColorSchemeRegistry, schemeColor } from '../../../base/color-scheme';
 import { BoxModel, ColorPalette, fixAndroidViewClipping } from '../../../base/styles';
-import { FILMSTRIP_SIZE } from '../../../filmstrip';
 
 export const NAVBAR_GRADIENT_COLORS = [ '#000000FF', '#00000000' ];
 export const INSECURE_ROOM_NAME_LABEL_COLOR = ColorPalette.warning;
@@ -79,13 +78,6 @@ export default {
         flexDirection: 'row',
         justifyContent: 'flex-end',
         margin: BoxModel.margin
-    },
-
-    /**
-     * Indicator container for wide aspect ratio.
-     */
-    indicatorContainerWide: {
-        marginRight: FILMSTRIP_SIZE + BoxModel.margin
     },
 
     labelWrapper: {

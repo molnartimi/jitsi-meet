@@ -7,7 +7,6 @@ import { Dialog } from '../../../base/dialog';
 import { translate } from '../../../base/i18n';
 import { isLocalParticipantModerator } from '../../../base/participants';
 import { connect } from '../../../base/redux';
-import { E2EESection } from '../../../e2ee/components';
 
 import Header from './Header';
 import PasswordSection from './PasswordSection';
@@ -99,7 +98,6 @@ function SecurityDialog({
                 {
                     _showE2ee ? <>
                         <div className = 'separator-line' />
-                        <E2EESection />
                     </> : null
                 }
 

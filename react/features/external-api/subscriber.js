@@ -4,8 +4,8 @@ import { MEDIA_TYPE, VIDEO_TYPE } from '../base/media';
 import { getLocalParticipant } from '../base/participants';
 import { StateListenerRegistry } from '../base/redux';
 import { getTrackByMediaTypeAndParticipant } from '../base/tracks';
-import { appendSuffix } from '../display-name';
-import { shouldDisplayTileView } from '../video-layout';
+
+import { appendSuffix } from './functions';
 
 declare var APP: Object;
 declare var interfaceConfig: Object;
@@ -15,7 +15,8 @@ declare var interfaceConfig: Object;
  * preferred layout state and dispatching additional actions.
  */
 StateListenerRegistry.register(
-    /* selector */ state => shouldDisplayTileView(state),
+    // eslint-disable-next-line no-unused-vars
+    /* selector */ state => true,
     /* listener */ displayTileView => {
         APP.API.notifyTileViewChanged(displayTileView);
     });

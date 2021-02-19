@@ -1,6 +1,6 @@
 /* @flow */
 
-import { assign, ReducerRegistry } from '../base/redux';
+import { ReducerRegistry } from '../base/redux';
 
 import {
     CANCEL_LOGIN,
@@ -13,17 +13,17 @@ import {
 ReducerRegistry.register('features/authentication', (state = {}, action) => {
     switch (action.type) {
     case CANCEL_LOGIN:
-        return assign(state, {
+        return { ...state,
             error: undefined,
             progress: undefined,
             thenableWithCancel: undefined
-        });
+        };
 
     case STOP_WAIT_FOR_OWNER:
-        return assign(state, {
+        return { ...state,
             error: undefined,
             waitForOwnerTimeoutID: undefined
-        });
+        };
 
     case UPGRADE_ROLE_FINISHED: {
         let { thenableWithCancel } = action;
@@ -39,26 +39,26 @@ ReducerRegistry.register('features/authentication', (state = {}, action) => {
                 thenableWithCancel = undefined;
             }
 
-            return assign(state, {
+            return { ...state,
                 error,
                 progress: progress || undefined,
                 thenableWithCancel
-            });
+            };
         }
         break;
     }
 
     case UPGRADE_ROLE_STARTED:
-        return assign(state, {
+        return { ...state,
             error: undefined,
             progress: undefined,
             thenableWithCancel: action.thenableWithCancel
-        });
+        };
 
     case WAIT_FOR_OWNER:
-        return assign(state, {
+        return { ...state,
             waitForOwnerTimeoutID: action.waitForOwnerTimeoutID
-        });
+        };
     }
 
     return state;

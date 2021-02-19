@@ -153,17 +153,6 @@ export const SET_DESKTOP_SHARING_ENABLED
     = 'SET_DESKTOP_SHARING_ENABLED';
 
 /**
- * The type of (redux) action which updates the current known status of the
- * Follow Me feature.
- *
- * {
- *     type: SET_FOLLOW_ME,
- *     enabled: boolean
- * }
- */
-export const SET_FOLLOW_ME = 'SET_FOLLOW_ME';
-
-/**
  * The type of (redux) action which sets the password to join or lock a specific
  * {@code JitsiConference}.
  *
@@ -313,5 +302,3 @@ export const TABLET_DESIGN_SET = 'TABLET_DESIGN_SET';
  * }
  */
 export const SET_IS_MIC_CAM_ENABLED = 'SET_IS_MIC_CAM_ENABLED';
-
-export const GLOBAL_ERROR_OCCURRED = 'GLOBAL_ERROR_OCCURRED';

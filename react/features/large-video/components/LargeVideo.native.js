@@ -125,8 +125,7 @@ class LargeVideo extends PureComponent<Props, State> {
                 style = { _styles.largeVideo }
                 testHintId = 'org.jitsi.meet.LargeVideo'
                 useConnectivityInfoLabel = { useConnectivityInfoLabel }
-                zOrder = { 0 }
-                zoomEnabled = { true } />
+                zOrder = { 0 } />
         );
     }
 }

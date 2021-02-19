@@ -8,11 +8,7 @@ import { getLogger } from '../../../base/logging';
 
 import styles from './styles';
 
-
-/**
- * The type of React {@code Component} props of {@link PreShowCountdown}.
- */
-export type Props = {
+type Props = {
     startTime: string,
     endTime: string
 }
@@ -23,7 +19,7 @@ export type Props = {
  * @param {Props} props - Properties passed to this functional component.
  * @returns {Component} - A React component.
  */
-export class PreShowCountdown extends Component<Props> {
+class PreShowCountdown extends Component<Props> {
     _intervalId: number;
 
     constructor(props: Props) {
@@ -31,30 +27,14 @@ export class PreShowCountdown extends Component<Props> {
         this.state = { remainingTime: this._calculateRemainingTime() };
     }
 
-    /**
-     * Implements React's {@link Component#componentDidMount}.
-     *
-     * @inheritdoc
-     */
     componentDidMount() {
         this._setIntervalToDecreaseTime();
     }
 
-    /**
-     * Implements React's {@link Component#componentWillUnmount}.
-     *
-     * @inheritdoc
-     */
     componentWillUnmount() {
         this._clearInterval();
     }
 
-    /**
-     * Implements React's {@link Component#render()}.
-     *
-     * @inheritdoc
-     * @returns {ReactElement}
-     */
     render() {
         if (!this._isRemainingTimeValid(this.state.remainingTime)) {
             return null;

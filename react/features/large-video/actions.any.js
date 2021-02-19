@@ -10,7 +10,6 @@ import { _handleParticipantError } from '../base/conference';
 import { MEDIA_TYPE } from '../base/media';
 import { getParticipants } from '../base/participants';
 import { reportError } from '../base/util';
-import { shouldDisplayTileView } from '../video-layout';
 
 import {
     SELECT_LARGE_VIDEO_PARTICIPANT,
@@ -28,9 +27,7 @@ export function selectParticipant() {
         const { conference } = state['features/base/conference'];
 
         if (conference) {
-            const ids = shouldDisplayTileView(state)
-                ? getParticipants(state).map(participant => participant.id)
-                : [ state['features/large-video'].participantId ];
+            const ids = getParticipants(state).map(participant => participant.id);
 
             try {
                 conference.selectParticipants(ids);

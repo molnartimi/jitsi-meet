@@ -1,6 +1,6 @@
 // @flow
 
-import { ReducerRegistry, set } from '../base/redux';
+import { ReducerRegistry } from '../base/redux';
 
 import { SET_NO_AUDIO_SIGNAL_NOTIFICATION_UID } from './actionTypes';
 
@@ -10,7 +10,8 @@ import { SET_NO_AUDIO_SIGNAL_NOTIFICATION_UID } from './actionTypes';
 ReducerRegistry.register('features/no-audio-signal', (state = {}, action) => {
     switch (action.type) {
     case SET_NO_AUDIO_SIGNAL_NOTIFICATION_UID:
-        return set(state, 'noAudioSignalNotificationUid', action.uid);
+        return { ...state,
+            noAudioSignalNotificationUid: action.uid };
     }
 
     return state;

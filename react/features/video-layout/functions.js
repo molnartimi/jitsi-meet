@@ -1,25 +1,7 @@
 // @flow
 
-import { LAYOUTS } from './constants';
-
 declare var interfaceConfig: Object;
 
-/**
- * Returns the {@code LAYOUTS} constant associated with the layout
- * the application should currently be in.
- *
- * @param {Object} state - The redux state.
- * @returns {string}
- */
-export function getCurrentLayout(state: Object) {
-    if (shouldDisplayTileView(state)) {
-        return LAYOUTS.TILE_VIEW;
-    } else if (interfaceConfig.VERTICAL_FILMSTRIP) {
-        return LAYOUTS.VERTICAL_FILMSTRIP_VIEW;
-    }
-
-    return LAYOUTS.HORIZONTAL_FILMSTRIP_VIEW;
-}
 
 /**
  * Returns how many columns should be displayed in tile view. The number
@@ -61,13 +43,3 @@ export function getTileViewGridDimensions(state: Object, maxColumns: number = ge
     };
 }
 
-/**
- * Selector for determining if the UI layout should be in tile view. Tile view
- * is determined by more than just having the tile view setting enabled, as
- * one-on-one calls should not be in tile view, as well as etherpad editing.
- *
- * @returns {boolean} True if tile view should be displayed.
- */
-export function shouldDisplayTileView() {
-    return true;
-}

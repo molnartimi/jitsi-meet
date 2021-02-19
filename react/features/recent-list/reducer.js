@@ -11,7 +11,6 @@ import {
     _UPDATE_CONFERENCE_DURATION,
     DELETE_RECENT_LIST_ENTRY
 } from './actionTypes';
-import { isRecentListEnabled } from './functions';
 import logger from './logger';
 
 /**
@@ -52,23 +51,19 @@ PersistenceRegistry.register(STORE_NAME);
 ReducerRegistry.register(
     STORE_NAME,
     (state = _getLegacyRecentRoomList(), action) => {
-        if (isRecentListEnabled()) {
-            switch (action.type) {
-            case APP_WILL_MOUNT:
-                return _appWillMount(state);
-            case DELETE_RECENT_LIST_ENTRY:
-                return _deleteRecentListEntry(state, action.entryId);
-            case _STORE_CURRENT_CONFERENCE:
-                return _storeCurrentConference(state, action);
+        switch (action.type) {
+        case APP_WILL_MOUNT:
+            return _appWillMount(state);
+        case DELETE_RECENT_LIST_ENTRY:
+            return _deleteRecentListEntry(state, action.entryId);
+        case _STORE_CURRENT_CONFERENCE:
+            return _storeCurrentConference(state, action);
 
-            case _UPDATE_CONFERENCE_DURATION:
-                return _updateConferenceDuration(state, action);
-            default:
-                return state;
-            }
+        case _UPDATE_CONFERENCE_DURATION:
+            return _updateConferenceDuration(state, action);
+        default:
+            return state;
         }
-
-        return state;
     });
 
 /**

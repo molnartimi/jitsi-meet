@@ -7,7 +7,6 @@ import {
 import { SET_CONFIG } from '../base/config';
 import { getParticipantCount } from '../base/participants';
 import { MiddlewareRegistry, StateListenerRegistry } from '../base/redux';
-import { shouldDisplayTileView } from '../video-layout';
 
 import { setPreferredVideoQuality, setMaxReceiverVideoQuality } from './actions';
 import { VIDEO_QUALITY_LEVELS } from './constants';
@@ -65,7 +64,7 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
 StateListenerRegistry.register(
     /* selector */ state => {
         const { reducedUI } = state['features/base/responsive-ui'];
-        const _shouldDisplayTileView = shouldDisplayTileView(state);
+        const _shouldDisplayTileView = true;
         const thumbnailSize = state['features/filmstrip']?.tileViewDimensions?.thumbnailSize;
         const participantCount = getParticipantCount(state);
 

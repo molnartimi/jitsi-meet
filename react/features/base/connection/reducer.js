@@ -2,7 +2,7 @@
 
 import { SET_ROOM } from '../conference';
 import { JitsiConnectionErrors } from '../lib-jitsi-meet';
-import { assign, set, ReducerRegistry } from '../redux';
+import { ReducerRegistry } from '../redux';
 
 import {
     CONNECTION_DISCONNECTED,
@@ -61,11 +61,11 @@ function _connectionDisconnected(
         return state;
     }
 
-    return assign(state, {
+    return { ...state,
         connecting: undefined,
         connection: undefined,
         timeEstablished: undefined
-    });
+    };
 }
 
 /**
@@ -84,13 +84,13 @@ function _connectionEstablished(
             connection: Object,
             timeEstablished: number
         }) {
-    return assign(state, {
+    return { ...state,
         connecting: undefined,
         connection,
         error: undefined,
         passwordRequired: undefined,
         timeEstablished
-    });
+    };
 }
 
 /**
@@ -115,14 +115,14 @@ function _connectionFailed(
         return state;
     }
 
-    return assign(state, {
+    return { ...state,
         connecting: undefined,
         connection: undefined,
         error,
         passwordRequired:
             error.name === JitsiConnectionErrors.PASSWORD_REQUIRED
                 ? connection : undefined
-    });
+    };
 }
 
 /**
@@ -138,7 +138,7 @@ function _connectionFailed(
 function _connectionWillConnect(
         state: Object,
         { connection }: { connection: Object }) {
-    return assign(state, {
+    return { ...state,
         connecting: connection,
 
         // We don't care if the previous connection has been closed already,
@@ -148,7 +148,7 @@ function _connectionWillConnect(
         error: undefined,
         passwordRequired: undefined,
         timeEstablished: undefined
-    });
+    };
 }
 
 /**
@@ -177,7 +177,8 @@ function _getCurrentConnection(baseConnectionState: Object): ?Object {
 function _setLocationURL(
         state: Object,
         { locationURL }: { locationURL: ?URL }) {
-    return set(state, 'locationURL', locationURL);
+    return { ...state,
+        locationURL };
 }
 
 /**
@@ -190,8 +191,8 @@ function _setLocationURL(
  * reduction of the specified action.
  */
 function _setRoom(state: Object) {
-    return assign(state, {
+    return { ...state,
         error: undefined,
         passwordRequired: undefined
-    });
+    };
 }

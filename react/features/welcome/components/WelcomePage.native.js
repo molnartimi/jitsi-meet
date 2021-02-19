@@ -5,25 +5,19 @@ import {
     SafeAreaView,
     TextInput,
     TouchableHighlight,
-    TouchableOpacity,
     View
 } from 'react-native';
 
-import { getName } from '../../app/functions';
 import { ColorSchemeRegistry } from '../../base/color-scheme';
 import { translate } from '../../base/i18n';
-import { Icon, IconMenu, IconWarning } from '../../base/icons';
 import { MEDIA_TYPE } from '../../base/media';
-import { Header, LoadingIndicator, Text } from '../../base/react';
+import { Header, Text } from '../../base/react';
 import { connect } from '../../base/redux';
 import { ColorPalette } from '../../base/styles';
 import {
     createDesiredLocalTracks,
     destroyLocalTracks
 } from '../../base/tracks';
-import { HelpView } from '../../help';
-import { DialInSummary } from '../../invite';
-import { SettingsView } from '../../settings';
 import { setSideBarVisible } from '../actions';
 
 import {
@@ -33,7 +27,6 @@ import {
 import LocalVideoTrackUnderlay from './LocalVideoTrackUnderlay';
 import VideoSwitch from './VideoSwitch';
 import WelcomePageLists from './WelcomePageLists';
-import WelcomePageSideBar from './WelcomePageSideBar';
 import styles, { PLACEHOLDER_TEXT_COLOR } from './styles';
 
 /**
@@ -55,7 +48,6 @@ class WelcomePage extends AbstractWelcomePage {
 
         // Bind event handlers so they are only bound once per instance.
         this._onFieldFocusChange = this._onFieldFocusChange.bind(this);
-        this._onShowSideBar = this._onShowSideBar.bind(this);
         this._renderHintBox = this._renderHintBox.bind(this);
 
         // Specially bind functions to avoid function definition on render.
@@ -99,21 +91,6 @@ class WelcomePage extends AbstractWelcomePage {
      * @returns {ReactElement}
      */
     render() {
-        // We want to have the welcome page support the reduced UI layout,
-        // but we ran into serious issues enabling it so we disable it
-        // until we have a proper fix in place. We leave the code here though, because
-        // this part should be fine when the bug is fixed.
-        //
-        // NOTE: when re-enabling, don't forget to uncomment the respective _mapStateToProps line too
-
-        /*
-        const { _reducedUI } = this.props;
-
-        if (_reducedUI) {
-            return this._renderReducedUI();
-        }
-        */
-
         return this._renderFullUI();
     }
 
@@ -122,22 +99,6 @@ class WelcomePage extends AbstractWelcomePage {
      *
      * @inheritdoc
      */
-    _doRenderInsecureRoomNameWarning() {
-        return (
-            <View
-                style = { [
-                    styles.messageContainer,
-                    styles.insecureRoomNameWarningContainer
-                ] }>
-                <Icon
-                    src = { IconWarning }
-                    style = { styles.insecureRoomNameWarningIcon } />
-                <Text style = { styles.insecureRoomNameWarningText }>
-                    { this.props.t('security.insecureRoomNameWarning') }
-                </Text>
-            </View>
-        );
-    }
 
     /**
      * Constructs a style array to handle the hint box animation.
@@ -202,15 +163,8 @@ class WelcomePage extends AbstractWelcomePage {
      */
     _renderHintBox() {
         if (this.state._fieldFocused) {
-            const { t } = this.props;
-
             return (
                 <Animated.View style = { this._getHintBoxStyle() }>
-                    <View style = { styles.hintTextContainer } >
-                        <Text style = { styles.hintText }>
-                            { t('welcomepage.roomnameHint') }
-                        </Text>
-                    </View>
                     <View style = { styles.hintButtonContainer } >
                         { this._renderJoinButton() }
                     </View>
@@ -229,27 +183,6 @@ class WelcomePage extends AbstractWelcomePage {
      */
     _renderJoinButton() {
         const { t } = this.props;
-        let children;
-
-
-        if (this.state.joining) {
-            // TouchableHighlight is picky about what its children can be, so
-            // wrap it in a native component, i.e. View to avoid having to
-            // modify non-native children.
-            children = (
-                <View>
-                    <LoadingIndicator
-                        color = { styles.buttonText.color }
-                        size = 'small' />
-                </View>
-            );
-        } else {
-            children = (
-                <Text style = { styles.buttonText }>
-                    { this.props.t('welcomepage.join') }
-                </Text>
-            );
-        }
 
         return (
             <TouchableHighlight
@@ -258,7 +191,9 @@ class WelcomePage extends AbstractWelcomePage {
                 onPress = { this._onJoin }
                 style = { styles.button }
                 underlayColor = { ColorPalette.white }>
-                { children }
+                <Text style = { styles.buttonText }>
+                    { this.props.t('welcomepage.join') }
+                </Text>
             </TouchableHighlight>
         );
     }
@@ -276,11 +211,6 @@ class WelcomePage extends AbstractWelcomePage {
             <LocalVideoTrackUnderlay style = { styles.welcomePage }>
                 <View style = { _headerStyles.page }>
                     <Header style = { styles.header }>
-                        <TouchableOpacity onPress = { this._onShowSideBar } >
-                            <Icon
-                                src = { IconMenu }
-                                style = { _headerStyles.headerButtonIcon } />
-                        </TouchableOpacity>
                         <VideoSwitch />
                     </Header>
                     <SafeAreaView style = { styles.roomContainer } >
@@ -305,49 +235,14 @@ class WelcomePage extends AbstractWelcomePage {
                                 underlineColorAndroid = 'transparent'
                                 value = { this.state.room } />
                             {
-                                this._renderInsecureRoomNameWarning()
-                            }
-                            {
                                 this._renderHintBox()
                             }
                         </View>
                     </SafeAreaView>
                     <WelcomePageLists disabled = { this.state._fieldFocused } />
                 </View>
-                <WelcomePageSideBar />
-                { this._renderWelcomePageModals() }
             </LocalVideoTrackUnderlay>
         );
-    }
-
-    /**
-     * Renders a "reduced" version of the welcome page.
-     *
-     * @returns {ReactElement}
-     */
-    _renderReducedUI() {
-        const { t } = this.props;
-
-        return (
-            <View style = { styles.reducedUIContainer }>
-                <Text style = { styles.reducedUIText }>
-                    { t('welcomepage.reducedUIText', { app: getName() }) }
-                </Text>
-            </View>
-        );
-    }
-
-    /**
-     * Renders JitsiModals that are supposed to be on the welcome page.
-     *
-     * @returns {Array<ReactElement>}
-     */
-    _renderWelcomePageModals() {
-        return [
-            <HelpView key = 'helpView' />,
-            <DialInSummary key = 'dialInSummary' />,
-            <SettingsView key = 'settings' />
-        ];
     }
 }
 
@@ -361,8 +256,6 @@ function _mapStateToProps(state) {
     return {
         ..._abstractMapStateToProps(state),
         _headerStyles: ColorSchemeRegistry.get(state, 'Header')
-
-        // _reducedUI: state['features/base/responsive-ui'].reducedUI
     };
 }
 

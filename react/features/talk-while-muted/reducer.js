@@ -1,6 +1,6 @@
 // @flow
 
-import { ReducerRegistry, set } from '../base/redux';
+import { ReducerRegistry } from '../base/redux';
 
 import { SET_CURRENT_NOTIFICATION_UID } from './actionTypes';
 
@@ -10,7 +10,8 @@ import { SET_CURRENT_NOTIFICATION_UID } from './actionTypes';
 ReducerRegistry.register('features/talk-while-muted', (state = { }, action) => {
     switch (action.type) {
     case SET_CURRENT_NOTIFICATION_UID:
-        return set(state, 'currentNotificationUid', action.uid);
+        return { ...state,
+            currentNotificationUid: action.uid };
     }
 
     return state;

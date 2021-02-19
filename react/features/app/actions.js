@@ -2,11 +2,15 @@
 
 import type { Dispatch } from 'redux';
 
-import { API_ID } from '../../../modules/API/constants';
+import { API_ID } from '../../../modules/API';
 import { isNativeApp } from '../base/app';
-import { setRoom, setIsMicCamEnabled } from '../base/conference';
-import { createConference, conferenceLeft, conferenceWillLeave } from '../base/conference/actions';
-import { getCurrentConference } from '../base/conference/functions';
+import {
+    setRoom,
+    setIsMicCamEnabled,
+    createConference,
+    conferenceLeft,
+    conferenceWillLeave,
+    getCurrentConference } from '../base/conference';
 import {
     configWillLoad,
     createFakeConfig,
