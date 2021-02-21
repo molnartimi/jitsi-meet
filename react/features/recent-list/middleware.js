@@ -58,11 +58,6 @@ function _appWillMount({ dispatch, getState }, next, action) {
     // It's an opportune time to transfer the feature recent-list's knowledge
     // about "known domains" (which is local to the feature) to the feature
     // base/known-domains (which is global to the app).
-    //
-    // XXX Since the feature recent-list predates the feature calendar-sync and,
-    // consequently, the feature known-domains, it's possible for the feature
-    // known-list to know of domains which the feature known-domains is yet to
-    // discover.
     const knownDomains = [];
 
     for (const { conference } of getState()['features/recent-list']) {
