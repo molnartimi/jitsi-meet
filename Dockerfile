@@ -8,7 +8,7 @@ RUN apt-get update && \
 	apt-get install -y unzip && \
 	apt-get install -y curl && \
 	apt-get install -y wget
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
 RUN apt-get install -y nodejs && \
 	apt-get install -y npm
 
@@ -44,7 +44,7 @@ WORKDIR /jitsi-meet
 COPY package.json /jitsi-meet/package.json
 COPY package-lock.json /jitsi-meet/package-lock.json
 
-RUN npm i
+RUN npm i -g npm@7.5.4
 
 # Copying build scripts
 COPY android/scripts android/scripts

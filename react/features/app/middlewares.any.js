@@ -30,7 +30,6 @@ import '../filmstrip/middleware';
 import '../follow-me/middleware';
 import '../invite/middleware';
 import '../large-video/middleware';
-import '../lobby/middleware';
 import '../notifications/middleware';
 import '../overlay/middleware';
 import '../recent-list/middleware';
