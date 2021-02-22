@@ -26,7 +26,6 @@ import {
     resizeLargeVideo,
     selectParticipantInLargeVideo
 } from '../../react/features/large-video/actions';
-import { toggleLobbyMode } from '../../react/features/lobby/actions.web';
 import { RECORDING_TYPES } from '../../react/features/recording/constants';
 import { getActiveSession } from '../../react/features/recording/functions';
 import { muteAllParticipants } from '../../react/features/remote-video-menu/actions';
@@ -94,9 +93,6 @@ function initCommands() {
                 .map(participant => participant.id);
 
             APP.store.dispatch(muteAllParticipants(localIds));
-        },
-        'toggle-lobby': isLobbyEnabled => {
-            APP.store.dispatch(toggleLobbyMode(isLobbyEnabled));
         },
         'password': password => {
             const { conference, passwordRequired }

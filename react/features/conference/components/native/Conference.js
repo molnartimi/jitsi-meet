@@ -15,7 +15,6 @@ import {
     TileView
 } from '../../../filmstrip';
 import Thumbnail from '../../../filmstrip/components/native/Thumbnail';
-import { KnockingParticipantList } from '../../../lobby';
 import { BackButtonRegistry } from '../../../mobile/back-button';
 import { setToolboxVisible } from '../../../toolbox/actions';
 import { isToolboxVisible } from '../../../toolbox/functions';
@@ -193,7 +192,6 @@ class Conference extends AbstractConference<Props, *> {
                     pointerEvents = 'box-none'
                     style = { styles.navBarSafeView }>
                     { this._renderNotificationsContainer() }
-                    <KnockingParticipantList />
                 </SafeAreaView>
             </>
         );

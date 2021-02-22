@@ -63,10 +63,9 @@ class SecurityDialogButton extends AbstractButton<Props, *> {
  */
 function mapStateToProps(state: Object) {
     const { locked } = state['features/base/conference'];
-    const { lobbyEnabled } = state['features/lobby'];
 
     return {
-        _locked: locked || lobbyEnabled
+        _locked: locked
     };
 }
 

@@ -8,7 +8,6 @@ import { translate } from '../../../base/i18n';
 import { isLocalParticipantModerator } from '../../../base/participants';
 import { connect } from '../../../base/redux';
 import { E2EESection } from '../../../e2ee/components';
-import { LobbySection } from '../../../lobby';
 
 import Header from './Header';
 import PasswordSection from './PasswordSection';
@@ -88,7 +87,6 @@ function SecurityDialog({
             titleKey = 'security.securityOptions'
             width = { 'small' }>
             <div className = 'security-dialog'>
-                <LobbySection />
                 <PasswordSection
                     canEditPassword = { _canEditPassword }
                     conference = { _conference }
