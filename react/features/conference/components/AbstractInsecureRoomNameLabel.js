@@ -55,6 +55,6 @@ export function _mapStateToProps(state: Object): $Shape<Props> {
     return {
         _visible: enableInsecureRoomNameWarning
             && room && isInsecureRoomName(room)
-            && Boolean(locked)
+            && !Boolean(locked)
     };
 }
