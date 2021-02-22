@@ -4,7 +4,7 @@ import type { Dispatch } from 'redux';
 
 import { API_ID } from '../../../modules/API/constants';
 import { isNativeApp } from '../base/app';
-import { setRoom } from '../base/conference';
+import { setRoom, setIsMicCamEnabled } from '../base/conference';
 import { createConference, conferenceLeft, conferenceWillLeave } from '../base/conference/actions';
 import { getCurrentConference } from '../base/conference/functions';
 import {
@@ -182,6 +182,7 @@ export function appJoinRoom(
 
         dispatch(setLocationURL(locationURL));
         dispatch(setRoom(roomName));
+        dispatch(setIsMicCamEnabled(!noMic, !noCam));
 
         if (isNativeApp()) {
             const desiredTypes = [];

@@ -21,6 +21,9 @@ type Props = {
     placeholderData: Object,
     countdownStartDatetime: string,
     countdownTargetDatetime: string,
+    isSimplifiedConference: boolean,
+    isMicEnabled: boolean,
+    isCamEnabled: boolean,
     dispatch: Dispatch<any>
 }
 
@@ -138,9 +141,14 @@ class InFocusView extends Component<Props> {
             style = { styles.inFocusTopView }>
             {this.props.isWrapUpVisible
                 && this._createWrapUpButtonsPlaceholder()}
-            {!this.props.isSimplifiedConference
+            {this._isSelfFrameVisible()
                 && this._createSelfFrameVideoComponent()}
         </View>);
+    }
+
+    _isSelfFrameVisible(): boolean {
+        return !this.props.isSimplifiedConference
+            && this.props.isCamEnabled;
     }
 
     _createWrapUpButtonsPlaceholder() {
@@ -192,13 +200,18 @@ class InFocusView extends Component<Props> {
                     }}
                     tileView = { true }
                     zOrder = { 1 } />
-                {this.props.isLocalUserAudioMuted
+                {this._isMicMutedIndicatorVisible()
                 && <View style = { styles.microphoneViewStyle }>
                     <Image
                         source = { require('../../../../../resources/img/muted_microphone.png') }
                         style = { styles.microphoneIconStyle } />
                 </View>}
             </View>);
+    }
+
+    _isMicMutedIndicatorVisible(): boolean {
+        return this.props.isLocalUserAudioMuted
+            && this.props.isMicEnabled;
     }
 
     _onTimeToShopLookBook() {
@@ -245,7 +258,7 @@ function _mapStateToProps(state, ownProps) {
     const audioTrack
         = getTrackByMediaTypeAndParticipant(tracks, MEDIA_TYPE.AUDIO, id);
 
-    const { isSimplifiedConference } = state['features/base/conference'];
+    const { isSimplifiedConference, isMicEnabled, isCamEnabled } = state['features/base/conference'];
     const { placeholderData, countdownStartDatetime, countdownTargetDatetime } = state['features/filmstrip'];
 
     return {
@@ -257,6 +270,8 @@ function _mapStateToProps(state, ownProps) {
         countdownStartDatetime,
         countdownTargetDatetime,
         isSimplifiedConference,
+        isMicEnabled,
+        isCamEnabled,
     };
 }
 export default connect(_mapStateToProps)(InFocusView);

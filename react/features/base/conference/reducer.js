@@ -26,7 +26,8 @@ import {
     SET_SIP_GATEWAY_ENABLED,
     SET_START_MUTED_POLICY,
     SET_SPEAKER_VIEW_VISIBILITY,
-    IS_SIMPLIFIED_CONFERENCE_CHANGE
+    IS_SIMPLIFIED_CONFERENCE_CHANGE,
+    SET_IS_MIC_CAM_ENABLED,
 } from './actionTypes';
 import { isRoomValid } from './functions';
 
@@ -40,6 +41,8 @@ const DEFAULT_STATE = {
     password: undefined,
     passwordRequired: undefined,
     isSpeakerViewShowed: false,
+    isMicEnabled: false,
+    isCamEnabled: false,
     isGlobalErrorOccurred: false,
     globalErrorMessage: ''
 };
@@ -129,6 +132,14 @@ ReducerRegistry.register(
             return {
                 ...state,
                 isSimplifiedConference: action.isSimplifiedConference
+            };
+        }
+
+        case SET_IS_MIC_CAM_ENABLED: {
+            return {
+                ...state,
+                isMicEnabled: action.mic,
+                isCamEnabled: action.cam,
             };
         }
 

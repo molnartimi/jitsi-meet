@@ -55,7 +55,8 @@ import {
     SET_START_MUTED_POLICY,
     COMMAND_VALUE,
     SET_SPEAKER_VIEW_VISIBILITY,
-    IS_SIMPLIFIED_CONFERENCE_CHANGE
+    IS_SIMPLIFIED_CONFERENCE_CHANGE,
+    SET_IS_MIC_CAM_ENABLED
 } from './actionTypes';
 import {
     AVATAR_ID_COMMAND,
@@ -924,6 +925,24 @@ export function isSimplifiedConferenceChange(isSimplifiedConference: ?boolean) {
     return {
         type: IS_SIMPLIFIED_CONFERENCE_CHANGE,
         isSimplifiedConference
+    };
+}
+
+
+/**
+ * Updates whether mic and cam is enabled for the local user.
+ *
+ * @param {?Object} state - The current state.
+ * @returns {{
+ *     type: SET_IS_MIC_CAM_ENABLED,
+ *     isSimplifiedConference: boolean
+ * }}
+ */
+export function setIsMicCamEnabled(mic: boolean, cam: boolean) {
+    return {
+        type: SET_IS_MIC_CAM_ENABLED,
+        mic,
+        cam,
     };
 }
 
