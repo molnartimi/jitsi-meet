@@ -79,6 +79,14 @@
 - (void)swipeEvent:(NSDictionary *)data;
 
 /**
+ * Called whenever local connectivity stats is updated.
+ *
+ * The `data` dictionary contains:
+ * - stats string
+*/
+- (void)localStatsEvent:(NSDictionary *)data;
+
+/**
  * Called whenever wrap up buttons are pressed.
  *
  * The `data` dictionary contains:

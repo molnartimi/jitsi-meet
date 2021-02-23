@@ -254,6 +254,16 @@ export const COMMAND_VALUE = 'COMMAND_VALUE';
 export const SWIPE_EVENT = 'SWIPE_EVENT';
 
 /**
+ * The type of (redux) action which send local connectivity statistic event data to native app.
+ *
+ * {
+ *     type: LOCAL_STATS_EVENT,
+ *     stats: string
+ * }
+ */
+export const LOCAL_STATS_EVENT = 'LOCAL_STATS_EVENT';
+
+/**
  * The type of (redux) action which send time to shop button event data to native app.
  *
  * {

@@ -70,6 +70,12 @@ public interface JitsiMeetViewListener {
     void onSwipeEvent(Map<String, Object> data);
 
     /**
+     * Called whenever local connectivity stats is updated.
+     * @param stats string
+     */
+    void onLocalStatsEvent(Map<String, Object> data);
+
+    /**
      * Called whenever wrap up buttons are pressed.
      * @param data Map with 'navigationTarget' page to display in app.
      */

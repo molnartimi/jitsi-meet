@@ -1,6 +1,10 @@
 // @flow
 
-import { SWIPE_EVENT, SHOP_BUTTON_EVENT } from '../base/conference';
+import {
+    SWIPE_EVENT,
+    SHOP_BUTTON_EVENT,
+    LOCAL_STATS_EVENT
+} from '../base/conference';
 
 import {
     SET_COUNTDOWN,
@@ -98,6 +102,22 @@ export function swipeEvent(index: number, total: number) {
         type: SWIPE_EVENT,
         index: index.toString(),
         total: total.toString()
+    };
+}
+
+/**
+ * Creates action which send local connectivity statistic event data to native app.
+ *
+ * @param {Object} stats - Local Jitsi stats object.
+ * @returns {{
+ *     type: LOCAL_STATS_EVENT,
+ *     stats: string
+ * }}
+ */
+export function localStatsEvent(stats: Object) {
+    return {
+        type: LOCAL_STATS_EVENT,
+        stats: stats.toString()
     };
 }
 

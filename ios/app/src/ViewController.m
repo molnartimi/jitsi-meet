@@ -108,6 +108,10 @@
     [self _onJitsiMeetViewDelegateEvent:@"SWIPE_EVENT" withData:data];
 }
 
+- (void)localStatsEvent:(NSDictionary *)data {
+    [self _onJitsiMeetViewDelegateEvent:@"LOCAL_STATS_EVENT" withData:data];
+}
+
 - (void)shopButtonEvent:(NSDictionary *)data {
     [self _onJitsiMeetViewDelegateEvent:@"SHOP_BUTTON_EVENT" withData:data];
 }

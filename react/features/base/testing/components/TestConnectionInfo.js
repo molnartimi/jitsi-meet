@@ -1,13 +1,12 @@
 // @flow
 
-import React, { Component, Fragment } from 'react';
+import { Component } from 'react';
 
 import { statsEmitter } from '../../../connection-indicator';
+import { localStatsEvent } from '../../../filmstrip';
 import { getLocalParticipant } from '../../participants';
 import { connect } from '../../redux';
 import { isTestModeEnabled } from '../functions';
-
-import { TestHint } from './index';
 
 /**
  * Defines the TestConnectionInfo's properties.
@@ -84,8 +83,6 @@ type State = {
  * a good thing).
  */
 class TestConnectionInfo extends Component<Props, State> {
-    _onStatsUpdated: Object => void;
-
     /**
      * Initializes new <tt>TestConnectionInfo</tt> instance.
      *
@@ -117,14 +114,10 @@ class TestConnectionInfo extends Component<Props, State> {
      * @private
      */
     _onStatsUpdated(stats = {}) {
-        this.setState({
-            stats: {
-                bitrate: {
-                    download: stats.bitrate?.download || 0,
-                    upload: stats.bitrate?.upload || 0
-                }
-            }
-        });
+        console.log('Local connectivity statistics: ', JSON.stringify(stats));
+        if (stats && stats.connectionQuality && stats.connectionQuality < 30) {
+            this.props.dispatch(localStatsEvent(stats.connectionQuality));
+        }
     }
 
     /**
@@ -172,29 +165,7 @@ class TestConnectionInfo extends Component<Props, State> {
      * @returns {ReactElement|null}
      */
     render() {
-        if (!this.props._testMode) {
-            return null;
-        }
-
-        return (
-            <Fragment accessible = { false } >
-                <TestHint
-                    id = 'org.jitsi.meet.conference.connectionState'
-                    value = { this.props._conferenceConnectionState } />
-                <TestHint
-                    id = 'org.jitsi.meet.conference.joinedState'
-                    value = { this.props._conferenceJoinedState } />
-                <TestHint
-                    id = 'org.jitsi.meet.conference.grantModeratorAvailable'
-                    value = { true } />
-                <TestHint
-                    id = 'org.jitsi.meet.conference.localParticipantRole'
-                    value = { this.props._localUserRole } />
-                <TestHint
-                    id = 'org.jitsi.meet.stats.rtp'
-                    value = { JSON.stringify(this.state.stats) } />
-            </Fragment>
-        );
+        return null;
     }
 }
 
