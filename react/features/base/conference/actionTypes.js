@@ -283,4 +283,15 @@ export const SET_SPEAKER_VIEW_VISIBILITY = 'SET_SPEAKER_VIEW_VISIBILITY';
  */
 export const IS_SIMPLIFIED_CONFERENCE_CHANGE = 'IS_SIMPLIFIED_CONFERENCE_CHANGE';
 
+/**
+ * The type of (redux) action which sets whether mic and cam is enabled of the
+ * local user.
+ *
+ * {
+ *     type: SET_IS_MIC_CAM_ENABLED,
+ *     state: boolean
+ * }
+ */
+export const SET_IS_MIC_CAM_ENABLED = 'SET_IS_MIC_CAM_ENABLED';
+
 export const GLOBAL_ERROR_OCCURRED = 'GLOBAL_ERROR_OCCURRED';
