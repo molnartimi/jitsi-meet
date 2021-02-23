@@ -114,7 +114,7 @@ class TestConnectionInfo extends Component<Props, State> {
      * @private
      */
     _onStatsUpdated(stats = {}) {
-        console.log('stats: ', JSON.stringify(stats));
+        console.log('Local connectivity statistics: ', JSON.stringify(stats));
         if (stats && stats.connectionQuality && stats.connectionQuality < 30) {
             this.props.dispatch(localStatsEvent(stats.connectionQuality));
         }
