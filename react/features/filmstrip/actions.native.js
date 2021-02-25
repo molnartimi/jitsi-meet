@@ -151,7 +151,10 @@ export function shopButtonEvent(navigationTarget: string) {
 export function setPlaceholderData(title: string, imageUrl: string) {
     return {
         type: SET_PLACEHOLDER_DATA,
-        placeholderData: { title, imageUrl }
+        placeholderData: {
+            title,
+            imageUrl
+        }
     };
 }
 

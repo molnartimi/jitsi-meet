@@ -915,7 +915,7 @@ export function editSpeakerViewVisibility(isSpeakerViewShowed: boolean) {
 /**
  * Updates whether we're in a simplified conference.
  *
- * @param {?Object} state - The current state.
+ * @param {?Object} isSimplifiedConference - Whether we're in a simplified conference.
  * @returns {{
  *     type: IS_SIMPLIFIED_CONFERENCE_CHANGE,
  *     isSimplifiedConference: boolean
@@ -932,7 +932,8 @@ export function isSimplifiedConferenceChange(isSimplifiedConference: ?boolean) {
 /**
  * Updates whether mic and cam is enabled for the local user.
  *
- * @param {?Object} state - The current state.
+ * @param {boolean} mic - Is microphone enabled?.
+ * @param {boolean} cam - Is camera enabled?.
  * @returns {{
  *     type: SET_IS_MIC_CAM_ENABLED,
  *     isSimplifiedConference: boolean
@@ -942,7 +943,7 @@ export function setIsMicCamEnabled(mic: boolean, cam: boolean) {
     return {
         type: SET_IS_MIC_CAM_ENABLED,
         mic,
-        cam,
+        cam
     };
 }
 

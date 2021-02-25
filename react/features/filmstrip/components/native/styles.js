@@ -15,6 +15,25 @@ const fillView = {
     flex: 1
 };
 
+const nameComponent = {
+    position: 'absolute',
+    flex: 1,
+    alignSelf: 'center',
+    fontWeight: 'bold',
+    color: 'white',
+    fontSize: 17,
+    textAlign: 'center',
+    paddingVertical: 15,
+    fontFamily: 'Montserrat-SemiBold'
+};
+
+const wrapUpButtonStyle = {
+    flex: 1,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white'
+};
 
 /**
  * The styles of the feature filmstrip.
@@ -82,7 +101,7 @@ export default {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: ColorPalette.appBackground,
+        backgroundColor: ColorPalette.appBackground
     },
 
     /**
@@ -154,12 +173,16 @@ export default {
         marginBottom: '3%'
     },
 
-    wrapUpButtonStyle: {
-        flex: 1,
-        height: 40,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'white'
+    wrapUpButtonStyle,
+
+    lookBookButton: {
+        ...wrapUpButtonStyle,
+        marginRight: 3
+    },
+
+    collectionButton: {
+        ...wrapUpButtonStyle,
+        marginLeft: 3
     },
 
     bottomVideoPlaceholder: {
@@ -168,6 +191,10 @@ export default {
         alignSelf: 'flex-end',
         marginHorizontal: '3%',
         marginBottom: '3%'
+    },
+
+    favoritesButtonWrapper: {
+        flexDirection: 'row'
     },
 
     osSpecificRoundedBorderedView: {
@@ -192,16 +219,11 @@ export default {
         alignSelf: 'center'
     },
 
-    nameComponent: {
-        position: 'absolute',
-        flex: 1,
-        alignSelf: 'center',
-        fontWeight: 'bold',
-        color: 'white',
-        fontSize: 17,
-        textAlign: 'center',
-        paddingVertical: 15,
-        fontFamily: 'Montserrat-SemiBold'
+    nameComponent,
+
+    inFocusUserName: {
+        ...nameComponent,
+        paddingTop: 220
     },
 
     imageContainer: {

@@ -66,9 +66,8 @@ export function getTileViewGridDimensions(state: Object, maxColumns: number = ge
  * is determined by more than just having the tile view setting enabled, as
  * one-on-one calls should not be in tile view, as well as etherpad editing.
  *
- * @param {Object} state - The redux state.
  * @returns {boolean} True if tile view should be displayed.
  */
-export function shouldDisplayTileView(state: Object = {}) {
+export function shouldDisplayTileView() {
     return true;
 }

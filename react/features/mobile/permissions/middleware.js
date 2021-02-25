@@ -52,7 +52,8 @@ function _alertPermissionErrorWithSettings(trackType) {
 
     Alert.alert(
         `Unable to access ${deviceType.toLowerCase()}`,
-        `Allow cabi to access your ${deviceType.toLowerCase()} from device menu: "Settings" - "Privacy" - "${deviceType}"`,
+        `Allow cabi to access your ${deviceType.toLowerCase()} from device menu: `
+            + `"Settings" - "Privacy" - "${deviceType}"`,
         [
             { text: 'Cancel' },
             {

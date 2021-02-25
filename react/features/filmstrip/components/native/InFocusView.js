@@ -1,3 +1,5 @@
+// @flow
+
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { Text, View, Image, TouchableOpacity } from 'react-native';
@@ -86,9 +88,7 @@ class InFocusView extends Component<Props> {
     _createDefaultInFocusUserName() {
         return (
             <Text
-                style = {{
-                    ...styles.nameComponent,
-                    paddingTop: 220 }}>
+                style = { styles.inFocusUserName }>
                 { this.props.placeholderData.title }
             </Text>
         );
@@ -159,22 +159,16 @@ class InFocusView extends Component<Props> {
                 style = { styles.wrapUpButtonRow }>
                 <TouchableOpacity
                     onPress = { this._onTimeToShopLookBook }
-                    style = {{
-                        ...styles.wrapUpButtonStyle,
-                        marginRight: 3
-                    }}>
+                    style = { styles.lookBookButton }>
                     <Text style = { styles.buttonText }>{LOOKBOOK_BUTTON}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress = { this._onTimeToShopCollection }
-                    style = {{
-                        ...styles.wrapUpButtonStyle,
-                        marginLeft: 3
-                    }}>
+                    style = { styles.collectionButton }>
                     <Text style = { styles.buttonText }>{COLLECTION_BUTTON}</Text>
                 </TouchableOpacity>
             </View>
-            <View style = {{ flexDirection: 'row' }}>
+            <View style = { styles.favoritesButtonWrapper }>
                 <TouchableOpacity
                     onPress = { this._onTimeToShopFavs }
                     style = { styles.wrapUpButtonStyle }>
@@ -271,7 +265,7 @@ function _mapStateToProps(state, ownProps) {
         countdownTargetDatetime,
         isSimplifiedConference,
         isMicEnabled,
-        isCamEnabled,
+        isCamEnabled
     };
 }
 export default connect(_mapStateToProps)(InFocusView);

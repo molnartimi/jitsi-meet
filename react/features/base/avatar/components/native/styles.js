@@ -2,8 +2,6 @@
 
 import { StyleSheet } from 'react-native';
 
-import { ColorPalette } from '../../../styles';
-
 const DEFAULT_SIZE = 65;
 
 /**
@@ -73,6 +71,6 @@ export default {
             fontSize: size * 0.45,
             fontWeight: '100'
         };
-    },
+    }
 
 };

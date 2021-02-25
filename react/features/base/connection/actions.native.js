@@ -6,6 +6,7 @@ import type { Dispatch } from 'redux';
 
 import { conferenceLeft, conferenceWillLeave } from '../conference/actions';
 import { getCurrentConference } from '../conference/functions';
+import { NativeEvents, ResponseEventsToNative } from '../constants';
 import JitsiMeetJS, { JitsiConnectionEvents } from '../lib-jitsi-meet';
 import {
     getBackendSafeRoomName,
@@ -20,7 +21,6 @@ import {
     SET_LOCATION_URL
 } from './actionTypes';
 import { JITSI_CONNECTION_URL_KEY } from './constants';
-import { NativeEvents, ResponseEventsToNative } from '../constants';
 import { convertXmppPostMethodParam, getStropheConnection, sendXmppResult } from './functions';
 import logger from './logger';
 

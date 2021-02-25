@@ -231,6 +231,7 @@ export function convertXmppPostMethodParam(param: NativeXmppPostMethodEventParam
             // and we will send back the objects with which callbacks are called with this type to native app.
             const _nativeResponsType = parsedParam[p].nativeResponseType;
             const _defaultReturnValueOfCallback = parsedParam[p].defaultReturnValueOfCallback;
+
             parsedParam[p] = callbackParam => {
                 dispatch(sendXmppResult(_nativeResponsType, callbackParam));
 

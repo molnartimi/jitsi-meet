@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { View, Alert, Text } from 'react-native';
@@ -41,6 +43,7 @@ function errorLogging(error) {
     console.log(GLOBAL_ERROR_MESSAGE + error.message);
 }
 
+// eslint-disable-next-line react/no-multi-comp, react/prop-types
 function errorFallback({ error, resetErrorBoundary }) {
     errorLogging(error);
 

@@ -1,5 +1,13 @@
 module.exports = {
-    'extends': [
+    extends: [
         'eslint-config-jitsi'
-    ]
+    ],
+    rules: {
+        'require-jsdoc': 'off'
+    },
+    settings: {
+        react: {
+            version: 'detect'
+        }
+    }
 };

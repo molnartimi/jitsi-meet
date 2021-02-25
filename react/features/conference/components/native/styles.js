@@ -9,6 +9,10 @@ export const INSECURE_ROOM_NAME_LABEL_COLOR = ColorPalette.warning;
 const BOTTOM_GRADIENT_HEIGHT = 290;
 const DEFAULT_GRADIENT_SIZE = 140;
 
+const fillView = {
+    flex: 1
+};
+
 /**
  * The styles of the feature conference.
  */
@@ -131,8 +135,12 @@ export default {
         top: 0
     },
 
-    fillView: {
-        flex: 1
+    fillView,
+
+    selfFrame: {
+        ...fillView,
+        borderRadius: 15,
+        overflow: 'hidden'
     },
 
     navBarSafeView: {

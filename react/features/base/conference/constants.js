@@ -1,3 +1,5 @@
+// @flow
+
 /**
  * The command type for updating a participant's avatar ID.
  *

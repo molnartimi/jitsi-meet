@@ -55,6 +55,11 @@ type Props = {
     _showWrapUpButtons: number,
 
     /**
+     * Is the conference we're in a simplified conference?
+     */
+    _isSimplifiedConference: boolean,
+
+    /**
      * Invoked to update the receiver video quality.
      */
     dispatch: Dispatch<any>,
@@ -63,6 +68,7 @@ type Props = {
      * Callback to invoke when tile view is tapped.
      */
     onClick: Function,
+
     inFocusUser: Object
 };
 
@@ -139,14 +145,19 @@ class TileView extends Component<Props> {
             isWrapUpVisible = { this.props._showWrapUpButtons }
             key = 'in-focus-view'
             localUser = { this.props._participants.find(participant => participant.local) } /> ];
+
         if (!this.props._isSimplifiedConference) {
             const rowElements = this._groupIntoRows(this._renderThumbnails(), COLUMN_COUNT);
+
             pages.push(...this._getUserPages(this._groupThumbnailsByPages(rowElements)));
         }
+
         pages.push(<TapView />);
+
         this.totalPages = pages.length;
+
         if (this.props._currentIndex >= 0 && this.swiperRef && this.swiperRef.current
-            && this.lastHandledForceIndex !== this.props._currentIndex) {
+                && this.lastHandledForceIndex !== this.props._currentIndex) {
             this.firstIndexSlide = this.props._currentIndex;
             this.lastHandledForceIndex = this.props._currentIndex;
         }
@@ -283,7 +294,7 @@ class TileView extends Component<Props> {
                     && participant.vipType !== RoleTypeId.CABI_STYLIST
                     && participant.vipType !== RoleTypeId.CABI_HOSTESS
                     && participant.vipType !== RoleTypeId.CABI_COHOSTESS)
-            .sort((a, b) => a.name > b.name ? 1 : -1);
+            .sort((a, b) => a.name > b.name ? 1 : -1); // eslint-disable-line no-confusing-arrow
 
         const participants = [];
 
