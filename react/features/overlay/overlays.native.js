@@ -1,8 +1,7 @@
 // @flow
 
 import {
-    LoadConfigOverlay,
-    PageReloadOverlay
+    LoadConfigOverlay
 } from './components/native';
 
 /**
@@ -12,7 +11,6 @@ import {
  */
 export function getOverlays(): Array<React$Element<*>> {
     return [
-        LoadConfigOverlay,
-        PageReloadOverlay
+        LoadConfigOverlay
     ];
 }

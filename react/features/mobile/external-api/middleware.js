@@ -102,8 +102,7 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     case CONNECTION_FAILED:
-        !action.error.recoverable
-            && _sendConferenceFailedOnConnectionError(store, action);
+        _sendConferenceFailedOnConnectionError(store, action);
         break;
 
     case ENTER_PICTURE_IN_PICTURE:
@@ -316,15 +315,8 @@ function _sendConferenceEvent(
  */
 function _sendConferenceFailedOnConnectionError(store, action) {
     const { locationURL } = store.getState()['features/base/connection'];
-    const { connection } = action;
 
     locationURL
-        && forEachConference(
-            store,
-
-            // If there's any conference in the  base/conference state then the
-            // base/conference feature is supposed to emit a failure.
-            conference => conference.getConnection() !== connection)
         && sendEvent(
         store,
         CONFERENCE_TERMINATED,
