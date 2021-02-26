@@ -3,7 +3,8 @@ module.exports = {
         'eslint-config-jitsi'
     ],
     rules: {
-        'require-jsdoc': 'off'
+        'require-jsdoc': 'off',
+        'no-confusing-arrow': 'off'
     },
     settings: {
         react: {

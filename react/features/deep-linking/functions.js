@@ -69,7 +69,6 @@ export function getDeepLinkingPage(state) {
     }
 
     return _openDesktopApp(state).then(
-        // eslint-disable-next-line no-confusing-arrow
         result => result ? DeepLinkingDesktopPage : undefined);
 }
 

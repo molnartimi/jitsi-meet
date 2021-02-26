@@ -294,7 +294,7 @@ class TileView extends Component<Props> {
                     && participant.vipType !== RoleTypeId.CABI_STYLIST
                     && participant.vipType !== RoleTypeId.CABI_HOSTESS
                     && participant.vipType !== RoleTypeId.CABI_COHOSTESS)
-            .sort((a, b) => a.name > b.name ? 1 : -1); // eslint-disable-line no-confusing-arrow
+            .sort((a, b) => a.name > b.name ? 1 : -1);
 
         const participants = [];
 

@@ -72,11 +72,9 @@ export function muteAllParticipants(exclude: Array<string>) {
         const participantIds = state['features/base/participants']
             .map(p => p.id);
 
-        /* eslint-disable no-confusing-arrow */
         participantIds
             .filter(id => !exclude.includes(id))
             .map(id => id === localId ? muteLocal(true) : muteRemote(id))
             .map(dispatch);
-        /* eslint-enable no-confusing-arrow */
     };
 }
