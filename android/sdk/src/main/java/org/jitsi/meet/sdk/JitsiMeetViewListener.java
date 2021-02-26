@@ -87,6 +87,12 @@ public interface JitsiMeetViewListener {
      */
     void onParticipantJoined(Map<String, Object> data);
 
+     /**
+     * Called whenever new participant leaves to video conference.
+     * @param data Map with 'userID' value.
+     */
+    void onParticipantLeft(Map<String, Object> data);
+
     /**
      * Called whenever we catch an error which has no exact error handling
      * use-case in business logic.

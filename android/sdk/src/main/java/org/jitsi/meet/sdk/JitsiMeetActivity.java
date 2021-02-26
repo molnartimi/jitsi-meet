@@ -262,4 +262,9 @@ public class JitsiMeetActivity extends FragmentActivity
     public void onParticipantJoined(Map<String, Object> data) {
         JitsiMeetLogger.i("Participant joined event: " + data);
     }
+
+    @Override
+    public void onParticipantLeft(Map<String, Object> data) {
+        JitsiMeetLogger.i("Participant left event: " + data);
+    }
 }
