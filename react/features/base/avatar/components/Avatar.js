@@ -4,7 +4,6 @@ import React, { PureComponent } from 'react';
 
 import { getParticipantById } from '../../participants';
 import { connect } from '../../redux';
-import { getAvatarColor, getInitials } from '../functions';
 
 import { StatelessAvatar } from '.';
 
@@ -119,10 +118,8 @@ class Avatar<P: Props> extends PureComponent<P, State> {
      */
     render() {
         const {
-            _initialsBase,
             _loadableAvatarUrl,
             className,
-            colorBase,
             id,
             size,
             status,

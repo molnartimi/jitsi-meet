@@ -24,11 +24,16 @@ import {
 } from '../AbstractConference';
 import type { AbstractProps } from '../AbstractConference';
 
+// Removing the unused Labels import somehow breaks the app, so disabling the
+// linter for the import block.
+// Can't simply disable no-unused-vars rule for the Labels import line, becuase
+// other lint rules make it impossible. If you don't believe me, try it ;)
+/* eslint-disable */
 import CustomErrorBoundary from './CustomErrorBoundary';
 import Labels from './Labels';
 import styles from './styles';
 import { TestConnectionInfo } from '../../../base/testing';
-
+/* eslint-enable */
 
 /**
  * The type of the React {@code Component} props of {@link Conference}.
@@ -205,11 +210,7 @@ class Conference extends AbstractConference<Props, *> {
                 key = { this.props._largeVideoParticipant?.id }
                 participant = { this.props._largeVideoParticipant }
                 renderDisplayName = { true }
-                styleOverrides = {{
-                    ...styles.fillView,
-                    borderRadius: 15,
-                    overflow: 'hidden'
-                }}
+                styleOverrides = { styles.selfFrame }
                 tileView = { true }
                 zOrder = { 1 } />
         );

@@ -125,10 +125,10 @@ class Thumbnail extends Component<Props> {
                 {this.props.isGradientRequired
                     ? <LinearGradient
                         colors = { [ '#000000', '#00000000' ] }
-                        start = {{ x: 0,
-                            y: 1 }}
                         end = {{ x: 0,
                             y: 0.8 }}
+                        start = {{ x: 0,
+                            y: 1 }}
                         style = { styles.gradientOverlay } />
                     : null}
 

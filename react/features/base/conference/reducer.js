@@ -27,7 +27,7 @@ import {
     SET_START_MUTED_POLICY,
     SET_SPEAKER_VIEW_VISIBILITY,
     IS_SIMPLIFIED_CONFERENCE_CHANGE,
-    SET_IS_MIC_CAM_ENABLED,
+    SET_IS_MIC_CAM_ENABLED
 } from './actionTypes';
 import { isRoomValid } from './functions';
 
@@ -139,7 +139,7 @@ ReducerRegistry.register(
             return {
                 ...state,
                 isMicEnabled: action.mic,
-                isCamEnabled: action.cam,
+                isCamEnabled: action.cam
             };
         }
 

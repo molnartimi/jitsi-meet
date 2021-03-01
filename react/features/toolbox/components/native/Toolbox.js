@@ -8,8 +8,6 @@ import { Container } from '../../../base/react';
 import { connect } from '../../../base/redux';
 import { StyleType } from '../../../base/styles';
 import { isToolboxVisible } from '../../functions';
-import AudioMuteButton from '../AudioMuteButton';
-import VideoMuteButton from '../VideoMuteButton';
 
 import styles from './styles';
 

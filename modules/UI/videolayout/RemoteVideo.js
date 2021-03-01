@@ -18,7 +18,7 @@ import {
 } from '../../../react/features/base/participants';
 import { PresenceLabel } from '../../../react/features/presence-status';
 import {
-    REMOTE_CONTROL_MENU_STATES,
+    REMOTE_CONTROL_MENU_STATES
 } from '../../../react/features/remote-video-menu';
 import { LAYOUTS, getCurrentLayout } from '../../../react/features/video-layout';
 /* eslint-enable no-unused-vars */
@@ -147,6 +147,7 @@ export default class RemoteVideo extends SmallVideo {
         return super._isHovered() || this.popupMenuIsHovered;
     }
 
+    /* eslint-disable no-unused-vars */
     /**
      * Generates the popup menu content.
      *
@@ -201,6 +202,7 @@ export default class RemoteVideo extends SmallVideo {
         }
 
     }
+    /* eslint-enable no-unused-vars */
 
     /**
      *

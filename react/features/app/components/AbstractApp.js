@@ -4,7 +4,12 @@ import React, { Fragment } from 'react';
 import { NativeEventEmitter, NativeModules } from 'react-native';
 
 import { BaseApp } from '../../base/app';
-import { sendCommand, removeCommand, editSpeakerViewVisibility, isSimplifiedConferenceChange  } from '../../base/conference';
+import {
+    sendCommand,
+    removeCommand,
+    editSpeakerViewVisibility,
+    isSimplifiedConferenceChange
+} from '../../base/conference';
 import { storeConfig } from '../../base/config';
 import { NativeEvents } from '../../base/constants';
 import { muteMedia, toggleCameraFacingMode } from '../../base/media';

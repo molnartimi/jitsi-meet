@@ -163,9 +163,12 @@ export function appNavigate(uri: ?string) {
  * @param {string} roomName - Conference room name.
  * @param {boolean} startWithAudioMuted - If microphone should start muted.
  * @param {boolean} startWithVideoMuted - If camera should start muted.
+ * @param {boolean} noCam - If camera is disabled.
+ * @param {boolean} noMic - If microphone is disabled.
  * @param {string[]} commandsToListenTo - List of commandNames the client app intends to listen to.
  * @returns {Function}
  */
+// eslint-disable-next-line max-params
 export function appJoinRoom(
         serverURL: string,
         roomName: string,
@@ -193,7 +196,7 @@ export function appJoinRoom(
             if (!noMic) {
                 desiredTypes.push(MEDIA_TYPE.AUDIO);
             }
-            dispatch(createDesiredLocalTracks.apply(this, desiredTypes));
+            dispatch(createDesiredLocalTracks(desiredTypes));
             dispatch(createConference(commandsToListenTo));
         }
     };

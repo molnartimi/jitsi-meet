@@ -1,6 +1,7 @@
 // @flow
 
 import { Component } from 'react';
+import type { Dispatch } from 'redux';
 
 import { statsEmitter } from '../../../connection-indicator';
 import { localStatsEvent } from '../../../filmstrip';
@@ -44,7 +45,9 @@ type Props = {
      * Indicates whether or not the test mode is currently on. Otherwise the
      * TestConnectionInfo component will not render.
      */
-    _testMode: boolean
+    _testMode: boolean,
+
+    dispatch: Dispatch<any>
 }
 
 /**
