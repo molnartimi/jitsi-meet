@@ -27,7 +27,7 @@ import {
 } from '../../base/connection';
 import { isAndroidDevice } from '../../base/environment/utils';
 import { getLogger } from '../../base/logging';
-import { PARTICIPANT_JOINED } from '../../base/participants';
+import { PARTICIPANT_JOINED, PARTICIPANT_LEFT } from '../../base/participants';
 import { MiddlewareRegistry } from '../../base/redux';
 import { ENTER_PICTURE_IN_PICTURE } from '../picture-in-picture';
 
@@ -196,6 +196,13 @@ MiddlewareRegistry.register(store => next => action => {
     case PARTICIPANT_JOINED: {
         if (action.participant.id) {
             sendEvent(store, PARTICIPANT_JOINED, { userId: escapeBackslashes(action.participant.id, true) });
+        }
+        break;
+    }
+
+    case PARTICIPANT_LEFT: {
+        if (action.participant.id) {
+            sendEvent(store, PARTICIPANT_LEFT, { userId: escapeBackslashes(action.participant.id, true) });
         }
         break;
     }

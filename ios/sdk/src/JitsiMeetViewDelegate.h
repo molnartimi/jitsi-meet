@@ -103,6 +103,14 @@
 - (void)participantJoined:(NSDictionary *)data;
 
 /**
+ * Called whenever a user leaves to the video conference.
+ *
+ * The `data` dictionary contains:
+ * - userId: video conference id of a user
+*/
+- (void)participantLeft:(NSDictionary *)data;
+
+/**
  * Called when entering Picture-in-Picture is requested by the user. The app
  * should now activate its Picture-in-Picture implementation (and resize the
  * associated `JitsiMeetView`. The latter will automatically detect its new size
