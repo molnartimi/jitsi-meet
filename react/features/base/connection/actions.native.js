@@ -214,7 +214,8 @@ export function connect(id: ?string, password: ?string) {
 
         /**
          * Unsubscribe the connection instance from
-         * {@code CONNECTION_DISCONNECTED} and {@code CONNECTION_FAILED} events.
+         * {@code CONNECTION_DISCONNECTED}, {@code CONNECTION_ESTABLISHED} and
+         * {@code CONNECTION_FAILED} events.
          *
          * @returns {void}
          */
@@ -225,6 +226,9 @@ export function connect(id: ?string, password: ?string) {
             connection.removeEventListener(
                 JitsiConnectionEvents.CONNECTION_FAILED,
                 _onConnectionFailed);
+            connection.removeEventListener(
+                JitsiConnectionEvents.CONNECTION_ESTABLISHED,
+                _onConnectionEstablished);
         }
     };
 }
