@@ -3,6 +3,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { Text, View, Image, TouchableOpacity } from 'react-native';
+import { isTablet } from 'react-native-device-info';
 import { Dispatch } from 'redux';
 
 import { generateNamePrefix } from '../../../base/conference';
@@ -10,6 +11,7 @@ import { MEDIA_TYPE } from '../../../base/media';
 import { connect } from '../../../base/redux';
 import { getTrackByMediaTypeAndParticipant } from '../../../base/tracks';
 import { shopButtonEvent } from '../../actions.native';
+
 
 import PreShowCountdown from './PreShowCountdown';
 import Thumbnail from './Thumbnail';
@@ -61,7 +63,7 @@ class InFocusView extends Component<Props> {
     render() {
         return (
             <View
-                style = { styles.fillView }>
+                style = { isTablet() ? styles.tabletInFocus : styles.fillView }>
 
                 {this._createCountdownIfNeeded()}
                 {_.isNil(this.props.inFocusUser)
@@ -181,7 +183,7 @@ class InFocusView extends Component<Props> {
     _createSelfFrameVideoComponent() {
         return (
             <View
-                style = { styles.bottomVideoPlaceholder }>
+                style = { isTablet() ? styles.tabletBottomVideoPlaceholder : styles.bottomVideoPlaceholder }>
                 <Thumbnail
                     isAvatarCircled = { false }
                     isDominantSpeaker = { false }
@@ -195,10 +197,10 @@ class InFocusView extends Component<Props> {
                     tileView = { true }
                     zOrder = { 1 } />
                 {this._isMicMutedIndicatorVisible()
-                && <View style = { styles.microphoneViewStyle }>
+                && <View style = { isTablet() ? styles.tabletMicrophoneViewStyle : styles.microphoneViewStyle }>
                     <Image
                         source = { require('../../../../../resources/img/muted_microphone.png') }
-                        style = { styles.microphoneIconStyle } />
+                        style = { isTablet() ? styles.tabletMicrophoneIconStyle : styles.microphoneIconStyle } />
                 </View>}
             </View>);
     }
