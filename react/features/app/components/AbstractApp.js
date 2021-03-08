@@ -113,6 +113,10 @@ export class AbstractApp extends BaseApp<Props, *> {
      * @inheritdoc
      */
     componentWillUnmount() {
+        this._unsubscribeFromNativeEvents();
+    }
+
+    _unsubscribeFromNativeEvents() {
         if (this.nativeEventListeners) {
             this.nativeEventListeners.forEach(listener => listener.remove());
             this.nativeEventListeners = [];
@@ -179,6 +183,8 @@ export class AbstractApp extends BaseApp<Props, *> {
      * @returns {void}
      */
     _connectToXmppServer() {
+        console.log('_connectToXmppServer');
+
         // handle config set by native app
         try {
             const config = JSON.parse(this.props.configJsonString);
@@ -218,6 +224,7 @@ export class AbstractApp extends BaseApp<Props, *> {
      * @returns {void}
      */
     _subscribeToNativeEvents() {
+        this._unsubscribeFromNativeEvents();
         const VideoConfBridge = NativeModules.VideoConfBridge;
         const videoConfBridgeEmitter = new NativeEventEmitter(VideoConfBridge);
         const dispatch = this.state.store.dispatch;
@@ -228,6 +235,7 @@ export class AbstractApp extends BaseApp<Props, *> {
                     = JSON.parse(dataJsonString);
 
                 this.props.url.room = roomName;
+                console.log('------- VIDEOCONF_JOIN');
                 this.state.store.dispatch(appJoinRoom(this.props.url.serverURL, roomName,
                     audioMuted, videoMuted, noCam, noMic, commandsToListenTo));
             }));
