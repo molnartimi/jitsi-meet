@@ -3,6 +3,7 @@
 import React from 'react';
 
 import { setColorScheme } from '../../base/color-scheme';
+import { setTabletDesign } from '../../base/conference';
 import { DialogContainer } from '../../base/dialog';
 import { updateFlags } from '../../base/flags/actions';
 import {
@@ -22,7 +23,6 @@ import type { Props as AbstractAppProps } from './AbstractApp';
 // Register middlewares and reducers.
 import '../middlewares';
 import '../reducers';
-import { setTabletDesign } from '../../base/conference';
 
 declare var __DEV__;
 
