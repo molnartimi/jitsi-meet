@@ -27,7 +27,8 @@ import {
     SET_START_MUTED_POLICY,
     SET_SPEAKER_VIEW_VISIBILITY,
     IS_SIMPLIFIED_CONFERENCE_CHANGE,
-    SET_IS_MIC_CAM_ENABLED
+    SET_IS_MIC_CAM_ENABLED,
+    TABLET_DESIGN_SET
 } from './actionTypes';
 import { isRoomValid } from './functions';
 
@@ -132,6 +133,13 @@ ReducerRegistry.register(
             return {
                 ...state,
                 isSimplifiedConference: action.isSimplifiedConference
+            };
+        }
+
+        case TABLET_DESIGN_SET: {
+            return {
+                ...state,
+                tabletDesignEnabled: action.tabletDesignEnabled
             };
         }
 

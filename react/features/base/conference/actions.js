@@ -56,7 +56,8 @@ import {
     COMMAND_VALUE,
     SET_SPEAKER_VIEW_VISIBILITY,
     IS_SIMPLIFIED_CONFERENCE_CHANGE,
-    SET_IS_MIC_CAM_ENABLED
+    SET_IS_MIC_CAM_ENABLED,
+    TABLET_DESIGN_SET
 } from './actionTypes';
 import {
     AVATAR_ID_COMMAND,
@@ -928,6 +929,21 @@ export function isSimplifiedConferenceChange(isSimplifiedConference: ?boolean) {
     };
 }
 
+/**
+ * Updates whether we're in a tablet device.
+ *
+ * @param {?Object} tabletDesignEnabled - Whether we're in a tablet device.
+ * @returns {{
+ *     type: TABLET_DESIGN_SET,
+ *     tabletDesignEnabled: boolean
+ * }}
+ */
+export function setTabletDesign(tabletDesignEnabled: boolean) {
+    return {
+        type: TABLET_DESIGN_SET,
+        tabletDesignEnabled
+    };
+}
 
 /**
  * Updates whether mic and cam is enabled for the local user.

@@ -26,6 +26,7 @@ type Props = {
     isSimplifiedConference: boolean,
     isMicEnabled: boolean,
     isCamEnabled: boolean,
+    tabletDesignEnabled: boolean,
     dispatch: Dispatch<any>
 }
 
@@ -61,7 +62,7 @@ class InFocusView extends Component<Props> {
     render() {
         return (
             <View
-                style = { styles.fillView }>
+                style = { this.props.tabletDesignEnabled ? styles.tabletInFocus : styles.fillView }>
 
                 {this._createCountdownIfNeeded()}
                 {_.isNil(this.props.inFocusUser)
@@ -181,7 +182,8 @@ class InFocusView extends Component<Props> {
     _createSelfFrameVideoComponent() {
         return (
             <View
-                style = { styles.bottomVideoPlaceholder }>
+                style = { this.props.tabletDesignEnabled
+                    ? styles.tabletBottomVideoPlaceholder : styles.bottomVideoPlaceholder }>
                 <Thumbnail
                     isAvatarCircled = { false }
                     isDominantSpeaker = { false }
@@ -194,12 +196,15 @@ class InFocusView extends Component<Props> {
                     }}
                     tileView = { true }
                     zOrder = { 1 } />
-                {this._isMicMutedIndicatorVisible()
-                && <View style = { styles.microphoneViewStyle }>
+                { this._isMicMutedIndicatorVisible()
+                && <View
+                    style = { this.props.tabletDesignEnabled
+                        ? styles.tabletMicrophoneViewStyle : styles.microphoneViewStyle }>
                     <Image
                         source = { require('../../../../../resources/img/muted_microphone.png') }
-                        style = { styles.microphoneIconStyle } />
-                </View>}
+                        style = { this.props.tabletDesignEnabled
+                            ? styles.tabletMicrophoneIconStyle : styles.microphoneIconStyle } />
+                </View> }
             </View>);
     }
 
@@ -252,7 +257,11 @@ function _mapStateToProps(state, ownProps) {
     const audioTrack
         = getTrackByMediaTypeAndParticipant(tracks, MEDIA_TYPE.AUDIO, id);
 
-    const { isSimplifiedConference, isMicEnabled, isCamEnabled } = state['features/base/conference'];
+    const {
+        isSimplifiedConference,
+        isMicEnabled, isCamEnabled,
+        tabletDesignEnabled
+    } = state['features/base/conference'];
     const { placeholderData, countdownStartDatetime, countdownTargetDatetime } = state['features/filmstrip'];
 
     return {
@@ -265,7 +274,8 @@ function _mapStateToProps(state, ownProps) {
         countdownTargetDatetime,
         isSimplifiedConference,
         isMicEnabled,
-        isCamEnabled
+        isCamEnabled,
+        tabletDesignEnabled
     };
 }
 export default connect(_mapStateToProps)(InFocusView);

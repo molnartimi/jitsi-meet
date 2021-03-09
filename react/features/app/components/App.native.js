@@ -3,9 +3,14 @@
 import React from 'react';
 
 import { setColorScheme } from '../../base/color-scheme';
+import { setTabletDesign } from '../../base/conference';
 import { DialogContainer } from '../../base/dialog';
 import { updateFlags } from '../../base/flags/actions';
-import { CALL_INTEGRATION_ENABLED, SERVER_URL_CHANGE_ENABLED } from '../../base/flags/constants';
+import {
+    CALL_INTEGRATION_ENABLED,
+    SERVER_URL_CHANGE_ENABLED,
+    TABLET_DESIGN_ENABLED
+} from '../../base/flags/constants';
 import { getFeatureFlag } from '../../base/flags/functions';
 import { Platform } from '../../base/react';
 import { DimensionsDetector, clientResized } from '../../base/responsive-ui';
@@ -103,6 +108,12 @@ export class App extends AbstractApp {
             dispatch(updateSettings(this.props.userInfo || {}));
 
             // Update settings with feature-flag.
+            const tabletDesignEnabled = this.props.flags[TABLET_DESIGN_ENABLED];
+
+            if (typeof tabletDesignEnabled !== 'undefined') {
+                dispatch(setTabletDesign(tabletDesignEnabled));
+            }
+
             const callIntegrationEnabled = this.props.flags[CALL_INTEGRATION_ENABLED];
 
             if (typeof callIntegrationEnabled !== 'undefined') {
