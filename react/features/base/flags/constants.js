@@ -14,6 +14,12 @@ export const ADD_PEOPLE_ENABLED = 'add-people.enabled';
 export const CALL_INTEGRATION_ENABLED = 'call-integration.enabled';
 
 /**
+ * Flag indicating if tablet desing should be applied
+ * Default: enabled (true).
+ */
+export const TABLET_DESIGN_ENABLED = 'tablet-design.enabled';
+
+/**
  * Flag indicating if close captions should be enabled.
  * Default: enabled (true).
  */

@@ -294,6 +294,16 @@ export const SET_SPEAKER_VIEW_VISIBILITY = 'SET_SPEAKER_VIEW_VISIBILITY';
 export const IS_SIMPLIFIED_CONFERENCE_CHANGE = 'IS_SIMPLIFIED_CONFERENCE_CHANGE';
 
 /**
+ * The type of (redux) action which updates whether we're in a tablet device.
+ *
+ * {
+ *     type: TABLET_DESIGN_SET,
+ *     state: boolean
+ * }
+ */
+export const TABLET_DESIGN_SET = 'TABLET_DESIGN_SET';
+
+/**
  * The type of (redux) action which sets whether mic and cam is enabled of the
  * local user.
  *
