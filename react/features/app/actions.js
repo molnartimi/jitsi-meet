@@ -196,7 +196,6 @@ export function appJoinRoom(
             if (!noMic) {
                 desiredTypes.push(MEDIA_TYPE.AUDIO);
             }
-            // eslint-disable-next-line no-invalid-this
             dispatch(createDesiredLocalTracks.apply(this, desiredTypes));
             dispatch(createConference(commandsToListenTo));
         }
