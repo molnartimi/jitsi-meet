@@ -193,14 +193,6 @@ export default {
         marginBottom: '3%'
     },
 
-    tabletBottomVideoPlaceholder: {
-        aspectRatio: 1,
-        width: '12%',
-        alignSelf: 'flex-end',
-        marginHorizontal: '3%',
-        marginBottom: '-3%'
-    },
-
     favoritesButtonWrapper: {
         flexDirection: 'row'
     },
@@ -221,23 +213,9 @@ export default {
         justifyContent: 'flex-end'
     },
 
-    tabletMicrophoneViewStyle: {
-        position: 'absolute',
-        aspectRatio: 1,
-        width: '100%',
-        paddingBottom: '15%',
-        justifyContent: 'flex-end'
-    },
-
     microphoneIconStyle: {
         height: '30%',
         width: '30%',
-        alignSelf: 'center'
-    },
-
-    tabletMicrophoneIconStyle: {
-        height: '27%',
-        width: '27%',
         alignSelf: 'center'
     },
 
@@ -317,11 +295,6 @@ export default {
         borderColor: ColorPalette.cabiPink,
         borderWidth: 10,
         zIndex: 10
-    },
-
-    tabletInFocus: {
-        width: '100%',
-        height: '90%'
     }
 };
 

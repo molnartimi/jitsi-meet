@@ -3,7 +3,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { Text, View, Image, TouchableOpacity } from 'react-native';
-import { isTablet } from 'react-native-device-info';
 import { Dispatch } from 'redux';
 
 import { generateNamePrefix } from '../../../base/conference';
@@ -11,7 +10,6 @@ import { MEDIA_TYPE } from '../../../base/media';
 import { connect } from '../../../base/redux';
 import { getTrackByMediaTypeAndParticipant } from '../../../base/tracks';
 import { shopButtonEvent } from '../../actions.native';
-
 
 import PreShowCountdown from './PreShowCountdown';
 import Thumbnail from './Thumbnail';
@@ -63,7 +61,7 @@ class InFocusView extends Component<Props> {
     render() {
         return (
             <View
-                style = { isTablet() ? styles.tabletInFocus : styles.fillView }>
+                style = { styles.fillView }>
 
                 {this._createCountdownIfNeeded()}
                 {_.isNil(this.props.inFocusUser)
@@ -183,7 +181,7 @@ class InFocusView extends Component<Props> {
     _createSelfFrameVideoComponent() {
         return (
             <View
-                style = { isTablet() ? styles.tabletBottomVideoPlaceholder : styles.bottomVideoPlaceholder }>
+                style = { styles.bottomVideoPlaceholder }>
                 <Thumbnail
                     isAvatarCircled = { false }
                     isDominantSpeaker = { false }
@@ -197,10 +195,10 @@ class InFocusView extends Component<Props> {
                     tileView = { true }
                     zOrder = { 1 } />
                 {this._isMicMutedIndicatorVisible()
-                && <View style = { isTablet() ? styles.tabletMicrophoneViewStyle : styles.microphoneViewStyle }>
+                && <View style = { styles.microphoneViewStyle }>
                     <Image
                         source = { require('../../../../../resources/img/muted_microphone.png') }
-                        style = { isTablet() ? styles.tabletMicrophoneIconStyle : styles.microphoneIconStyle } />
+                        style = { styles.microphoneIconStyle } />
                 </View>}
             </View>);
     }

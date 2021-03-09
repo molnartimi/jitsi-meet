@@ -32,7 +32,6 @@ import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.facebook.react.uimanager.ViewManager;
 import com.facebook.soloader.SoLoader;
 import com.masteratul.exceptionhandler.ReactNativeExceptionHandlerPackage;
-import com.learnium.RNDeviceInfo.RNDeviceInfo;
 
 import com.oney.WebRTCModule.RTCVideoViewManager;
 import com.oney.WebRTCModule.WebRTCModule;
@@ -202,7 +201,6 @@ class ReactInstanceManagerHolder {
                 new com.reactnativecommunity.webview.RNCWebViewPackage(),
                 new com.rnimmersive.RNImmersivePackage(),
                 new ReactNativeExceptionHandlerPackage(),
-                new RNDeviceInfo(),
                 new com.zmxv.RNSound.RNSoundPackage(),
                 new ReactPackageAdapter() {
                     @Override

@@ -76,7 +76,6 @@ dependencies {
     implementation project(':react-native-webrtc')
     implementation project(':react-native-webview')
     implementation project(':react-native-exception-handler')
-    implementation project(':react-native-device-info')
 
     testImplementation 'junit:junit:4.12'
 }
