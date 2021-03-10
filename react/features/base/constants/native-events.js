@@ -20,5 +20,6 @@ export const NativeEvents = {
 };
 
 export const ResponseEventsToNative = {
-    CONNECTION_CONSTANTS: 'connection_constants'
+    CONNECTION_ESTABLISHED: 'xmpp_connection_established',
+    CONNECTION_FAILED: 'xmpp_connection_failed'
 };

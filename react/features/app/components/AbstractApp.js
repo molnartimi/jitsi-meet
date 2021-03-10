@@ -113,10 +113,7 @@ export class AbstractApp extends BaseApp<Props, *> {
      * @inheritdoc
      */
     componentWillUnmount() {
-        if (this.nativeEventListeners) {
-            this.nativeEventListeners.forEach(listener => listener.remove());
-            this.nativeEventListeners = [];
-        }
+        this._unsubscribeFromNativeEvents();
     }
 
     /**
@@ -218,6 +215,7 @@ export class AbstractApp extends BaseApp<Props, *> {
      * @returns {void}
      */
     _subscribeToNativeEvents() {
+        this._unsubscribeFromNativeEvents();
         const VideoConfBridge = NativeModules.VideoConfBridge;
         const videoConfBridgeEmitter = new NativeEventEmitter(VideoConfBridge);
         const dispatch = this.state.store.dispatch;
@@ -265,6 +263,13 @@ export class AbstractApp extends BaseApp<Props, *> {
             (mute: boolean) => dispatch(muteConferenceAudio(mute))));
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.SET_IS_SIMPLIFIED_CONFERENCE,
             (isSimplifiedConference: boolean) => dispatch(isSimplifiedConferenceChange(isSimplifiedConference))));
+    }
+
+    _unsubscribeFromNativeEvents() {
+        if (this.nativeEventListeners) {
+            this.nativeEventListeners.forEach(listener => listener.remove());
+            this.nativeEventListeners = [];
+        }
     }
 
 }

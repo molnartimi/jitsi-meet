@@ -155,9 +155,12 @@ StateListenerRegistry.register(
     /* selector */ state => getCurrentConference(state),
     /* listener */ (conference, { dispatch, getState }) => {
         for (const p of getState()['features/base/participants']) {
-            !p.local
+            if (
+                !p.local
                 && (!conference || p.conference !== conference)
-                && dispatch(participantLeft(p.id, p.conference));
+            ) {
+                dispatch(participantLeft(p.id, p.conference));
+            }
         }
     });
 

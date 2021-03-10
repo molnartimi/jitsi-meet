@@ -142,7 +142,8 @@ export function connect(id: ?string, password: ?string) {
         function _onConnectionEstablished() {
             const stropheConn = getStropheConnection(connection);
 
-            dispatch(sendXmppResult(ResponseEventsToNative.CONNECTION_CONSTANTS, { jid: stropheConn.jid }));
+            dispatch(sendXmppResult(ResponseEventsToNative.CONNECTION_ESTABLISHED, { jid: stropheConn.jid }));
+
             _subscribeToNativeEvents(stropheConn);
 
             connection.removeEventListener(
@@ -171,6 +172,18 @@ export function connect(id: ?string, password: ?string) {
                 credentials: Object,
                 details: Object) {
             unsubscribe();
+
+            dispatch(
+                sendXmppResult(
+                    ResponseEventsToNative.CONNECTION_FAILED, {
+                        connection,
+                        credentials,
+                        details,
+                        name: err,
+                        message: msg
+                    }
+                ));
+
             dispatch(
                 connectionFailed(
                     connection, {
@@ -201,7 +214,8 @@ export function connect(id: ?string, password: ?string) {
 
         /**
          * Unsubscribe the connection instance from
-         * {@code CONNECTION_DISCONNECTED} and {@code CONNECTION_FAILED} events.
+         * {@code CONNECTION_DISCONNECTED}, {@code CONNECTION_ESTABLISHED} and
+         * {@code CONNECTION_FAILED} events.
          *
          * @returns {void}
          */
@@ -212,6 +226,9 @@ export function connect(id: ?string, password: ?string) {
             connection.removeEventListener(
                 JitsiConnectionEvents.CONNECTION_FAILED,
                 _onConnectionFailed);
+            connection.removeEventListener(
+                JitsiConnectionEvents.CONNECTION_ESTABLISHED,
+                _onConnectionEstablished);
         }
     };
 }
