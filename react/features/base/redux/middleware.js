@@ -1,13 +1,10 @@
 // @flow
 
-import Logger from 'jitsi-meet-logger';
 import _ from 'lodash';
 
 import MiddlewareRegistry from './MiddlewareRegistry';
 import PersistenceRegistry from './PersistenceRegistry';
 import { toState } from './functions';
-
-const logger = Logger.getLogger(__filename);
 
 /**
  * The delay in milliseconds that passes between the last state change and the
@@ -48,16 +45,4 @@ MiddlewareRegistry.register(store => next => action => {
     oldState === newState || throttledPersistState(newState);
 
     return result;
-});
-
-MiddlewareRegistry.register(store => next => action => {
-    logger.info('dispatching action: ', action);
-    const res = next(action);
-
-    logger.info('new features/base/conference state: ',
-        store.getState()['features/base/conference']);
-    logger.info('new features/base/participants state: ',
-        store.getState()['features/base/participants']);
-
-    return res;
 });

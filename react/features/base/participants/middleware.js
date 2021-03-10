@@ -1,7 +1,5 @@
 // @flow
 
-import Logger from 'jitsi-meet-logger';
-
 import UIEvents from '../../../../service/UI/UIEvents';
 import { NOTIFICATION_TIMEOUT, showNotification } from '../../notifications';
 import { CALLING, INVITED } from '../../presence-status';
@@ -51,8 +49,6 @@ import {
 import { PARTICIPANT_JOINED_FILE, PARTICIPANT_LEFT_FILE } from './sounds';
 
 declare var APP: Object;
-
-const logger = Logger.getLogger(__filename);
 
 /**
  * Middleware that captures CONFERENCE_JOINED and CONFERENCE_LEFT actions and
@@ -164,12 +160,7 @@ StateListenerRegistry.register(
                 && (!conference || p.conference !== conference)
             ) {
                 const action = participantLeft(p.id, p.conference);
-
-                logger.info('would dispatch participant left because user is supposedly not in conference: ', action);
-                logger.info('user\'s conference', p.conference);
-                logger.info('current conference', conference);
-
-                // dispatch(action);
+                dispatch(action);
             }
         }
     });

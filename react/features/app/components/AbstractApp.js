@@ -116,13 +116,6 @@ export class AbstractApp extends BaseApp<Props, *> {
         this._unsubscribeFromNativeEvents();
     }
 
-    _unsubscribeFromNativeEvents() {
-        if (this.nativeEventListeners) {
-            this.nativeEventListeners.forEach(listener => listener.remove());
-            this.nativeEventListeners = [];
-        }
-    }
-
     /**
      * Creates an extra {@link ReactElement}s to be added (unconditionaly)
      * alongside the main element.
@@ -183,8 +176,6 @@ export class AbstractApp extends BaseApp<Props, *> {
      * @returns {void}
      */
     _connectToXmppServer() {
-        console.log('_connectToXmppServer');
-
         // handle config set by native app
         try {
             const config = JSON.parse(this.props.configJsonString);
@@ -235,7 +226,6 @@ export class AbstractApp extends BaseApp<Props, *> {
                     = JSON.parse(dataJsonString);
 
                 this.props.url.room = roomName;
-                console.log('------- VIDEOCONF_JOIN');
                 this.state.store.dispatch(appJoinRoom(this.props.url.serverURL, roomName,
                     audioMuted, videoMuted, noCam, noMic, commandsToListenTo));
             }));
@@ -273,6 +263,13 @@ export class AbstractApp extends BaseApp<Props, *> {
             (mute: boolean) => dispatch(muteConferenceAudio(mute))));
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.SET_IS_SIMPLIFIED_CONFERENCE,
             (isSimplifiedConference: boolean) => dispatch(isSimplifiedConferenceChange(isSimplifiedConference))));
+    }
+
+    _unsubscribeFromNativeEvents() {
+        if (this.nativeEventListeners) {
+            this.nativeEventListeners.forEach(listener => listener.remove());
+            this.nativeEventListeners = [];
+        }
     }
 
 }
