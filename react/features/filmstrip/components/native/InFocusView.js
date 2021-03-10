@@ -154,28 +154,44 @@ class InFocusView extends Component<Props> {
 
     _createWrapUpButtonsPlaceholder() {
         return (<View
-            style = { styles.wrapUpPlaceholder }>
-            <Text style = { styles.wrapUpText }>It's time to shop!</Text>
+            style = { this.props.tabletDesignEnabled ? styles.tabletWrapUpPlaceholder : styles.wrapUpPlaceholder }>
+            <Text style = { this.props.tabletDesignEnabled ? styles.tabletWrapUpText : styles.wrapUpText }>
+                It's time to shop!
+            </Text>
             <View
                 style = { styles.wrapUpButtonRow }>
                 <TouchableOpacity
                     onPress = { this._onTimeToShopLookBook }
-                    style = { styles.lookBookButton }>
-                    <Text style = { styles.buttonText }>{LOOKBOOK_BUTTON}</Text>
+                    style = { this.props.tabletDesignEnabled ? styles.tabletWrapUpButtonStyle : styles.lookBookButton }>
+                    <Text style = { this.props.tabletDesignEnabled ? styles.tabletButtonText : styles.buttonText }>
+                        {LOOKBOOK_BUTTON}
+                    </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress = { this._onTimeToShopCollection }
-                    style = { styles.collectionButton }>
-                    <Text style = { styles.buttonText }>{COLLECTION_BUTTON}</Text>
+                    style = {
+                        this.props.tabletDesignEnabled ? styles.tabletWrapUpButtonStyle : styles.collectionButton
+                    }>
+                    <Text style = { this.props.tabletDesignEnabled ? styles.tabletButtonText : styles.buttonText }>
+                        {COLLECTION_BUTTON}
+                    </Text>
                 </TouchableOpacity>
-            </View>
-            <View style = { styles.favoritesButtonWrapper }>
-                <TouchableOpacity
+                {this.props.tabletDesignEnabled && <TouchableOpacity
                     onPress = { this._onTimeToShopFavs }
-                    style = { styles.wrapUpButtonStyle }>
-                    <Text style = { styles.buttonText }>{FAVORITES_BUTTON}</Text>
-                </TouchableOpacity>
+                    style = { styles.tabletWrapUpButtonStyle }>
+                    <Text style = { this.props.tabletDesignEnabled ? styles.tabletButtonText : styles.buttonText }>
+                        {FAVORITES_BUTTON}
+                    </Text>
+                </TouchableOpacity>}
             </View>
+            { !this.props.tabletDesignEnabled
+                && <View style = { styles.favoritesButtonWrapper }>
+                    <TouchableOpacity
+                        onPress = { this._onTimeToShopFavs }
+                        style = { styles.wrapUpButtonStyle }>
+                        <Text style = { styles.buttonText }>{FAVORITES_BUTTON}</Text>
+                    </TouchableOpacity>
+                </View>}
         </View>);
     }
 

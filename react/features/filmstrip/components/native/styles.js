@@ -27,12 +27,38 @@ const nameComponent = {
     fontFamily: 'Montserrat-SemiBold'
 };
 
-const wrapUpButtonStyle = {
+const baseWrapUpButtonStyle = {
     flex: 1,
-    height: 40,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'white'
+};
+
+const baseMicrophoneViewStlye = {
+    position: 'absolute',
+    width: '100%',
+    justifyContent: 'flex-end'
+};
+
+const baseButtonTextStyle = {
+    color: 'black',
+    fontFamily: 'Montserrat-SemiBold'
+};
+
+const baseWrapUpPlaceHolderStyle = {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center'
+};
+
+const baseBottomVideoPlaceHolderStyle = {
+    alignSelf: 'flex-end',
+    marginHorizontal: '3%'
+};
+
+const baseWrapUpTextStyle = {
+    fontFamily: 'JustLovelySlantedWide',
+    color: 'white'
 };
 
 /**
@@ -150,22 +176,34 @@ export default {
     },
 
     buttonText: {
-        color: 'black',
-        fontFamily: 'Montserrat-SemiBold'
+        ...baseButtonTextStyle
+    },
+
+    tabletButtonText: {
+        ...baseButtonTextStyle,
+        fontSize: 18
     },
 
     wrapUpPlaceholder: {
-        flex: 1,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
+        ...baseWrapUpPlaceHolderStyle,
         marginHorizontal: '6%',
         marginBottom: '2%'
     },
 
+    tabletWrapUpPlaceholder: {
+        ...baseWrapUpPlaceHolderStyle,
+        marginBottom: '-25%',
+        maxWidth: '50%'
+    },
+
     wrapUpText: {
-        fontFamily: 'JustLovelySlantedWide',
-        color: 'white',
+        ...baseWrapUpTextStyle,
         fontSize: 48
+    },
+
+    tabletWrapUpText: {
+        ...baseWrapUpTextStyle,
+        fontSize: 70
     },
 
     wrapUpButtonRow: {
@@ -173,31 +211,47 @@ export default {
         marginBottom: '3%'
     },
 
-    wrapUpButtonStyle,
+    tabletWrapUpButtonRow: {
+        flexDirection: 'row'
+    },
+
+    wrapUpButtonStyle: {
+        ...baseWrapUpButtonStyle,
+        height: 40
+    },
 
     lookBookButton: {
-        ...wrapUpButtonStyle,
-        marginRight: 3
+        ...baseWrapUpButtonStyle,
+        marginRight: 3,
+        height: 40
     },
 
     collectionButton: {
-        ...wrapUpButtonStyle,
-        marginLeft: 3
+        ...baseWrapUpButtonStyle,
+        marginLeft: 3,
+        height: 40
+    },
+
+    tabletWrapUpButtonStyle: {
+        ...baseWrapUpButtonStyle,
+        marginLeft: 3,
+        marginRight: 3,
+        marginTop: '3%',
+        height: 60,
+        paddingBottom: 10
     },
 
     bottomVideoPlaceholder: {
+        ...baseBottomVideoPlaceHolderStyle,
         aspectRatio: 0.75,
         width: '25%',
-        alignSelf: 'flex-end',
-        marginHorizontal: '3%',
         marginBottom: '3%'
     },
 
     tabletBottomVideoPlaceholder: {
+        ...baseBottomVideoPlaceHolderStyle,
         aspectRatio: 1,
         width: '12%',
-        alignSelf: 'flex-end',
-        marginHorizontal: '3%',
         marginBottom: '-3%'
     },
 
@@ -214,19 +268,15 @@ export default {
     },
 
     microphoneViewStyle: {
-        position: 'absolute',
+        ...baseMicrophoneViewStlye,
         aspectRatio: 0.75,
-        width: '100%',
-        paddingBottom: '20%',
-        justifyContent: 'flex-end'
+        paddingBottom: '20%'
     },
 
     tabletMicrophoneViewStyle: {
-        position: 'absolute',
+        ...baseMicrophoneViewStlye,
         aspectRatio: 1,
-        width: '100%',
-        paddingBottom: '15%',
-        justifyContent: 'flex-end'
+        paddingBottom: '15%'
     },
 
     microphoneIconStyle: {
