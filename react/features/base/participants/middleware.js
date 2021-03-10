@@ -159,8 +159,7 @@ StateListenerRegistry.register(
                 !p.local
                 && (!conference || p.conference !== conference)
             ) {
-                const action = participantLeft(p.id, p.conference);
-                dispatch(action);
+                dispatch(participantLeft(p.id, p.conference));
             }
         }
     });
