@@ -117,7 +117,7 @@ class TileView extends Component<Props> {
 
         pages.push(<InFocusView
             inFocusUser = { this.props?._participants.find(p => p.currentfocus) }
-            isTabletDesignEnabled = { this.props._isTabletDesignEnabled }
+            tabletDesignEnabled = { this.props._isTabletDesignEnabled }
             key = 'in-focus-view'
             localUser = { this.props._participants.find(participant => participant.local) } />);
 
