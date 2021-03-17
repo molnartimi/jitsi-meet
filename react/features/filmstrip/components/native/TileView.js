@@ -288,7 +288,7 @@ class TileView extends Component<Props> {
 function _mapStateToProps(state) {
     const responsiveUi = state['features/base/responsive-ui'];
     const participants = state['features/base/participants'];
-    const { isSimplifiedConference, isTabletDesignEnabled
+    const { isSimplifiedConference, tabletDesignEnabled
     } = state['features/base/conference'];
     const { placeholderData } = state['features/filmstrip'];
 
@@ -299,7 +299,7 @@ function _mapStateToProps(state) {
         _participants: participants,
         _placeholderImageUrl: placeholderData.imageUrl,
         _isSimplifiedConference: isSimplifiedConference,
-        _isTabletDesignEnabled: isTabletDesignEnabled
+        _isTabletDesignEnabled: tabletDesignEnabled
     };
 }
 
