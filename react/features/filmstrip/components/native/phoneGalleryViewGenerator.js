@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import { Dimensions, View } from 'react-native';
 
-import { TILE_ASPECT_RATIO, TILE_MARGIN } from '../../constants';
+import { THUMBNAIL_ASPECT_RATIO, TILE_MARGIN } from '../../constants';
 
 import {
     _groupThumbnailsByPages,
@@ -18,7 +18,7 @@ function constructPhoneGalleryView(sortedParticipants, thumbnailDimensions) {
     }
 
     const styleOverrides = {
-        aspectRatio: TILE_ASPECT_RATIO,
+        aspectRatio: THUMBNAIL_ASPECT_RATIO,
         minHeight: thumbnailDimensions.height,
         maxWidth: thumbnailDimensions.width
     };
