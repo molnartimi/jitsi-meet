@@ -265,8 +265,9 @@ class InFocusView extends Component<Props> {
  * @returns {Object}
  */
 function _mapStateToProps(state, ownProps) {
-    const { inFocusUser, localUser, isWrapUpVisible } = ownProps;
+    const { inFocusUser, localUser, tabletDesignEnabled } = ownProps;
     const placeholderUser = { name: UNKNOWN_NAME };
+    const responsiveUi = state['features/base/responsive-ui'];
 
     const tracks = state['features/base/tracks'];
     const id = localUser?.id;
@@ -276,7 +277,6 @@ function _mapStateToProps(state, ownProps) {
     const {
         isSimplifiedConference,
         isMicEnabled, isCamEnabled,
-        tabletDesignEnabled
     } = state['features/base/conference'];
     const { placeholderData, countdownStartDatetime, countdownTargetDatetime } = state['features/filmstrip'];
 
@@ -285,7 +285,7 @@ function _mapStateToProps(state, ownProps) {
         localUser: _.isNil(localUser) ? placeholderUser : localUser,
         isLocalUserAudioMuted: audioTrack?.muted ?? true,
         placeholderData,
-        isWrapUpVisible,
+        isWrapUpVisible: responsiveUi.showWrapUpButtons,
         countdownStartDatetime,
         countdownTargetDatetime,
         isSimplifiedConference,
