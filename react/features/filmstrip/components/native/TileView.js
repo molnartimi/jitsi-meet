@@ -209,21 +209,7 @@ class TileView extends Component<Props> {
             participants.push(stylist);
         }
 
-        participants.push({ id: 2,
-            name: 'Emil',
-            vipType: RoleTypeId.CABI_STYLIST,
-            local: false
-        });
-
         participants.push(localUser);
-
-        Array.from(Array(107).keys()).forEach(element =>
-            participants.push({ id: 2,
-                name: 'Emil',
-                vipType: RoleTypeId.CABI_GUEST,
-                local: false
-            })
-        );
 
         if (!_.isEmpty(hostess)) {
             participants.push(hostess);
