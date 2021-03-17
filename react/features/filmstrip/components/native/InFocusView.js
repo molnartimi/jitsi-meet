@@ -276,7 +276,8 @@ function _mapStateToProps(state, ownProps) {
 
     const {
         isSimplifiedConference,
-        isMicEnabled, isCamEnabled,
+        isMicEnabled,
+        isCamEnabled
     } = state['features/base/conference'];
     const { placeholderData, countdownStartDatetime, countdownTargetDatetime } = state['features/filmstrip'];
 

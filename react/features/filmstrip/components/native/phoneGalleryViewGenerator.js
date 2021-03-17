@@ -31,14 +31,6 @@ function constructPhoneGalleryView(sortedParticipants, thumbnailDimensions) {
                 thumbnailDimensions));
 }
 
-/**
-     * Returns the page grids with user thumbnails from {@link userGrid}.
-     *
-     * @param {[][]} userGrid - User page matrix.
-     *
-     * @private
-     * @returns {ReactElement[]}
-     */
 function _getUserPages(userGrid) {
     return userGrid.map((page, pageIndex) =>
         (<View
@@ -61,16 +53,6 @@ function _calculateRowCount(thumbnailDimensions) {
     return Math.floor(heightToUse / tileHeight);
 }
 
-/**
-     * Splits a list of thumbnails into React Elements with a maximum of
-     * {@link rowLength} thumbnails in each.
-     *
-     * @param {Array} thumbnails - The list of thumbnails that should be split
-     * into separate row groupings.
-     * @param {number} rowLength - How many thumbnails should be in each row.
-     * @private
-     * @returns {ReactElement[]}
-     */
 function _groupIntoRows(thumbnails) {
     const finalRows = [];
 

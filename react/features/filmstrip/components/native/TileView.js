@@ -292,9 +292,6 @@ function _mapStateToProps(state) {
     } = state['features/base/conference'];
     const { placeholderData } = state['features/filmstrip'];
 
-    console.log(responsiveUi.clientWidth);
-    console.log(responsiveUi.clientHeight);
-
     return {
         _height: responsiveUi.clientHeight,
         _width: responsiveUi.clientWidth,

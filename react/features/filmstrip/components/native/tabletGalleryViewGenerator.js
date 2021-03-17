@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import { Image, View } from 'react-native';
 
-import { THUMBNAIL_ASPECT_RATIO, TILE_ASPECT_RATIO } from '../../constants';
+import { TILE_ASPECT_RATIO } from '../../constants';
 
 import Thumbnail from './Thumbnail';
 import {
@@ -43,15 +43,6 @@ function constructTabletGalleryView(sortedParticipants, placeholderImageUrl, thu
                 columnCount)));
 }
 
-
-/**
-* Returns the page grids with user thumbnails from {@link userGrid}.
-*
-     * @param {[][]} userGrid - User page matrix.
-     *
-     * @private
-     * @returns {ReactElement[]}
-     */
 function _getUserPages(inFocusUser, inFocusStyleOverrides, placeholderImageUrl, userGrid) {
     const userPages = [];
 
@@ -123,17 +114,6 @@ function _getUserPages(inFocusUser, inFocusStyleOverrides, placeholderImageUrl, 
     return userPages;
 }
 
-
-/**
- * Splits a list of thumbnails into React Elements with a maximum of
- * {@link rowLength} thumbnails in each.
- *
- * @param {Array} thumbnails - The list of thumbnails that should be split
- * into separate row groupings.
- * @param {number} rowLength - How many thumbnails should be in each row.
- * @private
- * @returns {ReactElement[]}
- */
 function _groupIntoRows(thumbnails, columnCount) {
     const rowLength = columnCount;
     const finalRows = [];
