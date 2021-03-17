@@ -26,7 +26,7 @@ type Props = {
     isSimplifiedConference: boolean,
     isMicEnabled: boolean,
     isCamEnabled: boolean,
-    tabletDesignEnabled: boolean,
+    isTabletDesignEnabled: boolean,
     dispatch: Dispatch<any>
 }
 
@@ -62,7 +62,9 @@ class InFocusView extends Component<Props> {
     render() {
         return (
             <View
-                style = { this.props.tabletDesignEnabled ? styles.tabletInFocus : styles.fillView }>
+                style = { this.props.isTabletDesignEnabled
+                    ? styles.tabletInFocus
+                    : styles.fillView }>
 
                 {this._createCountdownIfNeeded()}
                 {_.isNil(this.props.inFocusUser)
@@ -154,37 +156,55 @@ class InFocusView extends Component<Props> {
 
     _createWrapUpButtonsPlaceholder() {
         return (<View
-            style = { this.props.tabletDesignEnabled ? styles.tabletWrapUpPlaceholder : styles.wrapUpPlaceholder }>
-            <Text style = { this.props.tabletDesignEnabled ? styles.tabletWrapUpText : styles.wrapUpText }>
+            style = { this.props.isTabletDesignEnabled
+                ? styles.tabletWrapUpPlaceholder
+                : styles.wrapUpPlaceholder }>
+            <Text
+                style = { this.props.isTabletDesignEnabled
+                    ? styles.tabletWrapUpText
+                    : styles.wrapUpText }>
                 It's time to shop!
             </Text>
             <View
                 style = { styles.wrapUpButtonRow }>
                 <TouchableOpacity
                     onPress = { this._onTimeToShopLookBook }
-                    style = { this.props.tabletDesignEnabled ? styles.tabletWrapUpButtonStyle : styles.lookBookButton }>
-                    <Text style = { this.props.tabletDesignEnabled ? styles.tabletButtonText : styles.buttonText }>
+                    style = { this.props.isTabletDesignEnabled
+                        ? styles.tabletWrapUpButtonStyle
+                        : styles.lookBookButton }>
+                    <Text
+                        style = { this.props.isTabletDesignEnabled
+                            ? styles.tabletButtonText
+                            : styles.buttonText }>
                         {LOOKBOOK_BUTTON}
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress = { this._onTimeToShopCollection }
                     style = {
-                        this.props.tabletDesignEnabled ? styles.tabletWrapUpButtonStyle : styles.collectionButton
+                        this.props.isTabletDesignEnabled
+                            ? styles.tabletWrapUpButtonStyle
+                            : styles.collectionButton
                     }>
-                    <Text style = { this.props.tabletDesignEnabled ? styles.tabletButtonText : styles.buttonText }>
+                    <Text
+                        style = { this.props.isTabletDesignEnabled
+                            ? styles.tabletButtonText
+                            : styles.buttonText }>
                         {COLLECTION_BUTTON}
                     </Text>
                 </TouchableOpacity>
-                {this.props.tabletDesignEnabled && <TouchableOpacity
+                {this.props.isTabletDesignEnabled && <TouchableOpacity
                     onPress = { this._onTimeToShopFavs }
                     style = { styles.tabletWrapUpButtonStyle }>
-                    <Text style = { this.props.tabletDesignEnabled ? styles.tabletButtonText : styles.buttonText }>
+                    <Text
+                        style = { this.props.isTabletDesignEnabled
+                            ? styles.tabletButtonText
+                            : styles.buttonText }>
                         {FAVORITES_BUTTON}
                     </Text>
                 </TouchableOpacity>}
             </View>
-            { !this.props.tabletDesignEnabled
+            { !this.props.isTabletDesignEnabled
                 && <View style = { styles.favoritesButtonWrapper }>
                     <TouchableOpacity
                         onPress = { this._onTimeToShopFavs }
@@ -198,8 +218,9 @@ class InFocusView extends Component<Props> {
     _createSelfFrameVideoComponent() {
         return (
             <View
-                style = { this.props.tabletDesignEnabled
-                    ? styles.tabletBottomVideoPlaceholder : styles.bottomVideoPlaceholder }>
+                style = { this.props.isTabletDesignEnabled
+                    ? styles.tabletBottomVideoPlaceholder
+                    : styles.bottomVideoPlaceholder }>
                 <Thumbnail
                     isAvatarCircled = { false }
                     isDominantSpeaker = { false }
@@ -214,12 +235,14 @@ class InFocusView extends Component<Props> {
                     zOrder = { 1 } />
                 { this._isMicMutedIndicatorVisible()
                 && <View
-                    style = { this.props.tabletDesignEnabled
-                        ? styles.tabletMicrophoneViewStyle : styles.microphoneViewStyle }>
+                    style = { this.props.isTabletDesignEnabled
+                        ? styles.tabletMicrophoneViewStyle
+                        : styles.microphoneViewStyle }>
                     <Image
                         source = { require('../../../../../resources/img/muted_microphone.png') }
-                        style = { this.props.tabletDesignEnabled
-                            ? styles.tabletMicrophoneIconStyle : styles.microphoneIconStyle } />
+                        style = { this.props.isTabletDesignEnabled
+                            ? styles.tabletMicrophoneIconStyle
+                            : styles.microphoneIconStyle } />
                 </View> }
             </View>);
     }
@@ -265,8 +288,9 @@ class InFocusView extends Component<Props> {
  * @returns {Object}
  */
 function _mapStateToProps(state, ownProps) {
-    const { inFocusUser, localUser, isWrapUpVisible } = ownProps;
+    const { inFocusUser, localUser, isTabletDesignEnabled } = ownProps;
     const placeholderUser = { name: UNKNOWN_NAME };
+    const responsiveUi = state['features/base/responsive-ui'];
 
     const tracks = state['features/base/tracks'];
     const id = localUser?.id;
@@ -275,8 +299,8 @@ function _mapStateToProps(state, ownProps) {
 
     const {
         isSimplifiedConference,
-        isMicEnabled, isCamEnabled,
-        tabletDesignEnabled
+        isMicEnabled,
+        isCamEnabled
     } = state['features/base/conference'];
     const { placeholderData, countdownStartDatetime, countdownTargetDatetime } = state['features/filmstrip'];
 
@@ -285,13 +309,13 @@ function _mapStateToProps(state, ownProps) {
         localUser: _.isNil(localUser) ? placeholderUser : localUser,
         isLocalUserAudioMuted: audioTrack?.muted ?? true,
         placeholderData,
-        isWrapUpVisible,
+        isWrapUpVisible: responsiveUi.showWrapUpButtons,
         countdownStartDatetime,
         countdownTargetDatetime,
         isSimplifiedConference,
         isMicEnabled,
         isCamEnabled,
-        tabletDesignEnabled
+        isTabletDesignEnabled
     };
 }
 export default connect(_mapStateToProps)(InFocusView);

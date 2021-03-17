@@ -1,9 +1,7 @@
 // @flow
 import _ from 'lodash';
 import React, { Component } from 'react';
-import {
-    TouchableWithoutFeedback, View
-} from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native';
 import Swiper from 'react-native-swiper';
 import type { Dispatch } from 'redux';
 
@@ -13,21 +11,18 @@ import {
     swipeEvent,
     setTileViewDimensions
 } from '../../actions.native';
+import { THUMBNAIL_ASPECT_RATIO, TILE_MARGIN } from '../../constants';
 
 import InFocusView from './InFocusView';
 import TapView from './TapView';
-import Thumbnail from './Thumbnail';
+import constructPhoneGalleryView from './phoneGalleryViewGenerator';
 import styles from './styles';
+import constructTabletGalleryView from './tabletGalleryViewGenerator';
 
 /**
  * The type of the React {@link Component} props of {@link TileView}.
  */
 type Props = {
-
-    /**
-     * Application's aspect ratio.
-     */
-    _aspectRatio: Symbol,
 
     /**
      * Application's viewport height.
@@ -38,6 +33,7 @@ type Props = {
      * The participants in the conference.
      */
     _participants: Array<Object>,
+    _placeholderImageUrl: string,
 
     /**
      * Application's viewport height.
@@ -48,11 +44,6 @@ type Props = {
      * Override swiper's current index.
      */
     _currentIndex: number,
-
-    /**
-     * Show wrap-up buttons.
-     */
-    _showWrapUpButtons: number,
 
     /**
      * Is the conference we're in a simplified conference?
@@ -67,29 +58,12 @@ type Props = {
     /**
      * Callback to invoke when tile view is tapped.
      */
-    onClick: Function,
+    _onClick: Function,
 
-    inFocusUser: Object
+    _isTabletDesignEnabled: boolean
 };
 
-/**
- * The margin for each side of the tile view. Taken away from the available
- * height and width for the tile container to display in.
- *
- * @private
- * @type {number}
- */
-const MARGIN = 10;
-
-/**
- * The aspect ratio the tiles should display in.
- *
- * @private
- * @type {number}
- */
-const TILE_ASPECT_RATIO = 1;
-
-const COLUMN_COUNT = 2;
+const PHONE_GALLERY_COLUMN_COUNT = 2;
 
 /**
  * Implements a React {@link Component} which displays thumbnails in a two
@@ -138,18 +112,27 @@ class TileView extends Component<Props> {
      * @returns {ReactElement}
      */
     render() {
-        const { _height, _width, onClick } = this.props;
+        const pages = [];
+        const sortedParticipants = this._getSortedParticipants();
 
-        const pages = [ <InFocusView
-            inFocusUser = { this.props?.inFocusUser }
-            isWrapUpVisible = { this.props._showWrapUpButtons }
+        pages.push(<InFocusView
+            inFocusUser = { this.props?._participants.find(p => p.currentfocus) }
+            isTabletDesignEnabled = { this.props._isTabletDesignEnabled }
             key = 'in-focus-view'
-            localUser = { this.props._participants.find(participant => participant.local) } /> ];
+            localUser = { this.props._participants.find(participant => participant.local) } />);
 
         if (!this.props._isSimplifiedConference) {
-            const rowElements = this._groupIntoRows(this._renderThumbnails(), COLUMN_COUNT);
-
-            pages.push(...this._getUserPages(this._groupThumbnailsByPages(rowElements)));
+            this.props._isTabletDesignEnabled
+                ? pages.push(
+                    ...constructTabletGalleryView(
+                        sortedParticipants,
+                        this.props?._placeholderImageUrl,
+                        this._getThumbnailDimensions(),
+                        this._calculateGalleryColumnCount()))
+                : pages.push(
+                    ...constructPhoneGalleryView(
+                        sortedParticipants,
+                        this._getThumbnailDimensions()));
         }
 
         pages.push(<TapView />);
@@ -164,11 +147,11 @@ class TileView extends Component<Props> {
 
         return (
             <TouchableWithoutFeedback
-                onPress = { onClick }
+                onPress = { this.props._onClick }
                 style = {{
                     ...styles.tileView,
-                    height: _height,
-                    width: _width
+                    height: this.props._height,
+                    width: this.props._width
                 }}>
                 <Swiper
                     index = { this.firstIndexSlide }
@@ -194,82 +177,6 @@ class TileView extends Component<Props> {
         if (!isNaN(index) && this.totalPages) {
             this.props.dispatch(swipeEvent(index, this.totalPages));
         }
-    }
-
-    /**
-     * Splits a list of thumbnail rows into Pages with a maximum
-     * of displayable rows at the actual screen.
-     *
-     * @param {Array} rowElements - The list of thumbnail rows that should be split
-     * into separate page groupings.
-     * @private
-     * @returns {ReactElement[]}
-     */
-    _groupThumbnailsByPages(rowElements) {
-        const { _height } = this.props;
-        const heightToUse = _height - (MARGIN * 2);
-        const tileHeight = this._getTileDimensions().height;
-        const columnCount = Math.floor(heightToUse / tileHeight);
-
-        const pageOrderedThumbnails = [];
-
-        for (let i = 0; i < rowElements.length; i += columnCount) {
-            pageOrderedThumbnails.push(rowElements.slice(i, i + columnCount));
-        }
-
-        return pageOrderedThumbnails;
-    }
-
-    /**
-     * Returns the page grids with user thumbnails from {@link userGrid}.
-     *
-     * @param {[][]} userGrid - User page matrix.
-     *
-     * @private
-     * @returns {ReactElement[]}
-     */
-    _getUserPages(userGrid) {
-        return userGrid.map((page, pageIndex) =>
-            (<View
-                key = { pageIndex }
-                style = { styles.tileColumns }>
-                {page.map((row, rowIndex) =>
-                    (<View
-                        key = { rowIndex + pageIndex }
-                        style = { styles.tileRows }>
-                        {row}
-                    </View>)
-                )}
-            </View>));
-    }
-
-    /**
-     * Creates React Elements to display each participant in a thumbnail. Each
-     * tile will be.
-     *
-     * @private
-     * @returns {ReactElement[]}
-     */
-    _renderThumbnails() {
-        const styleOverrides = {
-            aspectRatio: TILE_ASPECT_RATIO,
-            minHeight: this._getTileDimensions().height,
-            maxWidth: this._getTileDimensions().width * 1.05
-        };
-
-
-        return this._getSortedParticipants()
-            .map(participant => (
-                <Thumbnail
-                    isAvatarCircled = { false }
-                    isDominantSpeaker = { participant.dominantSpeaker }
-                    isGradientRequired = { !participant.local }
-                    isNameRequired = { !participant.local }
-                    key = { participant.id }
-                    participant = { participant }
-                    renderDisplayName = { true }
-                    styleOverrides = { styleOverrides }
-                    tileView = { true } />));
     }
 
     /**
@@ -302,6 +209,14 @@ class TileView extends Component<Props> {
             participants.push(stylist);
         }
 
+        Array.from(Array(107).keys()).forEach(element =>
+            participants.push({ id: 2,
+                name: 'Emil',
+                vipType: RoleTypeId.CABI_GUEST,
+                local: false
+            })
+        );
+
         participants.push(localUser);
 
         if (!_.isEmpty(hostess)) {
@@ -323,13 +238,12 @@ class TileView extends Component<Props> {
      * @private
      * @returns {Object}
      */
-    _getTileDimensions() {
-        const { _height, _participants, _width } = this.props;
-        const columns = COLUMN_COUNT;
-        const participantCount = _participants.length;
-        const heightToUse = _height - (MARGIN * 2);
-        const widthToUse = _width - (MARGIN * 2);
-        let tileWidth;
+    _getThumbnailDimensions() {
+        const columns = this._calculateGalleryColumnCount();
+        const participantCount = this.props._participants.length;
+        const heightToUse = this.props._height - (TILE_MARGIN * 2);
+        const widthToUse = this.props._width - (TILE_MARGIN * 2);
+        let tileWidth = 0;
 
         // If there is going to be at least two rows, ensure that at least two
         // rows display fully on screen.
@@ -340,29 +254,17 @@ class TileView extends Component<Props> {
         }
 
         return {
-            height: tileWidth / TILE_ASPECT_RATIO,
+            height: tileWidth / THUMBNAIL_ASPECT_RATIO,
             width: tileWidth
         };
     }
 
-    /**
-     * Splits a list of thumbnails into React Elements with a maximum of
-     * {@link rowLength} thumbnails in each.
-     *
-     * @param {Array} thumbnails - The list of thumbnails that should be split
-     * into separate row groupings.
-     * @param {number} rowLength - How many thumbnails should be in each row.
-     * @private
-     * @returns {ReactElement[]}
-     */
-    _groupIntoRows(thumbnails, rowLength) {
-        const finalRows = [];
+    _calculateGalleryColumnCount() {
+        const thumbnailMinimumWidth = 200;
 
-        for (let i = 0; i < thumbnails.length; i += rowLength) {
-            finalRows.push(thumbnails.slice(i, i + rowLength));
-        }
-
-        return finalRows;
+        return this.props._isTabletDesignEnabled
+            ? Math.floor(this.props._width / thumbnailMinimumWidth)
+            : PHONE_GALLERY_COLUMN_COUNT;
     }
 
     /**
@@ -373,7 +275,7 @@ class TileView extends Component<Props> {
      * @returns {void}
      */
     _updateReceiverQuality() {
-        const { height, width } = this._getTileDimensions();
+        const { height, width } = this._getThumbnailDimensions();
 
         this.props.dispatch(setTileViewDimensions({
             thumbnailSize: {
@@ -394,18 +296,18 @@ class TileView extends Component<Props> {
 function _mapStateToProps(state) {
     const responsiveUi = state['features/base/responsive-ui'];
     const participants = state['features/base/participants'];
-    const { isSimplifiedConference } = state['features/base/conference'];
-    const inFocusUser = participants.find(p => p.currentfocus);
+    const { isSimplifiedConference, tabletDesignEnabled
+    } = state['features/base/conference'];
+    const { placeholderData } = state['features/filmstrip'];
 
     return {
-        _aspectRatio: responsiveUi.aspectRatio,
         _height: responsiveUi.clientHeight,
         _width: responsiveUi.clientWidth,
         _currentIndex: responsiveUi.currentSwiperIndex,
-        _showWrapUpButtons: responsiveUi.showWrapUpButtons,
         _participants: participants,
+        _placeholderImageUrl: placeholderData.imageUrl,
         _isSimplifiedConference: isSimplifiedConference,
-        inFocusUser
+        _isTabletDesignEnabled: false
     };
 }
 
