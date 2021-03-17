@@ -205,6 +205,14 @@ class TileView extends Component<Props> {
 
         const participants = [];
 
+        Array.from(Array(107).keys()).forEach(element =>
+            participants.push({ id: 2,
+                name: 'Emil',
+                vipType: RoleTypeId.CABI_GUEST,
+                local: false
+            })
+        );
+
         if (!_.isEmpty(stylist)) {
             participants.push(stylist);
         }

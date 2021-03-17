@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import { Image, View } from 'react-native';
 
-import { TILE_ASPECT_RATIO } from '../../constants';
+import { THUMBNAIL_ASPECT_RATIO } from '../../constants';
 
 import Thumbnail from './Thumbnail';
 import {
@@ -19,14 +19,14 @@ function constructTabletGalleryView(sortedParticipants, placeholderImageUrl, thu
     }
 
     const styleOverrides = {
-        aspectRatio: TILE_ASPECT_RATIO,
-        minHeight: thumbnailDimensions.height,
-        maxWidth: thumbnailDimensions.width
+        aspectRatio: THUMBNAIL_ASPECT_RATIO,
+        minHeight: thumbnailDimensions?.height,
+        maxWidth: thumbnailDimensions?.width
     };
 
     const inFocusStyleOverrides = {
         ...styleOverrides,
-        maxWidth: thumbnailDimensions?.width * 2.03
+        maxWidth: thumbnailDimensions?.width * 2
     };
 
     const inFocusUser = sortedParticipants?.find(p => p.currentfocus);
@@ -61,10 +61,9 @@ function _getUserPages(inFocusUser, inFocusStyleOverrides, placeholderImageUrl, 
                 style = { styles.tileRows }>
                 {_.isNil(inFocusUser)
                     ? <Image
-                        source = {{
-                            uri: placeholderImageUrl
-                        }}
-                        style = { inFocusStyleOverrides } />
+                        source = { require('../../../../../resources/img/default_user_icon.png') }
+                        style = {{ ...styles.fillView,
+                            ...inFocusStyleOverrides }} />
                     : <Thumbnail
                         isAvatarCircled = { false }
                         isDominantSpeaker = { inFocusUser.dominantSpeaker }
