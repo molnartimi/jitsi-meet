@@ -46,11 +46,6 @@ function constructTabletGalleryView(sortedParticipants, placeholderImageUrl, thu
 function _getUserPages(inFocusUser, inFocusStyleOverrides, placeholderImageUrl, userGrid) {
     const userPages = [];
 
-    console.log(`---------_getUserPages ${userGrid[0][0]}`);
-    console.log(`---------_getUserPages ${userGrid[0][1]}`);
-    console.log(`---------_getUserPages ${userGrid[0][2]}`);
-    console.log(`---------_getUserPages ${userGrid[0].length}`);
-
     userPages.push(
         <View
             style = {{

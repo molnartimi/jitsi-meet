@@ -117,9 +117,9 @@ class TileView extends Component<Props> {
 
         pages.push(<InFocusView
             inFocusUser = { this.props?._participants.find(p => p.currentfocus) }
-            tabletDesignEnabled = { this.props._isTabletDesignEnabled }
             key = 'in-focus-view'
-            localUser = { this.props._participants.find(participant => participant.local) } />);
+            localUser = { this.props._participants.find(participant => participant.local) }
+            isTabletDesignEnabled = { this.props._isTabletDesignEnabled } />);
 
         if (!this.props._isSimplifiedConference) {
             this.props._isTabletDesignEnabled
@@ -204,14 +204,6 @@ class TileView extends Component<Props> {
             .sort((a, b) => a.name > b.name ? 1 : -1);
 
         const participants = [];
-
-        Array.from(Array(107).keys()).forEach(element =>
-            participants.push({ id: 2,
-                name: 'Emil',
-                vipType: RoleTypeId.CABI_GUEST,
-                local: false
-            })
-        );
 
         if (!_.isEmpty(stylist)) {
             participants.push(stylist);
