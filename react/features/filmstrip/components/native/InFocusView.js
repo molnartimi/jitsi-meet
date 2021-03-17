@@ -62,7 +62,9 @@ class InFocusView extends Component<Props> {
     render() {
         return (
             <View
-                style = { this.props.isTabletDesignEnabled ? styles.tabletInFocus : styles.fillView }>
+                style = { this.props.isTabletDesignEnabled
+                    ? styles.tabletInFocus
+                    : styles.fillView }>
 
                 {this._createCountdownIfNeeded()}
                 {_.isNil(this.props.inFocusUser)
@@ -154,32 +156,50 @@ class InFocusView extends Component<Props> {
 
     _createWrapUpButtonsPlaceholder() {
         return (<View
-            style = { this.props.isTabletDesignEnabled ? styles.tabletWrapUpPlaceholder : styles.wrapUpPlaceholder }>
-            <Text style = { this.props.isTabletDesignEnabled ? styles.tabletWrapUpText : styles.wrapUpText }>
+            style = { this.props.isTabletDesignEnabled
+                ? styles.tabletWrapUpPlaceholder
+                : styles.wrapUpPlaceholder }>
+            <Text
+                style = { this.props.isTabletDesignEnabled
+                    ? styles.tabletWrapUpText
+                    : styles.wrapUpText }>
                 It's time to shop!
             </Text>
             <View
                 style = { styles.wrapUpButtonRow }>
                 <TouchableOpacity
                     onPress = { this._onTimeToShopLookBook }
-                    style = { this.props.isTabletDesignEnabled ? styles.tabletWrapUpButtonStyle : styles.lookBookButton }>
-                    <Text style = { this.props.isTabletDesignEnabled ? styles.tabletButtonText : styles.buttonText }>
+                    style = { this.props.isTabletDesignEnabled
+                        ? styles.tabletWrapUpButtonStyle
+                        : styles.lookBookButton }>
+                    <Text
+                        style = { this.props.isTabletDesignEnabled
+                            ? styles.tabletButtonText
+                            : styles.buttonText }>
                         {LOOKBOOK_BUTTON}
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress = { this._onTimeToShopCollection }
                     style = {
-                        this.props.isTabletDesignEnabled ? styles.tabletWrapUpButtonStyle : styles.collectionButton
+                        this.props.isTabletDesignEnabled
+                            ? styles.tabletWrapUpButtonStyle
+                            : styles.collectionButton
                     }>
-                    <Text style = { this.props.isTabletDesignEnabled ? styles.tabletButtonText : styles.buttonText }>
+                    <Text
+                        style = { this.props.isTabletDesignEnabled
+                            ? styles.tabletButtonText
+                            : styles.buttonText }>
                         {COLLECTION_BUTTON}
                     </Text>
                 </TouchableOpacity>
                 {this.props.isTabletDesignEnabled && <TouchableOpacity
                     onPress = { this._onTimeToShopFavs }
                     style = { styles.tabletWrapUpButtonStyle }>
-                    <Text style = { this.props.isTabletDesignEnabled ? styles.tabletButtonText : styles.buttonText }>
+                    <Text
+                        style = { this.props.isTabletDesignEnabled
+                            ? styles.tabletButtonText
+                            : styles.buttonText }>
                         {FAVORITES_BUTTON}
                     </Text>
                 </TouchableOpacity>}
@@ -199,7 +219,8 @@ class InFocusView extends Component<Props> {
         return (
             <View
                 style = { this.props.isTabletDesignEnabled
-                    ? styles.tabletBottomVideoPlaceholder : styles.bottomVideoPlaceholder }>
+                    ? styles.tabletBottomVideoPlaceholder
+                    : styles.bottomVideoPlaceholder }>
                 <Thumbnail
                     isAvatarCircled = { false }
                     isDominantSpeaker = { false }
@@ -215,11 +236,13 @@ class InFocusView extends Component<Props> {
                 { this._isMicMutedIndicatorVisible()
                 && <View
                     style = { this.props.isTabletDesignEnabled
-                        ? styles.tabletMicrophoneViewStyle : styles.microphoneViewStyle }>
+                        ? styles.tabletMicrophoneViewStyle
+                        : styles.microphoneViewStyle }>
                     <Image
                         source = { require('../../../../../resources/img/muted_microphone.png') }
                         style = { this.props.isTabletDesignEnabled
-                            ? styles.tabletMicrophoneIconStyle : styles.microphoneIconStyle } />
+                            ? styles.tabletMicrophoneIconStyle
+                            : styles.microphoneIconStyle } />
                 </View> }
             </View>);
     }
