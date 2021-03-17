@@ -209,14 +209,6 @@ class TileView extends Component<Props> {
             participants.push(stylist);
         }
 
-        Array.from(Array(107).keys()).forEach(element =>
-            participants.push({ id: 2,
-                name: 'Emil',
-                vipType: RoleTypeId.CABI_GUEST,
-                local: false
-            })
-        );
-
         participants.push(localUser);
 
         if (!_.isEmpty(hostess)) {
@@ -307,7 +299,7 @@ function _mapStateToProps(state) {
         _participants: participants,
         _placeholderImageUrl: placeholderData.imageUrl,
         _isSimplifiedConference: isSimplifiedConference,
-        _isTabletDesignEnabled: false
+        _isTabletDesignEnabled: tabletDesignEnabled
     };
 }
 
