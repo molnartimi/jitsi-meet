@@ -18,7 +18,7 @@ export const TILE_ASPECT_RATIO = 16 / 9;
  * @private
  * @type {number}
  */
-export const TILE_MARGIN = 10;
+export const TILE_MARGIN = 2;
 
 /**
  * The aspect ratio the tiles should display in.

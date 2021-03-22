@@ -64,6 +64,7 @@ type Props = {
 };
 
 const PHONE_GALLERY_COLUMN_COUNT = 2;
+const TABLET_GALLERY_COLUMN_COUNT = 6;
 
 /**
  * Implements a React {@link Component} which displays thumbnails in a two
@@ -232,30 +233,17 @@ class TileView extends Component<Props> {
      */
     _getThumbnailDimensions() {
         const columns = this._calculateGalleryColumnCount();
-        const participantCount = this.props._participants.length;
-        const heightToUse = this.props._height - (TILE_MARGIN * 2);
-        const widthToUse = this.props._width - (TILE_MARGIN * 2);
-        let tileWidth = 0;
-
-        // If there is going to be at least two rows, ensure that at least two
-        // rows display fully on screen.
-        if (participantCount / columns > 1) {
-            tileWidth = Math.min(widthToUse / columns, heightToUse / 2);
-        } else {
-            tileWidth = Math.min(widthToUse / columns, heightToUse);
-        }
+        const tileWidth = (this.props._width / columns) - TILE_MARGIN;
 
         return {
-            height: tileWidth / THUMBNAIL_ASPECT_RATIO,
+            height: tileWidth * THUMBNAIL_ASPECT_RATIO,
             width: tileWidth
         };
     }
 
     _calculateGalleryColumnCount() {
-        const thumbnailMinimumWidth = 200;
-
         return this.props._isTabletDesignEnabled
-            ? Math.floor(this.props._width / thumbnailMinimumWidth)
+            ? TABLET_GALLERY_COLUMN_COUNT
             : PHONE_GALLERY_COLUMN_COUNT;
     }
 
