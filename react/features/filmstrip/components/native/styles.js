@@ -156,22 +156,22 @@ export default {
     },
 
     tileView: {
-        alignSelf: 'stretch',
-        alignContent: 'stretch'
+        alignSelf: 'center',
+        alignContent: 'center'
     },
 
     tileRows: {
         flexDirection: 'row',
-        alignSelf: 'flex-start',
-        alignContent: 'flex-start',
+        alignSelf: 'center',
+        alignContent: 'center',
         justifyContent: 'flex-start',
         zIndex: 1
     },
 
     tileColumns: {
         flexDirection: 'column',
-        alignSelf: 'stretch',
-        alignContent: 'stretch',
+        alignSelf: 'center',
+        alignContent: 'center',
         zIndex: 1
     },
 
@@ -192,7 +192,7 @@ export default {
 
     tabletWrapUpPlaceholder: {
         ...baseWrapUpPlaceHolderStyle,
-        marginBottom: '-25%',
+        marginBottom: '-10%',
         maxWidth: '50%'
     },
 

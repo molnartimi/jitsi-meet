@@ -12,21 +12,26 @@ import {
 import styles from './styles';
 
 const ROW_COUNT = 3;
+const IN_FOCUS_SCALE = 3;
+const THUMBNAIL_IN_FOCUS_ASPECT_RATIO = 3 / 2;
 
 function constructTabletGalleryView(sortedParticipants, placeholderImageUrl, thumbnailDimensions, columnCount) {
     if (_.isNil(sortedParticipants) || _.isNil(thumbnailDimensions) || _.isNil(columnCount)) {
         return <View />;
     }
 
+    const marginMultiplier = 1.02;
+
     const styleOverrides = {
         aspectRatio: THUMBNAIL_ASPECT_RATIO,
         minHeight: thumbnailDimensions?.height,
-        maxWidth: thumbnailDimensions?.width
+        maxWidth: thumbnailDimensions?.width * marginMultiplier
     };
 
     const inFocusStyleOverrides = {
         ...styleOverrides,
-        maxWidth: thumbnailDimensions?.width * 2
+        aspectRatio: THUMBNAIL_IN_FOCUS_ASPECT_RATIO / marginMultiplier,
+        maxWidth: thumbnailDimensions?.width * IN_FOCUS_SCALE
     };
 
     const inFocusUser = sortedParticipants?.find(p => p.currentfocus);
@@ -111,13 +116,12 @@ function _getUserPages(inFocusUser, inFocusStyleOverrides, placeholderImageUrl, 
 function _groupIntoRows(thumbnails, columnCount) {
     const rowLength = columnCount;
     const finalRows = [];
-    const inFocusScale = 2;
 
     for (let i = 0; i < thumbnails.length; i += rowLength) {
         if (i < rowLength) {
             finalRows.push(
-                        thumbnails.slice(i, i + rowLength - inFocusScale));
-            i -= inFocusScale;
+                        thumbnails.slice(i, i + rowLength - IN_FOCUS_SCALE));
+            i -= IN_FOCUS_SCALE;
         } else {
             finalRows.push(thumbnails.slice(i, i + rowLength));
         }
