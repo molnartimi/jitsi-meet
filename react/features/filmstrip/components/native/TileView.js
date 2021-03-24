@@ -214,8 +214,6 @@ class TileView extends Component<Props> {
             participants.push(stylist);
         }
 
-        participants.push(localUser);
-
         if (!_.isEmpty(hostess)) {
             participants.push(hostess);
         }
@@ -223,6 +221,8 @@ class TileView extends Component<Props> {
         if (!_.isEmpty(cohostess)) {
             participants.push(cohostess);
         }
+
+        participants.push(localUser);
 
         participants.push(...otherParticipants);
 
