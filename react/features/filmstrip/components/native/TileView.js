@@ -11,7 +11,12 @@ import {
     swipeEvent,
     setTileViewDimensions
 } from '../../actions.native';
-import { THUMBNAIL_ASPECT_RATIO, TILE_MARGIN } from '../../constants';
+import {
+    PHONE_GALLERY_COLUMN_COUNT,
+    TABLET_GALLERY_COLUMN_COUNT,
+    THUMBNAIL_ASPECT_RATIO,
+    TILE_MARGIN
+} from '../../constants';
 
 import InFocusView from './InFocusView';
 import TapView from './TapView';
@@ -63,8 +68,6 @@ type Props = {
     _isTabletDesignEnabled: boolean
 };
 
-const PHONE_GALLERY_COLUMN_COUNT = 2;
-const TABLET_GALLERY_COLUMN_COUNT = 6;
 
 /**
  * Implements a React {@link Component} which displays thumbnails in a two
@@ -129,11 +132,12 @@ class TileView extends Component<Props> {
                         sortedParticipants,
                         this.props?._placeholderImageUrl,
                         this._getThumbnailDimensions(),
-                        this._calculateGalleryColumnCount()))
+                        this._calculateGalleryRowCount()))
                 : pages.push(
                     ...constructPhoneGalleryView(
                         sortedParticipants,
-                        this._getThumbnailDimensions()));
+                        this._getThumbnailDimensions(),
+                        this._calculateGalleryRowCount()));
         }
 
         pages.push(<TapView />);
@@ -245,6 +249,13 @@ class TileView extends Component<Props> {
         return this.props._isTabletDesignEnabled
             ? TABLET_GALLERY_COLUMN_COUNT
             : PHONE_GALLERY_COLUMN_COUNT;
+    }
+
+    _calculateGalleryRowCount() {
+        const heightToUse = this.props._height;
+        const tileHeight = this._getThumbnailDimensions().height;
+
+        return Math.floor(heightToUse / tileHeight);
     }
 
     /**

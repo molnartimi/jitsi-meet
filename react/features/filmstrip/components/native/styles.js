@@ -162,16 +162,16 @@ export default {
 
     tileRows: {
         flexDirection: 'row',
-        alignSelf: 'center',
-        alignContent: 'center',
+        alignSelf: 'flex-start',
+        alignContent: 'flex-start',
         justifyContent: 'flex-start',
         zIndex: 1
     },
 
     tileColumns: {
         flexDirection: 'column',
-        alignSelf: 'center',
-        alignContent: 'center',
+        alignSelf: 'flex-start',
+        alignContent: 'flex-start',
         zIndex: 1
     },
 
@@ -328,6 +328,16 @@ export default {
         color: 'white',
         fontFamily: 'Montserrat-ExtraBold',
         fontSize: 11
+    },
+
+    participantTabletVipName: {
+        position: 'absolute',
+        color: 'white',
+        fontFamily: 'Montserrat-ExtraBold',
+        fontSize: 13,
+        alignSelf: 'flex-start',
+        paddingLeft: 20,
+        paddingBottom: 15
     },
 
     participantNamePadding: {
