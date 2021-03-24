@@ -2,7 +2,10 @@ import _ from 'lodash';
 import React from 'react';
 import { Image, View } from 'react-native';
 
-import { THUMBNAIL_ASPECT_RATIO } from '../../constants';
+import {
+    TABLET_GALLERY_COLUMN_COUNT,
+    THUMBNAIL_ASPECT_RATIO
+} from '../../constants';
 
 import Thumbnail from './Thumbnail';
 import {
@@ -11,12 +14,14 @@ import {
 } from './commonGalleryViewGenerators';
 import styles from './styles';
 
-const ROW_COUNT = 3;
 const IN_FOCUS_SCALE = 3;
 const THUMBNAIL_IN_FOCUS_ASPECT_RATIO = 3 / 2;
 
-function constructTabletGalleryView(sortedParticipants, placeholderImageUrl, thumbnailDimensions, columnCount) {
-    if (_.isNil(sortedParticipants) || _.isNil(thumbnailDimensions) || _.isNil(columnCount)) {
+function constructTabletGalleryView(sortedParticipants, placeholderImageUrl, thumbnailDimensions, rowCount) {
+    if (_.isNil(sortedParticipants)
+        || _.isNil(placeholderImageUrl)
+        || _.isNil(thumbnailDimensions)
+        || _.isNil(rowCount)) {
         return <View />;
     }
 
@@ -42,10 +47,9 @@ function constructTabletGalleryView(sortedParticipants, placeholderImageUrl, thu
         inFocusStyleOverrides,
         placeholderImageUrl,
         _groupThumbnailsByPages(
-            ROW_COUNT,
+            rowCount,
             _groupIntoRows(
-                _renderThumbnails(galleryParticipants, styleOverrides),
-                columnCount)));
+                _renderThumbnails(galleryParticipants, styleOverrides))));
 }
 
 function _getUserPages(inFocusUser, inFocusStyleOverrides, placeholderImageUrl, userGrid) {
@@ -61,14 +65,16 @@ function _getUserPages(inFocusUser, inFocusStyleOverrides, placeholderImageUrl, 
                 style = { styles.tileRows }>
                 {_.isNil(inFocusUser)
                     ? <Image
-                        source = { require('../../../../../resources/img/default_user_icon.png') }
+                        source = {{
+                            uri: placeholderImageUrl
+                        }}
                         style = {{ ...styles.fillView,
                             ...inFocusStyleOverrides }} />
                     : <Thumbnail
                         isAvatarCircled = { false }
                         isDominantSpeaker = { inFocusUser.dominantSpeaker }
-                        isGradientRequired = { !inFocusUser.local }
-                        isNameRequired = { false }
+                        isNameRequired = { true }
+                        isTabletVipDesignEnabled = { true }
                         key = { inFocusUser.id }
                         participant = { inFocusUser }
                         renderDisplayName = { true }
@@ -113,17 +119,16 @@ function _getUserPages(inFocusUser, inFocusStyleOverrides, placeholderImageUrl, 
     return userPages;
 }
 
-function _groupIntoRows(thumbnails, columnCount) {
-    const rowLength = columnCount;
+function _groupIntoRows(thumbnails) {
     const finalRows = [];
 
-    for (let i = 0; i < thumbnails.length; i += rowLength) {
-        if (i < rowLength) {
+    for (let i = 0; i < thumbnails.length; i += TABLET_GALLERY_COLUMN_COUNT) {
+        if (i < TABLET_GALLERY_COLUMN_COUNT) {
             finalRows.push(
-                        thumbnails.slice(i, i + rowLength - IN_FOCUS_SCALE));
+                        thumbnails.slice(i, i + TABLET_GALLERY_COLUMN_COUNT - IN_FOCUS_SCALE));
             i -= IN_FOCUS_SCALE;
         } else {
-            finalRows.push(thumbnails.slice(i, i + rowLength));
+            finalRows.push(thumbnails.slice(i, i + TABLET_GALLERY_COLUMN_COUNT));
         }
     }
 

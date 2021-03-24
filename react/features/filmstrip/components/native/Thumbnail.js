@@ -81,7 +81,7 @@ type Props = {
     /**
      * Indicates whether shown in front view or not.
      */
-    isAvatarCircled: boolean,
+    _isAvatarCircled: boolean,
 
     /**
      * The z-order of the {@link Video} of {@link ParticipantView} in the
@@ -89,9 +89,10 @@ type Props = {
      * {@code zOrder} property of the {@code Video} class for React Native.
      */
     zOrder?: number,
+    _isDominantSpeaker: boolean,
+    _isGradientRequired: boolean,
     isNameRequired: boolean,
-    isGradientRequired: boolean,
-    isDominantSpeaker: boolean
+    _isTabletVipDesignEnabled: boolean
 }
 
 /**
@@ -109,20 +110,20 @@ class Thumbnail extends Component<Props> {
                 style = { [
                     styles.thumbnail,
                     this.props.styleOverrides || null,
-                    this.props.isDominantSpeaker ? styles.dominantSpeaker : null
+                    this.props._isDominantSpeaker ? styles.dominantSpeaker : null
                 ] }
                 touchFeedback = { false }>
 
                 <ParticipantView
                     avatarSize = { this.props.tileView ? AVATAR_SIZE * 2.3 : AVATAR_SIZE }
-                    isAvatarCircled = { this.props.isAvatarCircled }
+                    isAvatarCircled = { this.props._isAvatarCircled }
                     participantId = { this.props.participant?.id }
                     style = { this.props.styleOverrides }
                     tintEnabled = { false }
                     tintStyle = { styles.activeThumbnailTint }
                     zOrder = { this.props.zOrder } />
 
-                {this.props.isGradientRequired
+                {this.props._isGradientRequired
                     ? <LinearGradient
                         colors = { [ '#000000', '#00000000' ] }
                         end = {{ x: 0,
@@ -135,8 +136,10 @@ class Thumbnail extends Component<Props> {
                 {this.props.isNameRequired
                     ? (<Text
                         style = { [
-                            styles.participantName,
-                            this.props.isDominantSpeaker
+                            this.props._isTabletVipDesignEnabled
+                                ? styles.participantTabletVipName
+                                : styles.participantName,
+                            this.props._isDominantSpeaker
                                 ? styles.activeParticipantNamePadding
                                 : styles.participantNamePadding
                         ] }>
@@ -146,7 +149,7 @@ class Thumbnail extends Component<Props> {
                     </Text>)
                     : null}
 
-                {this.props.isDominantSpeaker
+                {this.props._isDominantSpeaker
                     ? <View
                         style = {{
                             ...styles.dominantSpeakerFrame }} />
@@ -198,9 +201,15 @@ function _mapStateToProps(state, ownProps) {
     // We need read-only access to the state of features/large-video so that the
     // filmstrip doesn't render the video of the participant who is rendered on
     // the stage i.e. as a large video.
+    const { participant,
+        isAvatarCircled,
+        isGradientRequired,
+        isNameRequired,
+        isDominantSpeaker,
+        isTabletVipDesignEnabled } = ownProps;
+
     const largeVideo = state['features/large-video'];
     const tracks = state['features/base/tracks'];
-    const { participant, isAvatarCircled, isGradientRequired, isNameRequired, isDominantSpeaker } = ownProps;
     const id = _.isNil(participant?.id) ? 0 : participant.id;
     const audioTrack
         = getTrackByMediaTypeAndParticipant(tracks, MEDIA_TYPE.AUDIO, id);
@@ -215,10 +224,11 @@ function _mapStateToProps(state, ownProps) {
         _renderModeratorIndicator: renderModeratorIndicator,
         _styles: ColorSchemeRegistry.get(state, 'Thumbnail'),
         _videoTrack: videoTrack,
-        isAvatarCircled,
-        isDominantSpeaker: isDominantSpeaker ?? false,
-        isNameRequired: isNameRequired ?? false,
-        isGradientRequired: isGradientRequired ?? false
+        _isAvatarCircled: isAvatarCircled,
+        _isDominantSpeaker: isDominantSpeaker ?? false,
+        _isGradientRequired: isGradientRequired ?? false,
+        _isNameRequired: isNameRequired ?? false,
+        _isTabletVipDesignEnabled: isTabletVipDesignEnabled ?? false
     };
 }
 
