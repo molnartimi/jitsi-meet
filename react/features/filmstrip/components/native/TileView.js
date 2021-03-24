@@ -210,23 +210,16 @@ class TileView extends Component<Props> {
 
         const participants = [];
 
-        if (!_.isEmpty(stylist)) {
-            participants.push(stylist);
-        }
-
-        if (!_.isEmpty(hostess)) {
-            participants.push(hostess);
-        }
-
-        if (!_.isEmpty(cohostess)) {
-            participants.push(cohostess);
-        }
-
-        participants.push(localUser);
-
+        participants.push(...this._sortVipUsers(stylist, hostess, cohostess, localUser));
         participants.push(...otherParticipants);
 
         return participants;
+    }
+
+    _sortVipUsers(stylist, hostess, cohostess, localUser) {
+        return this.props._isTabletDesignEnabled
+            ? [ stylist, hostess, cohostess, localUser ].filter(user => !_.isNil(user))
+            : [ stylist, localUser, hostess, cohostess ].filter(user => !_.isNil(user));
     }
 
     /**
