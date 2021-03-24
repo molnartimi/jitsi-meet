@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import React from 'react';
-import { Dimensions, View } from 'react-native';
+import { View } from 'react-native';
 
-import { THUMBNAIL_ASPECT_RATIO, TILE_MARGIN } from '../../constants';
+import { THUMBNAIL_ASPECT_RATIO } from '../../constants';
 
 import {
     _groupThumbnailsByPages,
@@ -12,8 +12,10 @@ import styles from './styles';
 
 const COLUMN_COUNT = 2;
 
-function constructPhoneGalleryView(sortedParticipants, thumbnailDimensions) {
-    if (_.isNil(sortedParticipants) || _.isNil(thumbnailDimensions)) {
+function constructPhoneGalleryView(sortedParticipants, thumbnailDimensions, rowCount) {
+    if (_.isNil(sortedParticipants)
+        || _.isNil(thumbnailDimensions)
+        || _.isNil(rowCount)) {
         return <View />;
     }
 
@@ -25,7 +27,7 @@ function constructPhoneGalleryView(sortedParticipants, thumbnailDimensions) {
 
     return _getUserPages(
             _groupThumbnailsByPages(
-                _calculateRowCount(thumbnailDimensions),
+                rowCount,
                 _groupIntoRows(
                     _renderThumbnails(sortedParticipants, styleOverrides)),
                 thumbnailDimensions));
@@ -46,12 +48,6 @@ function _getUserPages(userGrid) {
         </View>));
 }
 
-function _calculateRowCount(thumbnailDimensions) {
-    const heightToUse = Dimensions.get('window').height - (TILE_MARGIN * 2);
-    const tileHeight = thumbnailDimensions.height;
-
-    return Math.floor(heightToUse / tileHeight);
-}
 
 function _groupIntoRows(thumbnails) {
     const finalRows = [];
