@@ -303,6 +303,10 @@ export default {
         justifyContent: 'center'
     },
 
+    inFocusThumbnailWrapUp: {
+        justifyContent: 'flex-start'
+    },
+
     inFocusContainer: {
         ...fillView,
         justifyContent: 'flex-start'

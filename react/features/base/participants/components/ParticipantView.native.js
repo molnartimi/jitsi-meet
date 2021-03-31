@@ -119,7 +119,8 @@ type Props = {
      */
     zoomEnabled: boolean,
     isAvatarCircled: boolean,
-    profileImageUrl: string
+    profileImageUrl: string,
+    inFocusStyle: boolean,
 };
 
 
@@ -209,8 +210,12 @@ class ParticipantView extends Component<Props> {
                         mirror = { videoTrack?.mirror }
                         objectFit = 'cover'
                         streamURL = { videoTrack.jitsiTrack.getOriginalStream().toURL() }
-                        style = {{ ...styles.participantView,
-                            ...this.props.style }}
+                        style = { this.props.inFocusStyle
+                            ? { ...styles.inFocusParticipant,
+                                ...this.props.style }
+                            : { ...styles.participantView,
+                                ...this.props.style }
+                        }
                         zOrder = { this.props.zOrder } />
                 }
 
@@ -251,7 +256,7 @@ class ParticipantView extends Component<Props> {
  * @returns {Props}
  */
 function _mapStateToProps(state, ownProps) {
-    const { disableVideo, participantId, isAvatarCircled } = ownProps;
+    const { disableVideo, participantId, isAvatarCircled, inFocusStyle } = ownProps;
     const participant = getParticipantById(state, participantId);
     let connectionStatus;
 
@@ -265,6 +270,7 @@ function _mapStateToProps(state, ownProps) {
                 state['features/base/tracks'],
                 MEDIA_TYPE.VIDEO,
                 participantId),
+        inFocusStyle,
         isAvatarCircled,
         profileImageUrl: participant?.loadableAvatarUrl
     };
