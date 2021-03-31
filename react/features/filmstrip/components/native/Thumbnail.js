@@ -92,7 +92,8 @@ type Props = {
     _isDominantSpeaker: boolean,
     _isGradientRequired: boolean,
     isNameRequired: boolean,
-    _isTabletVipDesignEnabled: boolean
+    _isTabletVipDesignEnabled: boolean,
+    _inFocusStyle: boolean,
 }
 
 /**
@@ -116,6 +117,7 @@ class Thumbnail extends Component<Props> {
 
                 <ParticipantView
                     avatarSize = { this.props.tileView ? AVATAR_SIZE * 2.3 : AVATAR_SIZE }
+                    inFocusStyle = { this.props._inFocusStyle }
                     isAvatarCircled = { this.props._isAvatarCircled }
                     participantId = { this.props.participant?.id }
                     style = { this.props.styleOverrides }
@@ -202,6 +204,7 @@ function _mapStateToProps(state, ownProps) {
     // filmstrip doesn't render the video of the participant who is rendered on
     // the stage i.e. as a large video.
     const { participant,
+        inFocusStyle,
         isAvatarCircled,
         isGradientRequired,
         isNameRequired,
@@ -224,6 +227,7 @@ function _mapStateToProps(state, ownProps) {
         _renderModeratorIndicator: renderModeratorIndicator,
         _styles: ColorSchemeRegistry.get(state, 'Thumbnail'),
         _videoTrack: videoTrack,
+        _inFocusStyle: inFocusStyle,
         _isAvatarCircled: isAvatarCircled,
         _isDominantSpeaker: isDominantSpeaker ?? false,
         _isGradientRequired: isGradientRequired ?? false,

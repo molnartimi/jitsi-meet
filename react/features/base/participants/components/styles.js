@@ -52,5 +52,13 @@ export default {
         width: '100%',
         height: '100%',
         justifyContent: 'center'
+    },
+
+    inFocusParticipant: {
+        width: '100%',
+        aspectRatio: 1,
+        alignContent: 'center',
+        alignSelf: 'center',
+        justifyContent: 'center'
     }
 };

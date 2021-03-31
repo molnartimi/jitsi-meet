@@ -109,12 +109,14 @@ class InFocusView extends Component<Props> {
             <View
                 style = { styles.inFocusContainer }>
                 <Thumbnail
+                    inFocusStyle = { true }
                     isAvatarCircled = { true }
                     isDominantSpeaker = { false }
                     isGradientRequired = { true }
                     isNameRequired = { false }
                     participant = { this.props.inFocusUser }
-                    styleOverrides = { styles.fillView }
+                    styleOverrides = { this.props.isWrapUpVisible
+                        ? { ...styles.inFocusThumbnailWrapUp } : {} }
                     tileView = { true }
                     zOrder = { 0 } />
 
