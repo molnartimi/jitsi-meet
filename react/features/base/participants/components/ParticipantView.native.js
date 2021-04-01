@@ -121,6 +121,7 @@ type Props = {
     isAvatarCircled: boolean,
     profileImageUrl: string,
     inFocusStyle: boolean,
+    isTabletDesignEnabled: boolean,
 };
 
 
@@ -210,8 +211,8 @@ class ParticipantView extends Component<Props> {
                         mirror = { videoTrack?.mirror }
                         objectFit = 'cover'
                         streamURL = { videoTrack.jitsiTrack.getOriginalStream().toURL() }
-                        style = { this.props.inFocusStyle
-                            ? { ...styles.inFocusParticipant,
+                        style = { this.props.inFocusStyle && !this.props.isTabletDesignEnabled
+                            ? { ...styles.inFocusParticipantMobile,
                                 ...this.props.style }
                             : { ...styles.participantView,
                                 ...this.props.style }
@@ -256,7 +257,7 @@ class ParticipantView extends Component<Props> {
  * @returns {Props}
  */
 function _mapStateToProps(state, ownProps) {
-    const { disableVideo, participantId, isAvatarCircled, inFocusStyle } = ownProps;
+    const { disableVideo, participantId, isAvatarCircled, inFocusStyle, isTabletDesignEnabled } = ownProps;
     const participant = getParticipantById(state, participantId);
     let connectionStatus;
 
@@ -272,7 +273,8 @@ function _mapStateToProps(state, ownProps) {
                 participantId),
         inFocusStyle,
         isAvatarCircled,
-        profileImageUrl: participant?.loadableAvatarUrl
+        profileImageUrl: participant?.loadableAvatarUrl,
+        isTabletDesignEnabled
     };
 }
 

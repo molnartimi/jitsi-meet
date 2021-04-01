@@ -54,7 +54,7 @@ export default {
         justifyContent: 'center'
     },
 
-    inFocusParticipant: {
+    inFocusParticipantMobile: {
         width: '100%',
         aspectRatio: 1,
         alignContent: 'center',

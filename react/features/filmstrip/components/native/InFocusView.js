@@ -114,6 +114,7 @@ class InFocusView extends Component<Props> {
                     isDominantSpeaker = { false }
                     isGradientRequired = { true }
                     isNameRequired = { false }
+                    isTabletDesignEnabled = { this.props.isTabletDesignEnabled }
                     participant = { this.props.inFocusUser }
                     styleOverrides = { this.props.isWrapUpVisible
                         ? { ...styles.inFocusThumbnailWrapUp } : {} }
