@@ -91,7 +91,8 @@ type Props = {
     zOrder?: number,
     _isDominantSpeaker: boolean,
     _isGradientRequired: boolean,
-    isNameRequired: boolean,
+    _isNameRequired: boolean,
+    _isTabletDesignEnabled: boolean,
     _isTabletVipDesignEnabled: boolean,
     _inFocusStyle: boolean,
 }
@@ -119,6 +120,7 @@ class Thumbnail extends Component<Props> {
                     avatarSize = { this.props.tileView ? AVATAR_SIZE * 2.3 : AVATAR_SIZE }
                     inFocusStyle = { this.props._inFocusStyle }
                     isAvatarCircled = { this.props._isAvatarCircled }
+                    isTabletDesignEnabled = { this.props._isTabletDesignEnabled }
                     participantId = { this.props.participant?.id }
                     style = { this.props.styleOverrides }
                     tintEnabled = { false }
@@ -135,7 +137,7 @@ class Thumbnail extends Component<Props> {
                         style = { styles.gradientOverlay } />
                     : null}
 
-                {this.props.isNameRequired
+                {this.props._isNameRequired
                     ? (<Text
                         style = { [
                             this.props._isTabletVipDesignEnabled
@@ -209,6 +211,7 @@ function _mapStateToProps(state, ownProps) {
         isGradientRequired,
         isNameRequired,
         isDominantSpeaker,
+        isTabletDesignEnabled,
         isTabletVipDesignEnabled } = ownProps;
 
     const largeVideo = state['features/large-video'];
@@ -232,6 +235,7 @@ function _mapStateToProps(state, ownProps) {
         _isDominantSpeaker: isDominantSpeaker ?? false,
         _isGradientRequired: isGradientRequired ?? false,
         _isNameRequired: isNameRequired ?? false,
+        _isTabletDesignEnabled: isTabletDesignEnabled ?? false,
         _isTabletVipDesignEnabled: isTabletVipDesignEnabled ?? false
     };
 }
