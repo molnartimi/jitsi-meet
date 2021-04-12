@@ -29,7 +29,12 @@ import logger from './logger';
  * @returns {Function}
  */
 MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, videosipgw MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     const result = next(action);
+    console.log('!!!___oof, videosipgw MIDDLEWARE received next action, we good :)');
 
     switch (action.type) {
     case CONFERENCE_WILL_JOIN: {
@@ -56,7 +61,14 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
         break;
     }
 
+
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, videosipgw MIDDLEWARE will return next(action)');
+    }
     return result;
+} catch (e) {
+    console.error('!!!___oof, videosipgw MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**

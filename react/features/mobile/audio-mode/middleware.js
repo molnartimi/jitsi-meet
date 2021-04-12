@@ -27,6 +27,10 @@ const AudioModeEmitter = new NativeEventEmitter(AudioMode);
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, audio-mode MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     /* eslint-disable no-fallthrough */
 
     switch (action.type) {
@@ -63,6 +67,9 @@ MiddlewareRegistry.register(store => next => action => {
     /* eslint-enable no-fallthrough */
 
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, audio-mode MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**

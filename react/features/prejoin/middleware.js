@@ -28,6 +28,10 @@ declare var APP: Object;
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => async action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, prejoin MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     switch (action.type) {
     case PREJOIN_START_CONFERENCE: {
         const { getState, dispatch } = store;
@@ -99,4 +103,7 @@ MiddlewareRegistry.register(store => next => async action => {
     }
 
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, prejoin MIDDLEWARE caught a error !!!', e);
+}
 });

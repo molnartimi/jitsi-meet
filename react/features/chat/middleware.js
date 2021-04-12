@@ -51,6 +51,10 @@ const PRIVACY_NOTICE_TIMEOUT = 20 * 1000;
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, chat MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     const { dispatch } = store;
 
     switch (action.type) {
@@ -109,6 +113,9 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, chat MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**

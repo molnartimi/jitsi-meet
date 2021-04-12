@@ -9,6 +9,10 @@ import { parseURIString } from '../util';
 import { addKnownDomains } from './actions';
 
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, known-domains MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     const result = next(action);
 
     switch (action.type) {
@@ -22,6 +26,9 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     return result;
+} catch (e) {
+    console.error('!!!___oof, known-domains MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**

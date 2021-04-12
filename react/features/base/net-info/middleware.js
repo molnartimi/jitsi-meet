@@ -18,6 +18,10 @@ import type { NetworkInfo } from './types';
  */
 // eslint-disable-next-line no-unused-vars
 MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, net-info MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     const result = next(action);
 
     switch (action.type) {
@@ -61,4 +65,7 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
     }
 
     return result;
+} catch (e) {
+    console.error('!!!___oof, net-info MIDDLEWARE caught a error !!!', e);
+}
 });

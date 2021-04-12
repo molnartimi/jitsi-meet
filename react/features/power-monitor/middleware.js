@@ -21,6 +21,10 @@ import {
 declare var APP: Object;
 
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, power-monitor MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     const result = next(action);
     const { dispatch, getState } = store;
 
@@ -72,4 +76,7 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     return result;
+} catch (e) {
+    console.error('!!!___oof, power-monitor MIDDLEWARE caught a error !!!', e);
+}
 });

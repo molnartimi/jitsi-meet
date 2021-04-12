@@ -15,6 +15,10 @@ import logger from './logger';
  * @returns {Function}
  */
 MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, e2ee MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     switch (action.type) {
     case TOGGLE_E2EE: {
         const conference = getCurrentConference(getState);
@@ -38,6 +42,9 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
     }
 
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, e2ee MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**

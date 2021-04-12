@@ -72,6 +72,10 @@ function logDeviceList(deviceList) {
  */
 // eslint-disable-next-line no-unused-vars
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, devices MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     switch (action.type) {
     case NOTIFY_CAMERA_ERROR: {
         if (typeof APP !== 'object' || !action.error) {
@@ -156,6 +160,9 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, devices MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**

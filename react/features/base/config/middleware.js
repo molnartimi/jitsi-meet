@@ -20,6 +20,10 @@ import { _CONFIG_STORE_PREFIX } from './constants';
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, config MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     switch (action.type) {
     case APP_WILL_MOUNT:
         return _appWillMount(store, next, action);
@@ -29,6 +33,9 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, config MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**

@@ -16,17 +16,27 @@ import { reloadNow } from './actions';
 import { _getRouteToRender } from './getRouteToRender';
 
 MiddlewareRegistry.register(store => next => action => {
-    switch (action.type) {
-    case CONNECTION_ESTABLISHED:
-        return _connectionEstablished(store, next, action);
-    case CONNECTION_FAILED:
-        return _connectionFailed(store, next, action);
+    try {
+        if (action.type === 'PARTICIPANT_JOINED') {
+            console.log('!!!___oof, app MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+        }
+        switch (action.type) {
+        case CONNECTION_ESTABLISHED:
+            return _connectionEstablished(store, next, action);
+        case CONNECTION_FAILED:
+            return _connectionFailed(store, next, action);
 
-    case SET_ROOM:
-        return _setRoom(store, next, action);
+        case SET_ROOM:
+            return _setRoom(store, next, action);
+        }
+
+        if (action.type === 'PARTICIPANT_JOINED') {
+            console.log('!!!___oof, app MIDDLEWARE will return next(action)');
+        }
+        return next(action);
+    } catch (e) {
+        console.error('!!!___oof, app MIDDLEWARE caught a error !!!', e);
     }
-
-    return next(action);
 });
 
 /**

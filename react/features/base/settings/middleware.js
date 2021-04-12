@@ -21,6 +21,10 @@ import { handleCallIntegrationChange, handleCrashReportingChange } from './funct
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, settings MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     const result = next(action);
 
     switch (action.type) {
@@ -39,6 +43,9 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     return result;
+} catch (e) {
+    console.error('!!!___oof, settings MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**

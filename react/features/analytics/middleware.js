@@ -79,6 +79,10 @@ function calculateLocalTrackDuration(state) {
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, analytics MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     switch (action.type) {
     case SET_CONFIG:
         if (navigator.product === 'ReactNative') {
@@ -176,4 +180,7 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     return result;
+} catch (e) {
+    console.error('!!!___oof, analytics MIDDLEWARE caught a error !!!', e);
+}
 });

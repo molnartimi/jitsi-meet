@@ -26,6 +26,10 @@ declare var APP: Object;
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, jwt MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     switch (action.type) {
     case SET_CONFIG:
     case SET_LOCATION_URL:
@@ -41,6 +45,9 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, jwt MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**

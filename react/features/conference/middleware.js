@@ -18,6 +18,10 @@ import { setToolboxEnabled } from '../toolbox/actions';
 import { notifyKickedOut } from './actions';
 
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, conference MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     const result = next(action);
 
     switch (action.type) {
@@ -49,6 +53,9 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     return result;
+} catch (e) {
+    console.error('!!!___oof, conference MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**

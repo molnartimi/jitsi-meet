@@ -16,6 +16,10 @@ import { TALK_WHILE_MUTED_SOUND_ID } from './constants';
 import { TALK_WHILE_MUTED_SOUND_FILE } from './sounds';
 
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, talk-while-muted MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     const result = next(action);
     const { dispatch, getState } = store;
     const { conference } = action;
@@ -60,4 +64,7 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     return result;
+} catch (e) {
+    console.error('!!!___oof, talk-while-muted MIDDLEWARE caught a error !!!', e);
+}
 });

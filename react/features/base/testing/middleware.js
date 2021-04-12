@@ -15,6 +15,10 @@ import logger from './logger';
  * @private
  */
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, testing MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     switch (action.type) {
     case CONFERENCE_WILL_JOIN:
         _bindConferenceConnectionListener(action.conference, store);
@@ -22,6 +26,9 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, testing MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**

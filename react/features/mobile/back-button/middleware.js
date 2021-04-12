@@ -22,6 +22,10 @@ BackButtonRegistry.onHardwareBackPress = BackButtonRegistry.onHardwareBackPress.
  * @see {@link https://facebook.github.io/react-native/docs/appstate.html}
  */
 MiddlewareRegistry.register(() => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, back-button MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     switch (action.type) {
     case APP_WILL_MOUNT:
         BackHandler.addEventListener('hardwareBackPress', BackButtonRegistry.onHardwareBackPress);
@@ -33,4 +37,7 @@ MiddlewareRegistry.register(() => next => action => {
     }
 
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, back-button MIDDLEWARE caught a error !!!', e);
+}
 });

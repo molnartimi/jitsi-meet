@@ -22,6 +22,10 @@ const ETHERPAD_COMMAND = 'etherpad';
  */
 // eslint-disable-next-line no-unused-vars
 MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, etherpad MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     switch (action.type) {
     case TOGGLE_DOCUMENT_EDITING: {
         if (typeof APP === 'undefined') {
@@ -42,6 +46,9 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
     }
 
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, etherpad MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**

@@ -47,6 +47,10 @@ declare var APP: Object;
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, tracks MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     switch (action.type) {
     case TRACK_ADDED: {
         // The devices list needs to be refreshed when no initial video permissions
@@ -196,6 +200,9 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, tracks MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**

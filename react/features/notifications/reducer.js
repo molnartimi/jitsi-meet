@@ -30,6 +30,9 @@ const DEFAULT_STATE = {
  */
 ReducerRegistry.register('features/notifications',
     (state = DEFAULT_STATE, action) => {
+        if (action.type === 'SHOW_NOTIFICATION') {
+            console.log('!!!___oof, NOTIFICATIONS REDUCER, caught a SHOW_NOTIFICATION action, whats next ?');
+        }
         switch (action.type) {
         case CLEAR_NOTIFICATIONS:
             return {
@@ -76,31 +79,40 @@ ReducerRegistry.register('features/notifications',
  * queue.
  */
 function _insertNotificationByPriority(notifications, notification) {
-    const newNotificationPriority
-        = NOTIFICATION_TYPE_PRIORITIES[notification.props.appearance] || 0;
+    try {
+        console.log('!!!___oof, NOTIFICATIONS REDUCER, _insertNotificationByPriority, lets see');
+        const newNotificationPriority
+            = NOTIFICATION_TYPE_PRIORITIES[notification.props.appearance] || 0;
 
-    // Default to putting the new notification at the end of the queue.
-    let insertAtLocation = notifications.length;
+        // Default to putting the new notification at the end of the queue.
+        let insertAtLocation = notifications.length;
 
-    // Find where to insert the new notification based on priority. Do not
-    // insert at the front of the queue so that the user can finish acting on
-    // any notification currently being read.
-    for (let i = 1; i < notifications.length; i++) {
-        const queuedNotification = notifications[i];
-        const queuedNotificationPriority
-            = NOTIFICATION_TYPE_PRIORITIES[queuedNotification.props.appearance]
-                || 0;
+        // Find where to insert the new notification based on priority. Do not
+        // insert at the front of the queue so that the user can finish acting on
+        // any notification currently being read.
+        for (let i = 1; i < notifications.length; i++) {
+            const queuedNotification = notifications[i];
+            const queuedNotificationPriority
+                = NOTIFICATION_TYPE_PRIORITIES[queuedNotification.props.appearance]
+                    || 0;
 
-        if (queuedNotificationPriority < newNotificationPriority) {
-            insertAtLocation = i;
-            break;
+            if (queuedNotificationPriority < newNotificationPriority) {
+                insertAtLocation = i;
+                break;
+            }
         }
+
+        // Create a copy to avoid mutation and insert the notification.
+        console.log('!!!___oof, NOTIFICATIONS REDUCER, before slice', notifications);
+        const copyOfNotifications = notifications.slice();
+        console.log('!!!___oof, NOTIFICATIONS REDUCER, after slice, before splice');
+
+        copyOfNotifications.splice(insertAtLocation, 0, notification);
+        console.log('!!!___oof, NOTIFICATIONS REDUCER, after splice', copyOfNotifications);
+
+        console.log('!!!___oof, NOTIFICATIONS REDUCER, returning, we good.');
+        return copyOfNotifications;
+    } catch (e) {
+        console.error('!!!___oof, NOTIFICATIONS REDUCER, CAUGHT ERROR', e);
     }
-
-    // Create a copy to avoid mutation and insert the notification.
-    const copyOfNotifications = notifications.slice();
-
-    copyOfNotifications.splice(insertAtLocation, 0, notification);
-
-    return copyOfNotifications;
 }

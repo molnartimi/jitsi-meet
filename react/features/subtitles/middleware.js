@@ -50,6 +50,10 @@ const REMOVE_AFTER_MS = 3000;
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, subtitles MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     switch (action.type) {
     case ENDPOINT_MESSAGE_RECEIVED:
         return _endpointMessageReceived(store, next, action);
@@ -59,7 +63,14 @@ MiddlewareRegistry.register(store => next => action => {
         break;
     }
 
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, subtitles MIDDLEWARE will return next(action)');
+    }
+
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, subtitles MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**

@@ -16,6 +16,10 @@ declare var APP: Object;
  */
 // eslint-disable-next-line no-unused-vars
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, shared-video MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     if (typeof APP === 'undefined') {
         return next(action);
     }
@@ -27,4 +31,7 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, shared-video MIDDLEWARE caught a error !!!', e);
+}
 });

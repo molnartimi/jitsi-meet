@@ -12,6 +12,10 @@ import { openDesktopApp } from './functions';
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, deep-linking MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     switch (action.type) {
     case OPEN_DESKTOP_APP:
         openDesktopApp(store.getState());
@@ -19,4 +23,7 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, deep-linking MIDDLEWARE caught a error !!!', e);
+}
 });

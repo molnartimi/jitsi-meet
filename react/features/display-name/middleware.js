@@ -13,6 +13,10 @@ import { DisplayNamePrompt } from './components';
  * @returns {Function}
  */
 MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, display-name MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     switch (action.type) {
     case SETTINGS_UPDATED: {
         if (action.settings.displayName
@@ -23,4 +27,7 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
     }
 
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, display-name MIDDLEWARE caught a error !!!', e);
+}
 });

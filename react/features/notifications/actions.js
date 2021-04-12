@@ -84,12 +84,14 @@ export function showErrorNotification(props: Object) {
  * }}
  */
 export function showNotification(props: Object = {}, timeout: ?number) {
-    return {
+    const res = {
         type: SHOW_NOTIFICATION,
         props,
         timeout,
         uid: window.Date.now()
     };
+    console.log('!!!___oof, NOTIFICATIONS ACTION showNotifications, returning: ', res);
+    return res;
 }
 
 /**
@@ -123,6 +125,7 @@ let joinedParticipantsNames = [];
  * @type {Function}
  */
 const _throttledNotifyParticipantConnected = throttle((dispatch: Dispatch<any>) => {
+    console.log('!!!___oof, NOTIFICATIONS ACTION _throttledNotifyParticipantConnected !');
     const joinedParticipantsCount = joinedParticipantsNames.length;
 
     let notificationProps;
@@ -153,8 +156,11 @@ const _throttledNotifyParticipantConnected = throttle((dispatch: Dispatch<any>) 
     }
 
     if (notificationProps) {
+        console.log('!!!___oof, NOTIFICATIONS ACTION _throttledNotifyParticipantConnected, attempting dispatch(showNotification)', notificationProps, NOTIFICATION_TIMEOUT);
         dispatch(
             showNotification(notificationProps, NOTIFICATION_TIMEOUT));
+    } else {
+        console.log('!!!___oof, NOTIFICATIONS ACTION _throttledNotifyParticipantConnected, there are no props, no dispatch :o');
     }
 
     joinedParticipantsNames = [];

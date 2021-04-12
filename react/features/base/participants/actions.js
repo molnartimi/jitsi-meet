@@ -263,15 +263,24 @@ export function participantJoined(participant) {
         // sneak a PARTICIPANT_JOINED in if its leave is delayed for any purpose
         // (which is not outragous given that leaving involves network
         // requests.)
+        // console.log('!!!___oof, here we are, dispatching participant joined, what goes down here?');
         const stateFeaturesBaseConference
             = getState()['features/base/conference'];
 
         if (conference === stateFeaturesBaseConference.conference
                 || conference === stateFeaturesBaseConference.joining) {
+            // console.log('!!!___oof, here we are, dispatching participant joined, we good');
             return dispatch({
                 type: PARTICIPANT_JOINED,
                 participant
             });
+        // } else {
+        //     console.log('!!!___oof, here we are, dispatching participant joined, WE NOT GOOD !!!', {
+        //         if1: conference === stateFeaturesBaseConference.conference,
+        //         if2: conference === stateFeaturesBaseConference.joining,
+        //         conference,
+        //         stateFeaturesBaseConference
+        //     });
         }
     };
 }

@@ -30,6 +30,10 @@ import './subscriber';
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, large-video MIDDLEWARE caught PARTICIPANT_JOINED, whats next ?');
+    }
     const result = next(action);
 
     switch (action.type) {
@@ -51,9 +55,16 @@ MiddlewareRegistry.register(store => next => action => {
     case PARTICIPANT_LEFT:
     case PIN_PARTICIPANT:
     case TRACK_ADDED:
-    case TRACK_REMOVED:
+    case TRACK_REMOVED: {
+        if (action.type === 'PARTICIPANT_JOINED') {
+            console.log('!!!___oof, large video middleware, lets selectParticipantInLargeView');
+        }
         store.dispatch(selectParticipantInLargeVideo());
+        if (action.type === 'PARTICIPANT_JOINED') {
+            console.log('!!!___oof, large video middleware, ran through. should be fine.');
+        }
         break;
+    }
 
     case CONFERENCE_JOINED:
         // Ensure a participant is selected on conference join. This addresses
@@ -81,4 +92,7 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     return result;
+} catch (e) {
+    console.error('!!!___oof, large-video MIDDLEWARE caught a error !!!', e);
+}
 });

@@ -12,6 +12,10 @@ import { NOISY_AUDIO_INPUT_SOUND_ID } from './constants';
 import { NOISY_AUDIO_INPUT_SOUND_FILE } from './sounds';
 
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, noise-detection MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     const result = next(action);
 
     switch (action.type) {
@@ -54,4 +58,7 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     return result;
+} catch (e) {
+    console.error('!!!___oof, noise-detection MIDDLEWARE caught a error !!!', e);
+}
 });

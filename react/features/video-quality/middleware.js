@@ -24,6 +24,10 @@ declare var APP: Object;
  * @returns {Function}
  */
 MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, video-quality MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     if (action.type === DATA_CHANNEL_OPENED) {
         return _syncReceiveVideoQuality(getState, next, action);
     }
@@ -56,7 +60,14 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
     }
     }
 
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, video-quality MIDDLEWARE will return next(action)');
+    }
+
     return result;
+} catch (e) {
+    console.error('!!!___oof, video-quality MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**

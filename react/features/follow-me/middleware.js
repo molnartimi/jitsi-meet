@@ -57,6 +57,10 @@ let nextOnStageTimer = 0;
  * non-moderator participant.
  */
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, follow-me MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     switch (action.type) {
     case CONFERENCE_WILL_JOIN: {
         const { conference } = action;
@@ -75,6 +79,9 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, follow-me MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**

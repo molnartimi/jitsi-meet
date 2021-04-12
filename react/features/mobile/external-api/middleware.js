@@ -48,6 +48,10 @@ const CONFERENCE_TERMINATED = 'CONFERENCE_TERMINATED';
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, mobile/external-api MIDDLEWARE caught PARTICIPANT_JOINED, whats next ?');
+    }
     const logger = getLogger('features/mobile/external-api');
     const result = next(action);
     const { type } = action;
@@ -195,6 +199,7 @@ MiddlewareRegistry.register(store => next => action => {
 
     case PARTICIPANT_JOINED: {
         if (action.participant.id) {
+            console.log('!!!___oof, mobile/external-api middleware, sending participant joined event !!');
             sendEvent(store, PARTICIPANT_JOINED, { userId: escapeBackslashes(action.participant.id, true) });
         }
         break;
@@ -209,6 +214,9 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     return result;
+    } catch (e) {
+        console.error('!!!___oof, mobile/external-api MIDDLEWARE caught a error !!!', e);
+    }
 });
 
 /**

@@ -13,6 +13,10 @@ import { statsEmitter } from './index';
  */
 // eslint-disable-next-line no-unused-vars
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, connection-indicator MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     switch (action.type) {
     case CONFERENCE_JOINED: {
         statsEmitter.startListeningForStats(action.conference);
@@ -21,5 +25,8 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, connection-indicator MIDDLEWARE caught a error !!!', e);
+}
 });
 

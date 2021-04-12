@@ -58,6 +58,10 @@ declare var APP: Object;
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, participants MIDDLEWARE caught PARTICIPANT_JOINED, whats next ?');
+    }
     switch (action.type) {
     case APP_WILL_MOUNT:
         _registerSounds(store);
@@ -128,6 +132,7 @@ MiddlewareRegistry.register(store => next => action => {
     case PARTICIPANT_JOINED: {
         _maybePlaySounds(store, action);
 
+        console.log('!!!___oof, participants middleware, lets call _participantJoinedOrUpdated');
         return _participantJoinedOrUpdated(store, next, action);
     }
 
@@ -142,7 +147,14 @@ MiddlewareRegistry.register(store => next => action => {
         return _updateUserAvatar(store, next, action);
     }
 
+
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, participants MIDDLEWARE will return next(action)');
+    }
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, participants MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**
@@ -369,56 +381,63 @@ function _maybePlaySounds({ getState, dispatch }, action) {
  * @returns {Object} The value returned by {@code next(action)}.
  */
 function _participantJoinedOrUpdated({ dispatch, getState }, next, action) {
-    const { participant: { avatarURL, e2eeEnabled, email, id, local, name, raisedHand } } = action;
+    try {
+        const { participant: { avatarURL, e2eeEnabled, email, id, local, name, raisedHand } } = action;
 
-    // Send an external update of the local participant's raised hand state
-    // if a new raised hand state is defined in the action.
-    if (typeof raisedHand !== 'undefined') {
-        if (local) {
-            const { conference } = getState()['features/base/conference'];
+        // Send an external update of the local participant's raised hand state
+        // if a new raised hand state is defined in the action.
+        if (typeof raisedHand !== 'undefined') {
+            if (local) {
+                const { conference } = getState()['features/base/conference'];
 
-            conference
-                && conference.setLocalParticipantProperty(
-                    'raisedHand',
-                    raisedHand);
+                conference
+                    && conference.setLocalParticipantProperty(
+                        'raisedHand',
+                        raisedHand);
+            }
         }
-    }
 
-    // Send an external update of the local participant's E2EE enabled state
-    // if a new state is defined in the action.
-    if (typeof e2eeEnabled !== 'undefined') {
-        if (local) {
-            const { conference } = getState()['features/base/conference'];
+        // Send an external update of the local participant's E2EE enabled state
+        // if a new state is defined in the action.
+        if (typeof e2eeEnabled !== 'undefined') {
+            if (local) {
+                const { conference } = getState()['features/base/conference'];
 
-            conference && conference.setLocalParticipantProperty('e2eeEnabled', e2eeEnabled);
+                conference && conference.setLocalParticipantProperty('e2eeEnabled', e2eeEnabled);
+            }
         }
+
+        // Allow the redux update to go through and compare the old avatar
+        // to the new avatar and emit out change events if necessary.
+        console.log('!!!___oof, participants middleware, _participantJoinedOrUpdated, attempting next(action)', action.type);
+        const result = next(action);
+        console.log('!!!___oof, participants middleware, _participantJoinedOrUpdated, we should have result now.');
+
+        const { disableThirdPartyRequests } = getState()['features/base/config'];
+
+        if (!disableThirdPartyRequests && (avatarURL || email || id || name)) {
+            const participantId = !id && local ? getLocalParticipant(getState()).id : id;
+            const updatedParticipant = getParticipantById(getState(), participantId);
+
+            getFirstLoadableAvatarUrl(updatedParticipant)
+                .then(url => {
+                    dispatch(setLoadableAvatarUrl(participantId, url));
+                });
+        }
+
+        // Notify external listeners of potential avatarURL changes.
+        if (typeof APP === 'object') {
+            const currentKnownId = local ? APP.conference.getMyUserId() : id;
+
+            // Force update of local video getting a new id.
+            APP.UI.refreshAvatarDisplay(currentKnownId);
+        }
+
+        console.log('!!!___oof, participants middleware, ran through. should be fine.');
+        return result;
+    } catch (e) {
+        console.log('!!!___oof, participants middleware, _participantJoinedOrUpdated, we have a error: ', e);
     }
-
-    // Allow the redux update to go through and compare the old avatar
-    // to the new avatar and emit out change events if necessary.
-    const result = next(action);
-
-    const { disableThirdPartyRequests } = getState()['features/base/config'];
-
-    if (!disableThirdPartyRequests && (avatarURL || email || id || name)) {
-        const participantId = !id && local ? getLocalParticipant(getState()).id : id;
-        const updatedParticipant = getParticipantById(getState(), participantId);
-
-        getFirstLoadableAvatarUrl(updatedParticipant)
-            .then(url => {
-                dispatch(setLoadableAvatarUrl(participantId, url));
-            });
-    }
-
-    // Notify external listeners of potential avatarURL changes.
-    if (typeof APP === 'object') {
-        const currentKnownId = local ? APP.conference.getMyUserId() : id;
-
-        // Force update of local video getting a new id.
-        APP.UI.refreshAvatarDisplay(currentKnownId);
-    }
-
-    return result;
 }
 
 /**

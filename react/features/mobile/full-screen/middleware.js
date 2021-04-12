@@ -23,6 +23,10 @@ import { _setImmersiveListener as _setImmersiveListenerA } from './actions';
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, full-screen MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     switch (action.type) {
     case _SET_IMMERSIVE_LISTENER:
         return _setImmersiveListenerF(store, next, action);
@@ -43,6 +47,9 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, full-screen MIDDLEWARE caught a error !!!', e);
+}
 });
 
 StateListenerRegistry.register(

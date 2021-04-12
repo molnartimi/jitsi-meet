@@ -38,6 +38,10 @@ if (typeof window.addEventListener === 'function') {
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, MASTER MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     const oldState = toState(store);
     const result = next(action);
     const newState = toState(store);
@@ -45,4 +49,7 @@ MiddlewareRegistry.register(store => next => action => {
     oldState === newState || throttledPersistState(newState);
 
     return result;
+} catch (e) {
+    console.error('!!!___oof, MASTER MIDDLEWARE caught a error !!!', e);
+}
 });

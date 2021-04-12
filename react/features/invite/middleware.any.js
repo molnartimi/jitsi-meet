@@ -71,6 +71,10 @@ const statusToRingtone = {
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, invite/middleware.any app MIDDLEWARE caught PARTICIPANT_JOINED, whats next ?');
+    }
     let oldParticipantPresence;
     const { dispatch, getState } = store;
     const state = getState();
@@ -112,6 +116,9 @@ MiddlewareRegistry.register(store => next => action => {
     case PARTICIPANT_JOINED:
     case PARTICIPANT_LEFT:
     case PARTICIPANT_UPDATED: {
+        if (action.type === 'PARTICIPANT_JOINED') {
+            console.log('!!!___oof, invite middleware, we doin some sound magic here.');
+        }
         _maybeHideCalleeInfo(action, store);
 
         const newParticipantPresence
@@ -140,6 +147,9 @@ MiddlewareRegistry.register(store => next => action => {
         if (newSoundId) {
             dispatch(playSound(newSoundId));
         }
+        if (action.type === 'PARTICIPANT_JOINED') {
+            console.log('!!!___oof, invite middleware, ran through. should be fine.');
+        }
 
         break;
     }
@@ -151,6 +161,9 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     return result;
+} catch (e) {
+    console.error('!!!___oof, invite MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**

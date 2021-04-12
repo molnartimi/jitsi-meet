@@ -18,6 +18,10 @@ import logger from './logger';
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, share-room MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     switch (action.type) {
     case BEGIN_SHARE_ROOM:
         _shareRoom(action.roomURL, store);
@@ -25,6 +29,9 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, share-room MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**

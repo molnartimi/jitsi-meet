@@ -23,6 +23,10 @@ declare var APP: Object;
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, lib-jitsi-meet MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     switch (action.type) {
     case LIB_WILL_INIT:
         // Moved from conference.js init method. It appears the error handlers
@@ -47,6 +51,9 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, lib-jitsi-meet MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**

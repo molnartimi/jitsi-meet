@@ -20,6 +20,10 @@ import { NO_AUDIO_SIGNAL_SOUND_ID } from './constants';
 import { NO_AUDIO_SIGNAL_SOUND_FILE } from './sounds';
 
 MiddlewareRegistry.register(store => next => async action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, no-audio-signal MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     const result = next(action);
     const { dispatch } = store;
 
@@ -36,6 +40,9 @@ MiddlewareRegistry.register(store => next => async action => {
     }
 
     return result;
+} catch (e) {
+    console.error('!!!___oof, no-audio-signal MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**

@@ -23,7 +23,11 @@ declare var APP: Object;
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+    try {
     if (isRecentListEnabled()) {
+        if (action.type === 'PARTICIPANT_JOINED') {
+            console.log('!!!___oof, recent-list MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+        }
         switch (action.type) {
         case APP_WILL_MOUNT:
             return _appWillMount(store, next, action);
@@ -36,7 +40,14 @@ MiddlewareRegistry.register(store => next => action => {
         }
     }
 
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, recent-list MIDDLEWARE will return next(action)');
+    }
+
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, recent-list MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**

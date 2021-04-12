@@ -28,6 +28,10 @@ const TRANSCRIBER_DISPLAY_NAME = 'Transcriber';
  */
 // eslint-disable-next-line no-unused-vars
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, transcribing MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     const {
         transcriberJID,
         potentialTranscriberJIDs
@@ -64,5 +68,12 @@ MiddlewareRegistry.register(store => next => action => {
     }
     }
 
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, transcribing MIDDLEWARE will return next(action)');
+    }
+
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, transcribing MIDDLEWARE caught a error !!!', e);
+}
 });

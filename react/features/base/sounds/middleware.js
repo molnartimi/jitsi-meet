@@ -12,6 +12,10 @@ import logger from './logger';
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, sounds MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     switch (action.type) {
     case PLAY_SOUND:
         _playSound(store, action.soundId);
@@ -22,6 +26,9 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, sounds MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**

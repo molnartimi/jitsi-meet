@@ -19,6 +19,10 @@ import logger from './logger';
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, rtcstats MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     const state = store.getState();
     const config = state['features/base/config'];
     const { analytics } = config;
@@ -75,5 +79,12 @@ MiddlewareRegistry.register(store => next => action => {
     }
     }
 
+
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, rtcstats MIDDLEWARE will return next(action)');
+    }
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, rtcstats MIDDLEWARE caught a error !!!', e);
+}
 });

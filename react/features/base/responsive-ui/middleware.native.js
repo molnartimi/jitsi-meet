@@ -14,6 +14,10 @@ import { setAspectRatio, setReducedUI } from './actions';
  * @returns {Function}
  */
 MiddlewareRegistry.register(({ dispatch }) => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, responsive-ui MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     const result = next(action);
 
     switch (action.type) {
@@ -28,4 +32,7 @@ MiddlewareRegistry.register(({ dispatch }) => next => action => {
     }
 
     return result;
+} catch (e) {
+    console.error('!!!___oof, responsive-ui MIDDLEWARE caught a error !!!', e);
+}
 });

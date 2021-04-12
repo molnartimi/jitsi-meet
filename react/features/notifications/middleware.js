@@ -28,23 +28,29 @@ declare var interfaceConfig: Object;
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, notifications MIDDLEWARE caught PARTICIPANT_JOINED, whats next ?');
+    }
     switch (action.type) {
     case PARTICIPANT_JOINED: {
+        console.log('!!!___oof, NOTIFICATIONS MIDDLEWARE, attempting next(action)');
         const result = next(action);
+        console.log('!!!___oof, NOTIFICATIONS MIDDLEWARE, returned with next(action)');
         const { participant: p } = action;
         const { dispatch, getState } = store;
+        const displayName = getParticipantDisplayName(getState, p.id);
 
         if (!p.local && !joinLeaveNotificationsDisabled()) {
-            dispatch(showParticipantJoinedNotification(
-                getParticipantDisplayName(getState, p.id)
-            ));
+            console.log('!!!___oof, NOTIFICATIONS MIDDLEWARE, attempting dispatch(showParticipantJoinedNotification)', displayName);
+            dispatch(showParticipantJoinedNotification(displayName));
         }
 
         if (typeof interfaceConfig === 'object'
                 && !interfaceConfig.DISABLE_FOCUS_INDICATOR && p.role === PARTICIPANT_ROLE.MODERATOR) {
             // Do not show the notification for mobile and also when the focus indicator is disabled.
-            const displayName = getParticipantDisplayName(getState, p.id);
 
+            console.log('!!!___oof, NOTIFICATIONS MIDDLEWARE, attempting dispatch(showNotification)', displayName, NOTIFICATION_TIMEOUT);
             dispatch(showNotification({
                 descriptionArguments: { to: displayName || '$t(notify.somebody)' },
                 descriptionKey: 'notify.grantedTo',
@@ -53,7 +59,7 @@ MiddlewareRegistry.register(store => next => action => {
             },
             NOTIFICATION_TIMEOUT));
         }
-
+        console.log('!!!___oof, notifications middleware, ran through. should be fine.');
         return result;
     }
     case PARTICIPANT_LEFT: {
@@ -103,7 +109,14 @@ MiddlewareRegistry.register(store => next => action => {
     }
     }
 
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, notifications MIDDLEWARE will return next(action)');
+    }
+
     return next(action);
+    } catch (e) {
+        console.error('!!!___oof, notifications MIDDLEWARE caught a error !!!', e);
+    }
 });
 
 /**

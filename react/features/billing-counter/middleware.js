@@ -12,6 +12,10 @@ import { setBillingId } from './functions';
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => async action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, billing-counter MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     switch (action.type) {
     case SET_BILLING_ID: {
         setBillingId(action.value);
@@ -28,4 +32,7 @@ MiddlewareRegistry.register(store => next => async action => {
     }
 
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, billing-counter MIDDLEWARE caught a error !!!', e);
+}
 });

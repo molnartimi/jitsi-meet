@@ -23,6 +23,10 @@ import {
  * @see {@link https://facebook.github.io/react-native/docs/appstate.html}
  */
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, background MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     switch (action.type) {
     case _SET_APP_STATE_LISTENER:
         return _setAppStateListenerF(store, next, action);
@@ -40,6 +44,9 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, background MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**

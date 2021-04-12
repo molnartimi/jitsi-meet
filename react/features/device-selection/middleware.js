@@ -13,6 +13,10 @@ declare var APP: Object;
  */
 // eslint-disable-next-line no-unused-vars
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, device-selection MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     const result = next(action);
 
     if (action.type === UPDATE_DEVICE_LIST) {
@@ -33,4 +37,7 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     return result;
+} catch (e) {
+    console.error('!!!___oof, device-selection MIDDLEWARE caught a error !!!', e);
+}
 });

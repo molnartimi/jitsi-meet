@@ -49,6 +49,10 @@ watchOSEnabled && StateListenerRegistry.register(
  * @returns {Function}
  */
 watchOSEnabled && MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, watchos MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     switch (action.type) {
     case APP_WILL_MOUNT:
         _appWillMount(store);
@@ -60,6 +64,9 @@ watchOSEnabled && MiddlewareRegistry.register(store => next => action => {
     }
 
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, watchos MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**

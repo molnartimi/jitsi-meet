@@ -34,6 +34,10 @@ import {
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, media MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     switch (action.type) {
     case APP_STATE_CHANGED:
         return _appStateChanged(store, next, action);
@@ -58,6 +62,9 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, media MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**

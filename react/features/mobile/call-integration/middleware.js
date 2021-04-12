@@ -45,6 +45,10 @@ const CallIntegration = CallKit || ConnectionService;
  * @returns {Function}
  */
 CallIntegration && MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, call-integration MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     switch (action.type) {
     case _SET_CALL_INTEGRATION_SUBSCRIPTIONS:
         return _setCallKitSubscriptions(store, next, action);
@@ -88,6 +92,10 @@ CallIntegration && MiddlewareRegistry.register(store => next => action => {
     }
 
     return next(action);
+
+} catch (e) {
+    console.error('!!!___oof, call-integration MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**

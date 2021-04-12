@@ -19,6 +19,10 @@ let previousTileViewEnabled;
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, video-layout MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     const result = next(action);
 
     switch (action.type) {
@@ -50,8 +54,13 @@ MiddlewareRegistry.register(store => next => action => {
         }
     }
 
-
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, video-layout MIDDLEWARE will return next(action)');
+    }
     return result;
+} catch (e) {
+    console.error('!!!___oof, video-layout MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**

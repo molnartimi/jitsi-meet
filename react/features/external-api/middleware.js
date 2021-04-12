@@ -34,6 +34,10 @@ declare var interfaceConfig: Object;
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, external-api MIDDLEWARE caught PARTICIPANT_JOINED, whats next ?');
+    }
     // We need to do these before executing the rest of the middelware chain
     switch (action.type) {
     case SET_LOADABLE_AVATAR_URL: {
@@ -144,6 +148,7 @@ MiddlewareRegistry.register(store => next => action => {
         break;
 
     case PARTICIPANT_JOINED: {
+        console.log('!!!___oof, external-api middleware, lets notifyuserjoined.');
         const { participant } = action;
         const { id, local, name } = participant;
 
@@ -178,6 +183,9 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     return result;
+} catch (e) {
+    console.error('!!!___oof, external-api MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**

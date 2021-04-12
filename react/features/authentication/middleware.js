@@ -39,6 +39,10 @@ import { LoginDialog, WaitForOwnerDialog } from './components';
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, authentication MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     switch (action.type) {
     case CANCEL_LOGIN: {
         const { dispatch, getState } = store;
@@ -140,6 +144,9 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, authentication MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**

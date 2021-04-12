@@ -12,12 +12,19 @@ import { isOldJitsiMeetElectronApp } from './functions';
 declare var interfaceConfig: Object;
 
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, old-client-notifications MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     switch (action.type) {
     case APP_WILL_MOUNT:
         return _appWillMount(store, next, action);
     }
 
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, old-client MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**

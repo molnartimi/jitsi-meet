@@ -18,6 +18,9 @@ declare var APP: Object;
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, toolbox MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     switch (action.type) {
     case CLEAR_TOOLBOX_TIMEOUT: {
         const { timeoutID } = store.getState()['features/toolbox'];
@@ -38,6 +41,10 @@ MiddlewareRegistry.register(store => next => action => {
 
         break;
     }
+    }
+
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, toolbox MIDDLEWARE will return next(action)');
     }
 
     return next(action);

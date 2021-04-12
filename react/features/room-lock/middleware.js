@@ -30,6 +30,10 @@ declare var APP: Object;
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, room-lock MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     switch (action.type) {
     case CONFERENCE_FAILED:
         return _conferenceFailed(store, next, action);
@@ -68,7 +72,13 @@ MiddlewareRegistry.register(store => next => action => {
         return _setPasswordFailed(store, next, action);
     }
 
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, room-lock MIDDLEWARE will return next(action)');
+    }
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, room-lock MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**

@@ -20,6 +20,10 @@ let userInteractionListener = null;
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, user-interaction MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     switch (action.type) {
     case APP_WILL_MOUNT:
         _startListeningForUserInteraction(store);
@@ -31,6 +35,9 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, user-interaction MIDDLEWARE caught a error !!!', e);
+}
 });
 
 /**

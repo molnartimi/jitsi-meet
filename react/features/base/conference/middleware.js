@@ -68,6 +68,10 @@ const PING_MESSAGE_INTERVAL = 10000;
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, base/conference MIDDLEWARE caught PARTICIPANT_JOINED, no handler');
+    }
     switch (action.type) {
     case CONFERENCE_FAILED:
         return _conferenceFailed(store, next, action);
@@ -114,6 +118,9 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     return next(action);
+} catch (e) {
+    console.error('!!!___oof, base/conference MIDDLEWARE caught a error !!!', e);
+}
 });
 
 

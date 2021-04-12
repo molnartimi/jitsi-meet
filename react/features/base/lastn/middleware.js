@@ -23,8 +23,11 @@ import logger from './logger';
 
 declare var APP: Object;
 
-
 MiddlewareRegistry.register(store => next => action => {
+    try {
+    if (action.type === 'PARTICIPANT_JOINED') {
+        console.log('!!!___oof, lastn MIDDLEWARE caught PARTICIPANT_JOINED, whats next ?');
+    }
     const result = next(action);
 
     switch (action.type) {
@@ -37,12 +40,17 @@ MiddlewareRegistry.register(store => next => action => {
     case SELECT_LARGE_VIDEO_PARTICIPANT:
     case SET_AUDIO_ONLY:
     case SET_FILMSTRIP_ENABLED:
-    case SET_TILE_VIEW:
+    case SET_TILE_VIEW: {
+        console.log('!!!___oof, lastn middleware, action: ', action.type);
         _updateLastN(store);
         break;
     }
+    }
 
     return result;
+} catch (e) {
+        console.error('!!!___oof, lastn MIDDLEWARE caught a error !!!', e);
+    }
 });
 
 /**
