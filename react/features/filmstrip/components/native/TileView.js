@@ -206,7 +206,15 @@ class TileView extends Component<Props> {
                     && participant.vipType !== RoleTypeId.CABI_STYLIST
                     && participant.vipType !== RoleTypeId.CABI_HOSTESS
                     && participant.vipType !== RoleTypeId.CABI_COHOSTESS)
-            .sort((a, b) => a.name > b.name ? 1 : -1);
+            .sort((a, b) => {
+                // Sometimes display names are set late. To prevent comparing too many undefined values,
+                // we'll use participant ids as a fallback method.
+                if (_.isString(a.name) && _.isString(b.name)) {
+                    return a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1;
+                }
+
+                return a.id > b.id ? 1 : -1;
+            });
 
         const participants = [];
 
