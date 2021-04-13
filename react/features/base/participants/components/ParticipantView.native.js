@@ -196,6 +196,7 @@ class ParticipantView extends Component<Props> {
             = connectionStatus !== JitsiParticipantConnectionStatus.ACTIVE;
         const useTint
             = connectionProblem || this.props.tintEnabled;
+        const objectFit = this.props.isTabletDesignEnabled && this.props.inFocusStyle ? 'contain' : 'cover';
 
         return (
             <Container
@@ -209,10 +210,10 @@ class ParticipantView extends Component<Props> {
                 { renderVideo
                     && <RTCView
                         mirror = { videoTrack?.mirror }
-                        objectFit = 'cover'
+                        objectFit = { objectFit }
                         streamURL = { videoTrack.jitsiTrack.getOriginalStream().toURL() }
-                        style = { this.props.inFocusStyle && !this.props.isTabletDesignEnabled
-                            ? { ...styles.inFocusParticipantMobile,
+                        style = { this.props.inFocusStyle
+                            ? { ...this._getFocusStyle(),
                                 ...this.props.style }
                             : { ...styles.participantView,
                                 ...this.props.style }
@@ -243,6 +244,12 @@ class ParticipantView extends Component<Props> {
                     && this._renderConnectionInfo(connectionStatus) }
             </Container>
         );
+    }
+
+    _getFocusStyle() {
+        return this.props.isTabletDesignEnabled
+            ? styles.inFocusParticipantTablet
+            : styles.inFocusParticipantMobile;
     }
 }
 

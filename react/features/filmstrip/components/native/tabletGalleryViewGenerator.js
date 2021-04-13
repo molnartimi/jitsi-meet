@@ -71,9 +71,11 @@ function _getUserPages(inFocusUser, inFocusStyleOverrides, placeholderImageUrl, 
                         style = {{ ...styles.fillView,
                             ...inFocusStyleOverrides }} />
                     : <Thumbnail
+                        inFocusStyle = { true }
                         isAvatarCircled = { false }
                         isDominantSpeaker = { inFocusUser.dominantSpeaker }
                         isNameRequired = { true }
+                        isTabletDesignEnabled = { true }
                         isTabletVipDesignEnabled = { true }
                         key = { inFocusUser.id }
                         participant = { inFocusUser }
