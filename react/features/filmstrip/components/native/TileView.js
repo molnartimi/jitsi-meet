@@ -209,7 +209,7 @@ class TileView extends Component<Props> {
             .sort((a, b) => {
                 // Sometimes display names are set late. To prevent comparing too many undefined values,
                 // we'll use participant ids as a fallback method.
-                if (typeof a.name === 'string' && typeof b.name === 'string') {
+                if (_.isString(a.name) && _.isString(b.name)) {
                     return a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1;
                 }
 
