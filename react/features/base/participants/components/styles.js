@@ -2,6 +2,12 @@
 
 import { BoxModel, ColorPalette } from '../../styles';
 
+const inFocusParticipant = {
+    alignContent: 'center',
+    alignSelf: 'center',
+    justifyContent: 'center'
+};
+
 /**
  * The styles of the feature base/participants.
  */
@@ -55,10 +61,14 @@ export default {
     },
 
     inFocusParticipantMobile: {
+        ...inFocusParticipant,
         width: '100%',
-        aspectRatio: 1,
-        alignContent: 'center',
-        alignSelf: 'center',
-        justifyContent: 'center'
+        aspectRatio: 1
+    },
+
+    inFocusParticipantTablet: {
+        ...inFocusParticipant,
+        width: '100%',
+        height: '100%'
     }
 };
