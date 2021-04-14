@@ -199,7 +199,7 @@ MiddlewareRegistry.register(store => next => action => {
     }
 
     case UNDEFINED_JITSI_ERROR: {
-        _sendErrorToNativeApp(store, action.error);
+        _sendErrorToNativeApp(store, action.message);
         break;
     }
 
