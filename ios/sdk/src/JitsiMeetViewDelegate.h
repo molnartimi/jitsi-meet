@@ -95,6 +95,11 @@
 - (void)shopButtonEvent:(NSDictionary *)data;
 
 /**
+ * Called whenever remote track is added.
+*/
+- (void)trackAdded:(NSDictionary *)data;
+
+/**
  * Called whenever new user joins to the video conference.
  *
  * The `data` dictionary contains:

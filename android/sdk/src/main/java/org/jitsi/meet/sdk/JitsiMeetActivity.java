@@ -259,6 +259,11 @@ public class JitsiMeetActivity extends FragmentActivity
     }
 
     @Override
+    public void onTrackAdded(Map<String, Object> data) {
+        JitsiMeetLogger.i("Track added event: " + data);
+    }
+
+    @Override
     public void onParticipantJoined(Map<String, Object> data) {
         JitsiMeetLogger.i("Participant joined event: " + data);
     }

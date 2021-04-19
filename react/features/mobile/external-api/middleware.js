@@ -29,6 +29,7 @@ import { isAndroidDevice } from '../../base/environment/utils';
 import { getLogger } from '../../base/logging';
 import { PARTICIPANT_JOINED, PARTICIPANT_LEFT } from '../../base/participants';
 import { MiddlewareRegistry } from '../../base/redux';
+import { TRACK_ADDED } from '../../base/tracks';
 import { ENTER_PICTURE_IN_PICTURE } from '../picture-in-picture';
 
 import { UNDEFINED_JITSI_ERROR } from './actions';
@@ -185,6 +186,15 @@ MiddlewareRegistry.register(store => next => action => {
         sendEvent(store, SHOP_BUTTON_EVENT, {
             navigationTarget: action.navigationTarget
         });
+        break;
+    }
+
+    case TRACK_ADDED: {
+        if (!action.track.local) {
+            sendEvent(store, TRACK_ADDED, {
+                track: flatted.stringify(action.track)
+            });
+        }
         break;
     }
 
