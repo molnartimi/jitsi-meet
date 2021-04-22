@@ -1,8 +1,8 @@
  ## Repositories
- - [Tabletparty (Angular)](https://bitbucket.org/cabidev/cabiofbiz/src/VS-mobile-integration/), **VS-mobile-integration** branch
- - [Tabletparty (native Android)](https://gitlab.int.sonrisa.hu/cabi/cabi-party-app-android), **VS-mobile-integration** branch
- - [Tabletparty (native iOS)](https://gitlab.int.sonrisa.hu/cabi/cabi-party-app-ios), **VS-mobile** branch
- - [Jitsi Meet (React Native)](https://github.com/molnartimi/jitsi-meet/tree/VS-mobile-integration), **VS-mobile-integration** branch
+ - [Tabletparty (Angular)](https://bitbucket.org/cabidev/cabiofbiz/src/master2-us/), latest release branch
+ - [Tabletparty (native Android)](https://gitlab.int.sonrisa.hu/cabi/cabi-party-app-android), **develop** branch
+ - [Tabletparty (native iOS)](https://gitlab.int.sonrisa.hu/cabi/cabi-party-app-ios), **develop** branch
+ - [Jitsi Meet (React Native)](https://github.com/molnartimi/jitsi-meet/tree/VS-mobile-integration), **VS-mobile-integration** branch or latest release branch
 
 ## Build Jitsi SDK
 **Note:** to build your own SDK Node 12.X and npm 6.X are required.
