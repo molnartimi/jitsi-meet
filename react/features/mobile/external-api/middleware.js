@@ -192,7 +192,9 @@ MiddlewareRegistry.register(store => next => action => {
     case TRACK_ADDED: {
         if (!action.track.local) {
             sendEvent(store, TRACK_ADDED, {
-                track: flatted.stringify(action.track)
+                data: escapeBackslashes(JSON.stringify({
+                    remoteDescriptions: getRemoteDescriptions(store)
+                }), true)
             });
         }
         break;
@@ -205,14 +207,22 @@ MiddlewareRegistry.register(store => next => action => {
 
     case PARTICIPANT_JOINED: {
         if (action.participant.id) {
-            sendEvent(store, PARTICIPANT_JOINED, { userId: escapeBackslashes(action.participant.id, true) });
+            sendEvent(store, PARTICIPANT_JOINED, {
+                data: escapeBackslashes(JSON.stringify({ userId: action.participant.id,
+                    remoteDescriptions: getRemoteDescriptions(store)
+                }), true)
+            });
         }
         break;
     }
 
     case PARTICIPANT_LEFT: {
         if (action.participant.id) {
-            sendEvent(store, PARTICIPANT_LEFT, { userId: escapeBackslashes(action.participant.id, true) });
+            sendEvent(store, PARTICIPANT_LEFT, {
+                data: escapeBackslashes(JSON.stringify({ userId: action.participant.id,
+                    remoteDescriptions: getRemoteDescriptions(store)
+                }), true)
+            });
         }
         break;
     }
@@ -436,6 +446,33 @@ function _sendErrorToNativeApp(store, errorMsg) {
  */
 function escapeBackslashes(value: string, alsoOnIos?: boolean) {
     return value && typeof value === 'string' && (isAndroidDevice() || alsoOnIos)
-        ? value.replace(/\\/g, '\\\\')
+        ? value.replace(/\\/g, '\\\\').replace(/\s{2,}/g, ' ')
         : value;
+}
+
+function getRemoteDescriptions(store) {
+    const { connection } = store.getState()['features/base/connection'];
+
+    if (!connection?.xmpp?.getSessions) {
+        return [];
+    }
+    const sessions = Object.values(connection.xmpp.getSessions());
+
+    const remoteDescriptions
+        = sessions
+            .map(session => {
+                if (!session?.peerconnection?.remoteDescription) {
+                    return null;
+                }
+
+                return {
+                    'localJid': session.localJid,
+                    'remoteJid': session.remoteJid,
+                    'type': session.peerconnection.remoteDescription.type,
+                    'sdp': session.peerconnection.remoteDescription.sdp
+                };
+            })
+            .filter(rd => Boolean(rd));
+
+    return remoteDescriptions && remoteDescriptions.length ? remoteDescriptions : [];
 }
