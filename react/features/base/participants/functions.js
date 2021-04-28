@@ -160,7 +160,7 @@ export function getParticipantDisplayName(
     const participant = getParticipantById(stateful, id);
 
     if (participant) {
-        if (participant.name) {
+        if (participant?.name) {
             return participant.name;
         }
 

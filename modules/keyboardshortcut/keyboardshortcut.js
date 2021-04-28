@@ -1,4 +1,4 @@
-/* global APP, $, interfaceConfig */
+/* global APP, $ */
 
 import Logger from 'jitsi-meet-logger';
 
@@ -11,7 +11,6 @@ import {
 import { toggleDialog } from '../../react/features/base/dialog';
 import { KeyboardShortcutsDialog }
     from '../../react/features/keyboard-shortcuts';
-import { SpeakerStats } from '../../react/features/speaker-stats';
 
 const logger = Logger.getLogger(__filename);
 
@@ -202,15 +201,6 @@ const KeyboardShortcut = {
             APP.conference.muteAudio(true);
         });
         this._addShortcutToHelp('SPACE', 'keyboardShortcuts.pushToTalk');
-
-        if (!interfaceConfig.filmStripOnly) {
-            this.registerShortcut('T', null, () => {
-                sendAnalytics(createShortcutEvent('speaker.stats'));
-                APP.store.dispatch(toggleDialog(SpeakerStats, {
-                    conference: APP.conference
-                }));
-            }, 'keyboardShortcuts.showSpeakerStats');
-        }
 
         /**
          * FIXME: Currently focus keys are directly implemented below in

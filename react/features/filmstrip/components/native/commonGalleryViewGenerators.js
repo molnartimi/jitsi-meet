@@ -15,14 +15,12 @@ export function _groupThumbnailsByPages(rowCount, rowElements) {
 export function _renderThumbnails(sortedParticipants, styleOverrides) {
     return sortedParticipants
         .map(participant => (
+            // eslint-disable-next-line react/jsx-key
             <Thumbnail
-                isAvatarCircled = { false }
                 isDominantSpeaker = { participant?.dominantSpeaker }
                 isGradientRequired = { !participant?.local }
                 isNameRequired = { !participant?.local }
-                key = { participant?.id }
+                isTileView = { true }
                 participant = { participant }
-                renderDisplayName = { true }
-                styleOverrides = { styleOverrides }
-                tileView = { true } />));
+                styleOverrides = { styleOverrides } />));
 }
