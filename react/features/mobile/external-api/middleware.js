@@ -193,7 +193,7 @@ MiddlewareRegistry.register(store => next => action => {
         if (!action.track.local) {
             sendEvent(store, TRACK_ADDED, {
                 data: escapeBackslashes(JSON.stringify({
-                    remoteDescriptions: getRemoteDescriptions(store)
+                    remoteDescriptions: getRemoteDescriptions(store, logger)
                 }), true)
             });
         }
@@ -450,10 +450,12 @@ function escapeBackslashes(value: string, alsoOnIos?: boolean) {
         : value;
 }
 
-function getRemoteDescriptions(store) {
+function getRemoteDescriptions(store, logger) {
     const { connection } = store.getState()['features/base/connection'];
 
     if (!connection?.xmpp?.getSessions) {
+        logger.warn('Remote descriptions not found');
+
         return [];
     }
     const sessions = Object.values(connection.xmpp.getSessions());
