@@ -12,7 +12,6 @@ import {
 } from '../../media';
 import { connect } from '../../redux';
 import { getTrackByMediaTypeAndParticipant } from '../../tracks';
-import { shouldRenderParticipantVideo, getParticipantById } from '../functions';
 
 import styles from './styles';
 
@@ -99,7 +98,7 @@ class ParticipantView extends Component<Props> {
                     ? <RTCView
                         mirror = { this.props._videoTrack?.mirror }
                         objectFit = { objectFit }
-                        streamURL = { this.props._videoTrack.jitsiTrack.getOriginalStream().toURL() }
+                        streamURL = { this.props._videoTrack?.jitsiTrack?.getOriginalStream()?.toURL() }
                         style = { this.props._inFocusStyle
                             ? { ...this._getFocusStyle(),
                                 ...this.props._style }
@@ -147,7 +146,6 @@ class ParticipantView extends Component<Props> {
  */
 function _mapStateToProps(state, ownProps) {
     const { avatarSize,
-        disableVideo,
         participantId,
         isAvatarCircled,
         isConnectivityLabelShown,
@@ -155,27 +153,30 @@ function _mapStateToProps(state, ownProps) {
         inFocusStyle,
         zOrder,
         style } = ownProps;
-    const participant = getParticipantById(state, participantId);
-    let connectionStatus;
+
+    const participants = state['features/base/participants'];
+    const currentParticipant = participants.find(user => user.id === participantId);
+
+    const tracks = state['features/base/tracks'];
+    const videoTrack = getTrackByMediaTypeAndParticipant(
+        tracks,
+        MEDIA_TYPE.VIDEO,
+        participantId);
 
     return {
         _avatarSize: avatarSize,
-        _connectionStatus:
-            connectionStatus
-                || JitsiParticipantConnectionStatus.ACTIVE,
+        _connectionStatus: JitsiParticipantConnectionStatus.ACTIVE,
         _isAvatarCircled: isAvatarCircled ?? false,
         _isConnectivityLabelShown: isConnectivityLabelShown ?? false,
         _isTabletDesignEnabled: isTabletDesignEnabled ?? false,
         _inFocusStyle: inFocusStyle,
-        _participantName: participant?.name,
-        _profileImageUrl: participant?.loadableAvatarUrl,
-        _renderVideo: shouldRenderParticipantVideo(state, participantId) && !disableVideo,
+        _participantName: currentParticipant?.name ?? '',
+        _profileImageUrl: currentParticipant?.loadableAvatarUrl ?? currentParticipant?.avatarURL ?? undefined,
+        _renderVideo: currentParticipant.local
+            ? !state['features/base/media'].video.muted
+            : !videoTrack?.jitsiTrack?.muted,
         _style: style,
-        _videoTrack:
-            getTrackByMediaTypeAndParticipant(
-                state['features/base/tracks'],
-                MEDIA_TYPE.VIDEO,
-                participantId),
+        _videoTrack: videoTrack,
         _zOrder: zOrder
     };
 }
