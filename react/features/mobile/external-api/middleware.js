@@ -27,7 +27,7 @@ import {
 } from '../../base/connection';
 import { isAndroidDevice } from '../../base/environment/utils';
 import { getLogger } from '../../base/logging';
-import { PARTICIPANT_JOINED, PARTICIPANT_LEFT } from '../../base/participants';
+import { SPEAKER_FRAME_VIDEO_TRACK_CHANGE, PARTICIPANT_JOINED, PARTICIPANT_LEFT } from '../../base/participants';
 import { MiddlewareRegistry } from '../../base/redux';
 import { TRACK_ADDED } from '../../base/tracks';
 import { ENTER_PICTURE_IN_PICTURE } from '../picture-in-picture';
@@ -148,6 +148,10 @@ MiddlewareRegistry.register(store => next => action => {
         }
         break;
     }
+
+    case SPEAKER_FRAME_VIDEO_TRACK_CHANGE:
+        sendEvent(store, SPEAKER_FRAME_VIDEO_TRACK_CHANGE, {});
+        break;
 
     case COMMAND_VALUE: {
         try {

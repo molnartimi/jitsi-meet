@@ -94,6 +94,7 @@ type Props = {
     _isNameRequired: boolean,
     _isTabletDesignEnabled: boolean,
     _isTabletVipDesignEnabled: boolean,
+    _isSpeakerViewShowed: boolean,
     _inFocusStyle: boolean,
 }
 
@@ -120,6 +121,7 @@ class Thumbnail extends Component<Props> {
                     avatarSize = { this.props.tileView ? AVATAR_SIZE * 2.3 : AVATAR_SIZE }
                     inFocusStyle = { this.props._inFocusStyle }
                     isAvatarCircled = { this.props._isAvatarCircled }
+                    isSpeakerViewShowed = { this.props._isSpeakerViewShowed }
                     isTabletDesignEnabled = { this.props._isTabletDesignEnabled }
                     participantId = { this.props.participant?.id }
                     style = { this.props.styleOverrides }
@@ -212,7 +214,8 @@ function _mapStateToProps(state, ownProps) {
         isNameRequired,
         isDominantSpeaker,
         isTabletDesignEnabled,
-        isTabletVipDesignEnabled } = ownProps;
+        isTabletVipDesignEnabled,
+        isSpeakerViewShowed } = ownProps;
 
     const largeVideo = state['features/large-video'];
     const tracks = state['features/base/tracks'];
@@ -236,7 +239,8 @@ function _mapStateToProps(state, ownProps) {
         _isGradientRequired: isGradientRequired ?? false,
         _isNameRequired: isNameRequired ?? false,
         _isTabletDesignEnabled: isTabletDesignEnabled ?? false,
-        _isTabletVipDesignEnabled: isTabletVipDesignEnabled ?? false
+        _isTabletVipDesignEnabled: isTabletVipDesignEnabled ?? false,
+        _isSpeakerViewShowed: isSpeakerViewShowed ?? false
     };
 }
 

@@ -13,6 +13,16 @@
 export const DOMINANT_SPEAKER_CHANGED = 'DOMINANT_SPEAKER_CHANGED';
 
 /**
+ * The type of (redux) action which should be sent to native Android app
+ * if it needs to update speaker frame position.
+ *
+ * {
+ *     type: SPEAKER_FRAME_VIDEO_TRACK_CHANGE
+ * }
+ */
+export const SPEAKER_FRAME_VIDEO_TRACK_CHANGE = 'SPEAKER_FRAME_VIDEO_TRACK_CHANGE';
+
+/**
  * Create an action for granting moderator to a participant.
  *
  * {
