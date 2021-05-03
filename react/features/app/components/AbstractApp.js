@@ -20,6 +20,7 @@ import { toURLString } from '../../base/util';
 import { setPlaceholderData, setCountdown } from '../../filmstrip';
 import { UNDEFINED_JITSI_ERROR } from '../../mobile/external-api/actions';
 import { OverlayContainer } from '../../overlay';
+import { setMaxReceiverVideoQuality } from '../../video-quality';
 import { appNavigate, appConnect, appJoinRoom, appLeaveRoom } from '../actions';
 import { getDefaultURL } from '../functions';
 import logger from '../logger';
@@ -222,12 +223,14 @@ export class AbstractApp extends BaseApp<Props, *> {
 
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.VIDEOCONF_JOIN,
             (dataJsonString: string) => {
-                const { roomName, audioMuted, videoMuted, noCam, noMic, commandsToListenTo }
+                const { roomName, audioMuted, videoMuted, noCam, noMic, commandsToListenTo,
+                    maxReceiverVideoResolution, preferredSenderVideoResolution }
                     = JSON.parse(dataJsonString);
 
                 this.props.url.room = roomName;
-                this.state.store.dispatch(appJoinRoom(this.props.url.serverURL, roomName,
-                    audioMuted, videoMuted, noCam, noMic, commandsToListenTo));
+                dispatch(setMaxReceiverVideoQuality(maxReceiverVideoResolution));
+                dispatch(appJoinRoom(this.props.url.serverURL, roomName,
+                    audioMuted, videoMuted, noCam, noMic, commandsToListenTo, preferredSenderVideoResolution));
             }));
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.VIDEOCONF_LEAVE,
             () => dispatch(appLeaveRoom())));

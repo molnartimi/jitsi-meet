@@ -5,15 +5,10 @@ import {
     DATA_CHANNEL_OPENED
 } from '../base/conference';
 import { SET_CONFIG } from '../base/config';
-import { getParticipantCount } from '../base/participants';
 import { MiddlewareRegistry, StateListenerRegistry } from '../base/redux';
-import { shouldDisplayTileView } from '../video-layout';
 
-import { setPreferredVideoQuality, setMaxReceiverVideoQuality } from './actions';
-import { VIDEO_QUALITY_LEVELS } from './constants';
-import { getReceiverVideoQualityLevel } from './functions';
+import { setPreferredVideoQuality } from './actions';
 import logger from './logger';
-import { getMinHeightForQualityLvlMap } from './selector';
 
 declare var APP: Object;
 
@@ -60,75 +55,19 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
 });
 
 /**
- * Implements a state listener in order to calculate max receiver video quality.
- */
-StateListenerRegistry.register(
-    /* selector */ state => {
-        const { reducedUI } = state['features/base/responsive-ui'];
-        const _shouldDisplayTileView = shouldDisplayTileView(state);
-        const thumbnailSize = state['features/filmstrip']?.tileViewDimensions?.thumbnailSize;
-        const participantCount = getParticipantCount(state);
-
-        return {
-            displayTileView: _shouldDisplayTileView,
-            participantCount,
-            reducedUI,
-            thumbnailHeight: thumbnailSize?.height
-        };
-    },
-    /* listener */ ({ displayTileView, participantCount, reducedUI, thumbnailHeight }, { dispatch, getState }) => {
-        const state = getState();
-        const { maxReceiverVideoQuality } = state['features/video-quality'];
-        const { maxFullResolutionParticipants = 2 } = state['features/base/config'];
-
-        let newMaxRecvVideoQuality = VIDEO_QUALITY_LEVELS.HIGH;
-
-        if (reducedUI) {
-            newMaxRecvVideoQuality = VIDEO_QUALITY_LEVELS.LOW;
-        } else if (displayTileView && !Number.isNaN(thumbnailHeight)) {
-            newMaxRecvVideoQuality = getReceiverVideoQualityLevel(thumbnailHeight, getMinHeightForQualityLvlMap(state));
-
-            // Override HD level calculated for the thumbnail height when # of participants threshold is exceeded
-            if (maxReceiverVideoQuality !== newMaxRecvVideoQuality && maxFullResolutionParticipants !== -1) {
-                const override
-                    = participantCount > maxFullResolutionParticipants
-                        && newMaxRecvVideoQuality > VIDEO_QUALITY_LEVELS.STANDARD;
-
-                logger.info(`Video quality level for thumbnail height: ${thumbnailHeight}, `
-                    + `is: ${newMaxRecvVideoQuality}, `
-                    + `override: ${String(override)}, `
-                    + `max full res N: ${maxFullResolutionParticipants}`);
-
-                if (override) {
-                    newMaxRecvVideoQuality = VIDEO_QUALITY_LEVELS.STANDARD;
-                }
-            }
-        }
-
-        if (maxReceiverVideoQuality !== newMaxRecvVideoQuality) {
-            dispatch(setMaxReceiverVideoQuality(newMaxRecvVideoQuality));
-        }
-    }, {
-        deepEquals: true
-    });
-
-/**
  * Helper function for updating the preferred receiver video constraint, based
- * on the user preference and the internal maximum.
+ * on the internal maximum.
  *
  * @param {JitsiConference} conference - The JitsiConference instance for the
  * current call.
- * @param {number} preferred - The user preferred max frame height.
  * @param {number} max - The maximum frame height the application should
  * receive.
  * @returns {void}
  */
-function _setReceiverVideoConstraint(conference, preferred, max) {
+function _setReceiverVideoConstraint(conference, max) {
     if (conference) {
-        const value = Math.min(preferred, max);
-
-        conference.setReceiverVideoConstraint(value);
-        logger.info(`setReceiverVideoConstraint: ${value}`);
+        conference.setReceiverVideoConstraint(max);
+        logger.info(`setReceiverVideoConstraint: ${max}`);
     }
 }
 
@@ -166,15 +105,9 @@ function _syncReceiveVideoQuality(getState, next, action) {
     const {
         conference
     } = state['features/base/conference'];
-    const {
-        maxReceiverVideoQuality,
-        preferredVideoQuality
-    } = state['features/video-quality'];
+    const { maxReceiverVideoQuality } = state['features/video-quality'];
 
-    _setReceiverVideoConstraint(
-        conference,
-        preferredVideoQuality,
-        maxReceiverVideoQuality);
+    _setReceiverVideoConstraint(conference, maxReceiverVideoQuality);
 
     return next(action);
 }
@@ -209,8 +142,8 @@ StateListenerRegistry.register(
         const changedPreferredVideoQuality = preferredVideoQuality !== previousState.preferredVideoQuality;
         const changedMaxVideoQuality = maxReceiverVideoQuality !== previousState.maxReceiverVideoQuality;
 
-        if (changedConference || changedPreferredVideoQuality || changedMaxVideoQuality) {
-            _setReceiverVideoConstraint(conference, preferredVideoQuality, maxReceiverVideoQuality);
+        if (changedConference || changedMaxVideoQuality) {
+            _setReceiverVideoConstraint(conference, maxReceiverVideoQuality);
         }
         if (changedConference || changedPreferredVideoQuality) {
             _setSenderVideoConstraint(conference, preferredVideoQuality);

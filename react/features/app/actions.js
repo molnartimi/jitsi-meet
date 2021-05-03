@@ -176,7 +176,8 @@ export function appJoinRoom(
         startWithVideoMuted: boolean,
         noCam: boolean,
         noMic: boolean,
-        commandsToListenTo: string[]) {
+        commandsToListenTo: string[],
+        preferredSenderVideoResolution: number) {
     return async (dispatch: Dispatch<any>) => {
         dispatch(updateSettings({ startWithAudioMuted,
             startWithVideoMuted }));
@@ -188,7 +189,7 @@ export function appJoinRoom(
         dispatch(setIsMicCamEnabled(!noMic, !noCam));
 
         if (isNativeApp()) {
-            const desiredTypes = [];
+            const desiredTypes = [ preferredSenderVideoResolution ];
 
             if (!noCam) {
                 desiredTypes.push(MEDIA_TYPE.VIDEO);
