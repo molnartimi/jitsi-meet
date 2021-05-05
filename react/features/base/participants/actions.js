@@ -1,5 +1,7 @@
 // @flow
 
+import { Platform } from 'react-native';
+
 import { NOTIFICATION_TIMEOUT, showNotification } from '../../notifications';
 import { set } from '../redux';
 
@@ -18,7 +20,8 @@ import {
     PIN_PARTICIPANT,
     SET_LOADABLE_AVATAR_URL,
     SET_CURRENT_FOCUS,
-    UPDATE_USER_AVATAR
+    UPDATE_USER_AVATAR,
+    SPEAKER_FRAME_VIDEO_TRACK_CHANGE
 } from './actionTypes';
 import {
     getLocalParticipant,
@@ -534,4 +537,20 @@ export function updateUserAvatar(jsonString: string) {
         userXmppLoginId: xmppLoginId,
         imageUrl: info
     };
+}
+
+/**
+ * Create an action for raising speaker frame video track change events
+ * on 24 API level Android apps, so the containing view can be repositioned.
+ *
+ * @returns {{
+ *     type: SPEAKER_FRAME_VIDEO_TRACK_CHANGE
+ * }}
+ */
+export function notifyOnSpeakerFrameVideoTrackChange() {
+    if (Platform.OS === 'android' && Platform.Version === 24) {
+        return {
+            type: SPEAKER_FRAME_VIDEO_TRACK_CHANGE
+        };
+    }
 }

@@ -207,7 +207,6 @@ class Conference extends AbstractConference<Props, *> {
         return (
             <Thumbnail
                 isAvatarCircled = { false }
-                isSpeakerViewShowed = { this.props._isSpeakerViewShowed }
                 key = { this.props._largeVideoParticipant?.id }
                 participant = { this.props._largeVideoParticipant }
                 renderDisplayName = { true }

@@ -6,12 +6,15 @@ import { CALLING, INVITED } from '../../presence-status';
 import { APP_WILL_MOUNT, APP_WILL_UNMOUNT } from '../app';
 import {
     CONFERENCE_WILL_JOIN,
+    SET_SPEAKER_VIEW_VISIBILITY,
     forEachConference,
     getCurrentConference
 } from '../conference';
 import { JitsiConferenceEvents } from '../lib-jitsi-meet';
+import { MEDIA_TYPE } from '../media';
 import { MiddlewareRegistry, StateListenerRegistry } from '../redux';
 import { playSound, registerSound, unregisterSound } from '../sounds';
+import { TRACK_UPDATED } from '../tracks/actionTypes';
 
 import {
     DOMINANT_SPEAKER_CHANGED,
@@ -28,6 +31,7 @@ import {
     localParticipantIdChanged,
     localParticipantJoined,
     localParticipantLeft,
+    notifyOnSpeakerFrameVideoTrackChange,
     participantLeft,
     participantUpdated,
     setLoadableAvatarUrl
@@ -77,6 +81,7 @@ MiddlewareRegistry.register(store => next => action => {
         // Ensure the raised hand state is cleared for the dominant speaker.
 
         const { conference, id } = action.participant;
+        const { isSpeakerViewShowed } = store.getState()['features/base/conference'];
         const participant = getLocalParticipant(store.getState());
 
         participant
@@ -87,6 +92,27 @@ MiddlewareRegistry.register(store => next => action => {
                 raisedHand: false
             }));
 
+        isSpeakerViewShowed
+            && store.dispatch(notifyOnSpeakerFrameVideoTrackChange());
+        break;
+    }
+
+    case TRACK_UPDATED: {
+        const { isSpeakerViewShowed } = store.getState()['features/base/conference'];
+        const participant = getParticipantById(store.getState(), action.track.jitsiTrack.getParticipantId());
+        const isVideoTrack = action.track.jitsiTrack.type !== MEDIA_TYPE.AUDIO;
+        const isTrackMuted = action.track.muted;
+
+        if (isSpeakerViewShowed && participant && participant.dominantSpeaker && isVideoTrack && !isTrackMuted) {
+            store.dispatch(notifyOnSpeakerFrameVideoTrackChange());
+        }
+        break;
+    }
+
+    case SET_SPEAKER_VIEW_VISIBILITY: {
+        if (action.isSpeakerViewShowed) {
+            store.dispatch(notifyOnSpeakerFrameVideoTrackChange());
+        }
         break;
     }
 

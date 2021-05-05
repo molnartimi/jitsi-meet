@@ -2,7 +2,7 @@
 
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { Image, Text, View, Platform } from 'react-native';
+import { Image, Text, View } from 'react-native';
 import { RTCView } from 'react-native-webrtc';
 
 import { translate } from '../../i18n';
@@ -10,10 +10,8 @@ import { JitsiParticipantConnectionStatus } from '../../lib-jitsi-meet';
 import {
     MEDIA_TYPE
 } from '../../media';
-import { SPEAKER_FRAME_VIDEO_TRACK_CHANGE } from '../../participants';
 import { Container, TintedView } from '../../react';
 import { connect } from '../../redux';
-import type { Dispatch } from '../../redux';
 import type { StyleType } from '../../styles';
 import { getTrackByMediaTypeAndParticipant } from '../../tracks';
 import { shouldRenderParticipantVideo, getParticipantById } from '../functions';
@@ -50,11 +48,6 @@ type Props = {
      * The video Track of the participant with {@link #participantId}.
      */
     _videoTrack: Object,
-
-    /**
-     * Invoked to send speaker frame video track change events.
-     */
-    dispatch: Dispatch<any>,
 
     /**
      * The avatar size.
@@ -129,7 +122,6 @@ type Props = {
     profileImageUrl: string,
     inFocusStyle: boolean,
     isTabletDesignEnabled: boolean,
-    isSpeakerViewShowed: boolean,
 };
 
 
@@ -140,35 +132,6 @@ type Props = {
  * @extends Component
  */
 class ParticipantView extends Component<Props> {
-
-    componentDidMount() {
-        this._notifyOnVideoTrackRender();
-    }
-
-    componentDidUpdate(props) {
-        this._notifyOnVideoTrackRender(props);
-    }
-
-    /**
-     * Notifies 24 API level Android apps when speaker frame video track changes,
-     * so the containing view can be repositioned.
-     *
-     * @param {Object} props - Previous state of component properties, if any.
-     * @private
-     * @returns {void}
-     */
-    _notifyOnVideoTrackRender(props) {
-        if (Platform.OS === 'android' && Platform.Version === 24 && this.props.isSpeakerViewShowed) {
-            const isVideoRendered = this.props._renderVideo;
-            const wasVideoRendered = props && props._renderVideo;
-            const newParticipantId = this.props.participantId;
-            const prevParticipantId = props && props.participantId;
-
-            if (prevParticipantId !== newParticipantId || (!wasVideoRendered && isVideoRendered)) {
-                this.props.dispatch({ type: SPEAKER_FRAME_VIDEO_TRACK_CHANGE });
-            }
-        }
-    }
 
     /**
      * Renders the connection status label, if appropriate.
@@ -301,13 +264,7 @@ class ParticipantView extends Component<Props> {
  * @returns {Props}
  */
 function _mapStateToProps(state, ownProps) {
-    const {
-        disableVideo,
-        participantId,
-        isAvatarCircled,
-        inFocusStyle,
-        isTabletDesignEnabled,
-        isSpeakerViewShowed } = ownProps;
+    const { disableVideo, participantId, isAvatarCircled, inFocusStyle, isTabletDesignEnabled } = ownProps;
     const participant = getParticipantById(state, participantId);
     let connectionStatus;
 
@@ -324,8 +281,7 @@ function _mapStateToProps(state, ownProps) {
         inFocusStyle,
         isAvatarCircled,
         profileImageUrl: participant?.loadableAvatarUrl,
-        isTabletDesignEnabled,
-        isSpeakerViewShowed
+        isTabletDesignEnabled
     };
 }
 
