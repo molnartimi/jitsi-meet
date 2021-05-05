@@ -163,6 +163,10 @@ function _mapStateToProps(state, ownProps) {
         MEDIA_TYPE.VIDEO,
         participantId);
 
+    const isParticipantVideoMuted = currentParticipant.local
+        ? state['features/base/media']?.video?.muted ?? true
+        : videoTrack?.jitsiTrack?.muted ?? true;
+
     return {
         _avatarSize: avatarSize,
         _connectionStatus: JitsiParticipantConnectionStatus.ACTIVE,
@@ -172,9 +176,7 @@ function _mapStateToProps(state, ownProps) {
         _inFocusStyle: inFocusStyle,
         _participantName: currentParticipant?.name ?? '',
         _profileImageUrl: currentParticipant?.loadableAvatarUrl ?? currentParticipant?.avatarURL ?? undefined,
-        _renderVideo: currentParticipant.local
-            ? !state['features/base/media'].video.muted
-            : !videoTrack?.jitsiTrack?.muted,
+        _renderVideo: !isParticipantVideoMuted,
         _style: style,
         _videoTrack: videoTrack,
         _zOrder: zOrder
