@@ -99,20 +99,19 @@ MiddlewareRegistry.register(store => next => action => {
 
     case TRACK_UPDATED: {
         const { isSpeakerViewShowed } = store.getState()['features/base/conference'];
-        const participant = getParticipantById(store.getState(), action.track.jitsiTrack.getParticipantId());
-        const isVideoTrack = action.track.jitsiTrack.type !== MEDIA_TYPE.AUDIO;
-        const isTrackMuted = action.track.muted;
+        const participant = getParticipantById(store.getState(), action.track?.jitsiTrack?.getParticipantId());
+        const isVideoTrack = action.track?.jitsiTrack?.type !== MEDIA_TYPE.AUDIO;
+        const isTrackMuted = action.track?.muted;
 
-        if (isSpeakerViewShowed && participant && participant.dominantSpeaker && isVideoTrack && !isTrackMuted) {
+        if (isSpeakerViewShowed && participant?.dominantSpeaker && isVideoTrack && !isTrackMuted) {
             store.dispatch(notifyOnSpeakerFrameVideoTrackChange());
         }
         break;
     }
 
     case SET_SPEAKER_VIEW_VISIBILITY: {
-        if (action.isSpeakerViewShowed) {
-            store.dispatch(notifyOnSpeakerFrameVideoTrackChange());
-        }
+        action.isSpeakerViewShowed
+            && store.dispatch(notifyOnSpeakerFrameVideoTrackChange());
         break;
     }
 
