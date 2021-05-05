@@ -39,9 +39,16 @@ import logger from './logger';
  *
  * @returns {Function}
  */
-export function createDesiredLocalTracks(...desiredTypes) {
+export function createDesiredLocalTracks(...desiredTypesWithSenderResolution) {
     return (dispatch, getState) => {
         const state = getState();
+        let senderVideoResolution;
+        let desiredTypes;
+
+        if (desiredTypesWithSenderResolution.length > 0 && !isNaN(desiredTypesWithSenderResolution[0])) {
+            senderVideoResolution = desiredTypesWithSenderResolution[0];
+            desiredTypes = desiredTypesWithSenderResolution.slice(1);
+        }
 
         if (desiredTypes.length === 0) {
             const { audio, video } = state['features/base/media'];
@@ -72,7 +79,10 @@ export function createDesiredLocalTracks(...desiredTypes) {
             = desiredTypes.filter(type => availableTypes.indexOf(type) === -1);
 
         createTypes.length
-            && dispatch(createLocalTracksA({ devices: createTypes }));
+            && dispatch(createLocalTracksA({
+                devices: createTypes,
+                resolution: senderVideoResolution
+            }));
     };
 }
 
@@ -117,7 +127,8 @@ export function createLocalTracksA(options = {}) {
                         devices: [ device ],
                         facingMode:
                             options.facingMode || CAMERA_FACING_MODE.USER,
-                        micDeviceId: options.micDeviceId
+                        micDeviceId: options.micDeviceId,
+                        resolution: options.resolution
                     },
                     /* firePermissionPromptIsShownEvent */ false,
                     store)

@@ -72,6 +72,7 @@ export async function createLocalPresenterTrack(options, desktopHeight) {
  */
 export function createLocalTracksF(options = {}, firePermissionPromptIsShownEvent, store) {
     let { cameraDeviceId, micDeviceId } = options;
+    const { resolution } = options;
 
     if (typeof APP !== 'undefined') {
         // TODO The app's settings should go in the redux store and then the
@@ -91,8 +92,7 @@ export function createLocalTracksF(options = {}, firePermissionPromptIsShownEven
     const state = store.getState();
     const {
         desktopSharingFrameRate,
-        firefox_fake_device, // eslint-disable-line camelcase
-        resolution
+        firefox_fake_device // eslint-disable-line camelcase
     } = state['features/base/config'];
     const constraints = options.constraints ?? state['features/base/config'].constraints;
 
