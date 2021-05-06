@@ -548,9 +548,11 @@ export function updateUserAvatar(jsonString: string) {
  * }}
  */
 export function notifyOnSpeakerFrameVideoTrackChange() {
-    if (Platform.OS === 'android' && Platform.Version === 24) {
-        return {
-            type: SPEAKER_FRAME_VIDEO_TRACK_CHANGE
-        };
-    }
+    return (dispatch) => {
+        if (Platform.OS === 'android' && Platform.Version === 24) {
+            return dispatch({
+                type: SPEAKER_FRAME_VIDEO_TRACK_CHANGE
+            });
+        }
+    };
 }
