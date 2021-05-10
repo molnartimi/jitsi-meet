@@ -111,9 +111,11 @@ class Conference extends AbstractConference<Props, *> {
      */
     _renderContent() {
         return (
-            this.props._isSpeakerViewShowed
-                ? this._createSelfFrameVideoComponent()
-                : <TileView />
+            this.props._conference
+                ? this.props._isSpeakerViewShowed
+                    ? this._createSelfFrameVideoComponent()
+                    : <TileView />
+                : null
         );
     }
 
@@ -137,7 +139,8 @@ class Conference extends AbstractConference<Props, *> {
  */
 function _mapStateToProps(state) {
     const {
-        isSpeakerViewShowed
+        isSpeakerViewShowed,
+        conference
     } = state['features/base/conference'];
 
     const participants = state['features/base/participants'];
@@ -150,6 +153,7 @@ function _mapStateToProps(state) {
 
     return {
         ...abstractMapStateToProps(state),
+        _conference: conference,
         _largeVideoParticipant: largeVideoParticipant,
         _isSpeakerViewShowed: isSpeakerViewShowed
     };
