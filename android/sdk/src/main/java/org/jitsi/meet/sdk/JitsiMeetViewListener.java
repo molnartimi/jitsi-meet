@@ -57,6 +57,13 @@ public interface JitsiMeetViewListener {
     void onXmppResult(Map<String, Object> data);
 
     /**
+     * Called on 24 API level devices whenever the speaker frame video track changes.
+     *
+     * @param data An empty map.
+     */
+    void onSpeakerFrameVideoTrackChange(Map<String, Object> data);
+
+    /**
      * Called when new command value received we are subscribed to.
      *
      * @param data Map with a "value" key with the stringified object of command name and command value.

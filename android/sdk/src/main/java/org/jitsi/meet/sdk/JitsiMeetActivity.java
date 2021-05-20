@@ -234,6 +234,11 @@ public class JitsiMeetActivity extends FragmentActivity
     }
 
     @Override
+    public void onSpeakerFrameVideoTrackChange(Map<String, Object> data) {
+        JitsiMeetLogger.i("Speaker frame video track changed: " + data);
+    }
+
+    @Override
     public void onCommandValue(Map<String, Object> data) {
         JitsiMeetLogger.i("Command value: " + data);
     }
