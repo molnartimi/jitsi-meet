@@ -261,10 +261,8 @@ export default {
 
     osSpecificRoundedBorderedView: {
         overflow: 'hidden',
-        ...Platform.select({
-            ios: { borderRadius: 15 },
-            android: { borderRadius: 0 }
-        })
+        borderRadius: 15,
+        overlayColor: 'white'
     },
 
     microphoneViewStyle: {
