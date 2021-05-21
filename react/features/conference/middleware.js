@@ -6,14 +6,12 @@ import {
     conferenceLeft,
     getCurrentConference
 } from '../base/conference';
-import { hideDialog, isDialogOpen } from '../base/dialog';
+import { hideDialog } from '../base/dialog';
 import { setActiveModalId } from '../base/modal';
 import { pinParticipant } from '../base/participants';
 import { MiddlewareRegistry, StateListenerRegistry } from '../base/redux';
 import { SET_REDUCED_UI } from '../base/responsive-ui';
-import { FeedbackDialog } from '../feedback';
 import { setFilmstripEnabled } from '../filmstrip';
-import { setToolboxEnabled } from '../toolbox/actions';
 
 import { notifyKickedOut } from './actions';
 
@@ -27,7 +25,6 @@ MiddlewareRegistry.register(store => next => action => {
         const state = getState();
         const { reducedUI } = state['features/base/responsive-ui'];
 
-        dispatch(setToolboxEnabled(!reducedUI));
         dispatch(setFilmstripEnabled(!reducedUI));
 
         break;
@@ -72,8 +69,7 @@ StateListenerRegistry.register(
             // and explicitly check.
             if (typeof authRequired === 'undefined'
                     && typeof passwordRequired === 'undefined'
-                    && typeof membersOnly === 'undefined'
-                    && !isDialogOpen(getState(), FeedbackDialog)) {
+                    && typeof membersOnly === 'undefined') {
                 // Conference changed, left or failed... and there is no
                 // pending authentication, nor feedback request, so close any
                 // dialog we might have open.

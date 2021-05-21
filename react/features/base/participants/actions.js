@@ -3,7 +3,6 @@
 import { Platform } from 'react-native';
 
 import { NOTIFICATION_TIMEOUT, showNotification } from '../../notifications';
-import { set } from '../redux';
 
 import {
     DOMINANT_SPEAKER_CHANGED,
@@ -135,19 +134,6 @@ export function localParticipantIdChanged(id) {
 }
 
 /**
- * Action to signal that a local participant has joined.
- *
- * @param {Participant} participant={} - Information about participant.
- * @returns {{
- *     type: PARTICIPANT_JOINED,
- *     participant: Participant
- * }}
- */
-export function localParticipantJoined(participant = {}) {
-    return participantJoined(set(participant, 'local', true));
-}
-
-/**
  * Action to remove a local participant.
  *
  * @returns {Function}
@@ -242,41 +228,19 @@ export function participantConnectionStatusChanged(id, connectionStatus) {
  * }}
  */
 export function participantJoined(participant) {
-    // Only the local participant is not identified with an id-conference pair.
-    if (participant.local) {
-        return {
-            type: PARTICIPANT_JOINED,
-            participant
-        };
-    }
-
-    // In other words, a remote participant is identified with an id-conference
-    // pair.
     const { conference } = participant;
 
-    if (!conference) {
+    // A remote participant is identified with an id-conference pair.
+    if (!conference && !participant.local) {
         throw Error(
             'A remote participant must be associated with a JitsiConference!');
     }
 
-    return (dispatch, getState) => {
-        // A remote participant is only expected to join in a joined or joining
-        // conference. The following check is really necessary because a
-        // JitsiConference may have moved into leaving but may still manage to
-        // sneak a PARTICIPANT_JOINED in if its leave is delayed for any purpose
-        // (which is not outragous given that leaving involves network
-        // requests.)
-        const stateFeaturesBaseConference
-            = getState()['features/base/conference'];
-
-        if (conference === stateFeaturesBaseConference.conference
-                || conference === stateFeaturesBaseConference.joining) {
-            return dispatch({
-                type: PARTICIPANT_JOINED,
-                participant
-            });
-        }
+    return {
+        type: PARTICIPANT_JOINED,
+        participant
     };
+
 }
 
 /**
@@ -398,7 +362,7 @@ export function participantUpdated(participant = {}) {
         ...participant
     };
 
-    if (participant.name) {
+    if (participant?.name) {
         participantToUpdate.name = getNormalizedDisplayName(participant.name);
     }
 
@@ -548,7 +512,7 @@ export function updateUserAvatar(jsonString: string) {
  * }}
  */
 export function notifyOnSpeakerFrameVideoTrackChange() {
-    return (dispatch) => {
+    return dispatch => {
         if (Platform.OS === 'android' && Platform.Version === 24) {
             return dispatch({
                 type: SPEAKER_FRAME_VIDEO_TRACK_CHANGE

@@ -1,16 +1,12 @@
 // @flow
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { TouchableWithoutFeedback } from 'react-native';
-import Swiper from 'react-native-swiper';
+import { View, FlatList, Dimensions } from 'react-native';
 import type { Dispatch } from 'redux';
 
-import { RoleTypeId } from '../../../base/conference';
+import { IN_FOCUS_COMMAND, RoleTypeId } from '../../../base/conference';
 import { connect } from '../../../base/redux';
-import {
-    swipeEvent,
-    setTileViewDimensions
-} from '../../actions.native';
+import { swipeEvent } from '../../actions.native';
 import {
     PHONE_GALLERY_COLUMN_COUNT,
     TABLET_GALLERY_COLUMN_COUNT,
@@ -24,172 +20,110 @@ import constructPhoneGalleryView from './phoneGalleryViewGenerator';
 import styles from './styles';
 import constructTabletGalleryView from './tabletGalleryViewGenerator';
 
-/**
- * The type of the React {@link Component} props of {@link TileView}.
- */
 type Props = {
-
-    /**
-     * Application's viewport height.
-     */
+    dispatch: Dispatch<any>,
+    _actualStoreSlideIndex: number,
     _height: number,
-
-    /**
-     * The participants in the conference.
-     */
+    _isSimplifiedConference: boolean,
+    _isTabletDesignEnabled: boolean,
     _participants: Array<Object>,
     _placeholderImageUrl: string,
-
-    /**
-     * Application's viewport height.
-     */
-    _width: number,
-
-    /**
-     * Override swiper's current index.
-     */
-    _currentIndex: number,
-
-    /**
-     * Is the conference we're in a simplified conference?
-     */
-    _isSimplifiedConference: boolean,
-
-    /**
-     * Invoked to update the receiver video quality.
-     */
-    dispatch: Dispatch<any>,
-
-    /**
-     * Callback to invoke when tile view is tapped.
-     */
-    _onClick: Function,
-
-    _isTabletDesignEnabled: boolean
+    _width: number
 };
 
-
-/**
- * Implements a React {@link Component} which displays thumbnails in a two
- * dimensional grid.
- *
- * @extends Component
- */
 class TileView extends Component<Props> {
-    swiperRef: Swiper;
     totalPages: number;
-    lastHandledForceIndex = -1;
-    firstIndexSlide = 0;
 
-    /**
-     * TileView constructor.
-     */
     constructor() {
         super();
+        this._calculatePageSize = this._calculatePageSize.bind(this);
+        this._renderFullPage = this._renderFullPage.bind(this);
         this._onSwipe = this._onSwipe.bind(this);
-        this.swiperRef = React.createRef();
     }
 
-    /**
-     * Implements React's {@link Component#componentDidMount}.
-     *
-     * @inheritdoc
-     */
     componentDidMount() {
-        this._updateReceiverQuality();
-        this._onSwipe(0);
+        if (this.props._actualStoreSlideIndex !== (this.totalPages - 1)) {
+            this.props.dispatch(swipeEvent(this.props._actualStoreSlideIndex, this.totalPages));
+        }
     }
 
-    /**
-     * Implements React's {@link Component#componentDidUpdate}.
-     *
-     * @inheritdoc
-     */
-    componentDidUpdate() {
-        this._updateReceiverQuality();
-    }
-
-    /**
-     * Implements React's {@link Component#render()}.
-     *
-     * @inheritdoc
-     * @returns {ReactElement}
-     */
     render() {
         const pages = [];
         const sortedParticipants = this._getSortedParticipants();
 
         pages.push(<InFocusView
-            inFocusUser = { this.props?._participants.find(p => p.currentfocus) }
+            inFocusUser = { this.props?._participants.find(p => p[IN_FOCUS_COMMAND]) }
             isTabletDesignEnabled = { this.props._isTabletDesignEnabled }
-            key = 'in-focus-view'
             localUser = { this.props._participants.find(participant => participant.local) } />);
 
         if (!this.props._isSimplifiedConference) {
             this.props._isTabletDesignEnabled
                 ? pages.push(
-                    ...constructTabletGalleryView(
-                        sortedParticipants,
-                        this.props?._placeholderImageUrl,
-                        this._getThumbnailDimensions(),
-                        this._calculateGalleryRowCount()))
+                ...constructTabletGalleryView(
+                    sortedParticipants,
+                    this.props?._placeholderImageUrl,
+                    this._getThumbnailDimensions(),
+                    this._calculateGalleryRowCount()))
                 : pages.push(
-                    ...constructPhoneGalleryView(
-                        sortedParticipants,
-                        this._getThumbnailDimensions(),
-                        this._calculateGalleryRowCount()));
+                ...constructPhoneGalleryView(
+                    sortedParticipants,
+                    this._getThumbnailDimensions(),
+                    this._calculateGalleryRowCount()));
         }
 
         pages.push(<TapView />);
 
         this.totalPages = pages.length;
 
-        if (this.props._currentIndex >= 0 && this.swiperRef && this.swiperRef.current
-                && this.lastHandledForceIndex !== this.props._currentIndex) {
-            this.firstIndexSlide = this.props._currentIndex;
-            this.lastHandledForceIndex = this.props._currentIndex;
-        }
-
         return (
-            <TouchableWithoutFeedback
-                onPress = { this.props._onClick }
+            <View
                 style = {{
                     ...styles.tileView,
                     height: this.props._height,
                     width: this.props._width
                 }}>
-                <Swiper
-                    index = { this.firstIndexSlide }
-                    loop = { false }
-                    onIndexChanged = { this._onSwipe }
-                    ref = { this.swiperRef }
-                    showsButtons = { false }
-                    showsPagination = { false }>
-                    {pages}
-                </Swiper>
-            </TouchableWithoutFeedback>
-        );
+                <FlatList
+                    data = { pages }
+                    getItemLayout = { this._calculatePageSize }
+                    horizontal = { true }
+                    initialScrollIndex = { this.props._actualStoreSlideIndex }
+                    onMomentumScrollEnd = { this._onSwipe }
+                    pagingEnabled = { true }
+                    renderItem = { this._renderFullPage }
+                    showsHorizontalScrollIndicator = { false } />
+            </View>);
     }
 
     /**
      * Send page data to native after successful swipe action.
      *
-     * @param {number} index - Current page index.
+     * @param {number} e - Current event.
      * @private
      * @returns {void}
      */
-    _onSwipe(index: number) {
+    _onSwipe(e) {
+        const index
+            = Math.min(Math.floor((e.nativeEvent.contentOffset.x + 1) / Dimensions.get('window').width)
+                , this.totalPages);
+
         if (!isNaN(index) && this.totalPages) {
+            this.props._actualStoreSlideIndex = index;
             this.props.dispatch(swipeEvent(index, this.totalPages));
         }
     }
 
-    /**
-     * Returns all participants with the local participant at the end.
-     *
-     * @private
-     * @returns {Participant[]}
-     */
+    _calculatePageSize(data, index) {
+        return { length: Dimensions.get('window').width,
+            offset: Dimensions.get('window').width * index,
+            index };
+    }
+
+    _renderFullPage({ item }) {
+        return (<View style = {{ width: Dimensions.get('window').width }}>
+            {item}
+        </View>);
+    }
+
     _getSortedParticipants() {
         const stylist = this.props._participants
             .find(participant => participant.vipType === RoleTypeId.CABI_STYLIST);
@@ -230,12 +164,6 @@ class TileView extends Component<Props> {
             : [ stylist, localUser, hostess, cohostess ].filter(user => !_.isNil(user));
     }
 
-    /**
-     * Calculate the height and width for the tiles.
-     *
-     * @private
-     * @returns {Object}
-     */
     _getThumbnailDimensions() {
         const columns = this._calculateGalleryColumnCount();
         const tileWidth = (this.props._width / columns) - TILE_MARGIN;
@@ -258,33 +186,8 @@ class TileView extends Component<Props> {
 
         return Math.floor(heightToUse / tileHeight);
     }
-
-    /**
-     * Sets the receiver video quality based on the dimensions of the thumbnails
-     * that are displayed.
-     *
-     * @private
-     * @returns {void}
-     */
-    _updateReceiverQuality() {
-        const { height, width } = this._getThumbnailDimensions();
-
-        this.props.dispatch(setTileViewDimensions({
-            thumbnailSize: {
-                height,
-                width
-            }
-        }));
-    }
 }
 
-/**
- * Maps (parts of) the redux state to the associated {@code TileView}'s props.
- *
- * @param {Object} state - The redux state.
- * @private
- * @returns {Props}
- */
 function _mapStateToProps(state) {
     const responsiveUi = state['features/base/responsive-ui'];
     const participants = state['features/base/participants'];
@@ -293,13 +196,13 @@ function _mapStateToProps(state) {
     const { placeholderData } = state['features/filmstrip'];
 
     return {
+        _actualStoreSlideIndex: responsiveUi.currentSwiperIndex,
         _height: responsiveUi.clientHeight,
-        _width: responsiveUi.clientWidth,
-        _currentIndex: responsiveUi.currentSwiperIndex,
+        _isSimplifiedConference: isSimplifiedConference,
+        _isTabletDesignEnabled: tabletDesignEnabled,
         _participants: participants,
         _placeholderImageUrl: placeholderData.imageUrl,
-        _isSimplifiedConference: isSimplifiedConference,
-        _isTabletDesignEnabled: tabletDesignEnabled
+        _width: responsiveUi.clientWidth
     };
 }
 

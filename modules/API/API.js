@@ -8,26 +8,14 @@ import {
     sendAnalytics
 } from '../../react/features/analytics';
 import {
-    getCurrentConference,
     sendTones,
     setPassword,
     setSubject
 } from '../../react/features/base/conference';
 import { parseJWTFromURLParams } from '../../react/features/base/jwt';
-import { JitsiRecordingConstants } from '../../react/features/base/lib-jitsi-meet';
 import {
-    processExternalDeviceRequest
-} from '../../react/features/device-selection/functions';
-import { isEnabled as isDropboxEnabled } from '../../react/features/dropbox';
-import { toggleE2EE } from '../../react/features/e2ee/actions';
-import { invite } from '../../react/features/invite';
-import {
-    captureLargeVideoScreenshot,
-    resizeLargeVideo,
     selectParticipantInLargeVideo
-} from '../../react/features/large-video/actions';
-import { RECORDING_TYPES } from '../../react/features/recording/constants';
-import { getActiveSession } from '../../react/features/recording/functions';
+} from '../../react/features/large-video';
 import { muteAllParticipants } from '../../react/features/remote-video-menu/actions';
 import { toggleTileView } from '../../react/features/video-layout';
 import { setVideoQuality } from '../../react/features/video-quality';
@@ -119,11 +107,6 @@ function initCommands() {
         'proxy-connection-event': event => {
             APP.conference.onProxyConnectionEvent(event);
         },
-        'resize-large-video': (width, height) => {
-            logger.debug('Resize large video command received');
-            sendAnalytics(createApiEvent('largevideo.resized'));
-            APP.store.dispatch(resizeLargeVideo(width, height));
-        },
         'send-tones': (options = {}) => {
             const { duration, tones, pause } = options;
 
@@ -202,122 +185,10 @@ function initCommands() {
                 logger.error('Failed sending endpoint text message', err);
             }
         },
-        'toggle-e2ee': enabled => {
-            logger.debug('Toggle E2EE key command received');
-            APP.store.dispatch(toggleE2EE(enabled));
-        },
         'set-video-quality': frameHeight => {
             logger.debug('Set video quality command received');
             sendAnalytics(createApiEvent('set.video.quality'));
             APP.store.dispatch(setVideoQuality(frameHeight));
-        },
-
-        /**
-         * Starts a file recording or streaming depending on the passed on params.
-         * For youtube streams, `youtubeStreamKey` must be passed on. `youtubeBroadcastID` is optional.
-         * For dropbox recording, recording `mode` should be `file` and a dropbox oauth2 token must be provided.
-         * For file recording, recording `mode` should be `file` and optionally `shouldShare` could be passed on.
-         * No other params should be passed.
-         *
-         * @param { string } arg.mode - Recording mode, either `file` or `stream`.
-         * @param { string } arg.dropboxToken - Dropbox oauth2 token.
-         * @param { boolean } arg.shouldShare - Whether the recording should be shared with the participants or not.
-         * Only applies to certain jitsi meet deploys.
-         * @param { string } arg.youtubeStreamKey - The youtube stream key.
-         * @param { string } arg.youtubeBroadcastID - The youtube broacast ID.
-         * @returns {void}
-         */
-        'start-recording': ({ mode, dropboxToken, shouldShare, youtubeStreamKey, youtubeBroadcastID }) => {
-            const state = APP.store.getState();
-            const conference = getCurrentConference(state);
-
-            if (!conference) {
-                logger.error('Conference is not defined');
-
-                return;
-            }
-
-            if (dropboxToken && !isDropboxEnabled(state)) {
-                logger.error('Failed starting recording: dropbox is not enabled on this deployment');
-
-                return;
-            }
-
-            if (mode === JitsiRecordingConstants.mode.STREAM && !youtubeStreamKey) {
-                logger.error('Failed starting recording: missing youtube stream key');
-
-                return;
-            }
-
-            let recordingConfig;
-
-            if (mode === JitsiRecordingConstants.mode.FILE) {
-                if (dropboxToken) {
-                    recordingConfig = {
-                        mode: JitsiRecordingConstants.mode.FILE,
-                        appData: JSON.stringify({
-                            'file_recording_metadata': {
-                                'upload_credentials': {
-                                    'service_name': RECORDING_TYPES.DROPBOX,
-                                    'token': dropboxToken
-                                }
-                            }
-                        })
-                    };
-                } else {
-                    recordingConfig = {
-                        mode: JitsiRecordingConstants.mode.FILE,
-                        appData: JSON.stringify({
-                            'file_recording_metadata': {
-                                'share': shouldShare
-                            }
-                        })
-                    };
-                }
-            } else if (mode === JitsiRecordingConstants.mode.STREAM) {
-                recordingConfig = {
-                    broadcastId: youtubeBroadcastID,
-                    mode: JitsiRecordingConstants.mode.STREAM,
-                    streamId: youtubeStreamKey
-                };
-            } else {
-                logger.error('Invalid recording mode provided');
-
-                return;
-            }
-
-            conference.startRecording(recordingConfig);
-        },
-
-        /**
-         * Stops a recording or streaming in progress.
-         *
-         * @param {string} mode - `file` or `stream`.
-         * @returns {void}
-         */
-        'stop-recording': mode => {
-            const state = APP.store.getState();
-            const conference = getCurrentConference(state);
-
-            if (!conference) {
-                logger.error('Conference is not defined');
-
-                return;
-            }
-
-            if (![ JitsiRecordingConstants.mode.FILE, JitsiRecordingConstants.mode.STREAM ].includes(mode)) {
-                logger.error('Invalid recording mode provided!');
-
-                return;
-            }
-
-            const activeSession = getActiveSession(state, mode);
-
-            if (activeSession && activeSession.id) {
-                conference.stopRecording(activeSession.id);
-            } else {
-                logger.error('No recording or streaming session found');
-            }
         }
     };
     transport.on('event', ({ data, name }) => {
@@ -330,62 +201,9 @@ function initCommands() {
         return false;
     });
     transport.on('request', (request, callback) => {
-        const { dispatch, getState } = APP.store;
-
-        if (processExternalDeviceRequest(dispatch, getState, request, callback)) {
-            return true;
-        }
-
         const { name } = request;
 
         switch (name) {
-        case 'capture-largevideo-screenshot' :
-            APP.store.dispatch(captureLargeVideoScreenshot())
-                .then(dataURL => {
-                    let error;
-
-                    if (!dataURL) {
-                        error = new Error('No large video found!');
-                    }
-
-                    callback({
-                        error,
-                        dataURL
-                    });
-                });
-            break;
-        case 'invite': {
-            const { invitees } = request;
-
-            if (!Array.isArray(invitees) || invitees.length === 0) {
-                callback({
-                    error: new Error('Unexpected format of invitees')
-                });
-
-                break;
-            }
-
-            // The store should be already available because API.init is called
-            // on appWillMount action.
-            APP.store.dispatch(
-                invite(invitees, true))
-                .then(failedInvitees => {
-                    let error;
-                    let result;
-
-                    if (failedInvitees.length) {
-                        error = new Error('One or more invites failed!');
-                    } else {
-                        result = true;
-                    }
-
-                    callback({
-                        error,
-                        result
-                    });
-                });
-            break;
-        }
         case 'is-audio-muted':
             callback(APP.conference.isLocalAudioMuted());
             break;

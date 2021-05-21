@@ -23,7 +23,7 @@ const DEFAULT_STATE = {
     aspectRatio: ASPECT_RATIO_NARROW,
     clientHeight: innerHeight,
     clientWidth: innerWidth,
-    currentSwiperIndex: -1,
+    currentSwiperIndex: 0,
     showWrapUpButtons: false,
     reducedUI: false
 };

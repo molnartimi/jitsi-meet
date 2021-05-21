@@ -5,7 +5,6 @@ import Logger from 'jitsi-meet-logger';
 
 import * as JitsiMeetConferenceEvents from './ConferenceEvents';
 import { openConnection } from './connection';
-import { ENDPOINT_TEXT_MESSAGE_NAME } from './modules/API/constants';
 import AuthHandler from './modules/UI/authentication/AuthHandler';
 import UIUtil from './modules/UI/util/UIUtil';
 import mediaDeviceHelper from './modules/devices/mediaDeviceHelper';
@@ -109,11 +108,6 @@ import {
     getJitsiMeetGlobalNS
 } from './react/features/base/util';
 import { showDesktopPicker } from './react/features/desktop-picker';
-import { appendSuffix } from './react/features/display-name';
-import {
-    maybeOpenFeedbackDialog,
-    submitFeedback
-} from './react/features/feedback';
 import { UNDEFINED_JITSI_ERROR } from './react/features/mobile/external-api/actions';
 import { showNotification } from './react/features/notifications';
 import { mediaPermissionPromptVisibilityChanged } from './react/features/overlay';
@@ -129,7 +123,6 @@ import { toggleScreenshotCaptureEffect } from './react/features/screenshot-captu
 import { setSharedVideoStatus } from './react/features/shared-video';
 import { AudioMixerEffect } from './react/features/stream-effects/audio-mixer/AudioMixerEffect';
 import { createPresenterEffect } from './react/features/stream-effects/presenter';
-import { endpointMessageReceived } from './react/features/subtitles';
 import UIEvents from './service/UI/UIEvents';
 import * as RemoteControlEvents
     from './service/remotecontrol/RemoteControlEvents';
@@ -2147,10 +2140,7 @@ export default {
                 }));
                 APP.API.notifyDisplayNameChanged(id, {
                     displayName: formattedDisplayName,
-                    formattedDisplayName:
-                        appendSuffix(
-                            formattedDisplayName
-                                || interfaceConfig.DEFAULT_REMOTE_DISPLAY_NAME)
+                    formattedDisplayName
                 });
                 APP.UI.changeDisplayName(id, formattedDisplayName);
             }
@@ -2166,25 +2156,6 @@ export default {
                 }));
             }
         );
-
-        room.on(
-            JitsiConferenceEvents.ENDPOINT_MESSAGE_RECEIVED,
-            (...args) => {
-                APP.store.dispatch(endpointMessageReceived(...args));
-                if (args && args.length >= 2) {
-                    const [ sender, eventData ] = args;
-
-                    if (eventData.name === ENDPOINT_TEXT_MESSAGE_NAME) {
-                        APP.API.notifyEndpointTextMessageReceived({
-                            senderInfo: {
-                                jid: sender._jid,
-                                id: sender._id
-                            },
-                            eventData
-                        });
-                    }
-                }
-            });
 
         room.on(
             JitsiConferenceEvents.LOCK_STATE_CHANGED,
@@ -2849,7 +2820,7 @@ export default {
      * @param {boolean} [requestFeedback=false] if user feedback should be
      * requested
      */
-    hangup(requestFeedback = false) {
+    hangup() {
         eventEmitter.emit(JitsiMeetConferenceEvents.BEFORE_HANGUP);
 
         this._stopProxyConnection();
@@ -2869,24 +2840,11 @@ export default {
         APP.UI.removeAllListeners();
         APP.remoteControl.removeAllListeners();
 
-        let requestFeedbackPromise;
-
-        if (requestFeedback) {
-            requestFeedbackPromise
-                = APP.store.dispatch(maybeOpenFeedbackDialog(room))
-
-                    // false because the thank you dialog shouldn't be displayed
-                    .catch(() => Promise.resolve(false));
-        } else {
-            requestFeedbackPromise = Promise.resolve(true);
-        }
-
         // All promises are returning Promise.resolve to make Promise.all to
         // be resolved when both Promises are finished. Otherwise Promise.all
         // will reject on first rejected Promise and we can redirect the page
         // before all operations are done.
         Promise.all([
-            requestFeedbackPromise,
             this.leaveRoomAndDisconnect()
         ]).then(values => {
             this._room = undefined;
@@ -3169,22 +3127,6 @@ export default {
     setAudioMuteStatus(muted) {
         APP.UI.setAudioMuted(this.getMyUserId(), muted);
         APP.API.notifyAudioMutedStatusChanged(muted);
-    },
-
-    /**
-     * Dispatches the passed in feedback for submission. The submitted score
-     * should be a number inclusively between 1 through 5, or -1 for no score.
-     *
-     * @param {number} score - a number between 1 and 5 (inclusive) or -1 for no
-     * score.
-     * @param {string} message - An optional message to attach to the feedback
-     * in addition to the score.
-     * @returns {void}
-     */
-    submitFeedback(score = -1, message = '') {
-        if (score === -1 || (score >= 1 && score <= 5)) {
-            APP.store.dispatch(submitFeedback(score, message, room));
-        }
     },
 
     /**

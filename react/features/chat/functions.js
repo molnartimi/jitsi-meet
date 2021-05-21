@@ -1,10 +1,5 @@
 // @flow
 
-import aliases from 'react-emoji-render/data/aliases';
-import emojiAsciiAliases from 'react-emoji-render/data/asciiAliases';
-
-import { escapeRegexp } from '../base/util';
-
 /**
  * An ASCII emoticon regexp array to find and replace old-style ASCII
  * emoticons (such as :O) to new Unicode representation, so then devices
@@ -17,26 +12,6 @@ import { escapeRegexp } from '../base/util';
  */
 const EMOTICON_REGEXP_ARRAY: Array<Array<Object>> = [];
 
-(function() {
-    for (const [ key, value ] of Object.entries(aliases)) {
-        let escapedValues;
-        const asciiEmojies = emojiAsciiAliases[key];
-
-        // Adding ascii emoticons
-        if (asciiEmojies) {
-            escapedValues = asciiEmojies.map(v => escapeRegexp(v));
-        } else {
-            escapedValues = [];
-        }
-
-        // Adding slack-type emoji format
-        escapedValues.push(escapeRegexp(`:${key}:`));
-
-        const regexp = `\\B(${escapedValues.join('|')})\\B`;
-
-        EMOTICON_REGEXP_ARRAY.push([ new RegExp(regexp, 'g'), value ]);
-    }
-})();
 
 /**
  * Replaces ascii and other non-unicode emoticons with unicode emojis to let the emojis be rendered

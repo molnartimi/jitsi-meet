@@ -10,11 +10,8 @@ import { JitsiParticipantConnectionStatus } from '../../lib-jitsi-meet';
 import {
     MEDIA_TYPE
 } from '../../media';
-import { Container, TintedView } from '../../react';
 import { connect } from '../../redux';
-import type { StyleType } from '../../styles';
 import { getTrackByMediaTypeAndParticipant } from '../../tracks';
-import { shouldRenderParticipantVideo, getParticipantById } from '../functions';
 
 import styles from './styles';
 
@@ -22,106 +19,18 @@ import styles from './styles';
  * The type of the React {@link Component} props of {@link ParticipantView}.
  */
 type Props = {
-
-    /**
-     * The connection status of the participant. Her video will only be rendered
-     * if the connection status is 'active'; otherwise, the avatar will be
-     * rendered. If undefined, 'active' is presumed.
-     *
-     * @private
-     */
+    _avatarSize: number,
     _connectionStatus: string,
-
-    /**
-     * The name of the participant which this component represents.
-     *
-     * @private
-     */
+    _isAvatarCircled: boolean,
+    _isConnectivityLabelShown: boolean,
+    _isTabletDesignEnabled: boolean,
+    _inFocusStyle: Object,
     _participantName: string,
-
-    /**
-     * True if the video should be rendered, false otherwise.
-     */
+    _profileImageUrl: string,
     _renderVideo: boolean,
-
-    /**
-     * The video Track of the participant with {@link #participantId}.
-     */
     _videoTrack: Object,
-
-    /**
-     * The avatar size.
-     */
-    avatarSize: number,
-
-    /**
-     * Whether video should be disabled for his view.
-     */
-    disableVideo: ?boolean,
-
-    /**
-     * Callback to invoke when the {@code ParticipantView} is clicked/pressed.
-     */
-    onPress: Function,
-
-    /**
-     * The ID of the participant (to be) depicted by {@link ParticipantView}.
-     *
-     * @public
-     */
-    participantId: string,
-
-    /**
-     * The style, if any, to apply to {@link ParticipantView} in addition to its
-     * default style.
-     */
-    style: Object,
-
-    /**
-     * The function to translate human-readable text.
-     */
-    t: Function,
-
-    /**
-     * If true, a tinting will be applied to the view, regardless of video or
-     * avatar is rendered.
-     */
-    tintEnabled: boolean,
-
-    /**
-     * The style of the tinting when applied.
-     */
-    tintStyle: StyleType,
-
-    /**
-     * The test hint id which can be used to locate the {@code ParticipantView}
-     * on the jitsi-meet-torture side. If not provided, the
-     * {@code participantId} with the following format will be used:
-     * {@code `org.jitsi.meet.Participant#${participantId}`}
-     */
-    testHintId: ?string,
-
-    /**
-     * Indicates if the connectivity info label should be shown, if appropriate.
-     * It will be shown in case the connection is interrupted.
-     */
-    useConnectivityInfoLabel: boolean,
-
-    /**
-     * The z-order of the {@link Video} of {@link ParticipantView} in the
-     * stacking space of all {@code Video}s. For more details, refer to the
-     * {@code zOrder} property of the {@code Video} class for React Native.
-     */
-    zOrder: number,
-
-    /**
-     * Indicates whether zooming (pinch to zoom and/or drag) is enabled.
-     */
-    zoomEnabled: boolean,
-    isAvatarCircled: boolean,
-    profileImageUrl: string,
-    inFocusStyle: boolean,
-    isTabletDesignEnabled: boolean,
+    _style: Object,
+    _zOrder: number
 };
 
 
@@ -142,27 +51,19 @@ class ParticipantView extends Component<Props> {
      * @returns {ReactElement|null}
      */
     _renderConnectionInfo(connectionStatus) {
-        let messageKey;
+        let messageKey = '';
 
         switch (connectionStatus) {
         case JitsiParticipantConnectionStatus.INACTIVE:
-            messageKey = 'connection.LOW_BANDWIDTH';
+            messageKey = 'has low bandwidth';
             break;
         default:
-            return null;
+            return '';
         }
 
-        const {
-            avatarSize,
-            _participantName: displayName,
-            t
-        } = this.props;
-
-        // XXX Consider splitting this component into 2: one for the large view
-        // and one for the thumbnail. Some of these don't apply to both.
         const containerStyle = {
             ...styles.connectionInfoContainer,
-            width: avatarSize * 1.5
+            width: this.props._avatarSize * 1.5
         };
 
         return (
@@ -170,7 +71,7 @@ class ParticipantView extends Component<Props> {
                 pointerEvents = 'box-none'
                 style = { containerStyle }>
                 <Text style = { styles.connectionInfoText }>
-                    { t(messageKey, { displayName }) }
+                    { `${this.props._participantName} ${messageKey}` }
                 </Text>
             </View>
         );
@@ -183,71 +84,51 @@ class ParticipantView extends Component<Props> {
      * @returns {ReactElement}
      */
     render() {
-        const {
-            _connectionStatus: connectionStatus,
-            _renderVideo: renderVideo,
-            _videoTrack: videoTrack,
-            onPress,
-            tintStyle
-        } = this.props;
-
-        // If the connection has problems, we will "tint" the video / avatar.
-        const connectionProblem
-            = connectionStatus !== JitsiParticipantConnectionStatus.ACTIVE;
-        const useTint
-            = connectionProblem || this.props.tintEnabled;
-        const objectFit = this.props.isTabletDesignEnabled && this.props.inFocusStyle ? 'contain' : 'cover';
+        const objectFit = this.props._isTabletDesignEnabled && this.props._inFocusStyle ? 'contain' : 'cover';
 
         return (
-            <Container
-                onClick = { renderVideo ? undefined : onPress }
+            <View
                 style = {{
                     ...styles.participantView,
-                    ...this.props.style
+                    ...this.props._style
                 }}
                 touchFeedback = { false }>
 
-                { renderVideo
-                    && <RTCView
-                        mirror = { videoTrack?.mirror }
+                { this.props._renderVideo
+                    ? <RTCView
+                        mirror = { this.props._videoTrack?.mirror }
                         objectFit = { objectFit }
-                        streamURL = { videoTrack.jitsiTrack.getOriginalStream().toURL() }
-                        style = { this.props.inFocusStyle
+                        streamURL = { this.props._videoTrack?.jitsiTrack?.getOriginalStream()?.toURL() }
+                        style = { this.props._inFocusStyle
                             ? { ...this._getFocusStyle(),
-                                ...this.props.style }
+                                ...this.props._style }
                             : { ...styles.participantView,
-                                ...this.props.style }
+                                ...this.props._style }
                         }
-                        zOrder = { this.props.zOrder } />
+                        zOrder = { this.props._zOrder } />
+
+                    : <View style = { styles.avatarContainer }>
+                        <Image
+                            source = { _.isNil(this.props._profileImageUrl)
+                                ? require('../../../../../resources/img/default_user_icon.png')
+                                : { uri: this.props._profileImageUrl } }
+                            style = { this.props._isAvatarCircled
+                                ? { ...styles.circleAvatar,
+                                    width: this.props._avatarSize,
+                                    height: this.props._avatarSize,
+                                    borderRadius: this.props._avatarSize / 2 }
+                                : { ...styles.avatarContainer } } />
+                    </View>
                 }
 
-                { !renderVideo
-                    && <View style = { styles.avatarContainer }>
-                        <Image
-                            source = { _.isNil(this.props.profileImageUrl)
-                                ? require('../../../../../resources/img/default_user_icon.png')
-                                : { uri: this.props.profileImageUrl } }
-                            style = { this.props.isAvatarCircled
-                                ? { ...styles.circleAvatar,
-                                    width: this.props.avatarSize,
-                                    height: this.props.avatarSize,
-                                    borderRadius: this.props.avatarSize / 2 }
-                                : { ...styles.avatarContainer } } />
-                    </View> }
-
-                { useTint // If the connection has problems, tint the video / avatar.
-                    && <TintedView
-                        style = {
-                            connectionProblem ? undefined : tintStyle } /> }
-
-                { this.props.useConnectivityInfoLabel
-                    && this._renderConnectionInfo(connectionStatus) }
-            </Container>
+                { this.props._isConnectivityLabelShown
+                    && this._renderConnectionInfo(this.props._connectionStatus) }
+            </View>
         );
     }
 
     _getFocusStyle() {
-        return this.props.isTabletDesignEnabled
+        return this.props._isTabletDesignEnabled
             ? styles.inFocusParticipantTablet
             : styles.inFocusParticipantMobile;
     }
@@ -264,24 +145,41 @@ class ParticipantView extends Component<Props> {
  * @returns {Props}
  */
 function _mapStateToProps(state, ownProps) {
-    const { disableVideo, participantId, isAvatarCircled, inFocusStyle, isTabletDesignEnabled } = ownProps;
-    const participant = getParticipantById(state, participantId);
-    let connectionStatus;
+    const { avatarSize,
+        participantId,
+        isAvatarCircled,
+        isConnectivityLabelShown,
+        isTabletDesignEnabled,
+        inFocusStyle,
+        zOrder,
+        style } = ownProps;
+
+    const participants = state['features/base/participants'];
+    const currentParticipant = participants.find(user => user.id === participantId);
+
+    const tracks = state['features/base/tracks'];
+    const videoTrack = getTrackByMediaTypeAndParticipant(
+        tracks,
+        MEDIA_TYPE.VIDEO,
+        participantId);
+
+    const isParticipantVideoMuted = currentParticipant.local
+        ? state['features/base/media']?.video?.muted ?? true
+        : videoTrack?.jitsiTrack?.muted ?? true;
 
     return {
-        _connectionStatus:
-            connectionStatus
-                || JitsiParticipantConnectionStatus.ACTIVE,
-        _renderVideo: shouldRenderParticipantVideo(state, participantId) && !disableVideo,
-        _videoTrack:
-            getTrackByMediaTypeAndParticipant(
-                state['features/base/tracks'],
-                MEDIA_TYPE.VIDEO,
-                participantId),
-        inFocusStyle,
-        isAvatarCircled,
-        profileImageUrl: participant?.loadableAvatarUrl,
-        isTabletDesignEnabled
+        _avatarSize: avatarSize,
+        _connectionStatus: JitsiParticipantConnectionStatus.ACTIVE,
+        _isAvatarCircled: isAvatarCircled ?? false,
+        _isConnectivityLabelShown: isConnectivityLabelShown ?? false,
+        _isTabletDesignEnabled: isTabletDesignEnabled ?? false,
+        _inFocusStyle: inFocusStyle,
+        _participantName: currentParticipant?.name ?? '',
+        _profileImageUrl: currentParticipant?.loadableAvatarUrl ?? currentParticipant?.avatarURL ?? undefined,
+        _renderVideo: !isParticipantVideoMuted,
+        _style: style,
+        _videoTrack: videoTrack,
+        _zOrder: zOrder
     };
 }
 

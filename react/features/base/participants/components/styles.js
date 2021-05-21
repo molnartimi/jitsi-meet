@@ -16,6 +16,7 @@ export default {
      * Container for the avatar in the view.
      */
     avatarContainer: {
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         width: '100%',
