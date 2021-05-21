@@ -183,7 +183,10 @@ export default {
 
     osSpecificRoundedBorderedView: {
         overflow: 'hidden',
-        borderRadius: 15,
+        borderTopLeftRadius: 15,
+        borderTopRightRadius: 15,
+        borderBottomLeftRadius: 15,
+        borderBottomRightRadius: 15,
         overlayColor: 'white'
     },
 
