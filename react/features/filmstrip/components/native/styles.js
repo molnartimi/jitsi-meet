@@ -1,5 +1,7 @@
 // @flow
 
+import { Platform } from 'react-native';
+
 import { ColorSchemeRegistry, schemeColor } from '../../../base/color-scheme';
 import { ColorPalette } from '../../../base/styles';
 
@@ -183,11 +185,10 @@ export default {
 
     osSpecificRoundedBorderedView: {
         overflow: 'hidden',
-        borderTopLeftRadius: 15,
-        borderTopRightRadius: 15,
-        borderBottomLeftRadius: 15,
-        borderBottomRightRadius: 15,
-        overlayColor: 'white'
+        ...Platform.select({
+            ios: { borderRadius: 15 },
+            android: { borderRadius: 0 }
+        })
     },
 
     microphoneViewStyle: {
