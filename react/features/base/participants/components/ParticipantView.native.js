@@ -1,6 +1,5 @@
 // @flow
 
-import _ from 'lodash';
 import React, { Component } from 'react';
 import { Image, Text, View } from 'react-native';
 import { RTCView } from 'react-native-webrtc';
@@ -12,6 +11,7 @@ import {
 } from '../../media';
 import { connect } from '../../redux';
 import { getTrackByMediaTypeAndParticipant } from '../../tracks';
+import { getImageUrl, getDefaultUserIcon } from '../functions';
 
 import styles from './styles';
 
@@ -41,6 +41,12 @@ type Props = {
  * @extends Component
  */
 class ParticipantView extends Component<Props> {
+
+    constructor() {
+        super();
+        this.state = { hasImageError: false };
+        this._onImageError = this._onImageError.bind(this);
+    }
 
     /**
      * Renders the connection status label, if appropriate.
@@ -84,6 +90,8 @@ class ParticipantView extends Component<Props> {
      * @returns {ReactElement}
      */
     render() {
+        const imageUrl = this.state.hasImageError
+            ? getDefaultUserIcon() : getImageUrl(this.props._profileImageUrl);
         const objectFit = this.props._isTabletDesignEnabled && this.props._inFocusStyle ? 'contain' : 'cover';
 
         return (
@@ -109,9 +117,8 @@ class ParticipantView extends Component<Props> {
 
                     : <View style = { styles.avatarContainer }>
                         <Image
-                            source = { _.isNil(this.props._profileImageUrl)
-                                ? require('../../../../../resources/img/default_user_icon.png')
-                                : { uri: this.props._profileImageUrl } }
+                            onError = { this._onImageError }
+                            source = { imageUrl }
                             style = { this.props._isAvatarCircled
                                 ? { ...styles.circleAvatar,
                                     width: this.props._avatarSize,
@@ -131,6 +138,10 @@ class ParticipantView extends Component<Props> {
         return this.props._isTabletDesignEnabled
             ? styles.inFocusParticipantTablet
             : styles.inFocusParticipantMobile;
+    }
+
+    _onImageError() {
+        this.setState({ hasImageError: true });
     }
 }
 
