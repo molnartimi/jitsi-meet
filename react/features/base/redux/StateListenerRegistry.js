@@ -124,12 +124,12 @@ class StateListenerRegistry {
             } catch (e) {
                 // Don't let one faulty listener prevent other listeners from
                 // being notified about their associated changes.
-                const localErrorMessage = 'Listener fault!';
+                const localErrorMessage = 'Listener fault';
 
                 logger.error(localErrorMessage, e);
                 store.dispatch({
                     type: UNDEFINED_JITSI_ERROR,
-                    message: localErrorMessage
+                    message: `${localErrorMessage}: ${e.message}`
                 });
             }
         }
