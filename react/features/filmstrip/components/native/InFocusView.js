@@ -7,6 +7,7 @@ import { Dispatch } from 'redux';
 
 import { generateNamePrefix } from '../../../base/conference';
 import { MEDIA_TYPE } from '../../../base/media';
+import { getImageUrl, getDefaultUserIcon } from '../../../base/participants/functions';
 import { connect } from '../../../base/redux';
 import { getTrackByMediaTypeAndParticipant } from '../../../base/tracks';
 import { shopButtonEvent } from '../../actions.native';
@@ -48,9 +49,11 @@ class InFocusView extends Component<Props> {
      */
     constructor() {
         super();
+        this.state = { hasImageError: false };
         this._onTimeToShopLookBook = this._onTimeToShopLookBook.bind(this);
         this._onTimeToShopCollection = this._onTimeToShopCollection.bind(this);
         this._onTimeToShopFavs = this._onTimeToShopFavs.bind(this);
+        this._onImageError = this._onImageError.bind(this);
     }
 
     /**
@@ -76,13 +79,15 @@ class InFocusView extends Component<Props> {
     }
 
     _createTemplateImageComponent() {
+        const imageUrl = this.state.hasImageError
+            ? getDefaultUserIcon() : getImageUrl(this.props._placeholderData?.imageUrl);
+
         return (
             <View
                 style = { styles.imageContainer }>
                 <Image
-                    source = { _.isNil(this.props._placeholderData?.imageUrl)
-                        ? require('../../../../../resources/img/default_user_icon.png')
-                        : { uri: this.props._placeholderData?.imageUrl } }
+                    onError = { this._onImageError }
+                    source = { imageUrl }
                     style = { _.isNil(this.props._placeholderData?.imageUrl)
                         ? styles.placeholderImage
                         : styles.fillView } />
@@ -268,6 +273,10 @@ class InFocusView extends Component<Props> {
 
     _onTimeToShop(navigationTarget: string) {
         this.props.dispatch(shopButtonEvent(navigationTarget));
+    }
+
+    _onImageError() {
+        this.setState({ hasImageError: true });
     }
 
     _createCountdownIfNeeded() {
