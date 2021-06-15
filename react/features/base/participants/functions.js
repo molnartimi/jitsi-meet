@@ -1,6 +1,7 @@
 // @flow
 
 import { getGravatarURL } from '@jitsi/js-utils/avatar';
+import _ from 'lodash';
 
 import { JitsiParticipantConnectionStatus } from '../lib-jitsi-meet';
 import { MEDIA_TYPE, shouldRenderVideoTrack } from '../media';
@@ -412,4 +413,12 @@ export function getXmppLoginIdFromUserId(videoUserId: string): string {
     }
 
     return videoUserId;
+}
+
+export function getImageUrl(uri: string) {
+    return _.isNil(uri) ? getDefaultUserIcon() : { uri };
+}
+
+export function getDefaultUserIcon() {
+    return require('../../../../resources/img/default_user_icon.png');
 }
