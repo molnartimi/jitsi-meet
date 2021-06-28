@@ -74,15 +74,16 @@ $ docker exec -it jitsi-build /bin/bash
 5) After that's finished, run `npx react-native run-android`
 
 ##### Build in Mac/Linux
-To build the jitsi meet SDK for android, run the following commands from the project' root directory:
+To build the Jitsi Meet SDK for android, first setup your environment with the following commands from the project's root directory:
 ```
 $ cd jitsi-meet
-// checkout the appropriate branch (at the time of writing, that's VS-mobile-integration)
+$ git checkout master && git pull
 $ npm install
 $ brew install jq               # macOS
 $ brew install coreutils        # macOS
 $ sudo apt install coreutils jq # Linux based OSes. Substitute apt install with the approriate command/switches for whatever packaging system you use.
-$ ./android/scripts/release-sdk.sh <absolute_path_to>/jitsi-maven-repo
 ```
-
-Last command will build the SDK & publish the built SDK as maven artifacts to the specified Maven repository.
+If these are done, you can build the SDK & publish the built SDK as maven artifacts this way:
+```
+$ ./android/scripts/release-sdk.sh ~/.m2/repository/
+```
