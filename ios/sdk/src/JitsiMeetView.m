@@ -192,6 +192,10 @@ static void initializeViewsMap() {
     [eventEmitter muteVideoConferenceAudio:mute];
 }
 
+- (void)muteStylistAudio:(NSNumber *_Nonnull)mute {
+    [eventEmitter muteStylistAudio:mute];
+}
+
 - (void)setIsSimplifiedConference:(NSNumber *_Nonnull)isSimplifiedConference {
     [eventEmitter setIsSimplifiedConference:isSimplifiedConference];
 }

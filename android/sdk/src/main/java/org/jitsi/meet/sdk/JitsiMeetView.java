@@ -281,6 +281,13 @@ public class JitsiMeetView extends BaseReactView<JitsiMeetViewListener>
     }
 
     /**
+     * Mute/unmute remote stylist audio tracks in video conference locally.
+     */
+    public static void muteStylistAudio(boolean mute) {
+        VideoConfBridge.muteStylistAudio(mute);
+    }
+
+    /**
      * Helper method to set the React Native props.
      * @param newProps - New props to be set on the React Native view.
      */
