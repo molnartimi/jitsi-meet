@@ -233,7 +233,11 @@ export class AbstractApp extends BaseApp<Props, *> {
                     audioMuted, videoMuted, noCam, noMic, commandsToListenTo, preferredSenderVideoResolution));
             }));
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.VIDEOCONF_LEAVE,
-            () => dispatch(appLeaveRoom())));
+            () => {
+                dispatch(appLeaveRoom());
+                dispatch(editSpeakerViewVisibility(false));
+                dispatch(updateSwiperIndex(0));
+            }));
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.MUTE_MEDIA,
             (dataJsonString: string) => dispatch(muteMedia(dataJsonString, this.state.store.dispatch))));
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.SWITCH_CAMERA,

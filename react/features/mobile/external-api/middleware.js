@@ -30,6 +30,7 @@ import { getLogger } from '../../base/logging';
 import { SPEAKER_FRAME_VIDEO_TRACK_CHANGE, PARTICIPANT_JOINED, PARTICIPANT_LEFT } from '../../base/participants';
 import { MiddlewareRegistry } from '../../base/redux';
 import { TRACK_ADDED } from '../../base/tracks';
+import { SET_FATAL_ERROR } from '../../overlay/actionTypes';
 import { ENTER_PICTURE_IN_PICTURE } from '../picture-in-picture';
 
 import { UNDEFINED_JITSI_ERROR } from './actions';
@@ -200,6 +201,13 @@ MiddlewareRegistry.register(store => next => action => {
                     remoteDescriptions: getRemoteDescriptions(store, logger)
                 }), true)
             });
+        }
+        break;
+    }
+
+    case SET_FATAL_ERROR: {
+        if (action.fatalError) {
+            _sendErrorToNativeApp(store, `${action.fatalError.name}: ${action.fatalError.message}`);
         }
         break;
     }
