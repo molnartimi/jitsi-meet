@@ -22,7 +22,8 @@ import {
     TRACK_NO_DATA_FROM_SOURCE,
     TRACK_REMOVED,
     TRACK_UPDATED,
-    MUTE_CONFERENCE_AUDIO
+    MUTE_CONFERENCE_AUDIO,
+    MUTE_STYLIST_AUDIO
 } from './actionTypes';
 import {
     createLocalTracksA,
@@ -92,6 +93,20 @@ MiddlewareRegistry.register(store => next => action => {
                 const mediaStreamTrack = track.jitsiTrack.getTrack();
 
                 mediaStreamTrack.enabled = !action.mute;
+            });
+        break;
+    }
+
+    case MUTE_STYLIST_AUDIO: {
+        const tracks = store.getState()['features/base/tracks'];
+
+        tracks.filter(track => track.jitsiTrack && !track.jitsiTrack.isLocal() && track.jitsiTrack.isAudioTrack())
+            .forEach(track => {
+                const mediaStreamTrack = track.jitsiTrack.getTrack();
+
+                if (!track.participantId.includes('\\40')) {
+                    mediaStreamTrack.enabled = !action.mute;
+                }
             });
         break;
     }

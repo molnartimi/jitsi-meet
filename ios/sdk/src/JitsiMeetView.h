@@ -128,6 +128,11 @@
 - (void)muteVideoConferenceAudio:(NSNumber *_Nonnull)mute;
 
 /**
+ * Mute/unmute remote stylist audio tracks in video conference locally.
+ */
+- (void)muteStylistAudio:(NSNumber *_Nonnull)mute;
+
+/**
  * Sets whether video conference is simplified.
  */
 - (void)setIsSimplifiedConference:(NSNumber *_Nonnull)isSimplifiedConference;

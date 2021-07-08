@@ -106,6 +106,10 @@
     [_videoConfBridge muteVideoConferenceAudio:mute];
 }
 
+- (void)muteStylistAudio:(NSNumber *_Nonnull)mute {
+    [_videoConfBridge muteStylistAudio:mute];
+}
+
 - (void)setIsSimplifiedConference:(NSNumber *_Nonnull)isSimplifiedConference {
     [_videoConfBridge setIsSimplifiedConference:isSimplifiedConference];
 }

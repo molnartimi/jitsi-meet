@@ -15,7 +15,7 @@ import { NativeEvents } from '../../base/constants';
 import { muteMedia, toggleCameraFacingMode } from '../../base/media';
 import { updateUserAvatar } from '../../base/participants';
 import { showWrapUpButtons, updateSwiperIndex } from '../../base/responsive-ui';
-import { muteConferenceAudio } from '../../base/tracks';
+import { muteConferenceAudio, muteStylistAudio } from '../../base/tracks';
 import { toURLString } from '../../base/util';
 import { setPlaceholderData, setCountdown } from '../../filmstrip';
 import { UNDEFINED_JITSI_ERROR } from '../../mobile/external-api/actions';
@@ -264,6 +264,8 @@ export class AbstractApp extends BaseApp<Props, *> {
             (jsonString: string) => dispatch(updateUserAvatar(jsonString))));
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.MUTE_CONFERENCE_AUDIO,
             (mute: boolean) => dispatch(muteConferenceAudio(mute))));
+        this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.MUTE_STYLIST_AUDIO,
+            (mute: boolean) => dispatch(muteStylistAudio(mute))));
         this.nativeEventListeners.push(videoConfBridgeEmitter.addListener(NativeEvents.SET_IS_SIMPLIFIED_CONFERENCE,
             (isSimplifiedConference: boolean) => dispatch(isSimplifiedConferenceChange(isSimplifiedConference))));
     }

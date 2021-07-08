@@ -114,3 +114,13 @@ export const TRACK_WILL_CREATE = 'TRACK_WILL_CREATE';
  * }
  */
 export const MUTE_CONFERENCE_AUDIO = 'MUTE_CONFERENCE_AUDIO';
+
+/**
+ * The type of redux action dispatched when remote stylist audio tracks should be muted/unmuted locally.
+ *
+ * {
+ *     type: MUTE_STYLIST_AUDIO,
+ *     mute: boolean
+ * }
+ */
+export const MUTE_STYLIST_AUDIO = 'MUTE_STYLIST_AUDIO';

@@ -17,6 +17,7 @@ import { getLocalParticipant } from '../participants';
 
 import {
     MUTE_CONFERENCE_AUDIO,
+    MUTE_STYLIST_AUDIO,
     SET_NO_SRC_DATA_NOTIFICATION_UID,
     TOGGLE_SCREENSHARING,
     TRACK_ADDED,
@@ -705,6 +706,22 @@ export function setNoSrcDataNotificationUid(uid) {
 export function muteConferenceAudio(mute: boolean) {
     return {
         type: MUTE_CONFERENCE_AUDIO,
+        mute
+    };
+}
+
+/**
+ * Mute/unmute remote stylist audio tracks locally.
+ *
+ * @param {boolean} mute - Target state of remote tracks.
+ * @returns {{
+ *      type: MUTE_STYLIST_AUDIO,
+ *      mute: boolean
+ * }}
+ */
+export function muteStylistAudio(mute: boolean) {
+    return {
+        type: MUTE_STYLIST_AUDIO,
         mute
     };
 }

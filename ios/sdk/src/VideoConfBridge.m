@@ -26,6 +26,7 @@ static NSString *const SET_COUNTDOWN_EVENT = @"org.jitsi.meet:features/videoconf
 static NSString *const SHOW_SPEAKER_VIEW_EVENT = @"org.jitsi.meet:features/videoconf-bridge#show-speaker-view";
 static NSString *const UPDATE_USER_AVATAR_EVENT = @"org.jitsi.meet:features/videoconf-bridge#update-user-avatar";
 static NSString *const MUTE_CONFERENCE_AUDIO = @"org.jitsi.meet:features/videoconf-bridge#mute-conference-audio";
+static NSString *const MUTE_STYLIST_AUDIO = @"org.jitsi.meet:features/videoconf-bridge#mute-stylist-audio";
 static NSString *const SET_IS_SIMPLIFIED_CONFERENCE = @"org.jitsi.meet:features/videoconf-bridge#set-is-simplified-conference";
 
 
@@ -49,6 +50,7 @@ RCT_EXPORT_MODULE();
         SHOW_SPEAKER_VIEW_EVENT,
         UPDATE_USER_AVATAR_EVENT,
         MUTE_CONFERENCE_AUDIO,
+        MUTE_STYLIST_AUDIO,
         SET_IS_SIMPLIFIED_CONFERENCE];
 }
 
@@ -102,6 +104,10 @@ RCT_EXPORT_MODULE();
 
 - (void)muteVideoConferenceAudio:(NSNumber *_Nonnull)mute {
     [self sendEvent:MUTE_CONFERENCE_AUDIO body:mute];
+}
+
+- (void)muteStylistAudio:(NSNumber *_Nonnull)mute {
+    [self sendEvent:MUTE_STYLIST_AUDIO body:mute];
 }
 
 - (void)setIsSimplifiedConference:(NSNumber *_Nonnull)isSimplifiedConference {

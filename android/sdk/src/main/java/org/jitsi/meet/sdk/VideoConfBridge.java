@@ -74,6 +74,11 @@ public class VideoConfBridge {
     private static final String MUTE_CONFERENCE_AUDIO = "org.jitsi.meet:features/videoconf-bridge#mute-conference-audio";
 
     /**
+     * Event for muting/unmuting remote stylist audio tracks in video conference locally.
+     */
+    private static final String MUTE_STYLIST_AUDIO = "org.jitsi.meet:features/videoconf-bridge#mute-stylist-audio";
+
+    /**
      * Sets whether video conference is simplified.
      */
     private static final String SET_IS_SIMPLIFIED_CONFERENCE = "org.jitsi.meet:features/videoconf-bridge#set-is-simplified-conference";
@@ -171,6 +176,13 @@ public class VideoConfBridge {
      */
     public static void muteVideoConferenceAudio(boolean mute) {
         ReactInstanceManagerHolder.emitEvent(MUTE_CONFERENCE_AUDIO, mute);
+    }
+
+    /**
+     * Mute/unmute remote audio tracks in video conference locally.
+     */
+    public static void muteStylistAudio(boolean mute) {
+        ReactInstanceManagerHolder.emitEvent(MUTE_STYLIST_AUDIO, mute);
     }
 
     /**

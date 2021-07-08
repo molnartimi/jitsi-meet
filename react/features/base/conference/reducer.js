@@ -5,7 +5,7 @@ import { GLOBAL_ERROR_OCCURRED } from '../config/actionTypes';
 import { CONNECTION_WILL_CONNECT, SET_LOCATION_URL } from '../connection';
 import { JitsiConferenceErrors } from '../lib-jitsi-meet';
 import { assign, ReducerRegistry, set } from '../redux';
-import { MUTE_CONFERENCE_AUDIO } from '../tracks';
+import { MUTE_CONFERENCE_AUDIO, MUTE_STYLIST_AUDIO } from '../tracks';
 
 import {
     AUTH_STATUS_CHANGED,
@@ -126,6 +126,13 @@ ReducerRegistry.register(
             return {
                 ...state,
                 conferenceAudioIsMuted: action.mute
+            };
+        }
+
+        case MUTE_STYLIST_AUDIO: {
+            return {
+                ...state,
+                stylistAudioIsMuted: action.mute
             };
         }
 
