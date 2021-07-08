@@ -110,7 +110,7 @@ MiddlewareRegistry.register(store => next => action => {
                 const mediaStreamTrack = track.jitsiTrack.getTrack();
 
                 console.log('MUTE_STYLIST_AUDIO track:', track.participantId);
-                if (!track.jitsiTrack.participantId.contains('\\40')) {
+                if (!track.participantId.contains('\\40')) {
                     mediaStreamTrack.enabled = !action.mute;
                     console.log('MUTE_STYLIST_AUDIO (un)muted:', track.participantId);
                 }
