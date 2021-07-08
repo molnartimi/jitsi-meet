@@ -22,7 +22,8 @@ import {
     TRACK_NO_DATA_FROM_SOURCE,
     TRACK_REMOVED,
     TRACK_UPDATED,
-    MUTE_CONFERENCE_AUDIO
+    MUTE_CONFERENCE_AUDIO,
+    MUTE_STYLIST_AUDIO
 } from './actionTypes';
 import {
     createLocalTracksA,
@@ -57,6 +58,8 @@ MiddlewareRegistry.register(store => next => action => {
             // Check if new audio track is needed to be disabled
             const { conferenceAudioIsMuted } = store.getState()['features/base/conference'];
 
+            // TODO fix
+            console.log('TRACK_ADDED track:', action.track.participantId);
             if (conferenceAudioIsMuted) {
                 action.track.jitsiTrack.getTrack().enabled = false;
             }
@@ -87,11 +90,30 @@ MiddlewareRegistry.register(store => next => action => {
     case MUTE_CONFERENCE_AUDIO: {
         const tracks = store.getState()['features/base/tracks'];
 
+        console.log('MUTE_CONFERENCE_AUDIO mute: ', action.mute, tracks.length);
         tracks.filter(track => track.jitsiTrack && !track.jitsiTrack.isLocal() && track.jitsiTrack.isAudioTrack())
             .forEach(track => {
                 const mediaStreamTrack = track.jitsiTrack.getTrack();
 
+                console.log('MUTE_CONFERENCE_AUDIO track:', track.participantId);
                 mediaStreamTrack.enabled = !action.mute;
+            });
+        break;
+    }
+
+    case MUTE_STYLIST_AUDIO: {
+        const tracks = store.getState()['features/base/tracks'];
+
+        console.log('MUTE_STYLIST_AUDIO mute: ', action.mute, tracks.length);
+        tracks.filter(track => track.jitsiTrack && !track.jitsiTrack.isLocal() && track.jitsiTrack.isAudioTrack())
+            .forEach(track => {
+                const mediaStreamTrack = track.jitsiTrack.getTrack();
+
+                console.log('MUTE_STYLIST_AUDIO track:', track.participantId);
+                if (!track.jitsiTrack.participantId.contains('\\40')) {
+                    mediaStreamTrack.enabled = !action.mute;
+                    console.log('MUTE_STYLIST_AUDIO (un)muted:', track.participantId);
+                }
             });
         break;
     }

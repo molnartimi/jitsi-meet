@@ -16,6 +16,7 @@ export const NativeEvents = {
     SHOW_SPEAKER_VIEW: 'org.jitsi.meet:features/videoconf-bridge#show-speaker-view',
     UPDATE_USER_AVATAR: 'org.jitsi.meet:features/videoconf-bridge#update-user-avatar',
     MUTE_CONFERENCE_AUDIO: 'org.jitsi.meet:features/videoconf-bridge#mute-conference-audio',
+    MUTE_STYLIST_AUDIO: 'org.jitsi.meet:features/videoconf-bridge#mute-stylist-audio',
     SET_IS_SIMPLIFIED_CONFERENCE: 'org.jitsi.meet:features/videoconf-bridge#set-is-simplified-conference'
 };
 
